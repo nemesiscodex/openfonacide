@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from mysite.views import Index
+from mecmapi.views import Index
 
 admin.autodiscover()
 

@@ -93,10 +93,14 @@ if ON_PAAS:
 else:
     # stock django
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+         'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME':     'mecmapi',
+                'USER':     'postgres',
+                'PASSWORD': '12345',
+                'HOST':     'localhost',
+                'PORT':     '5432'
+            }
     }
 
 # Internationalization

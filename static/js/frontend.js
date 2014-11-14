@@ -1,7 +1,7 @@
 (function(){
     var app = angular.module('frontEnd', ['ngResource']);
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://localhost:8000/';
+            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
             return{
                 'instituciones':
                     $resource(backEndUrl + 'institucion', {}, {

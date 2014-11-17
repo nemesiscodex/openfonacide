@@ -12,11 +12,11 @@
 
     </head>
 
-    <body>
+    <body  ng-app="frontEnd" >
 
         <!-- Your site -->
 
-        <div class="container" ng-app="frontEnd" ng-controller="PageController">
+        <div class="container"ng-controller="PageController">
 
             <div id="principal" class="col-md-12" ng-controller="MapController">
                 <div id="loading_map" class="" ng-show="isTab('map') && loading" style="top: 60px">
@@ -24,152 +24,14 @@
                         <i id="spinner" class="mdi-image-rotate-right" style="font-size: 24px; display:inline-block"></i>
                     </div>
                 </div>
-                <nav class="navbar navbar-material-indigo row" style="margin-bottom: 0" >
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" >
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                                </button>
-                            <a class="navbar-brand" href="#" ng-click="setTab('home')">OpenFonacide</a>
-                        </div>
-                         <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav">
-                                <li ng-class="{active:isTab('api')}" ng-click="setTab('api')"><a href="#">API</a></li>
-                                <li ng-class="{active:isTab('map')}" ng-click="setTab('map')"><a href="#">Mapa de instituciones</a></li>
-                                <li ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')"><a href="#">Lista de instituciones</a></li>
-                              </ul>
-                              <form class="navbar-form navbar-right" role="search" style="margin: 0">
-                                <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Buscar">
-                                </div>
-                                <button type="submit" class="btn btn-material-indigo"><i class="mdi-action-search" style="color: white; font-size: 20px"></i></button>
-                              </form>
-                            </div><!-- /.navbar-collapse -->
-                    </div>
-                </nav>
+                <site-nav></site-nav>
                 <div id="map" class="row" ng-show="isTab('map')">
-
                 </div>
 
-                <div id="home" class="content row" ng-show="isTab('home')" style="padding: 20px">
-
-                    <h1><img src="{% static 'js/images/datos-abiertos.png' %}" height="50px" /> <b>Open Fonacide</b> </h1>
-                    <hr>
-                    <h3>Descripcion del Servicio</h3>
-                    <p></p>
-                    <h3>Objetivo</h3>
-                    <p>
-                        El objetivo de esta pagina es
-                    </p>
-                    <h3>Fuente de datos</h3>
-                    <p>
-                        Los datos fueron obtenidos de la fuente oficial (<a href="http://datos.mec.gov.py/data/establecimientos">MEC</a>) y corresponden al año 2012
-                    </p>
-                </div>
-                <div id="api" class="content row" style="height: auto; padding: 20px" ng-show="isTab('api')" >
-
-                    <h3 id="institucion">Institucion</h3>
-
-                    <p>
-
-                        <b>Lista de Instituciones con su informaci&oacute; geogr&aacute;fica</b><br><br>
-                    <h4>Parametros:</h4>
-                    <ul>
-                        <li>
-                            <b>:codigo_establecimiento</b>: < codigo del establecimiento : numerico > (opcional)
-                        </li>
-                    </ul>
-
-                    </p>
-
-                    <div class="label label-success">GET</div>
-                    &nbsp;&nbsp;<a style="width: 100%"
-                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/">
-                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/</a><br>
-
-                    <div class="label label-success">GET</div>
-                    &nbsp;&nbsp;<a style="width: 100%"
-                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/">
-                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/</a><br>
-
-
-
-                    <h4>Salida:</h4>
-<pre style="color:lightcoral"><div class="pull-left label label-default">JSON</div>
-[
-    {
-        "anio": < Año de captura de los datos.>,
-        "codigo_establecimiento": < Identificador único de los establecimientos educativos en el país.>,
-        "codigo_departamento": < Código asignado según la cartografía nacional al departamento geográfico.>,
-        "nombre_departamento": < Descripción del nombre del departamento geográfico correspondiente al código.>,
-        "codigo_distrito": < Código asignado al distrito del departamento geográfico.>,
-        "nombre_distrito": < Descripción del nombre del distrito correspondiente al código.>,
-        "codigo_zona": < Ubicación del establecimiento escolar, sea en la zona urbana o rural.>,
-        "nombre_zona": < Descripción del nombre de la zona correspondiente al código.>,
-        "codigo_barrio_localidad": < Código asignado a la localidad o barrio del distrito.>,
-        "nombre_barrio_localidad": < Descripción del nombre del barrio o localidad correspondiente al código.>,
-        "direccion": < Corresponde al nombre de la calle, avenida, carretera, etc>,
-        "coordenadas_y": < Corresponde a las coordenadas planas (en metros).>,
-        "coordenadas_x": < Corresponde a las coordenadas planas (en metros).>,
-        "latitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
-        "longitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
-        "anho_cod_geo": < Se refiere al año de captura de los datos georreferenciados censales.>,
-        "programa": < No info>,
-        "proyecto_111": < No info.>,
-        "proyecto_822": < No info.>,
-        "uri": < URI en la pagina oficial del mec.>
-    },
-    ...
-]
-</pre>
-                    <hr>
-                    <h3 id="institucion">Institucion Short</h3>
-
-                    <p>
-
-                        <b>Lista Acortada de Instituciones con su informaci&oacute; geogr&aacute;fica de modo
-                        a reducir el uso de datos en la transmisi&oacute;n.
-                        </b><br><br>
-                    <h4>Parametros:</h4>
-                    <ul>
-                        <li>
-                            <b>:codigo_establecimiento</b>: < codigo del establecimiento : numerico > (opcional)
-                        </li>
-                    </ul>
-
-                    </p>
-
-                    <div class="label label-success">GET</div>
-                    &nbsp;&nbsp;<a style="width: 100%"
-                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/?short=true">
-                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/?short=true</a><br>
-
-                    <div class="label label-success">GET</div>
-                    &nbsp;&nbsp;<a style="width: 100%"
-                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/?short=true">
-                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/?short=true</a><br>
-
-
-
-                    <h4>Salida:</h4>
-<pre style="color:lightcoral"><div class="pull-left label label-default">JSON</div>
-[
-    {
-        "id": < Codigo del establecimiento.>,
-        "lat": < Latitud en decimales.>,
-        "lon": < Longitudo en decimales.>,
-    },
-    ...
-]
-</pre>
-                </div>
-                <div id="instituciones" class="content row" ng-show="isTab('instituciones')">
-                    Lista
-                </div>
+                <home ng-show="isTab('home')"></home>
+                <api ng-show="isTab('api')"></api>
+                <institucion-list ng-show="isTab('instituciones')"></institucion-list>
+                <institucion-modal></institucion-modal>
              </div>
         </div>
 
@@ -186,10 +48,11 @@
         <script src="{% static 'js/angular-resource.min.js' %}"></script>
         <script src="{% static 'js/frontend.js' %}"></script>
         <script>
+            var $MapController;
             $(document).ready(function () {
                 $.material.init();
                 var boolDirection = true;
-                var $MapController = angular.element($('#spinner')).scope();
+                $MapController = angular.element($('#spinner')).scope();
 
                 function AnimateRotate(angle) {
                     // caching the object for performance reasons
@@ -208,7 +71,6 @@
                             });
                         },
                         complete: function () {
-                            console.log($MapController.loading);
                             if ($MapController.loading)
                                 AnimateRotate(360);
                         }
@@ -218,18 +80,16 @@
                 AnimateRotate(360);
 
             });
+            function openPopUp(codigoEstablecimiento, title){
+                    $MapController.showInfoPopUp(codigoEstablecimiento, title);
+                $('#info_modal').modal('show');
+            }
 
         </script>
 
-        <footer>
-    <pre class="container">
-        <img src="http://opendata.pol.una.py/wp-content/uploads/2014/10/od-logo.png" width="130px"> <span><label> Autor:</label> Julio Reyes &lt;<a href="mailto:nemesiscodex@gmail.com">nemesiscodex@gmail.com</a>&gt;</span><span class="pull-right" style="margin-right: 80px; top: -10px"><label>Codigo Fuente:</label><a href="https://github.com/nemesiscodex/openfonacide"> Github</a></span>
 
-        <span style="font-size: 8pt;color: #fe897e">★ Este software se entrega sin garantía alguna, con la esperanza de que sea util, ante cualquier duda consulte la <a
-                href="http://datos.mec.gov.py/data/establecimientos">fuente original</a> de los datos. Cualquier
-            corrección o sugerencia es bienvenida, en forma de parche o pull request al repositorio.</span>
-    </pre>
-        </footer>
+
+    <footer-info></footer-info>
 
     </body>
 

@@ -1,0 +1,166 @@
+<div id="api" class="content row" style="height: auto; padding: 20px">
+
+                    <h3 id="establecimiento">Establecimiento</h3>
+
+                    <p>
+
+                        <b>Lista de Establecimientos con su informaci&oacute; geogr&aacute;fica</b><br><br>
+                    <h4>Parametros:</h4>
+                    <ul>
+                        <li>
+                            <b>:codigo_establecimiento</b>: < codigo del establecimiento : numerico > (opcional)
+                        </li>
+                    </ul>
+
+                    </p>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/">
+                    http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/</a><br>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/:codigo_establecimiento/">
+                    http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/:codigo_establecimiento/</a><br>
+
+
+
+                    <h4>Salida:</h4>
+<pre style="color:lightcoral"><div class="pull-left label label-default">JSON</div>
+[
+    {
+        "anio": < Año de captura de los datos.>,
+        "codigo_establecimiento": < Identificador único de los establecimientos educativos en el país.>,
+        "codigo_departamento": < Código asignado según la cartografía nacional al departamento geográfico.>,
+        "nombre_departamento": < Descripción del nombre del departamento geográfico correspondiente al código.>,
+        "codigo_distrito": < Código asignado al distrito del departamento geográfico.>,
+        "nombre_distrito": < Descripción del nombre del distrito correspondiente al código.>,
+        "codigo_zona": < Ubicación del establecimiento escolar, sea en la zona urbana o rural.>,
+        "nombre_zona": < Descripción del nombre de la zona correspondiente al código.>,
+        "codigo_barrio_localidad": < Código asignado a la localidad o barrio del distrito.>,
+        "nombre_barrio_localidad": < Descripción del nombre del barrio o localidad correspondiente al código.>,
+        "direccion": < Corresponde al nombre de la calle, avenida, carretera, etc>,
+        "coordenadas_y": < Corresponde a las coordenadas planas (en metros).>,
+        "coordenadas_x": < Corresponde a las coordenadas planas (en metros).>,
+        "latitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
+        "longitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
+        "anho_cod_geo": < Se refiere al año de captura de los datos georreferenciados censales.>,
+        "programa": < No info>,
+        "proyecto_111": < No info.>,
+        "proyecto_822": < No info.>,
+        "uri": < URI en la pagina oficial del mec.>
+    },
+    ...
+]
+</pre>
+                    <hr>
+                    <h3 id="establecimiento_short">Establecimiento Short</h3>
+
+                    <p>
+
+                        <b>Lista Acortada de Establecimiento con su informaci&oacute; geogr&aacute;fica de modo
+                        a reducir el uso de datos en la transmisi&oacute;n.
+                        </b><br><br>
+                    <h4>Parametros:</h4>
+                    <ul>
+                        <li>
+                            <b>:codigo_establecimiento</b>: < codigo del establecimiento : numerico > (opcional)
+                        </li>
+                    </ul>
+
+                    </p>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/?short=true">
+                    http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/?short=true</a><br>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/:codigo_establecimiento/?short=true">
+                    http://mecmapi-nemesiscodex.rhcloud.com/establecimiento/:codigo_establecimiento/?short=true</a><br>
+
+
+
+                    <h4>Salida:</h4>
+<pre style="color:lightcoral"><div class="pull-left label label-default">JSON</div>
+[
+    {
+        "id": < Codigo del establecimiento.>,
+        "lat": < Latitud en decimales.>,
+        "lon": < Longitudo en decimales.>,
+        "name": < Nombre de instituciones.>
+        "dir": < Direccion de establecimiento.>
+    },
+    ...
+]
+</pre>
+
+                        <hr>
+                    <h3 id="establecimiento_short">Institucion</h3>
+
+                    <p>
+
+                        <b>Lista de Instituciones
+                        </b><br><br>
+                    <h4>Parametros:</h4>
+                    <ul>
+                        <li>
+                            <b>:codigo_establecimiento</b>: < codigo del establecimiento : numerico > (opcional)
+                        </li>
+                    </ul>
+
+                    </p>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/">
+                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/</a><br>
+
+                    <div class="label label-success">GET</div>
+                    &nbsp;&nbsp;<a style="width: 100%"
+                                   href="http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/">
+                    http://mecmapi-nemesiscodex.rhcloud.com/institucion/:codigo_establecimiento/</a><br>
+
+
+
+                    <h4>Salida:</h4>
+<pre style="color:lightcoral"><div class="pull-left label label-default">JSON</div>
+[
+    {
+        "anio": < Año de captura de los datos.>,
+        "codigo_departamento": < Código asignado según la cartografía nacional al departamento geográfico.>,
+        "nombre_departamento": < Descripción del nombre del departamento geográfico correspondiente al código.>,
+        "codigo_distrito": < Código asignado al distrito del departamento geográfico.>,
+        "nombre_distrito": < Descripción del nombre del distrito correspondiente al código.>,
+        "codigo_barrio_localidad": < Código asignado a la localidad o barrio del distrito.>,
+        "nombre_barrio_localidad": < Descripción del nombre del barrio o localidad correspondiente al código.>,
+        "codigo_zona": < Ubicación del establecimiento escolar, sea en la zona urbana o rural.>,
+        "nombre_zona": < Descripción del nombre de la zona correspondiente al código.>,
+        "codigo_establecimiento": < Identificador único de los establecimientos educativos en el país.>,
+        "codigo_institucion": < Identifica a la institución como una entidad y organización independiente.>,
+        "nombre_institucion": < Descripción del nombre de la institución correspondiente al código>,
+        "sector_o_tipo_gestion": < Sector al que pertenece una institución educativa
+                                                    ('OFICIAL','PRIVADA','PRIVADA SUBVENCIONADA')>,
+        "codigo_region_administrativa": < Región administrativa al cual pertenece los establecimientos escolares.>,
+        "nombre_region_administrativa": < Descripción del nombre de la región administrativa correspondiente al código.>,
+        "nombre_supervisor": < Persona encargada en el departamento de las gestiones tanto administrativas como
+                                                    pedagógicas de las isntituciones escolares.>,
+        "niveles_modalidades": < Permite identificar en forma única los niveles/modalidades
+                                                    que funcionan en una institución.>,
+        "codigo_tipo_organizacion": < Tipo de organización de cada institucion.>,
+        "nombre_tipo_organizacion": < Descripción del tipo de organización de la institución correspondiente al código.>,
+        "participacion_comunitaria": < Especifica si la institución cuenta con comisión de padres.>,
+        "direccion": < Corresponde al nombre de la calle, avenida, carretera, etc., del establecimiento escolar.>,
+        "nro_telefono": < Número de teléfono de la institución>,
+        "tiene_internet": < Especifica si la institución cuenta con internet.>,
+        "paginaweb": < Especifica la página web de la institución.>,
+        "correo_electronico": < Especifica el correo electrónico de la institución.>
+    }
+    ...
+]
+</pre>
+
+
+                </div>

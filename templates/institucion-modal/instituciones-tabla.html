@@ -1,0 +1,83 @@
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-pills" role="tablist" >
+    <li role="presentation"  ng-class="{active:$first}" ng-repeat="institucion in infoData.instituciones">
+        <a href="#institucion-tab-{$ institucion.codigo_institucion $}"
+           aria-controls="institucion-{$ institucion.codigo_institucion $}"
+           role="tab" data-toggle="tab">{$ institucion.nombre_institucion $}</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" ng-repeat="institucion in infoData.instituciones" class="tab-pane" ng-class="{active:$first}" id="institucion-tab-{$ institucion.codigo_institucion $}">
+        <table class="table table-bordered table-striped table-hover">
+            <tbody>
+                <tr>
+                    <td width="25%">Nombre</td>
+                    <td>{$ institucion.nombre_institucion $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Region Administrativa</td>
+                    <td>{$ institucion.nombre_region_administrativa $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Supervisor</td>
+                    <td>{$ institucion.nombre_supervisor $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Niveles/Modalidades
+                        <a class="mod-info-popover"
+                                data-container="body" data-toggle="popover"
+                                data-placement="top"
+                                data-content="Valores en el rango:
+EEB -Educación Escolar Básica
+EI - Educación Media
+FED - Formación Docente
+ETS - Educación Superior
+EJA - Educación de Jovenes y Adultos
+ET - Educación Técnica
+EE - Educación Especial
+EMDJA - Educación Media a Distancia de Jovenes y Adultos
+EMAPJA - Educación Media Alternativa para Jovenes y Adultos
+EMA - Educación Media Abierta">
+                            <i class="mdi-action-help"></i>
+                        </a></td>
+                    <td>{$ institucion.niveles_modalidades $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Tipo de organizacion</td>
+                    <td>{$ institucion.nombre_tipo_organizacion $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Participacion comunitaria</td>
+                    <td>{$ institucion.participacion_comunitaria $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Numero de telefono</td>
+                    <td>{$ institucion.nro_telefono $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Pagina web</td>
+                    <td>{$ institucion.paginaweb $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Correo electronico</td>
+                    <td>{$ institucion.correo_electronico $}</td>
+                </tr>
+                <tr>
+                    <td width="25%">Tiene internet</td>
+                    <td>{$ institucion.tiene_internet $}</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <script>
+            $('.mod-info-popover').popover();
+        </script>
+    </div>
+  </div>
+
+</div>

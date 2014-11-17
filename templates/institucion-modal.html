@@ -1,0 +1,33 @@
+<!-- MODAL -->
+<div id="info_modal" class="modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">{$ modalTitle $}</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills" role="tablist">
+                    <li role="presentation" class="active"><a href="#institucion-tabla" aria-controls="institucion-tabla" role="tab" data-toggle="tab">Instituciones</a></li>
+                    <li role="presentation" ><a href="#establecimiento-tabla" aria-controls="establecimiento-tabla" role="tab" data-toggle="tab">Establecimiento</a></li>
+                    <li role="presentation" ><a href="#fonacide-tab" aria-controls="fonacide-tab" role="tab" data-toggle="tab">Fonacide</a></li>
+                    <li role="presentation" ><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
+                    <li role="presentation" ><a href="#denuncias" aria-control="denuncias" role="tab" data-toggle="tab">Denuncias</a></li>
+
+                </ul>
+                <div class="tab-content">
+                    <hr style="margin:0">
+                    <instituciones-tabla role="tabpanel" class="tab-pane active" id="institucion-tabla"></instituciones-tabla>
+                    <establecimiento-tabla role="tabpanel" class="tab-pane" id="establecimiento-tabla"></establecimiento-tabla>
+                    <fonacide  role="tabpanel" class="tab-pane" id="fonacide-tab"></fonacide>
+                    <comentarios role="tabpanel" class="tab-pane" id="comentarios"></comentarios>
+                    <denuncias role="tabpanel" class="tab-pane" id="denuncias"></denuncias>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default withripple" data-dismiss="modal">Cerrar<div class="ripple-wrapper"></div></button>
+            </div>
+        </div>
+    </div>
+</div>

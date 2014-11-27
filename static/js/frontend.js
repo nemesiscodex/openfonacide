@@ -35,7 +35,7 @@
      * Servicio backend utilizando la api de django rest
      */
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://localhost:8000/';
+            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
             return{
                 "establecimiento":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {

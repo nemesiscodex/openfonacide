@@ -35,7 +35,7 @@
      * Servicio backend utilizando la api de django rest
      */
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
+            var backEndUrl = 'http://localhost:8000/';
             return{
                 "establecimiento":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
@@ -91,11 +91,12 @@
             backEnd.establecimiento.get({id: id}, function(value, headers){
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
+                backEnd.institucion.query({id:id}, function(value, headers){
+                    $scope.infoData.instituciones = value;
+                    $('#info_modal').modal('show');
+                });
             });
-            backEnd.institucion.query({id:id}, function(value, headers){
-                $scope.infoData.instituciones = value;
-                console.log($scope.infoData);
-            });
+
         };
 
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
@@ -118,7 +119,7 @@
                 for(var i=0; i<value.length; i++){
                     point = value[i];
                     marker = new L.Marker([point.lat, point.lon], {title:point.name});
-                    marker.bindPopup("<p><b>"+point.name+'<a href="javascript:void(0)" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" class="link mdi-action-launch"></a></b><hr>'+point.dir+"</p>");
+                    marker.bindPopup("<p><b>"+point.name+'<a href="javascript:void(0)" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" class="link mdi-action-launch"><i class="linkify icon"></i></a></b><hr>'+point.dir+"</p>");
                     markers.addLayer(marker);
                 }
             }

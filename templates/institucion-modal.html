@@ -1,33 +1,34 @@
 <!-- MODAL -->
-<div id="info_modal" class="modal" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">{$ modalTitle $}</h4>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-pills" role="tablist">
-                    <li role="presentation" class="active"><a href="#institucion-tabla" aria-controls="institucion-tabla" role="tab" data-toggle="tab">Instituciones</a></li>
-                    <li role="presentation" ><a href="#establecimiento-tabla" aria-controls="establecimiento-tabla" role="tab" data-toggle="tab">Establecimiento</a></li>
-                    <li role="presentation" ><a href="#fonacide-tab" aria-controls="fonacide-tab" role="tab" data-toggle="tab">Fonacide</a></li>
-                    <li role="presentation" ><a href="#comentarios" aria-controls="comentarios" role="tab" data-toggle="tab">Comentarios</a></li>
-                    <li role="presentation" ><a href="#denuncias" aria-control="denuncias" role="tab" data-toggle="tab">Denuncias</a></li>
 
-                </ul>
-                <div class="tab-content">
-                    <hr style="margin:0">
-                    <instituciones-tabla role="tabpanel" class="tab-pane active" id="institucion-tabla"></instituciones-tabla>
-                    <establecimiento-tabla role="tabpanel" class="tab-pane" id="establecimiento-tabla"></establecimiento-tabla>
-                    <fonacide  role="tabpanel" class="tab-pane" id="fonacide-tab"></fonacide>
-                    <comentarios role="tabpanel" class="tab-pane" id="comentarios"></comentarios>
-                    <denuncias role="tabpanel" class="tab-pane" id="denuncias"></denuncias>
-                </div>
-            </div>
+<div id="info_modal" class="ui modal" style="">
+    <i class="close icon"></i>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default withripple" data-dismiss="modal">Cerrar<div class="ripple-wrapper"></div></button>
-            </div>
+    <div class="header">
+        <b class="modal-title">{$ modalTitle $}</b>
+    </div>
+    <div id="modal-tabs" class="content">
+        <div class="ui pointing secondary menu modal-menu">
+            <div class="active blue item" data-tab="inst" style="cursor: pointer">Instituciones</div>
+            <div class="blue item" data-tab="est" style="cursor: pointer">Establecimiento</div>
+            <div class="blue item" data-tab="fon" style="cursor: pointer">Fonacide</div>
+            <div class="blue item" data-tab="com" style="cursor: pointer">Comentarios</div>
+            <div class="blue item" data-tab="den" style="cursor: pointer">Denuncias</div>
         </div>
+            <instituciones-tabla class="active ui blue tab segment" data-tab="inst" id="institucion-tabla"></instituciones-tabla>
+            <establecimiento-tabla class="ui blue tab segment" data-tab="est"  id="establecimiento-tabla"></establecimiento-tabla>
+            <fonacide class="ui blue tab segment" data-tab="fon"  id="fonacide-tab"></fonacide>
+            <comentarios class="ui blue tab segment" data-tab="com"  id="comentarios"></comentarios>
+            <denuncias class="ui blue tab segment" data-tab="den"  id="denuncias"></denuncias>
+
+    </div>
+    <div class="actions">
+        <div class="ui button close">Cerrar</div>
     </div>
 </div>
+<script>
+    $('.modal-menu .item').tab({
+        context: '#modal-tabs'
+    });
+</script>
+
+<!-- st -->

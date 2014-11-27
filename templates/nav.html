@@ -1,32 +1,24 @@
-<nav class="navbar navbar-material-indigo row" style="margin-bottom: 0">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" ng-click="setTab('home')">OpenFonacide</a>
+<div class="ui large inverted blue pointing menu">
+    <a class="blue item"  ng-class="{active:isTab('home')}"  ng-click="setTab('home')">
+        <i class="home icon"></i> OpenFonacide
+    </a>
+    <a class="blue item" ng-class="{active:isTab('api')}" ng-click="setTab('api')">
+        <i class="puzzle icon"></i> API
+    </a>
+    <a class="blue item" ng-class="{active:isTab('map')}" ng-click="setTab('map')">
+        <i class="map icon"></i> Mapa de instituciones
+    </a>
+    <a class="blue item" ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">
+        <i class="list icon"></i> Lista de instituciones
+    </a>
+
+    <div class="right menu">
+        <div class=" item">
+            <div class="ui icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search link icon"></i>
+            </div>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li ng-class="{active:isTab('api')}" ng-click="setTab('api')"><a href="#">API</a></li>
-                <li ng-class="{active:isTab('map')}" ng-click="setTab('map')"><a href="#">Mapa de instituciones</a></li>
-                <li ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')"><a href="#">Lista de
-                    instituciones</a></li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search" style="margin: 0">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Buscar">
-                </div>
-                <button type="submit" class="btn btn-material-indigo"><i class="mdi-action-search"
-                                                                         style="color: white; font-size: 20px"></i>
-                </button>
-            </form>
-        </div>
-        <!-- /.navbar-collapse -->
+
     </div>
-</nav>
+</div>

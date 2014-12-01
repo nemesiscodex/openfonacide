@@ -35,7 +35,7 @@
      * Servicio backend utilizando la api de django rest
      */
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
+            var backEndUrl = 'http://localhost:8000/';
             return{
                 "establecimiento":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
@@ -49,6 +49,11 @@
                 "institucion":
                     $resource(backEndUrl + 'institucion/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true}
+                    }),
+                "comentario":
+                    $resource(backEndUrl + 'comentario/:id', {id:"@id"}, {
+                        get: {method: 'GET', isArray: true, cache: true},
+                        save: {method: 'POST'}
                     })
             }
         }]);
@@ -72,6 +77,64 @@
         }
     }]);
 
+    app.controller('comentsController', ['$scope', 'backEnd', function($scope, backEnd){
+        $controller = this;
+        $controller.establecimiento = "";
+        $scope.setEstablecimiento = function(establecimiento){
+            $controller.establecimiento = establecimiento;
+        };
+
+        $scope.inicializar = function(){
+            $scope.comentarios = [
+                {
+                    id: 1,
+                    establecimiento: 'actual',
+                    texto: 'este es el comentario 1',
+                    autor: 'autor 1',
+                    fecha: 'fecha 1',
+                    respuestas: []
+                },
+                {
+                    id: 2,
+                    establecimiento: 'actual',
+                    texto: 'este es el comentario 2',
+                    autor: 'autor 2',
+                    fecha: 'fecha 2',
+                    respuestas: [
+                        {
+                            id: 3,
+                            establecimiento: 'actual',
+                            texto: 'este es el comentario 3',
+                            autor: 'autor 3',
+                            fecha: 'fecha 3',
+                        }
+                    ]
+                },
+
+            ];
+            $scope.nuevoComentario = {
+                establecimiento: '',
+                texto: '',
+                autor: '',
+                fecha: '',
+                comentario: '-1'
+            }
+        };
+
+        $scope.comentarios = [];
+
+
+        $scope.inicializar();
+        $scope.getComentarios = function(establecimiento){
+            $controller.setEstablecimiento(establecimiento);
+            //call ws
+            $scope.comentarios = backEnd.comentario.get({id: establecimiento})
+        };
+        $scope.guardarComentario = function(comentario){
+            backEnd.comentario.save(comentario);
+        };
+    }]);
+
 
     /**
      * Controlador del mapa
@@ -93,7 +156,11 @@
                 $scope.showInfo = true;
                 backEnd.institucion.query({id:id}, function(value, headers){
                     $scope.infoData.instituciones = value;
-                    $('#info_modal').modal('show');
+                    $('#info_modal').modal('show')
+                    setTimeout(function(){
+                        $('#info_modal').modal('refresh');
+                    },1000);
+
                 });
             });
 

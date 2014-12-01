@@ -1,1 +1,65 @@
-Comentarios
+<div class="ui minimal comments">
+  <h3 class="ui dividing header">Comments</h3>
+
+  <div class="comment" ng-repeat="comentario in comentarios">
+    <a class="avatar"  style="width: 40px; height: 40px; background-color: #444444">
+{#      <img src="/images/avatar/small/elliot.jpg">#}
+    </a>
+    <div class="content">
+      <a class="author">{$ comentario.autor $}</a>
+      <div class="metadata">
+        <span class="date">{$ comentario.fecha $}</span>
+      </div>
+      <div class="text">
+        <p>{$ comentario.texto $}</p>
+      </div>
+      <div class="actions">
+        <a class="reply">Responder</a>
+      </div>
+    </div>
+    <div class="comments" ng-repeat="respuesta in comentario.respuestas">
+      <div class="comment">
+        <a class="avatar" style="width: 40px; height: 40px; background-color: #444444">
+{#          <img src="/images/avatar/small/jenny.jpg">#}
+        </a>
+        <div class="content">
+          <a class="author">{$ respuesta.autor $}</a>
+          <div class="metadata">
+            <span class="date">{$ respuesta.fecha $}</span>
+          </div>
+          <div class="text">
+            {$ respuesta.texto $}
+          </div>
+          <div class="actions">
+            <a class="reply">Responder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="ui reply form">
+
+      <div class="required field">
+      <label>Autor</label>
+      <div class="ui icon small input">
+        <input type="text">
+        <i class="user icon"></i>
+      </div>
+    </div>
+
+      <div class="required field">
+      <label>Correo</label>
+      <div class="ui icon small input">
+        <input type="email">
+        <i class="mail icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <textarea ng-model="nuevoComentario.texto"></textarea>
+    </div>
+    <div class="ui blue labeled submit icon button">
+      <i class="icon edit"></i> Comentar
+    </div>
+  </form>
+</div>

@@ -1,3 +1,13 @@
+<style>
+    .hljs-string{
+        color: lightcoral;
+        font-weight: bold;
+    }
+    .hljs-string-str{
+        font-weight: bold;
+        color: seagreen;
+    }
+</style>
 <div id="api" class="content row" style="height: auto; padding: 20px">
 
                     <h3 id="establecimiento">Establecimiento</h3>
@@ -30,34 +40,33 @@
                     <h4>Salida:</h4>
         <div class="ui instructive segment">
 <pre style="font-size: 9pt" class="blue"><div class="ui blue horizontal label">JSON</div>
-<code class="code json">
+<code class="lang-js">
 [
     {
-        "anio": < Año de captura de los datos.>,
-        "codigo_establecimiento": < Identificador único de los establecimientos educativos en el país.>,
-        "codigo_departamento": < Código asignado según la cartografía nacional al departamento geográfico.>,
-        "nombre_departamento": < Descripción del nombre del departamento geográfico correspondiente al código.>,
-        "codigo_distrito": < Código asignado al distrito del departamento geográfico.>,
-        "nombre_distrito": < Descripción del nombre del distrito correspondiente al código.>,
-        "codigo_zona": < Ubicación del establecimiento escolar, sea en la zona urbana o rural.>,
-        "nombre_zona": < Descripción del nombre de la zona correspondiente al código.>,
-        "codigo_barrio_localidad": < Código asignado a la localidad o barrio del distrito.>,
-        "nombre_barrio_localidad": < Descripción del nombre del barrio o localidad correspondiente al código.>,
-        "direccion": < Corresponde al nombre de la calle, avenida, carretera, etc>,
-        "coordenadas_y": < Corresponde a las coordenadas planas (en metros).>,
-        "coordenadas_x": < Corresponde a las coordenadas planas (en metros).>,
-        "latitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
-        "longitud": < Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).>,
-        "anho_cod_geo": < Se refiere al año de captura de los datos georreferenciados censales.>,
-        "programa": < No info>,
-        "proyecto_111": < No info.>,
-        "proyecto_822": < No info.>,
-        "uri": < URI en la pagina oficial del mec.>
+        <span class="hljs-string-str">"anio"</span>: <span class="hljs-string">'&lt; Año de captura de los datos.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_establecimiento"</span>: <span class="hljs-string">'&lt; Identificador único de los establecimientos educativos en el país.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_departamento"</span>: <span class="hljs-string">'&lt; Código asignado según la cartografía nacional al departamento geográfico.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_departamento"</span>: <span class="hljs-string">'&lt; Descripción del nombre del departamento geográfico correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_distrito"</span>: <span class="hljs-string">'&lt; Código asignado al distrito del departamento geográfico.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_distrito"</span>: <span class="hljs-string">'&lt; Descripción del nombre del distrito correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_zona"</span>: <span class="hljs-string">'&lt; Ubicación del establecimiento escolar, sea en la zona urbana o rural.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_zona"</span>: <span class="hljs-string">'&lt; Descripción del nombre de la zona correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_barrio_localidad"</span>: <span class="hljs-string">'&lt; Código asignado a la localidad o barrio del distrito.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_barrio_localidad"</span>: <span class="hljs-string">'&lt; Descripción del nombre del barrio o localidad correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"direccion"</span>: <span class="hljs-string">'&lt; Corresponde al nombre de la calle, avenida, carretera, etc&gt;'</span>,
+        <span class="hljs-string-str">"coordenadas_y"</span>: <span class="hljs-string">'&lt; Corresponde a las coordenadas planas (en metros).&gt;'</span>,
+        <span class="hljs-string-str">"coordenadas_x"</span>: <span class="hljs-string">'&lt; Corresponde a las coordenadas planas (en metros).&gt;'</span>,
+        <span class="hljs-string-str">"latitud"</span>: <span class="hljs-string">'&lt; Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).&gt;'</span>,
+        <span class="hljs-string-str">"longitud"</span>: <span class="hljs-string">'&lt; Coordenadas geográficas, en Grados (Gra), minutos (min) y segundos (seg).&gt;'</span>,
+        <span class="hljs-string-str">"anho_cod_geo"</span>: <span class="hljs-string">'&lt; Se refiere al año de captura de los datos georreferenciados censales.&gt;'</span>,
+        <span class="hljs-string-str">"programa"</span>: <span class="hljs-string">'&lt; No info&gt;'</span>,
+        <span class="hljs-string-str">"proyecto_111"</span>: <span class="hljs-string">'&lt; No info.&gt;'</span>,
+        <span class="hljs-string-str">"proyecto_822"</span>: <span class="hljs-string">'&lt; No info.&gt;'</span>,
+        <span class="hljs-string-str">"uri"</span>: <span class="hljs-string">'&lt; URI en la pagina oficial del mec.&gt;'</span>
     },
-    ...
+    <span class="hljs-string">...</span>
 ]
-    </code>
-
+</code>
 </pre>
     </div>
                     <hr>
@@ -94,16 +103,18 @@
                 <div class="ui instructive segment">
 <pre style="font-size: 9pt" class="blue"><div class="ui blue horizontal label">JSON</div>
 <code class="code json">
+<code class="lang-js">
 [
     {
-        "id": < Codigo del establecimiento.>,
-        "lat": < Latitud en decimales.>,
-        "lon": < Longitudo en decimales.>,
-        "name": < Nombre de instituciones.>
-        "dir": < Direccion de establecimiento.>
+        <span class="hljs-string-str">"id"</span>: <span class="hljs-string">'&lt; Codigo del establecimiento.&gt;'</span>,
+        <span class="hljs-string-str">"lat"</span>: <span class="hljs-string">'&lt; Latitud en decimales.&gt;'</span>,
+        <span class="hljs-string-str">"lon"</span>: <span class="hljs-string">'&lt; Longitudo en decimales.&gt;'</span>,
+        <span class="hljs-string-str">"name"</span>: <span class="hljs-string">'&lt; Nombre de instituciones.&gt;'</span>,
+        <span class="hljs-string-str">"dir"</span>: <span class="hljs-string">'&lt; Direccion de establecimiento.&gt;'</span>
     },
-    ...
+    <span class="hljs-string">...</span>
 ]
+</code>
     </code>
 
 </pre>
@@ -140,43 +151,38 @@
                     <h4>Salida:</h4>
         <div class="ui instructive segment">
 <pre style="font-size: 9pt" class="blue"><div class="ui blue horizontal label">JSON</div>
-<code class="code json">
+<code class="lang-js">
 [
     {
-        "anio": < Año de captura de los datos.>,
-        "codigo_departamento": < Código asignado según la cartografía nacional al departamento geográfico.>,
-        "nombre_departamento": < Descripción del nombre del departamento geográfico correspondiente al código.>,
-        "codigo_distrito": < Código asignado al distrito del departamento geográfico.>,
-        "nombre_distrito": < Descripción del nombre del distrito correspondiente al código.>,
-        "codigo_barrio_localidad": < Código asignado a la localidad o barrio del distrito.>,
-        "nombre_barrio_localidad": < Descripción del nombre del barrio o localidad correspondiente al código.>,
-        "codigo_zona": < Ubicación del establecimiento escolar, sea en la zona urbana o rural.>,
-        "nombre_zona": < Descripción del nombre de la zona correspondiente al código.>,
-        "codigo_establecimiento": < Identificador único de los establecimientos educativos en el país.>,
-        "codigo_institucion": < Identifica a la institución como una entidad y organización independiente.>,
-        "nombre_institucion": < Descripción del nombre de la institución correspondiente al código>,
-        "sector_o_tipo_gestion": < Sector al que pertenece una institución educativa
-                                                    ('OFICIAL','PRIVADA','PRIVADA SUBVENCIONADA')>,
-        "codigo_region_administrativa": < Región administrativa al cual pertenece los establecimientos escolares.>,
-        "nombre_region_administrativa": < Descripción del nombre de la región administrativa correspondiente al código.>,
-        "nombre_supervisor": < Persona encargada en el departamento de las gestiones tanto administrativas como
-                                                    pedagógicas de las isntituciones escolares.>,
-        "niveles_modalidades": < Permite identificar en forma única los niveles/modalidades
-                                                    que funcionan en una institución.>,
-        "codigo_tipo_organizacion": < Tipo de organización de cada institucion.>,
-        "nombre_tipo_organizacion": < Descripción del tipo de organización de la institución correspondiente al código.>,
-        "participacion_comunitaria": < Especifica si la institución cuenta con comisión de padres.>,
-        "direccion": < Corresponde al nombre de la calle, avenida, carretera, etc., del establecimiento escolar.>,
-        "nro_telefono": < Número de teléfono de la institución>,
-        "tiene_internet": < Especifica si la institución cuenta con internet.>,
-        "paginaweb": < Especifica la página web de la institución.>,
-        "correo_electronico": < Especifica el correo electrónico de la institución.>
+        <span class="hljs-string-str">"anio"</span>: <span class="hljs-string">'&lt; Año de captura de los datos.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_departamento"</span>: <span class="hljs-string">'&lt; Código asignado según la cartografía nacional al departamento geográfico.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_departamento"</span>: <span class="hljs-string">'&lt; Descripción del nombre del departamento geográfico correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_distrito"</span>: <span class="hljs-string">'&lt; Código asignado al distrito del departamento geográfico.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_distrito"</span>: <span class="hljs-string">'&lt; Descripción del nombre del distrito correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_barrio_localidad"</span>: <span class="hljs-string">'&lt; Código asignado a la localidad o barrio del distrito.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_barrio_localidad"</span>: <span class="hljs-string">'&lt; Descripción del nombre del barrio o localidad correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_zona"</span>: <span class="hljs-string">'&lt; Ubicación del establecimiento escolar, sea en la zona urbana o rural.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_zona"</span>: <span class="hljs-string">'&lt; Descripción del nombre de la zona correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_establecimiento"</span>: <span class="hljs-string">'&lt; Identificador único de los establecimientos educativos en el país.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_institucion"</span>: <span class="hljs-string">'&lt; Identifica a la institución como una entidad y organización independiente.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_institucion"</span>: <span class="hljs-string">'&lt; Descripción del nombre de la institución correspondiente al código&gt;'</span>,
+        <span class="hljs-string-str">"sector_o_tipo_gestion"</span>: <span class="hljs-string">"&lt; Sector al que pertenece una institución educativa ('OFICIAL','PRIVADA','PRIVADA SUBVENCIONADA')&gt;"</span>,
+        <span class="hljs-string-str">"codigo_region_administrativa"</span>: <span class="hljs-string">'&lt; Región administrativa al cual pertenece los establecimientos escolares.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_region_administrativa"</span>: <span class="hljs-string">'&lt; Descripción del nombre de la región administrativa correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_supervisor"</span>: <span class="hljs-string">'&lt; Persona encargada en el departamento de las gestiones tanto administrativas como pedagógicas de las isntituciones escolares.&gt;'</span>,
+        <span class="hljs-string-str">"niveles_modalidades"</span>: <span class="hljs-string">'&lt; Permite identificar en forma única los niveles/modalidades que funcionan en una institución.&gt;'</span>,
+        <span class="hljs-string-str">"codigo_tipo_organizacion"</span>: <span class="hljs-string">'&lt; Tipo de organización de cada institucion.&gt;'</span>,
+        <span class="hljs-string-str">"nombre_tipo_organizacion"</span>: <span class="hljs-string">'&lt; Descripción del tipo de organización de la institución correspondiente al código.&gt;'</span>,
+        <span class="hljs-string-str">"participacion_comunitaria"</span>: <span class="hljs-string">'&lt; Especifica si la institución cuenta con comisión de padres.&gt;'</span>,
+        <span class="hljs-string-str">"direccion"</span>: <span class="hljs-string">'&lt; Corresponde al nombre de la calle, avenida, carretera, etc., del establecimiento escolar.&gt;'</span>,
+        <span class="hljs-string-str">"nro_telefono"</span>: <span class="hljs-string">'&lt; Número de teléfono de la institución&gt;'</span>,
+        <span class="hljs-string-str">"tiene_internet"</span>: <span class="hljs-string">'&lt; Especifica si la institución cuenta con internet.&gt;'</span>,
+        <span class="hljs-string-str">"paginaweb"</span>: <span class="hljs-string">'&lt; Especifica la página web de la institución.&gt;'</span>,
+        <span class="hljs-string-str">"correo_electronico"</span>: <span class="hljs-string">'&lt; Especifica el correo electrónico de la institución.&gt;'</span>
     }
-    ...
+    <span class="hljs-string">'...'</span>
 ]
-    </code>
-
+</code>
 </pre>
-    </div>
-
-                </div>
+</div>
+</div>

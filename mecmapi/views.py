@@ -4,8 +4,8 @@ from django.views.decorators.gzip import gzip_page
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
-from mecmapi.models import Institucion, InstitucionData
-from mecmapi.serializers import EstablecimientoSerializer, EstablecimientoSerializerShort, InstitucionSerializer
+from mecmapi.models import *
+from mecmapi.serializers import *
 
 
 class PartialGroupView(TemplateView):
@@ -37,16 +37,25 @@ class EstablecimientoController(View):
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
+        query = request.GET.get('q')
         if short is not None:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializerShort(Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
-                establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
+                if query is not None:
+                    establecimiento = EstablecimientoSerializerShort(Institucion.objects.filter(nombre__icontains=query) |
+                     Institucion.objects.filter(direccion__icontains=query), many=True)
+                else:
+                    establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
-                establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
+                if query is not None:
+                    establecimiento = EstablecimientoSerializer(Institucion.objects.filter(nombre__icontains=query) |
+                     Institucion.objects.filter(direccion__icontains=query), many=True)
+                else:
+                    establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(establecimiento.data)
 
 
@@ -58,3 +67,15 @@ class InstitucionController(View):
         else:
             institucion = InstitucionSerializer(InstitucionData.objects.all(), many=True)
         return JSONResponse(institucion.data)
+
+
+class PrioridadController(View):
+    def get(self, request, *args, **kwargs):
+        codigo_establecimiento = kwargs.get('codigo_establecimiento')
+        result = {
+            "construccion_aulas": get_P(codigo_establecimiento, ConstruccionAulas, ConstruccionAulasSerializer).data,
+            "construccion_sanitarios": get_P(codigo_establecimiento, ConstruccionSanitario, ConstruccionSanitarioSerializer).data,
+            "reparacion_aulas": get_P(codigo_establecimiento, ReparacionAulas, ReparacionAulasSerializer).data,
+            "reparacion_sanitarios": get_P(codigo_establecimiento, ReparacionSanitario, ReparacionSanitarioSerializer).data
+        }
+        return JSONResponse(result)

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <footer class="">
     <div class="ui left aligned grid">
         <div class="right floated right aligned six wide column" style="padding-bottom: 0">
@@ -14,7 +15,7 @@
             {#        <div class="ui segment">#}
 
 
-<div class="ui segment" style="font-size: 8pt;color: #fe897e"><img src="http://opendata.pol.una.py/wp-content/uploads/2014/10/od-logo.png" width="120px">
+<div class="ui segment" style="font-size: 8pt;color: #fe897e"><img src="{% static 'js/images/datos-abiertos.png' %}" height="20px">
     ★ Este software se entrega sin garantía alguna, con la esperanza de que sea util, ante cualquier duda consulte la <a href="http://datos.mec.gov.py/data/establecimientos">fuente original</a> de los datos. Cualquier corrección o sugerencia es bienvenida, en forma de parche o pull request al repositorio.
 </div>
 

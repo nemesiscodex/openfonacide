@@ -106,10 +106,10 @@
                             establecimiento: 'actual',
                             texto: 'este es el comentario 3',
                             autor: 'autor 3',
-                            fecha: 'fecha 3',
+                            fecha: 'fecha 3'
                         }
                     ]
-                },
+                }
 
             ];
             $scope.nuevoComentario = {

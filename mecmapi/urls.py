@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from mecmapi.views import Index, EstablecimientoController, InstitucionController, PartialGroupView
+from mecmapi.views import Index, EstablecimientoController, InstitucionController, PartialGroupView, PrioridadController
 
 admin.autodiscover()
 
@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^/?$', Index.as_view(), name='index'),
     url(r'^partials/', include(partial_patterns, namespace='partials')),
+    url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name=''),
     url(r'^establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
     url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     url(r'^admin/', include(admin.site.urls)),

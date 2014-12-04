@@ -143,3 +143,12 @@ class ReparacionSanitario(models.Model):
     justificacion = models.CharField(max_length=500, null=True)
     departamento = models.CharField(max_length=256, null=True)
     cod_departamento = models.CharField(max_length=256, null=True)
+
+class Adjudicacion(models.Model):
+    codigo_adjudicacion = models.CharField(max_length=256)
+    codigo_establecimiento = models.ForeignKey('Institucion')
+    llamado = models.CharField(max_length=256)
+    monto = models.IntegerField(null=False)
+    entidad = models.CharField(max_length=256)
+    estado = models.CharField(max_length=256)
+    anio = models.IntegerField(null=False)

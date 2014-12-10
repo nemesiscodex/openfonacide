@@ -15,7 +15,7 @@
 
     <body  ng-app="frontEnd" ng-controller="PageController" >
 
-
+        {% csrf_token %}
         <!-- Your site -->
 
         <div id="main" class="ui page  white" ng-controller="MapController">
@@ -50,7 +50,7 @@
         <script src="{% static 'js/angular.min.js' %}"></script>
         <script src="{% static 'js/angular-resource.min.js' %}"></script>
         <script src="{% static 'js/angular-cookies.min.js' %}"></script>
-        <script type="text/javascript" src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <script src="{% static 'recaptcha_ajax.js' %}"></script>
         <script src="{% static 'js/angular-recaptcha.min.js' %}"></script>
         <script src="{% static 'semantic.min.js' %}"></script>
         <script src="{% static 'js/frontend.js' %}"></script>

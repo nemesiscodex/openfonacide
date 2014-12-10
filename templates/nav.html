@@ -11,14 +11,27 @@
     <a class="blue item" ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">
         <i class="list icon"></i> Lista de instituciones
     </a>
+    <a class="blue item" ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
+       <i class="picture icon"></i>Visualizaciones
+    </a>
 
     <div class="right menu">
         <div class=" item">
-            <div class="ui icon input">
-                <input type="text" placeholder="Search...">
+            <div class="ui icon input search">
+                <input class="prompt" type="text" placeholder="Search...">
                 <i class="search link icon"></i>
             </div>
         </div>
-
+        <div class="results">
+        </div>
     </div>
+    <script type="text/javascript">
+        $('.ui.search')
+            .search({
+                apiSettings: {
+                    url: 'http://localhost:8000/establecimiento/?q={query}'
+                },
+            })
+        ;
+    </script>
 </div>

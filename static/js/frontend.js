@@ -25,13 +25,14 @@
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
     nuevaDirectiva('institucionList','institucion-list.html');
+    nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');
     nuevaDirectiva('siteNav','nav.html');
     nuevaDirectiva('institucionModal','institucion-modal.html');
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');
     nuevaDirectiva('institucionesTabla','institucion-modal/instituciones-tabla.html');
     nuevaDirectiva('comentarios','institucion-modal/comentarios.html');
-    nuevaDirectiva('denuncias','institucion-modal/denuncias.html');
+    //nuevaDirectiva('denuncias','institucion-modal/denuncias.html');
     nuevaDirectiva('fonacide','institucion-modal/fonacide.html');
 
 
@@ -111,7 +112,9 @@
                 autor: '',
                 fecha: '',
                 email: ''
-            }
+            };
+            
+            $controller.tab = 'map';
         };
 
 

@@ -10,7 +10,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
         fields = ('anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
                   'nombre_distrito', 'codigo_zona', 'nombre_zona', 'codigo_barrio_localidad', 'nombre_barrio_localidad',
                   'direccion', 'coordenadas_y', 'coordenadas_x', 'latitud', 'longitud', 'anho_cod_geo', 'programa',
-                  'proyecto_111', 'proyecto_822', 'uri')
+                  'proyecto_111', 'proyecto_822', 'uri', 'nombre')
 
 
 class InstitucionSerializer(serializers.ModelSerializer):
@@ -23,6 +23,13 @@ class InstitucionSerializer(serializers.ModelSerializer):
                   'niveles_modalidades', 'codigo_tipo_organizacion', 'nombre_tipo_organizacion',
                   'participacion_comunitaria', 'direccion', 'nro_telefono', 'tiene_internet', 'paginaweb',
                   'correo_electronico')
+
+class ListaInstitucionesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstitucionData
+        fields = ('codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'nombre_departamento',
+                  'nombre_distrito','nombre_barrio_localidad', 'nombre_region_administrativa', 'nombre_supervisor',
+                  'niveles_modalidades', 'direccion', 'nro_telefono')
 
 
 class EstablecimientoSerializerShort(serializers.ModelSerializer):

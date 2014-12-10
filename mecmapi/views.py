@@ -7,10 +7,12 @@ from django.template import RequestContext
 from django.views.decorators.gzip import gzip_page
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from mecmapi.models import *
 from mecmapi.serializers import *
-
 
 class PartialGroupView(TemplateView):
     """
@@ -36,6 +38,28 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index.html', context_instance=RequestContext(request))
 
+class ListaInstitucionesController(View):
+	def get(self, request, *args, **kwargs):
+		cantidad = request.GET.get('rows')
+		pagina = request.GET.get('page')
+		lista = InstitucionData.objects.all()
+		if cantidad is not None :
+			paginator = Paginator(lista, cantidad)
+		else :
+			paginator = Paginator(lista, 10)
+		total = len(lista)
+		if pagina is None :
+			pagina = 1
+		try :
+			instituciones = paginator.page(pagina)
+		except PageNotAnInteger:
+			instituciones = paginator.page(1)
+		except EmptyPage :
+			instituciones = paginator.page(paginator.num_pages)
+		lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
+		#result = lista_instituciones.data
+		result = { 'total' : str(paginator.num_pages), 'page' : pagina, 'records': str(total), 'rows': lista_instituciones.data }
+		return JSONResponse(result)
 
 class EstablecimientoController(View):
     def get(self, request, *args, **kwargs):

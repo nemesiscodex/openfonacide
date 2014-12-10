@@ -1,65 +1,117 @@
 <div class="ui minimal comments">
-  <h3 class="ui dividing header">Comments</h3>
+  <h3 class="ui dividing header">Comentarios</h3>
 
-  <div class="comment" ng-repeat="comentario in comentarios">
+  <div class="comment" ng-repeat="comentario in comentarios" style="overflow: auto">
     <a class="avatar"  style="width: 40px; height: 40px; background-color: #444444">
 {#      <img src="/images/avatar/small/elliot.jpg">#}
     </a>
     <div class="content">
       <a class="author">{$ comentario.autor $}</a>
       <div class="metadata">
-        <span class="date">{$ comentario.fecha $}</span>
+        <span class="date"><b>{$ comentario.email $}</b> ~ {$ comentario.fecha $}</span>
       </div>
       <div class="text">
         <p>{$ comentario.texto $}</p>
       </div>
-      <div class="actions">
-        <a class="reply">Responder</a>
-      </div>
-    </div>
-    <div class="comments" ng-repeat="respuesta in comentario.respuestas">
-      <div class="comment">
-        <a class="avatar" style="width: 40px; height: 40px; background-color: #444444">
-{#          <img src="/images/avatar/small/jenny.jpg">#}
-        </a>
-        <div class="content">
-          <a class="author">{$ respuesta.autor $}</a>
-          <div class="metadata">
-            <span class="date">{$ respuesta.fecha $}</span>
-          </div>
-          <div class="text">
-            {$ respuesta.texto $}
-          </div>
-          <div class="actions">
-            <a class="reply">Responder</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <form class="ui reply form">
-
-      <div class="required field">
-      <label>Autor</label>
-      <div class="ui icon small input">
-        <input type="text">
-        <i class="user icon"></i>
-      </div>
     </div>
 
-      <div class="required field">
-      <label>Correo</label>
-      <div class="ui icon small input">
-        <input type="email">
-        <i class="mail icon"></i>
-      </div>
-    </div>
+         </div>
+    <br>
+    <a class="reply button ui" onclick="$('#nuevo-comentario').modal('show').modal('setting', 'closable', false)">Comentar</a>
 
-    <div class="field">
-      <textarea ng-model="nuevoComentario.texto"></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> Comentar
-    </div>
-  </form>
+{#    #}
+
+
+{#    #}
+
+{#  <form class="ui inverted reply form" >#}
+{##}
+{#      <div class="required field">#}
+{#      <label>Autor</label>#}
+{#      <div class="ui icon small input">#}
+{#        <input type="text" ng-model="comentario.autor">#}
+{#        <i class="user icon"></i>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#      <div class="required field">#}
+{#      <label>Correo</label>#}
+{#      <div class="ui icon small input">#}
+{#        <input type="email" ng-model="comentario.email">#}
+{#        <i class="mail icon"></i>#}
+{#      </div>#}
+{#    </div>#}
+{#    &nbsp;#}
+{#    <div class="field">#}
+{##}
+{#      <textarea style="height: 140px" ng-model="comentario.texto"></textarea>#}
+{#    </div>#}
+{#      <div#}
+{#              vc-recaptcha#}
+{#              tabindex="3"#}
+{#              theme="clean"#}
+{#              key="recaptchaKey"#}
+{#              ></div>#}
+{#    <div class="ui blue labeled submit icon button" ng-click="guardarComentario(comentario)">#}
+{#      <i class="icon edit"></i> Comentar#}
+{#    </div>#}
+{##}
+{#  </form>#}
 </div>
+<div class="ui basic modal" id="nuevo-comentario">
+{#        <i class="close icon"></i>#}
+
+        <div class="header">
+            Nuevo Comentario
+        </div>
+        <div class="content">
+            <div class="image">
+                <i class="comment icon"></i>
+            </div>
+            <div class="description">
+                <form class="ui inverted reply form" name="comentarioForm">
+
+                    <div class="required field">
+                        <label>Autor</label>
+
+                        <div class="ui icon small input">
+                            <input name="autor" ng-class="{error: !comentarioForm.autor.$valid}" type="text" required ng-model="comentario.autor">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label>Correo</label>
+
+                        <div class="ui icon small input">
+                            <input name="email" ng-class="{error: !comentarioForm.email.$valid}" type="email" required ng-model="comentario.email">
+                            <i class="mail icon"></i>
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="field">
+
+                        <textarea name="text" ng-class="{error: !comentarioForm.text.$valid}" required style="height: 140px" ng-model="comentario.texto"></textarea>
+                    </div>
+                    <div style="background-color: white"
+                            vc-recaptcha
+                            tabindex="3"
+                            theme="clean"
+                            key="recaptchaKey"
+                            ></div>
+
+                </form>
+            </div>
+        </div>
+        <div class="">
+            <div class="two fluid ui inverted buttons">
+                <div class="ui green basic inverted button" ng-disabled="!comentarioForm.$valid" ng-class="{disabled:!comentarioForm.$valid}"  ng-click="!comentarioForm.$valid || guardarComentario(comentario)">
+                    <i class="checkmark icon"></i>
+                    Comentar
+                </div>
+                <div class="ui red basic inverted button" onclick="$('#info_modal').modal('show').modal('setting', 'closable', true)">
+                    <i class="close icon"></i>
+                    Cerrar
+                </div>
+            </div>
+        </div>
+    </div>

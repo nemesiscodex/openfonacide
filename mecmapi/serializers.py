@@ -115,3 +115,9 @@ def get_P(establecimiento, prioridadClass, serializerClass):
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
     return serializerClass(data, many=True)
+
+
+class ComentariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comentarios
+        fields = ('texto', 'autor', 'fecha', 'email')

@@ -18,7 +18,7 @@
 
         <!-- Your site -->
 
-        <div id="main" class="ui page grid white" ng-controller="MapController">
+        <div id="main" class="ui page  white" ng-controller="MapController">
             <div class="column">
                 <site-nav></site-nav>
 
@@ -49,21 +49,35 @@
         <script src="{% static 'js/leaflet.markercluster.js' %}"></script>
         <script src="{% static 'js/angular.min.js' %}"></script>
         <script src="{% static 'js/angular-resource.min.js' %}"></script>
-
+        <script src="{% static 'js/angular-cookies.min.js' %}"></script>
+        <script type="text/javascript" src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <script src="{% static 'js/angular-recaptcha.min.js' %}"></script>
         <script src="{% static 'semantic.min.js' %}"></script>
         <script src="{% static 'js/frontend.js' %}"></script>
         <script>
             var $MapController;
+            var $ComentariosController;
             $(document).ready(function () {
-                $MapController = angular.element($('#main')).scope();
-                var boolDirection = true;
+
 
             });
             function openPopUp(codigoEstablecimiento, title){
-                    $MapController.showInfoPopUp(codigoEstablecimiento, title);
+                if(!$MapController)
+                    $MapController = angular.element($('#main')).scope();
+                if(!$ComentariosController)
+                    $ComentariosController = angular.element($('#comentarios')).scope();
 
+                    $MapController.showInfoPopUp(codigoEstablecimiento, title);
+                    $ComentariosController.setEstablecimiento(codigoEstablecimiento);
             }
 
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-57407289-1', 'auto');
+          ga('send', 'pageview');
 
         </script>
 

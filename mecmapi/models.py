@@ -143,3 +143,11 @@ class ReparacionSanitario(models.Model):
     justificacion = models.CharField(max_length=500, null=True)
     departamento = models.CharField(max_length=256, null=True)
     cod_departamento = models.CharField(max_length=256, null=True)
+
+
+class Comentarios(models.Model):
+    codigo_establecimiento = models.ForeignKey('Institucion')
+    texto = models.CharField(max_length=1024, null=False)
+    autor = models.CharField(max_length=256, null=False)
+    fecha = models.DateField(null=False)
+    email = models.CharField(max_length=256, null=False)

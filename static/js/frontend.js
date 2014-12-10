@@ -1,5 +1,9 @@
 (function(){
-    var app = angular.module('frontEnd', ['ngResource']);
+    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'vcRecaptcha']);
+
+    app.run(function($http, $cookies) {
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    });
 
     app.config(function ($interpolateProvider) {
         $interpolateProvider.startSymbol('{$');
@@ -35,7 +39,7 @@
      * Servicio backend utilizando la api de django rest
      */
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
+            var backEndUrl = 'http://localhost:8000/';
             return{
                 "establecimiento":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
@@ -50,10 +54,16 @@
                     $resource(backEndUrl + 'institucion/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true}
                     }),
-                "comentario":
-                    $resource(backEndUrl + 'comentario/:id', {id:"@id"}, {
-                        get: {method: 'GET', isArray: true, cache: true},
-                        save: {method: 'POST'}
+                "comentarios":
+                    $resource(backEndUrl + 'comentarios/:id', {id:"@id"}, {
+                        get: {method: 'GET', isArray: true, cache: false},
+                        save: {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                            transformRequest: function (obj) {
+                                var str = [];
+                                for (var p in obj)
+                                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                                return str.join("&");
+                            }}
                     })
             }
         }]);
@@ -77,62 +87,56 @@
         }
     }]);
 
-    app.controller('comentsController', ['$scope', 'backEnd', function($scope, backEnd){
+    app.controller('comentsController', ['$scope', 'backEnd', 'vcRecaptchaService', function($scope, backEnd, vcRecaptchaService){
+
+        $scope.recaptchaKey = '6Lc8B_8SAAAAADo-UUdXveJmdX584QbAJn4Nxsuu';
+
+
         $controller = this;
         $controller.establecimiento = "";
         $scope.setEstablecimiento = function(establecimiento){
             $controller.establecimiento = establecimiento;
+             backEnd.comentarios.get({id:$controller.establecimiento}, function(value, headers){
+                $scope.comentarios = value;
+            });
+
         };
 
         $scope.inicializar = function(){
-            $scope.comentarios = [
-                {
-                    id: 1,
-                    establecimiento: 'actual',
-                    texto: 'este es el comentario 1',
-                    autor: 'autor 1',
-                    fecha: 'fecha 1',
-                    respuestas: []
-                },
-                {
-                    id: 2,
-                    establecimiento: 'actual',
-                    texto: 'este es el comentario 2',
-                    autor: 'autor 2',
-                    fecha: 'fecha 2',
-                    respuestas: [
-                        {
-                            id: 3,
-                            establecimiento: 'actual',
-                            texto: 'este es el comentario 3',
-                            autor: 'autor 3',
-                            fecha: 'fecha 3'
-                        }
-                    ]
-                }
+            $scope.comentarios = [];
 
-            ];
-            $scope.nuevoComentario = {
-                establecimiento: '',
+
+            $scope.comentario = {
                 texto: '',
                 autor: '',
                 fecha: '',
-                comentario: '-1'
+                email: ''
             }
         };
 
+
+
         $scope.comentarios = [];
 
+        $scope.error = false;
 
         $scope.inicializar();
-        $scope.getComentarios = function(establecimiento){
-            $controller.setEstablecimiento(establecimiento);
-            //call ws
-            $scope.comentarios = backEnd.comentario.get({id: establecimiento})
-        };
         $scope.guardarComentario = function(comentario){
-            backEnd.comentario.save(comentario);
+            comentario.fecha = Date.now();
+            comentario.captcha = JSON.stringify(vcRecaptchaService.data());
+            console.log(comentario);
+            backEnd.comentarios.save({id: $controller.establecimiento}, comentario, function(){
+                $('#info_modal').modal('show').modal('setting', 'closable', true);
+                comentario.texto = "";
+                $scope.error = false;
+                $scope.setEstablecimiento($controller.establecimiento);
+            }, function(){
+                $scope.error = true;
+                $('#nuevo-comentario').modal('show').modal('setting', 'closable', false);
+            });
         };
+
+
     }]);
 
 
@@ -156,7 +160,7 @@
                 $scope.showInfo = true;
                 backEnd.institucion.query({id:id}, function(value, headers){
                     $scope.infoData.instituciones = value;
-                    $('#info_modal').modal('show')
+                    $('#info_modal').modal('show');
                     setTimeout(function(){
                         $('#info_modal').modal('refresh');
                     },1300);

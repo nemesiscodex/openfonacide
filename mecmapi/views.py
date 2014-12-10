@@ -1,3 +1,7 @@
+import datetime
+import json
+import urllib
+import urllib2
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.gzip import gzip_page
@@ -79,3 +83,32 @@ class PrioridadController(View):
             "reparacion_sanitarios": get_P(codigo_establecimiento, ReparacionSanitario, ReparacionSanitarioSerializer).data
         }
         return JSONResponse(result)
+
+
+class ComentariosController(View):
+    def get(self, request, *args, **kwargs):
+        codigo_establecimiento = kwargs.get('codigo_establecimiento')
+        comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
+        return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
+
+    def post(self, request, *args, **kwargs):
+        codigo_establecimiento = kwargs.get('codigo_establecimiento')
+
+        captcha = json.loads(request.POST.get('captcha'))
+
+        captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
+                        data=urllib.urlencode({
+                            "secret": "secret",
+                            "response": captcha
+                        })).read()
+
+        # analize captcha result
+
+        comentario = Comentarios()
+        comentario.codigo_establecimiento_id = codigo_establecimiento
+        comentario.autor = request.POST.get('autor')
+        comentario.email = request.POST.get('email')
+        comentario.texto = request.POST.get('texto')
+        comentario.fecha = datetime.datetime.now()
+        comentario.save()
+        return JSONResponse({"success": True});

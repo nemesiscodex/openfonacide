@@ -21,13 +21,14 @@
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
     nuevaDirectiva('institucionList','institucion-list.html');
+    nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');
     nuevaDirectiva('siteNav','nav.html');
     nuevaDirectiva('institucionModal','institucion-modal.html');
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');
     nuevaDirectiva('institucionesTabla','institucion-modal/instituciones-tabla.html');
     nuevaDirectiva('comentarios','institucion-modal/comentarios.html');
-    nuevaDirectiva('denuncias','institucion-modal/denuncias.html');
+    //nuevaDirectiva('denuncias','institucion-modal/denuncias.html');
     nuevaDirectiva('fonacide','institucion-modal/fonacide.html');
 
 
@@ -35,7 +36,7 @@
      * Servicio backend utilizando la api de django rest
      */
     app.service('backEnd', ['$resource',function($resource){
-            var backEndUrl = 'http://mecmapi-nemesiscodex.rhcloud.com/';
+            var backEndUrl = 'http://localhost:8000/';
             return{
                 "establecimiento":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
@@ -85,40 +86,8 @@
         };
 
         $scope.inicializar = function(){
-            $scope.comentarios = [
-                {
-                    id: 1,
-                    establecimiento: 'actual',
-                    texto: 'este es el comentario 1',
-                    autor: 'autor 1',
-                    fecha: 'fecha 1',
-                    respuestas: []
-                },
-                {
-                    id: 2,
-                    establecimiento: 'actual',
-                    texto: 'este es el comentario 2',
-                    autor: 'autor 2',
-                    fecha: 'fecha 2',
-                    respuestas: [
-                        {
-                            id: 3,
-                            establecimiento: 'actual',
-                            texto: 'este es el comentario 3',
-                            autor: 'autor 3',
-                            fecha: 'fecha 3'
-                        }
-                    ]
-                }
-
-            ];
-            $scope.nuevoComentario = {
-                establecimiento: '',
-                texto: '',
-                autor: '',
-                fecha: '',
-                comentario: '-1'
-            }
+            
+            $controller.tab = 'map';
         };
 
         $scope.comentarios = [];

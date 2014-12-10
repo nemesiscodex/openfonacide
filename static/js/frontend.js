@@ -47,6 +47,11 @@
                         query: {method: 'GET', isArray:true, cache:true},
                         get: {method: 'GET', isArray:false, cache:true}
                     }),
+                "prioridades":
+                    $resource(backEndUrl + 'prioridades/:id', {id:"@id"}, {
+                        query: {method: 'GET', isArray:true, cache:true},
+                        get: {method: 'GET', isArray:false, cache:true}
+                    }),
                 "establecimiento_short":
                     $resource(backEndUrl + 'establecimiento/:id', {id:"@id",short:'true'}, {
                         query: {method: 'GET', isArray:true, cache:true}
@@ -169,6 +174,9 @@
                     },1300);
 
                 });
+            });
+            backEnd.prioridades.get({id: id}, function(value, headers){
+                $scope.prioridades = value;
             });
 
         };

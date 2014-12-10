@@ -1,18 +1,50 @@
-<div role="tabpanel">
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-pills" role="tablist" >
-    <li role="presentation" class="active">
-        <a href="#prioridades-tab"
-           aria-controls="prioridades-tab"
-           role="tab" data-toggle="tab">Prioridades</a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="prioridades-tab">
-
-    </div>
+<div id="prioridades">
+  <div class="ui pointing secondary menu">
+    <a class="item active " data-tab="construccion_aulas">construccion_aulas</a>
+    <a class="item " data-tab="construccion_sanitarios">construccion_sanitarios</a>
+    <a class="item " data-tab="reparacion_aulas">reparacion_aulas</a>
+    <a class="item " data-tab="reparacion_sanitarios">reparacion_sanitarios</a>
   </div>
-
+  <div class="ui tab segment active" data-tab="construccion_aulas">
+    <div class="alert-info" ng-show="prioridades.construccion_aulas.length == 0">Sin datos</div>
+    <div class="ui top attached tabular menu">
+      <a class=" item" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_aulas" data-tab="construccion_aulas/{$ $index $}">{$ $index $}</a>
+    </div>
+    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_aulas" data-tab="construccion_aulas/{$ $index $}">{$ $index $}</div>
+  </div>
+{#    #}
+  <div class="ui tab segment " data-tab="construccion_sanitarios">
+    <div class="alert-info" ng-show="prioridades.construccion_sanitarios.length == 0">Sin datos</div>
+    <div class="ui top attached tabular menu">
+      <a class=" item" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_sanitarios" data-tab="construccion_sanitarios/{$ $index $}">{$ $index $}</a>
+    </div>
+    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_sanitarios" data-tab="construccion_sanitarios/{$ $index $}">{$ $index $}</div>
+  </div>
+{#    #}
+  <div class="ui tab segment " data-tab="reparacion_aulas">
+    <div class="alert-info" ng-show="prioridades.reparacion_aulas.length == 0">Sin datos</div>
+    <div class="ui top attached tabular menu">
+      <a class=" item" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_aulas" data-tab="reparacion_aulas/{$ $index $}">{$ $index $}</a>
+    </div>
+    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_aulas" data-tab="reparacion_aulas/{$ $index $}">{$ $index $}</div>
+  </div>
+{#    #}
+  <div class="ui tab segment " data-tab="reparacion_sanitarios">
+    <div class="alert-info" ng-show="prioridades.reparacion_sanitarios.length == 0">Sin datos</div>
+    <div class="ui top attached tabular menu">
+      <a class=" item" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_sanitarios" data-tab="reparacion_sanitarios/{$ $index $}">{$ $index $}</a>
+    </div>
+    <div class="ui bottom attached tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_sanitarios" data-tab="reparacion_sanitarios/{$ $index $}">{$ $index $}</div>
+  </div>
 </div>
+<script>
+$('#prioridades .menu .item')
+  .tab({
+    context: $('#prioridades')
+  });
+$('#prioridades .segment .item')
+  .tab({
+    context: 'parent'
+  });
+</script>
+311080

@@ -132,11 +132,11 @@ class ComentariosController(View):
 
         captcha = json.loads(request.POST.get('captcha'))
 
-        captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
-                                         data=urllib.urlencode({
-                                             "secret": "secret",
-                                             "response": captcha
-                                         })).read()
+        # captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
+        #                                  data=urllib.urlencode({
+        #                                      "secret": "secret",
+        #                                      "response": captcha
+        #                                  })).read()
 
         # analize captcha result
 

@@ -1,18 +1,22 @@
 <div class="ui large inverted blue pointing menu">
-    <a class="blue item"  ng-class="{active:isTab('home')}"  ng-click="setTab('home')">
+
+    <a  class="blue item" data-step="1" data-intro="Esta es la p&aacute;gina principal" ng-class="{active:isTab('home')}"  ng-click="setTab('home')">
         <i class="home icon"></i> OpenFonacide
     </a>
-    <a class="blue item" ng-class="{active:isTab('api')}" ng-click="setTab('api')">
+    <a class="blue item" data-step="2" data-intro="Esta es la definicion del API Rest" ng-class="{active:isTab('api')}" ng-click="setTab('api')">
         <i class="puzzle icon"></i> API
     </a>
-    <a class="blue item" ng-class="{active:isTab('map')}" ng-click="setTab('map')">
+    <a class="blue item" data-step="3" data-intro="En este mapa se visualiza cada uno de los establecimientos educativos. Con su respectiva información" ng-class="{active:isTab('map')}" ng-click="setTab('map')">
         <i class="map icon"></i> Mapa de instituciones
     </a>
-    <a class="blue item" ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">
+    <a class="blue item" data-step="4" data-intro="Esta es la lista de instituciones en una tabla." ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">
         <i class="list icon"></i> Lista de instituciones
     </a>
-    <a class="blue item" ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
+    <a class="blue item" data-step="5" data-intro="Aqui puede encontrar visualizaciones hechas con los datos del fonacide." ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
        <i class="picture icon"></i>Visualizaciones
+    </a>
+    <a class="blue item" onclick="javascript:introJs().start()">
+       <i class="help icon"></i>
     </a>
 
     <div class="right menu">

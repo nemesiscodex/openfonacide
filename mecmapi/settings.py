@@ -98,8 +98,8 @@ else:
          'default': {
                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
                 'NAME':     'mecmapi',
-                'USER':     'postgres',
-                'PASSWORD': '12345',
+                'USER':     'mecmapi',
+                'PASSWORD': 'mecmapi',
                 'HOST':     'localhost',
                 'PORT':     '5432'
             }

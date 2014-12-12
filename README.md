@@ -1,3 +1,3 @@
 Open Data platform for the fonacide project in Paraguay 
 =
-http://mecmapi-nemesiscodex.rhcloud.com/
+http://opendata.pol.una.py/openfonacide

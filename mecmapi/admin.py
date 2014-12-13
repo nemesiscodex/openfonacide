@@ -95,3 +95,18 @@ class EspaciosResource(resources.ModelResource):
 class EspaciosAdmin(ImportExportModelAdmin):
     resource_class = EspaciosResource
     pass
+
+
+
+
+class MobiliariosResource(resources.ModelResource):
+
+    class Meta:
+        model = Mobiliarios
+        # exclude = ('id',)
+
+
+@admin.register(Mobiliarios)
+class MobiliariosAdmin(ImportExportModelAdmin):
+    resource_class = MobiliariosResource
+    pass

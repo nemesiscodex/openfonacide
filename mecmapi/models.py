@@ -221,3 +221,31 @@ class Sanitarios(models.Model):
    
     uri_establecimiento  = models.CharField(max_length=256, null=True)
     uri_institucion  = models.CharField(max_length=256, null=True)
+
+
+class Mobiliarios(models.Model):
+
+    periodo = models.CharField(max_length=50, null=True)
+    cod_departamento = models.CharField(max_length=256, null=True)
+    nombre_departamento = models.CharField(max_length=256, null=True)
+    cod_distrito = models.CharField(max_length=256, null=True)
+    nombre_distrito = models.CharField(max_length=200, null=True)
+    prioridad = models.IntegerField(null=True)
+    cod_establecimiento = models.CharField(max_length=256, null=True)
+    cod_institucion = models.CharField(max_length=256, null=True)
+    nombre_institucion = models.CharField(max_length=200, null=True)
+    codigo_zona = models.CharField(max_length=256, null=True)
+    nombre_zona = models.CharField(max_length=256, null=True)
+    nivel_educativo_beneficiado = models.CharField(max_length=256, null=True)
+    nombre_mobiliario = models.CharField(max_length=256, null=True)
+    cantidad_requerida = models.CharField(max_length=256, null=True)
+    numero_beneficiados  = models.CharField(max_length=256, null=True)
+    justificacion = models.CharField(max_length=1200, null=True)       
+    uri_establecimiento  = models.CharField(max_length=256, null=True)
+    uri_institucion  = models.CharField(max_length=256, null=True)
+
+
+
+
+                               
+

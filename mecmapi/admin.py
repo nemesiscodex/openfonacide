@@ -110,3 +110,18 @@ class MobiliariosResource(resources.ModelResource):
 class MobiliariosAdmin(ImportExportModelAdmin):
     resource_class = MobiliariosResource
     pass
+
+
+
+
+class EstadosResource(resources.ModelResource):
+
+    class Meta:
+        model = EstadosLocales
+        # exclude = ('id',)
+
+
+@admin.register(EstadosLocales)
+class EstadosAdmin(ImportExportModelAdmin):
+    resource_class = EstadosResource
+    pass

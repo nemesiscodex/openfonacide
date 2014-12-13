@@ -130,9 +130,9 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
     instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
-    data = prioridadClass.objects.filter(cod_institucion=establecimiento)
+    data = prioridadClass.objects.filter(cod_establecimiento=establecimiento)
     for institucion in instituciones:
-        data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
+        data = data | prioridadClass.objects.filter(cod_establecimiento=institucion.codigo_institucion)
     return serializerClass(data, many=True)
 
 
@@ -172,3 +172,32 @@ class SanitariosSerializer(serializers.ModelSerializer):
        
 
         )
+
+
+
+class MobiliariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mobiliarios
+        fields = (
+
+"periodo", "cod_departamento" ,   "nombre_departamento" ,"cod_distrito" ,   "nombre_distrito", "prioridad" ,  
+"cod_establecimiento","cod_institucion", "nombre_institucion" , "codigo_zona", "nombre_zona", "nivel_educativo_beneficiado" ,
+"nombre_mobiliario",   "cantidad_requerida",  "numero_beneficiados", "justificacion",   "uri_establecimiento", "uri_institucion"
+
+
+        )
+
+
+
+class EstadosLocalesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EstadosLocales
+        fields = (
+"periodo", "cod_departamento", "nombre_departamento", "cod_distrito" ,"nombre_distrito" ,"cod_establecimiento" ,
+ "codigo_barrio_localidad" ,"nombre_barrio_localidad", "codigo_zona" ,"nombre_zona",
+  "nombre_asentamiento_colonia", "suministro_energia_electrica" ,   "abastecimiento_agua", "servicio_sanitario_actual" , 
+   "titulo_de_propiedad" ,"cuenta_plano",    "prevencion_incendio", "uri_establecimiento"
+
+
+        )
+

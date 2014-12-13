@@ -252,11 +252,11 @@ class Mobiliarios(models.Model):
 class EstadosLocales(models.Model):
 
     periodo = models.CharField(max_length=50, null=True)
-    codigo_departamento = models.CharField(max_length=256, null=True)
+    cod_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
-    codigo_distrito = models.CharField(max_length=256, null=True)
+    cod_distrito = models.CharField(max_length=256, null=True)
     nombre_distrito = models.CharField(max_length=200, null=True)
-    codigo_establecimiento = models.CharField(max_length=200, null=True)
+    cod_establecimiento = models.CharField(max_length=200, null=True)
     codigo_barrio_localidad = models.CharField(max_length=200, null=True)
     nombre_barrio_localidad = models.CharField(max_length=200, null=True)
     codigo_zona = models.CharField(max_length=256, null=True)

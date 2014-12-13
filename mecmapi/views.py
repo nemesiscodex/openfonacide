@@ -128,6 +128,14 @@ class PrioridadControllerV2(View):
             "aulas": get_Pr(codigo_establecimiento, Espacios, EspaciosSerializer).data,
             "sanitarios": get_Pr(codigo_establecimiento, Sanitarios,
                                              SanitariosSerializer).data,
+            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliarios,
+                                             MobiliariosSerializer).data,
+           "estados":get_Pr(codigo_establecimiento, EstadosLocales,
+                                             EstadosLocalesSerializer).data,
+
+         
+            
+        
             
         }
         return JSONResponse(result)

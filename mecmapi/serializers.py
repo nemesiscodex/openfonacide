@@ -38,9 +38,10 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
     lon = serializers.SerializerMethodField('get_field_lon_short_name')
     name = serializers.SerializerMethodField('get_field_name_short_name')
     dir = serializers.SerializerMethodField('get_field_dir_short_name')
+     f = serializers.SerializerMethodField('get_field_f_short_name')
     class Meta:
         model = Institucion
-        fields = ('id', 'lat', 'lon','name','dir')
+        fields = ('id', 'lat', 'lon','name','dir','f')
 
     def get_field_id_short_name(self, obj):
         return obj.codigo_establecimiento
@@ -62,6 +63,10 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
         if obj.codigo_establecimiento:
             return obj.nombre.replace('{', '').replace('}', '').replace('","', '\n').replace('"','')
         return "<Sin nombre>"
+
+    def get_field_lon_short_name(self, obj):
+ 
+        return obj.fonacide
 
 class ConstruccionAulasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -134,6 +139,8 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_establecimiento=institucion.codigo_institucion)
     return serializerClass(data, many=True)
+
+
 
 
 class ComentariosSerializer(serializers.ModelSerializer):

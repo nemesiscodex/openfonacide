@@ -133,6 +133,23 @@ class PrioridadControllerV2(View):
            "estados":get_Pr(codigo_establecimiento, EstadosLocales,
                                              EstadosLocalesSerializer).data,
 
+
+            
+        
+            
+        }
+        return JSONResponse(result)
+
+
+
+
+
+
+class TotalPrioridadController(View):
+    def get(self, request, *args, **kwargs):
+       
+        result = {
+            "establecimietos": get_fonacide().data,     
          
             
         

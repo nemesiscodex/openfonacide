@@ -27,6 +27,8 @@ class Institucion(models.Model):
     proyecto_822 = models.CharField(max_length=256)
     uri = models.CharField(max_length=256)
     nombre = models.CharField(max_length=256, default='<Sin nombre>')
+    fonacide = models.CharField(max_length=5, null=True)
+
 
 
 class InstitucionData(models.Model):

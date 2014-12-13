@@ -11,8 +11,46 @@
       <a class=" item" ng-class="{active: $first}" {% comment %}ng-repeat="item in prioridades.construccion_aulas"{% endcomment %} data-tab="construccion_aulas/{$ $index $}">{$ $index $}</a>
     </div>
     <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_aulas" data-tab="construccion_aulas/{$ $index $}">
-        <p><b>{$ item.prioridad $}</b></p>
-        <p>{$ item.justificacion $}</p>
+        
+      <table class="table ui" >
+    <tbody>
+        <tr>
+            <td width="25%" >Prioridad</td>
+            <td>{$ item.prioridad $}</td>
+        </tr>
+      
+
+        <tr>
+            <td width="25%" >Justificacion</td>
+            <td>{$ item.justificacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Cantidad de Espacios Nuevos</td>
+            <td>{$ item.cantidad_espacios_nuevos $}</td>
+        </tr>
+
+        <tr>
+            <td width="25%" >Cantidad de Beneficiados</td>
+            <td>{$ item.nro_beneficiados $}</td>
+        </tr>
+        
+        <tr>
+            <td width="25%" >Nivel Educativo Beneficiado</td>
+            <td>{$ item.nivel_educativo_beneficiado $}</td>
+
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.espacio_destinado $}</td>
+            
+        </tr>
+
+        
+
+    </tbody>
+</table>
     </div>
   </div>
 {#    #}
@@ -21,8 +59,52 @@
     <div class="ui top attached tabular menu">
       <a class=" item" ng-class="{active: $first}"{% comment %} ng-repeat="item in prioridades.construccion_sanitarios"{% endcomment %} data-tab="construccion_sanitarios/{$ $index $}">{$ $index $}</a>
     </div>
-    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_sanitarios" data-tab="construccion_sanitarios/{$ $index $}"><p><b>{$ item.prioridad $}</b></p>
-        <p>{$ item.justificacion $}</p></div>
+    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.construccion_sanitarios" data-tab="construccion_sanitarios/{$ $index $}">
+
+            <table class="table ui" >
+    <tbody>
+        <tr>
+            <td width="25%" >Prioridad</td>
+            <td>{$ item.prioridad $}</td>
+        </tr>
+      
+
+        <tr>
+            <td width="25%" >Justificacion</td>
+            <td>{$ item.justificacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Cantidad de Espacios Nuevos</td>
+            <td>{$ item.cantidad_espacios_nuevos $}</td>
+        </tr>
+
+        <tr>
+            <td width="25%" >Cantidad de Beneficiados</td>
+            <td>{$ item.nro_beneficiados $}</td>
+        </tr>
+        
+        <tr>
+            <td width="25%" >Nivel Educativo Beneficiado</td>
+            <td>{$ item.nivel_educativo_beneficiado $}</td>
+
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.espacio_destinado $}</td>
+            
+        </tr>
+
+        
+
+    </tbody>
+</table>
+
+
+
+
+    </div>
   </div>
 {#    #}
   <div class="ui tab segment " data-tab="reparacion_aulas">
@@ -30,8 +112,57 @@
     <div class="ui top attached tabular menu">
       <a class=" item" ng-class="{active: $first}" {% comment %}ng-repeat="item in prioridades.reparacion_aulas"{% endcomment %} data-tab="reparacion_aulas/{$ $index $}">{$ $index $}</a>
     </div>
-    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_aulas" data-tab="reparacion_aulas/{$ $index $}"><p><b>{$ item.prioridad $}</b></p>
-        <p>{$ item.justificacion $}</p></div>
+    <div class="ui bottom attached active tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_aulas" data-tab="reparacion_aulas/{$ $index $}">
+            <table class="table ui" >
+    <tbody>
+        <tr>
+            <td width="25%" >Prioridad</td>
+            <td>{$ item.prioridad $}</td>
+        </tr>
+      
+
+        <tr>
+            <td width="25%" >Justificacion</td>
+            <td>{$ item.justificacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Cantidad de Espacios que necesitan reparación</td>
+            <td>{$ item.cant_espacios_necesitan_reparacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.cant_espacios_construidos_adecuacion $}</td>
+            
+        </tr>
+
+        <tr>
+            <td width="25%" >Cantidad de Beneficiados</td>
+            <td>{$ item.nro_beneficiados $}</td>
+        </tr>
+        
+        <tr>
+            <td width="25%" >Nivel Educativo Beneficiado</td>
+            <td>{$ item.nivel_educativo_beneficiado $}</td>
+
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.espacio_destinado_a $}</td>
+            
+        </tr>
+
+        
+
+
+        
+
+    </tbody>
+</table>
+
+      </div>
   </div>
 {#    #}
   <div class="ui tab segment " data-tab="reparacion_sanitarios">
@@ -39,8 +170,67 @@
     <div class="ui top attached tabular menu">
       <a class=" item" ng-class="{active: $first}" {% comment %}ng-repeat="item in prioridades.reparacion_sanitarios"{% endcomment %} data-tab="reparacion_sanitarios/{$ $index $}">{$ $index $}</a>
     </div>
-    <div class="ui bottom attached tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_sanitarios" data-tab="reparacion_sanitarios/{$ $index $}"><p><b>{$ item.prioridad $}</b></p>
-        <p>{$ item.justificacion $}</p></div>
+    <div class="ui bottom attached tab segment" ng-class="{active: $first}" ng-repeat="item in prioridades.reparacion_sanitarios" data-tab="reparacion_sanitarios/{$ $index $}">
+
+
+
+              <table class="table ui" >
+    <tbody>
+        <tr>
+            <td width="25%" >Prioridad</td>
+            <td>{$ item.prioridad $}</td>
+        </tr>
+      
+
+        <tr>
+            <td width="25%" >Justificacion</td>
+            <td>{$ item.justificacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Cantidad de Espacios que necesitan reparacións</td>
+            <td>{$ item.cantidad_sanitarios_construidos_reparacion $}</td>
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.cantidad_sanitarios_construidos_adecuacion $}</td>
+            
+        </tr>
+
+        <tr>
+            <td width="25%" >Cantidad de Beneficiados</td>
+            <td>{$ item.nro_beneficiados $}</td>
+        </tr>
+        
+        <tr>
+            <td width="25%" >Nivel Educativo Beneficiado</td>
+            <td>{$ item.nivel_educativo_beneficiado $}</td>
+
+        </tr>
+
+         <tr>
+            <td width="25%" >Espacio destinado a:</td>
+            <td>{$ item.espacio_destinado_a $}</td>
+            
+        </tr>
+
+        
+
+
+        
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+    </div>
   </div>
 </div>
 <script>

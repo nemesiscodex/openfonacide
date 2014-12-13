@@ -69,3 +69,29 @@ class ConstruccionSanitarioResource(resources.ModelResource):
 class ConstruccionSanitarioAdmin(ImportExportModelAdmin):
     resource_class = ConstruccionSanitarioResource
     pass
+
+
+class SanitariosResource(resources.ModelResource):
+
+    class Meta:
+        model = Sanitarios
+        # exclude = ('id',)
+
+
+@admin.register(Sanitarios)
+class SanitariosAdmin(ImportExportModelAdmin):
+    resource_class = SanitariosResource
+    pass
+
+
+class EspaciosResource(resources.ModelResource):
+
+    class Meta:
+        model = Espacios
+        # exclude = ('id',)
+
+
+@admin.register(Espacios)
+class EspaciosAdmin(ImportExportModelAdmin):
+    resource_class = EspaciosResource
+    pass

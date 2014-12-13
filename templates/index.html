@@ -11,14 +11,60 @@
         <link href="{% static 'css/MarkerCluster.css' %}" rel="stylesheet">
         <link href="{% static 'css/custom.css' %}" rel="stylesheet">
         <link href="{% static 'js/introjs.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/leaflet-sidebar.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/icon-fonacide.css' %}" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/jquery-ui.min.css' %}" />
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/ui.jqgrid.css' %}" />
+    <style>
+        [data-icon]:before {
+            font-family: icons; /* BYO icon font, mapped smartly */
+            content: attr(data-icon);
+            speak: none; /* Not to be trusted, but hey. */
+        }
+        .sidebar.collapsed{
+            width: 26px;
+        }
+        .sidebar-tabs{
+            width: 26px;
+        }
+        .sidebar-tabs>li>a{
+            line-height: 30px;
+        }
+        .sidebar-tabs>li{
+            height: 100%;
+        }
+        .introjs-helperLayer {
+            opacity: 0.1;
+        }
+        .introjs-helperNumberLayer{
+            padding: 0;
+            top: 0;
+            left: 0;
+            font-size: 0.7em;
+            border: 0;
+        }
+        .introjs-tooltip{
+            left: 5px;
+        }
 
+        .ui.radio.checkbox {
+            height: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
 
     </head>
 
     <body  ng-app="frontEnd" ng-controller="PageController" >
+
+    <div class="ui results right vertical inverted labeled icon sidebar menu" style="width: 300px">
+        <a class="header item">
+            Resultados.
+        </a>
+
+        <div id="results"></div>
+    </div>
 
         {% csrf_token %}
         <!-- Your site -->
@@ -27,11 +73,58 @@
             <div class="column">
                 <site-nav></site-nav>
 
+
                 <div id="principal" >
 
-                    <div id="map" class="fullscreen" ng-show="isTab('map')">
+
+                    <div id="sidebar" class="sidebar collapsed" style="height: 140px; top: 115px" ng-show="isTab('map')">
+                            <!-- Nav tabs -->
+                            <ul class="sidebar-tabs" role="tablist">
+                                <li><a href="#filtros-mapa" class="active" role="tab"><i class="caret right icon" style="position: relative;
+top: 28px;
+font-size: 1.5em;"></i></a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="sidebar-content active">
+                                <div class="sidebar-pane" id="filtros-mapa">
+                                    <div class="inline field">
+                                        <div class="ui radio checkbox" ng-click="update('')">
+                                            <input type="radio" name="map-filter" checked>
+                                            <label>Mostrar todo</label>
+                                        </div>
+                                        <br>
+                                        <div class="ui radio checkbox" ng-click="update('fonacide')">
+                                            <input  type="radio" name="map-filter">
+                                            <label>Instituciones Beneficiadas FONACIDE</label>
+                                        </div>
+                                        <br>
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="map-filter">
+                                            <label>Instituciones Denunciadas (Prensa)</label>
+                                        </div>
+                                        <br>
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="map-filter">
+                                            <label>Instituciones Denunciadas (Ciudadania)</label>
+                                        </div>
+                                        <br>
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="map-filter">
+                                            <label>Instituciones con informe Contraloria</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div id="map" class="fullscreen pusher" ng-show="isTab('map')">
+
+
+
                         <div class="ui dimmer" ng-class="{active: isTab('map') && loading}">
                         <div class="ui indeterminate text loader">Cargando Mapa</div>
+
                     </div>
                     </div>
 
@@ -48,7 +141,7 @@
         <!-- Your site ends -->
 
         <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 {#        <script src="{% static 'js/ripples.min.js' %}"></script>#}
         <script src="{% static 'js/leaflet.js' %}"></script>
@@ -61,6 +154,7 @@
         <script src="{% static 'semantic.min.js' %}"></script>
         <script src="{% static 'js/frontend.js' %}"></script>
         <script src="{% static 'js/intro.min.js' %}"></script>
+        <script src="{% static 'js/leaftlet-sidebar.min.js' %}"></script>
 
     <script src="{% static 'js/grid.locale-es.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/jquery.jqGrid.min.js' %}" type="text/javascript"></script>
@@ -68,7 +162,10 @@
             var $MapController;
             var $ComentariosController;
             $(document).ready(function () {
-
+                $('.ui.checkbox')
+                    .checkbox()
+                ;
+{#                $('.filter.icon').on('click', function(e){e.preventDefault(); return false;})#}
 
             });
             function openPopUp(codigoEstablecimiento, title){
@@ -88,6 +185,8 @@
 
           ga('create', 'UA-57407289-1', 'auto');
           ga('send', 'pageview');
+
+
 
         </script>
 

@@ -80,6 +80,8 @@ class EstablecimientoController(View):
                     establecimiento = EstablecimientoSerializerShort(
                         Institucion.objects.filter(nombre__icontains=query) |
                         Institucion.objects.filter(direccion__icontains=query), many=True)
+                    establecimiento = {"results": establecimiento.data}
+                    return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
         else:
@@ -91,6 +93,8 @@ class EstablecimientoController(View):
                     establecimiento = EstablecimientoSerializer(Institucion.objects.filter(nombre__icontains=query) |
                                                                 Institucion.objects.filter(direccion__icontains=query),
                                                                 many=True)
+                    establecimiento = {"results": establecimiento.data}
+                    return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(establecimiento.data)
@@ -145,17 +149,17 @@ class PrioridadControllerV2(View):
 
 
 
-class TotalPrioridadController(View):
-    def get(self, request, *args, **kwargs):
-       
-        result = {
-            "establecimietos": get_fonacide().data,     
-         
-            
-        
-            
-        }
-        return JSONResponse(result)
+# class TotalPrioridadController(View):
+#     def get(self, request, *args, **kwargs):
+#
+#         result = {
+#             "establecimietos": get_fonacide().data,
+#
+#
+#
+#
+#         }
+#         return JSONResponse(result)
 
 
 

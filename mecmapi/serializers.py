@@ -5,12 +5,32 @@ from mecmapi.utils import conversion
 
 
 class EstablecimientoSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField('get_field_title')
+    description = serializers.SerializerMethodField('get_field_description')
+    longitud = serializers.SerializerMethodField('get_field_lon')
+    latitud = serializers.SerializerMethodField('get_field_lat')
     class Meta:
         model = Institucion
-        fields = ('anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
+        fields = ('title', 'description', 'anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
                   'nombre_distrito', 'codigo_zona', 'nombre_zona', 'codigo_barrio_localidad', 'nombre_barrio_localidad',
                   'direccion', 'coordenadas_y', 'coordenadas_x', 'latitud', 'longitud', 'anho_cod_geo', 'programa',
                   'proyecto_111', 'proyecto_822', 'uri', 'nombre')
+
+    def get_field_title(self, obj):
+        return obj.nombre
+
+    def get_field_description(self, obj):
+        return obj.direccion
+
+    def get_field_lat(self, obj):
+        if obj.latitud:
+            return "%2.5f" % conversion(obj.latitud)
+        return "0"
+
+    def get_field_lon(self, obj):
+        if obj.longitud:
+            return "%2.5f" % conversion(obj.longitud)
+        return "0"
 
 
 class InstitucionSerializer(serializers.ModelSerializer):
@@ -38,7 +58,7 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
     lon = serializers.SerializerMethodField('get_field_lon_short_name')
     name = serializers.SerializerMethodField('get_field_name_short_name')
     dir = serializers.SerializerMethodField('get_field_dir_short_name')
-     f = serializers.SerializerMethodField('get_field_f_short_name')
+    f = serializers.SerializerMethodField('get_field_f_short_name')
     class Meta:
         model = Institucion
         fields = ('id', 'lat', 'lon','name','dir','f')
@@ -64,8 +84,7 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
             return obj.nombre.replace('{', '').replace('}', '').replace('","', '\n').replace('"','')
         return "<Sin nombre>"
 
-    def get_field_lon_short_name(self, obj):
- 
+    def get_field_f_short_name(self, obj):
         return obj.fonacide
 
 class ConstruccionAulasSerializer(serializers.ModelSerializer):

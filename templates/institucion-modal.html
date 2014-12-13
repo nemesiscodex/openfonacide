@@ -1,23 +1,24 @@
 <!-- MODAL -->
 
-<div id="info_modal" class="ui modal" style="">
+<div id="info_modal" class="ui large modal" >
     <i class="close icon"></i>
 
     <div class="header">
         <b class="modal-title">{$ modalTitle $}</b>
     </div>
     <div id="modal-tabs" class="content">
-        <div class="ui pointing secondary menu modal-menu">
-            <div class="active blue item" data-tab="inst" style="cursor: pointer">Instituciones</div>
-            <div class="blue item" data-tab="est" style="cursor: pointer">Establecimiento</div>
-            <div class="blue item" data-tab="fon" style="cursor: pointer">Fonacide</div>
-            <div class="blue item" data-tab="com" style="cursor: pointer">Comentarios</div>
-           <!-- <div class="blue item" data-tab="den" style="cursor: pointer">Denuncias</div> -->
-        </div>
+{#        <div class="ui pointing secondary menu modal-menu">#}
+{#            <div class="active blue item" data-tab="inst" style="cursor: pointer">Instituciones</div>#}
+{#            <div class="blue item" data-tab="est" style="cursor: pointer">Establecimiento</div>#}
+{#            <div class="blue item" data-tab="fon" style="cursor: pointer">Fonacide</div>#}
+{#            <div class="blue item" data-tab="com" style="cursor: pointer">Comentarios</div>#}
+{#           <!-- <div class="blue item" data-tab="den" style="cursor: pointer">Denuncias</div> -->#}
+{#        </div>#}
+
             <instituciones-tabla class="active ui blue tab segment" data-tab="inst" id="institucion-tabla"></instituciones-tabla>
-            <establecimiento-tabla class="ui blue tab segment" data-tab="est"  id="establecimiento-tabla"></establecimiento-tabla>
-            <fonacide class="ui blue tab segment" data-tab="fon"  id="fonacide-tab"></fonacide>
-            <comentarios ng-controller="comentsController" class="ui blue tab segment" data-tab="com"  id="comentarios"></comentarios>
+{#            <establecimiento-tabla class="ui blue tab segment" data-tab="est"  id="establecimiento-tabla"></establecimiento-tabla>#}
+{#            <fonacide class="ui blue tab segment" data-tab="fon"  id="fonacide-tab"></fonacide>#}
+{#            <comentarios ng-controller="comentsController" class="ui blue tab segment" data-tab="com"  id="comentarios"></comentarios>#}
            <!-- <denuncias class="ui blue tab segment" data-tab="den"  id="denuncias"></denuncias> -->
 
     </div>

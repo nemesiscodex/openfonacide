@@ -132,7 +132,6 @@
         $scope.guardarComentario = function(comentario){
             comentario.fecha = Date.now();
             comentario.captcha = JSON.stringify(vcRecaptchaService.data());
-            console.log(comentario);
             backEnd.comentarios.save({id: $controller.establecimiento}, comentario, function(){
                 $('#info_modal').modal('show').modal('setting', 'closable', true);
                 comentario.texto = "";
@@ -151,7 +150,7 @@
     /**
      * Controlador del mapa
      */
-    app.controller('MapController', ['$scope', 'backEnd', function($scope,backEnd){
+    app.controller('MapController', ['$scope', 'backEnd', '$filter', function($scope,backEnd,$filter){
         $scope.showInfo = false;
         $scope.modalTitle = "";
         $scope.setModalTitle = function(title){
@@ -181,34 +180,85 @@
 
         };
 
+        var sidebar = L.control.sidebar('sidebar');
+
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
-            L.tileLayer('http://{s}.tiles.mapbox.com/v3/nemesiscodex.k7abci9m/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
                 maxZoom: 18
             }).addTo($scope.map);
 
-        backEnd.establecimiento_short.query({}, function(value, headers){
+        backEnd.establecimiento_short.query({}, function(data, headers){
+
+            $scope.mapData = data;
+            sidebar.addTo($scope.map);
+            $scope.update('');
+        });
+
+        $scope.update = function(filterType){
+
+            $scope.loading = true;
+
+            switch (filterType){
+                case 'fonacide':
+                    updateMap(function(map){
+                        var ret = $filter('filter')(map, function(elemento,index){
+
+                            return (elemento.f == 't')
+                        }, true);
+                        return ret;
+                    });
+                    break;
+                case 'denunciaPrensa':
+                    updateMap(function(map){
+                        return map;
+                    });
+                    break;
+                case 'denunciaCiudadania':
+                    updateMap(function(map){
+                        return map;
+                    });
+                    break;
+                case 'informeContraloria':
+                    updateMap(function(map){
+                        return map;
+                    });
+                    break;
+                default:
+                    updateMap(function(map){return map});
+            }
+        };
+
+        var updateMap = function(filterFunction){
+
             var point;
             var marker;
-            var markers = new L.MarkerClusterGroup({
+            var data = filterFunction($scope.mapData);
+
+            if($scope.markers)
+                $scope.map.removeLayer($scope.markers);
+
+            $scope.markers = new L.MarkerClusterGroup({
 
                 iconCreateFunction: function (cluster) {
                     return L.divIcon({ html: cluster.getChildCount(), className: 'mycluster', iconSize: L.point(40, 40) });
                 }
             });
-
-            if(value){
-                for(var i=0; i<value.length; i++){
-                    point = value[i];
+            var markers = $scope.markers;
+            if(data){
+                for(var i=0; i<data.length; i++){
+                    point = data[i];
                     marker = new L.Marker([point.lat, point.lon], {title:point.name});
-                    marker.bindPopup("<p><b>"+point.name+'<a href="javascript:void(0)" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" class="link mdi-action-launch"><i class="linkify icon"></i></a></b><hr>'+point.dir+"</p>");
+                    marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
                     markers.addLayer(marker);
                 }
             }
+
             $scope.map.addLayer(markers);
 
-            $scope.loading = false;
-        });
 
+            $scope.loading = false;
+        }
     }]);
 })();

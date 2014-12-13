@@ -9,10 +9,10 @@
     <a class="blue item" data-step="3" data-intro="En este mapa se visualiza cada uno de los establecimientos educativos. Con su respectiva información" ng-class="{active:isTab('map')}" ng-click="setTab('map')">
         <i class="map icon"></i> Mapa de instituciones
     </a>
-    <a class="blue item" data-step="4" data-intro="Esta es la lista de instituciones en una tabla." ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">
-        <i class="list icon"></i> Lista de instituciones
-    </a>
-    <a class="blue item" data-step="5" data-intro="Aqui puede encontrar visualizaciones hechas con los datos del fonacide." ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
+{#    <a class="blue item" data-step="4" data-intro="Esta es la lista de instituciones en una tabla." ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">#}
+{#        <i class="list icon"></i> Lista de instituciones#}
+{#    </a>#}
+    <a class="blue item" data-step="4" data-intro="Aqui puede encontrar visualizaciones hechas con los datos del fonacide." ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
        <i class="picture icon"></i>Visualizaciones
     </a>
     <a class="blue item" onclick="javascript:introJs().start()">
@@ -20,21 +20,40 @@
     </a>
 
     <div class="right menu">
-        <div class=" item">
-            <div class="ui icon input search">
-                <input class="prompt" type="text" placeholder="Search...">
-                <i class="search link icon"></i>
+        <div class="ui search">
+            <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Common passwords...">
+                <i class="search icon"></i>
             </div>
-        </div>
-        <div class="results">
+            <div class="results"></div>
         </div>
     </div>
     <script type="text/javascript">
+        function changeMap(lat, lon){
+            var map = angular.element($('#map')).scope().map;
+            map.setView([lat, lon], 18);
+        }
         $('.ui.search')
             .search({
                 apiSettings: {
                     url: 'establecimiento/?q={query}'
-                }
+                },
+                minCharacters: 4,
+                maxResults: 20,
+                cache: false,
+                onResults: function(response){
+                    var results = response.results;
+                    var $results = $('#results');
+                    $results.html("");
+                    var items = "";
+                    for(var i = 0; i < results.length; i++){
+                        items= items + "<a class=\"item\" onClick=\"changeMap("+results[i].latitud+","+results[i].longitud+")\">"+results[i].title.replace(/[{}'"]/g,'')+"</a>";
+                    }
+                    $results.html(items);
+                    $('.results.sidebar').sidebar('show');
+                },
+{#            }).onResults(function (response) {#}
+{#                    console.log(response)#}
             })
         ;
     </script>

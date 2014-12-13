@@ -121,6 +121,21 @@ class PrioridadController(View):
         return JSONResponse(result)
 
 
+class PrioridadControllerV2(View):
+    def get(self, request, *args, **kwargs):
+        codigo_establecimiento = kwargs.get('codigo_establecimiento')
+        result = {
+            "aulas": get_Pr(codigo_establecimiento, Espacios, EspaciosSerializer).data,
+            "sanitarios": get_Pr(codigo_establecimiento, Sanitarios,
+                                             SanitariosSerializer).data,
+            
+        }
+        return JSONResponse(result)
+
+
+
+
+
 class ComentariosController(View):
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')

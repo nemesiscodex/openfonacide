@@ -72,6 +72,9 @@ class ConstruccionAulasSerializer(serializers.ModelSerializer):
             'espacio_destinado', 'cantidad_espacios_nuevos', 'abastecimiento_agua', 'corriente_electrica',
             'titulo_propiedad', 'cuenta_con_espacio_construccion', 'justificacion', 'departamento', 'cod_departamento',
         )
+
+
+
         
         
 class ConstruccionSanitarioSerializer(serializers.ModelSerializer):
@@ -123,8 +126,49 @@ def get_P(establecimiento, prioridadClass, serializerClass):
         data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
     return serializerClass(data, many=True)
 
+def get_Pr(establecimiento, prioridadClass, serializerClass):
+    if not establecimiento:
+        return serializerClass(prioridadClass.objects.all(), many=True)
+    instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
+    data = prioridadClass.objects.filter(cod_institucion=establecimiento)
+    for institucion in instituciones:
+        data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
+    return serializerClass(data, many=True)
+
 
 class ComentariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentarios
         fields = ('texto', 'autor', 'fecha', 'email')
+
+
+
+
+class EspaciosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Espacios
+        fields = (
+           "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad",   "cod_establecimiento", "cod_institucion" ,"nombre_institucion",  "codigo_zona", 
+          "nombre_zona" ,"nivel_educativo_beneficiado" ,"cuenta_con_espacio_construccion", "espacio_destinado" ,  "tipo_requerimiento_infraestructura" , "cantidad_requerida" , "numero_beneficiados" ,"justificacion" ,  "uri_establecimiento", "uri_institucion"
+
+        )
+
+
+        
+
+
+
+
+class SanitariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sanitarios
+        fields = (
+
+
+       "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad" ,  
+      "cod_establecimiento" ,"cod_institucion", "nombre_institucion"  ,"codigo_zona", "nombre_zona" ,"nivel_educativo_beneficiado",
+       "abastecimiento_agua" ,"servicio_sanitario_actual" ,  "cuenta_con_espacio_construccion", "tipo_requerimiento_infraestructura",
+         "cantidad_requerida"  ,"numero_beneficiados" ,"justificacion",   "uri_establecimiento", "uri_institucion"
+       
+
+        )

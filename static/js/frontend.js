@@ -189,6 +189,54 @@
                 maxZoom: 18
             }).addTo($scope.map);
 
+        $scope.onEachFeature = function(feature, layer) {
+    // Load the default style. 
+    layer.setStyle(defaultStyle);
+    // Create a self-invoking function that passes in the layer
+    // and the properties associated with this particular record.
+    (function(layer, properties) {
+      // Create a mouseover event
+      layer.on("mouseover", function (e) {
+        // Change the style to the highlighted version
+        layer.setStyle(highlightStyle);
+        // Create a popup with a unique ID linked to this record
+        var popup = $("<div></div>", {
+            id: "popup-" + properties.DISTRICT,
+            css: {
+                position: "absolute",
+                bottom: "85px",
+                left: "50px",
+                zIndex: 1002,
+                backgroundColor: "white",
+                padding: "8px",
+                border: "1px solid #ccc"
+            }
+        });
+        // Insert a headline into that popup
+        var hed = $("<div></div>", {
+            text: "District " + properties.DISTRICT + ": " + properties.REPRESENTATIVE,
+            css: {fontSize: "16px", marginBottom: "3px"}
+        }).appendTo(popup);
+        // Add the popup to the map
+        popup.appendTo("#map");
+      });
+      // Create a mouseout event that undoes the mouseover changes
+      layer.on("mouseout", function (e) {
+        // Start by reverting the style back
+        layer.setStyle(defaultStyle); 
+        // And then destroying the popup
+        $("#popup-" + properties.DISTRICT).remove();
+      });
+      // Close the "anonymous" wrapper function, and call it while passing
+      // in the variables necessary to make the events work the way we want.
+    })(layer, feature.properties);
+};
+
+
+
+   
+
+
         backEnd.establecimiento_short.query({}, function(data, headers){
 
             $scope.mapData = data;
@@ -214,6 +262,8 @@
 
             switch (filterType){
                 case 'fonacide':
+                   if ( $scope.ContratacionesLayer) {
+                    $scope.map.removeLayer($scope.ContratacionesLayer);}
                     updateMap(function(map){
                         var ret = $filter('filter')(map, function(elemento,index){
 
@@ -237,7 +287,61 @@
                         return map;
                     });
                     break;
+                case 'contrataciones':
+                     /* Geojson para contratataciones */
+
+                    $scope.map.removeLayer($scope.markers);
+
+                   if (! $scope.ContratacionesLayer) {
+
+                    $scope.ContratacionesLayer = L.geoJson().addTo($scope.map);
+
+                   $.getJSON( "/static/geojson/00.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/01.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/02.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/03.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/04.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/05.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/06.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/07.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/08.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/09.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/10.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/11.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/12.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/13.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/14.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/15.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/16.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                   $.getJSON( "/static/geojson/17.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+
+                    $scope.ContratacionesLayer .on('mouseover', function(e) {
+                            e.layer.openPopup();
+                        }); 
+                        $scope.ContratacionesLayer.on('mouseout', function(e) {
+                            e.layer.closePopup();
+                        });
+
+
+                   } 
+                 
+
+
+                   $scope.loading=false;
+
+                  
+                   
+
+
+
+                        /* FIN GEOJSON*/
+
+
+                    break;
                 default:
+                     if ( $scope.ContratacionesLayer) {
+                    $scope.map.removeLayer($scope.ContratacionesLayer);}
+                  
                     updateMap(function(map){return map});
             }
         };

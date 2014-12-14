@@ -99,7 +99,7 @@ else:
                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
                 'NAME':     'mecmapi',
                 'USER':     'postgres',
-                'PASSWORD': '12345',
+                'PASSWORD': 'postgres',
                 'HOST':     'localhost',
                 'PORT':     '5432'
             }

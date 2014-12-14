@@ -32,7 +32,11 @@
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');
     nuevaDirectiva('institucionesTabla','institucion-modal/instituciones-tabla.html');
     nuevaDirectiva('comentarios','institucion-modal/comentarios.html');
-    //nuevaDirectiva('denuncias','institucion-modal/denuncias.html');
+    nuevaDirectiva('aulas','institucion-modal/instituciones-tabs/aulas.html');
+    nuevaDirectiva('mobiliarios','institucion-modal/instituciones-tabs/mobiliarios.html');
+    nuevaDirectiva('denuncias','institucion-modal/instituciones-tabs/denuncias.html');
+    nuevaDirectiva('sanitarios','institucion-modal/instituciones-tabs/sanitarios.html');
+    nuevaDirectiva('informacion','institucion-modal/instituciones-tabs/informacion.html');
     nuevaDirectiva('fonacide','institucion-modal/fonacide.html');
 
 
@@ -81,6 +85,17 @@
 
         $controller = this;
         $controller.tab = 'home';
+        $controller.subTab = 'info';
+
+        $scope.setSubTab = function(tabName){
+            $controller.subTab = tabName;
+        };
+        $scope.getSubTab = function(){
+            return $controller.subTab
+        };
+        $scope.isSubTab = function(tabName){
+            return $controller.subTab === tabName;
+        };
 
         $scope.setTab = function(tabName){
             $controller.tab = tabName;

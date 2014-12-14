@@ -1,3 +1,10 @@
+<style>
+    .icon-custom {
+        display: block;
+        font-size: 1.5em!important;
+        margin: 0 auto .5em!important;
+    }
+</style>
 <div id="instituciones-tabs">
         <!-- popup -->
 {#    <div class="ui popup" id="modalidades-help-popup">#}
@@ -20,60 +27,34 @@
     </div>
     <div class="ui tab segment" ng-class="{active:$first}" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
 
-        <div class="ui basic blue button">Aulas <i style="font-size: 1.3em" class="icon-icon-school"></i></div>
-        <div class="ui basic blue button">Sanitarios <i style="font-size: 1.3em" class="icon-icon-toilet" ></i></div>
-        <div class="ui basic blue button">Mobiliarios <i style="font-size: 1.3em" class="icon-icon-desk"></i></div>
-        <div class="ui basic red button">Denuncias&nbsp;&nbsp;<i style="font-size: 1.4em; margin-right:0" class="warning sign icon"></i></div>
+        <div class="ui labeled icon menu">
+            <a class="blue item" ng-click="setSubTab('info')" ng-class="{active: isSubTab('info')}" >
+                <i style="font-size: 1.3em"  class="info circle icon"></i>
+                Información
+            </a>
+            <a class="blue item"  ng-click="setSubTab('aulas')" ng-class="{active: isSubTab('aulas')}">
+                <i style="font-size: 1.3em" class="icon-icon-school icon-custom"></i>
+                Aulas
+            </a>
+            <a class="blue item" ng-click="setSubTab('sanitarios')" ng-class="{active: isSubTab('sanitarios')}">
+                <i style="font-size: 1.3em"   class="icon-icon-toilet icon-custom" ></i>
+                Sanitarios
+            </a>
+            <a class="blue item" ng-click="setSubTab('mobiliarios')" ng-class="{active: isSubTab('mobiliarios')}" >
+                <i style="font-size: 1.3em"  class="icon-icon-desk icon-custom"></i>
+                Mobiliarios
+            </a>
+            <a class="red item" ng-click="setSubTab('denuncias')" ng-class="{active: isSubTab('denuncias')}">
+                <i class="warning sign icon"   style="font-size: 1.6em!important"></i>
+                Denuncias
+            </a>
+        </div>
 
-        <table class="table definition ui">
-            <tbody>
-                <tr>
-                    <td width="25%">Nombre</td>
-                    <td>{$ institucion.nombre_institucion $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Region Administrativa</td>
-                    <td>{$ institucion.nombre_region_administrativa $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Supervisor</td>
-                    <td>{$ institucion.nombre_supervisor $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Niveles/Modalidades
-{#                        <i class="circular help small inline circle icon link modalidades-help"></i>#}
-
-                       </td>
-                    <td>{$ institucion.niveles_modalidades $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Tipo de organizacion</td>
-                    <td>{$ institucion.nombre_tipo_organizacion $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Participacion comunitaria</td>
-                    <td>{$ institucion.participacion_comunitaria $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Numero de telefono</td>
-                    <td>{$ institucion.nro_telefono $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Pagina web</td>
-                    <td>{$ institucion.paginaweb $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Correo electronico</td>
-                    <td>{$ institucion.correo_electronico $}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Tiene internet</td>
-                    <td>{$ institucion.tiene_internet $}</td>
-                </tr>
-
-            </tbody>
-
-        </table>
+        <informacion ng-show="isSubTab('info')"></informacion>
+        <aulas  ng-show="isSubTab('aulas')"></aulas>
+        <sanitarios  ng-show="isSubTab('sanitarios')"></sanitarios>
+        <mobiliarios  ng-show="isSubTab('mobiliarios')"></mobiliarios>
+        <denuncias  ng-show="isSubTab('denuncias')"></denuncias>
 {#        <script>#}
 {#            $('.modalidades-help')#}
 {#                    .popup({#}
@@ -89,8 +70,8 @@
 
 </div>
 <script>
-    $('.modal-instituciones-menu .item').tab({
-        context: '#instituciones-tabs'
-    });
+{#    $('.modal-instituciones-menu .item').tab({#}
+{#        context: '#instituciones-tabs'#}
+{#    });#}
 
 </script>

@@ -1,48 +1,48 @@
-<div id="instituciones" class="">
-
-    <script type="text/javascript">
-        $(function () {
-            $("#tabla_instituciones").jqGrid({
-                url: "listaInstituciones",
-                datatype: "json",
-                height : "auto",
-                "autowidth" : true,
-                jsonReader : {
-                    root:"rows",
-                    page: "page",
-                    total: "total",
-                    records: "records",
-                    repeatitems: false,
-                    id: "0"
-                },
-                colNames: ["C&oacute;digo", "Instituci&oacute;n", "Departamento", "Distrito", "Barrio"],
-                colModel: [
-                    { name: "codigo_establecimiento", id : "codigo_establecimiento" , sortable : true, width : 87},
-                    //{ name: "codigo_institucion", id : "codigo_institucion", sortable : true },
-                    { name: "nombre_institucion", id : "nombre_institucion", sortable : true, width :298},
-                    { name: "nombre_departamento", id : "nombre_departamento", sortable : true, width : 157},
-                    { name: "nombre_distrito", id : "nombre_distrito", sortable : true, width : 178},
-                    { name: "nombre_barrio_localidad", id : "nombre_barrio_localidad", sortable : true, width : 388},
-                    //{ name: "nombre_region_administrativa", id : "nombre_region_administrativa", sortable : true},
-                    //{ name: "nombre_supervisor", id : "nombre_supervisor", sortable : true},
-                    //{ name: "niveles_modalidades", id : "niveles_modalidades", sortable : true},
-                    //{ name: "direccion", id : "direccion", sortable : true},
-                    //{ name: "nro_telefono", id: "nro_telefono", sortable : true}
-                ],
-                pager: "pager",
-                rowNum: 10,
-                sortname: "codigo_establecimiento",
-                sortorder: "desc",
-                viewrecords: true,
-                gridview: true,
-                //autoencode: true
-            });
-            //jQuery("#tabla_instituciones").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});
-        }); 
-    </script>
-
-    <br>
-    <br> 
-    <table id="tabla_instituciones"></table>
-    <div id="pager"></div>  
-</div>
+{#<div id="instituciones" class="">#}
+{##}
+{#    <script type="text/javascript">#}
+{#        $(function () {#}
+{#            $("#tabla_instituciones").jqGrid({#}
+{#                url: "listaInstituciones",#}
+{#                datatype: "json",#}
+{#                height : "auto",#}
+{#                "autowidth" : true,#}
+{#                jsonReader : {#}
+{#                    root:"rows",#}
+{#                    page: "page",#}
+{#                    total: "total",#}
+{#                    records: "records",#}
+{#                    repeatitems: false,#}
+{#                    id: "0"#}
+{#                },#}
+{#                colNames: ["C&oacute;digo", "Instituci&oacute;n", "Departamento", "Distrito", "Barrio"],#}
+{#                colModel: [#}
+{#                    { name: "codigo_establecimiento", id : "codigo_establecimiento" , sortable : true, width : 87},#}
+{#                    //{ name: "codigo_institucion", id : "codigo_institucion", sortable : true },#}
+{#                    { name: "nombre_institucion", id : "nombre_institucion", sortable : true, width :298},#}
+{#                    { name: "nombre_departamento", id : "nombre_departamento", sortable : true, width : 157},#}
+{#                    { name: "nombre_distrito", id : "nombre_distrito", sortable : true, width : 178},#}
+{#                    { name: "nombre_barrio_localidad", id : "nombre_barrio_localidad", sortable : true, width : 388},#}
+{#                    //{ name: "nombre_region_administrativa", id : "nombre_region_administrativa", sortable : true},#}
+{#                    //{ name: "nombre_supervisor", id : "nombre_supervisor", sortable : true},#}
+{#                    //{ name: "niveles_modalidades", id : "niveles_modalidades", sortable : true},#}
+{#                    //{ name: "direccion", id : "direccion", sortable : true},#}
+{#                    //{ name: "nro_telefono", id: "nro_telefono", sortable : true}#}
+{#                ],#}
+{#                pager: "pager",#}
+{#                rowNum: 10,#}
+{#                sortname: "codigo_establecimiento",#}
+{#                sortorder: "desc",#}
+{#                viewrecords: true,#}
+{#                gridview: true,#}
+{#                //autoencode: true#}
+{#            });#}
+{#            //jQuery("#tabla_instituciones").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});#}
+{#        }); #}
+{#    </script>#}
+{##}
+{#    <br>#}
+{#    <br> #}
+{#    <table id="tabla_instituciones"></table>#}
+{#    <div id="pager"></div>  #}
+{#</div>#}

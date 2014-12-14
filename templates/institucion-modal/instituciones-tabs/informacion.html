@@ -1,0 +1,90 @@
+<style>
+    .statistic{
+        width: 150px
+    }
+</style>
+<div class="ui grid"><div class="eleven wide column"> <table class="table definition ui">
+    <tbody>
+    <tr>
+        <td width="25%">Nombre</td>
+        <td>{$ institucion.nombre_institucion $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Region Administrativa</td>
+        <td>{$ institucion.nombre_region_administrativa $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Supervisor</td>
+        <td>{$ institucion.nombre_supervisor $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Niveles/Modalidades
+            {#                        <i class="circular help small inline circle icon link modalidades-help"></i>#}
+
+        </td>
+        <td>{$ institucion.niveles_modalidades $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Tipo de organizacion</td>
+        <td>{$ institucion.nombre_tipo_organizacion $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Participacion comunitaria</td>
+        <td>{$ institucion.participacion_comunitaria $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Numero de telefono</td>
+        <td>{$ institucion.nro_telefono $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Pagina web</td>
+        <td>{$ institucion.paginaweb $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Correo electronico</td>
+        <td>{$ institucion.correo_electronico $}</td>
+    </tr>
+    <tr>
+        <td width="25%">Tiene internet</td>
+        <td>{$ institucion.tiene_internet $}</td>
+    </tr>
+
+    </tbody>
+
+</table>
+    </div>
+    <div class="five wide column">
+        <div class="ui statistics">
+                <div class="statistic red">
+                    <div class="text value">
+                        <i class="fire extinguisher icon red big" style="margin-right: 5px"></i>NO
+                    </div>
+                    <div class="label">Prevención de Incendios</div>
+                </div>
+                <div class="statistic blue">
+                    <div class="text value">
+                        <i class="theme icon blue big" style="margin-right: 5px"></i>NO
+                    </div>
+                    <div class="label">Provicionamiento de agua</div>
+                </div>
+                <div class="statistic yellow" >
+                    <div class="text value">
+                        <i class="lightning icon yellow big" style="margin-right: 5px"></i>NO
+                    </div>
+                    <div class="label">Electricidad</div>
+                </div>
+                <div class="statistic green">
+                    <div class="text value">
+                        <i class="building icon big green" style="margin-right: 5px"></i>NO
+                    </div>
+                    <div class="label">Plano</div>
+                </div>
+                <div class="statistic ">
+                    <div class="text value">
+                        <i class="icon-icon-toilet" style="margin-right: 5px; font-size: 2em"></i>NO
+                    </div>
+                    <div class="label">Sanitario</div>
+                </div>
+            </div>
+    </div>
+</div>

@@ -2,6 +2,8 @@ import datetime
 import json
 import urllib
 import urllib2
+from django.views.decorators.gzip import gzip_page
+from django.http import StreamingHttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import View, TemplateView
@@ -12,6 +14,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from mecmapi.models import *
 from mecmapi.serializers import *
+from itertools import chain
+from operator import attrgetter
+import json
+import csv
+import os
 
 
 class PartialGroupView(TemplateView):
@@ -35,35 +42,75 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
 
-
 class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index.html', context_instance=RequestContext(request))
 
-
-class ListaInstitucionesController(View):
+class ListaPrioridadesController(View):
     def get(self, request, *args, **kwargs):
-        cantidad = request.GET.get('rows')
-        pagina = request.GET.get('page')
-        lista = InstitucionData.objects.all()
-        if cantidad is not None:
+        cantidad = request.GET.get('iDisplayLength')
+        inicio = request.GET.get('iDisplayStart')
+        cantidad_columnas = request.GET.get('iColumns')
+        order_by = request.GET.get('iSortCol_0')
+        order_dir = request.GET.get('sSortDir_0')
+        filtro = {}
+        columnas = []
+        for i in range(int(cantidad_columnas)):
+            valor = request.GET.get('sSearch_'+str(i))
+            columnas.append(request.GET.get('mDataProp_'+str(i))) 
+            if valor :
+                filtro[ columnas[i] + "__icontains"] = valor
+        print filtro
+        if filtro != "" :
+            lista_const_aulas = ConstruccionAulas.objects.filter(**filtro)
+            lista_const_sanitarios = ConstruccionSanitario.objects.filter(**filtro)
+            lista_rep_aulas = ReparacionAulas.objects.filter(**filtro)
+            lista_rep_sanitarios = ReparacionSanitario.objects.filter(**filtro)
+        else :
+            lista_const_aulas = ConstruccionAulas.objects.all()
+            lista_const_sanitarios = ConstruccionSanitario.objects.all()
+            lista_rep_aulas = ReparacionAulas.objects.all()
+            lista_rep_sanitarios = ReparacionSanitario.objects.all()
+        if order_by != "0":
+            if order_dir == "asc" :
+                lista = sorted(chain(lista_const_aulas, lista_const_sanitarios, lista_rep_aulas, lista_rep_sanitarios),
+                    key=attrgetter(columnas[int(order_by)]))
+            else :
+                lista = sorted(chain(lista_const_aulas, lista_const_sanitarios, lista_rep_aulas, lista_rep_sanitarios),
+                    key=attrgetter(columnas[int(order_by)]), reverse=True)
+        else :
+            if order_dir == "asc" :
+                lista = sorted(chain(lista_const_aulas, lista_const_sanitarios, lista_rep_aulas, lista_rep_sanitarios),
+                    key=attrgetter('departamento', 'prioridad'))
+            else :
+                lista = sorted(chain(lista_const_aulas, lista_const_sanitarios, lista_rep_aulas, lista_rep_sanitarios),
+                    key=attrgetter('departamento', 'prioridad'), reverse=True)
+        pagina = int(inicio)/int(cantidad) + 1
+        if cantidad is not None :
             paginator = Paginator(lista, cantidad)
-        else:
+        else :
             paginator = Paginator(lista, 10)
         total = len(lista)
-        if pagina is None:
+        if pagina is None :
             pagina = 1
-        try:
-            instituciones = paginator.page(pagina)
+        try :
+            prioridades = paginator.page(pagina)
         except PageNotAnInteger:
-            instituciones = paginator.page(1)
-        except EmptyPage:
-            instituciones = paginator.page(paginator.num_pages)
-        lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-        # result = lista_instituciones.data
-        result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-                  'rows': lista_instituciones.data}
+            prioridades = paginator.page(1)
+        except EmptyPage :
+            prioridades = paginator.page(paginator.num_pages)
+        lista_prioridades = ListaPrioridadesSerializer(prioridades, many=True)
+        result = { 'recordsFiltered' : str(total), 'identificador' : str(pagina), 'recordsTotal': str(total), 'data': lista_prioridades.data }
         return JSONResponse(result)
+
+class DescargasController(View):
+    def get(self,request, *args, **kwargs):
+        archivo = request.GET.get('archivo')
+        path  = "static/csv/"+archivo+".csv"
+        response = StreamingHttpResponse(open(path),content_type='text/csv')
+        response['Content-Disposition'] = "attachment; filename="+ archivo +".csv"
+        return response
+
 
 
 class EstablecimientoController(View):

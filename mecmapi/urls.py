@@ -41,7 +41,8 @@ urlpatterns = patterns('',
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
     url(r'^establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
     url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
-    url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
+    url(r'^descargas/(?P<archivo>\w*)/?$', DescargasController.as_view(), name='descargas'),
+    url(r'^listaPrioridades',ListaPrioridadesController.as_view(), name='listaPrioridades'),
     url(r'^admin/', include(admin.site.urls)),
 )
 

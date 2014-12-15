@@ -1,48 +1,115 @@
 <div id="instituciones" class="">
-
+    
     <script type="text/javascript">
-        $(function () {
-            $("#tabla_instituciones").jqGrid({
-                url: "listaInstituciones",
-                datatype: "json",
-                height : "auto",
-                "autowidth" : true,
-                jsonReader : {
-                    root:"rows",
-                    page: "page",
-                    total: "total",
-                    records: "records",
-                    repeatitems: false,
-                    id: "0"
+
+    $(function () {
+        var table = $("#lista").dataTable( {
+            "language": {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
                 },
-                colNames: ["C&oacute;digo", "Instituci&oacute;n", "Departamento", "Distrito", "Barrio"],
-                colModel: [
-                    { name: "codigo_establecimiento", id : "codigo_establecimiento" , sortable : true, width : 87},
-                    //{ name: "codigo_institucion", id : "codigo_institucion", sortable : true },
-                    { name: "nombre_institucion", id : "nombre_institucion", sortable : true, width :298},
-                    { name: "nombre_departamento", id : "nombre_departamento", sortable : true, width : 157},
-                    { name: "nombre_distrito", id : "nombre_distrito", sortable : true, width : 178},
-                    { name: "nombre_barrio_localidad", id : "nombre_barrio_localidad", sortable : true, width : 388},
-                    //{ name: "nombre_region_administrativa", id : "nombre_region_administrativa", sortable : true},
-                    //{ name: "nombre_supervisor", id : "nombre_supervisor", sortable : true},
-                    //{ name: "niveles_modalidades", id : "niveles_modalidades", sortable : true},
-                    //{ name: "direccion", id : "direccion", sortable : true},
-                    //{ name: "nro_telefono", id: "nro_telefono", sortable : true}
-                ],
-                pager: "pager",
-                rowNum: 10,
-                sortname: "codigo_establecimiento",
-                sortorder: "desc",
-                viewrecords: true,
-                gridview: true,
-                //autoencode: true
-            });
-            //jQuery("#tabla_instituciones").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});
-        }); 
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            "columns": [
+                { "data": "departamento","width": "20%"  },
+                { "data": "prioridad", "width": "10%" },
+                { "data": "nombre_institucion", "width": "20%" },
+                { "data": "distrito", "width": "20%"  },
+                { "data": "localidad_barrio", "width": "20%"  },
+                { "data": "nro_beneficiados", "width": "20%"  },
+                { "data": "nivel_educativo_beneficiado", "width": "20%"  },
+                { "data": "justificacion", "width": "20%"  }
+            ],
+            "bAutoWidth": false,
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource":  "listaPrioridades"
+        } );
+        $('#lista').dataTable()
+        .columnFilter({
+            aoColumns: [ 
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" },
+                { type: "text" }
+            ]
+        });
+
+        $('#depertamentoH').css("width","5%");
+        $('#prioridadH').css("width","5%");
+        $('#institucionH').css("width","5%");
+        $('#distritoH').css("width","5%");
+        $('#barrioH').css("width","5%");
+        $('#beneficiadosH').css("width","5%");
+        $('#nivelH').css("width","5%");
+        $('#justificacionH').css("width","5%");
+
+        $('#departamentoF').children().children().css("width","100%");
+        $('#prioridadF').children().children().css("width","100%");
+        $('#institucionF').children().children().css("width","100%");
+        $('#distritoF').children().children().css("width","100%");
+        $('#barrioF').children().children().css("width","100%");
+        $('#beneficiadosF').children().children().css("width","100%");
+        $('#nivelF').children().children().css("width","100%");
+        $('#justificacionF').children().children().css("width","100%");
+
+        $('#download-footer').insertAfter('.row:last');
+        
+    });
+ 
     </script>
 
-    <br>
-    <br> 
-    <table id="tabla_instituciones"></table>
-    <div id="pager"></div>  
+    <div id="listado">
+        <br> 
+        <table id="lista" class="table table-striped table-bordered no-footer display" cellspacing="0">
+            <thead>
+                <tr>
+                    <th id="depertamentoH">Departamento</th>
+                    <th id="prioridadH">Prioridad</th>
+                    <th id="institucionH">Institucion</th>
+                    <th id="distritoH">Distrito</th>
+                    <th id="barrioH">Barrio</th>
+                    <th id="beneficiadosH">Beneficiados</th>
+                    <th id="nivelH">Nivel Educativo Beneficiado</th>
+                    <th id="justificacionH">Justificacion</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th id="departamentoF"></th>
+                    <th id="prioridadF"></th>
+                    <th id="institucionF"></th>
+                    <th id="distritoF"></th>
+                    <th id="barrioF"></th>
+                    <th id="beneficiadosF"></th>
+                    <th id="nivelF"></th>
+                    <th id="justificacionF"></th>
+                </tr>   
+            </tfoot>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>

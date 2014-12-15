@@ -24,13 +24,15 @@ class InstitucionSerializer(serializers.ModelSerializer):
                   'participacion_comunitaria', 'direccion', 'nro_telefono', 'tiene_internet', 'paginaweb',
                   'correo_electronico')
 
-class ListaInstitucionesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InstitucionData
-        fields = ('codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'nombre_departamento',
-                  'nombre_distrito','nombre_barrio_localidad', 'nombre_region_administrativa', 'nombre_supervisor',
-                  'niveles_modalidades', 'direccion', 'nro_telefono')
-
+class ListaPrioridadesSerializer(serializers.Serializer):
+    prioridad = serializers.IntegerField(read_only=True)
+    nombre_institucion = serializers.CharField(required=False)
+    distrito = serializers.CharField(required=False)
+    localidad_barrio = serializers.CharField(required=False)
+    nro_beneficiados = serializers.CharField(required=False)
+    nivel_educativo_beneficiado = serializers.CharField(required=False)
+    justificacion = serializers.CharField(required=False)
+    departamento = serializers.CharField(required=False)
 
 class EstablecimientoSerializerShort(serializers.ModelSerializer):
     id = serializers.SerializerMethodField('get_field_id_short_name')

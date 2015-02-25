@@ -2,11 +2,8 @@
 <html>
 
     <head>
-
-{#        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">#}
-{#        <link href="{% static 'css/ripples.min.css' %}" rel="stylesheet">#}
-{#        <link href="{% static 'css/material-wfont.min.css' %}" rel="stylesheet">#}
-{#    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/jquery-ui.min.css' %}" />#}
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/ui.jqgrid.css' %}" />
         <link href="{% static 'semantic.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/leaflet.css' %}" rel="stylesheet">
@@ -16,112 +13,14 @@
         <link href="{% static 'css/leaflet-sidebar.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/icon-fonacide.css' %}" rel="stylesheet">
 
-    <style>
-        [data-icon]:before {
-            font-family: icons; /* BYO icon font, mapped smartly */
-            content: attr(data-icon);
-            speak: none; /* Not to be trusted, but hey. */
-        }
-        .sidebar.collapsed{
-            width: 26px;
-        }
-        .sidebar-tabs{
-            width: 26px;
-        }
-        .sidebar-tabs>li>a{
-            line-height: 30px;
-        }
-        .sidebar-tabs>li{
-            height: 100%;
-        }
-        .introjs-helperLayer {
-            opacity: 0.1;
-        }
-        .introjs-helperNumberLayer{
-            padding: 0;
-            top: 0;
-            left: 0;
-            font-size: 0.7em;
-            border: 0;
-        }
-        .introjs-tooltip{
-            left: 5px;
-        }
-
-        .ui.radio.checkbox {
-            height: 14px;
-            margin-bottom: 10px;
-        }
-
-
-        .sidebar-content {
-position: absolute;
-left: 28px;
-right: 0;
-top: 0;
-bottom: 0;
-background-color: rgba(255,255,255,.95);
-overflow-x: hidden;
-overflow-y: auto;
-background-color: #3b83c0;
-color: white;
-}
-
-
-.ui.checkbox label, .ui.checkbox+label {
-
-color: white;
-
-}
-
-.sidebar-content h2  {
-    border-bottom: 1px solid;
-}
-
-div.fonacide {
-margin-top: 40px;
-padding-left: 40px;
-}
-
-
-.fonacide i {
-
-    font-size: 60px;
-    margin-right: 43px;
-}
-
-
-.fonacide i:hover {
-
-    font-size: 60px;
-    margin-right: 43px;
-    color: #A6D1F5;
-}
-
-
-
-    </style>
-
     </head>
 
     <body  ng-app="frontEnd" ng-controller="PageController" >
 
-    <div class="ui results right vertical inverted labeled icon sidebar menu" style="width: 300px">
-        <a class="header item">
-            Resultados.
-        </a>
-
-        <div id="results"></div>
-    </div>
-
-        {% csrf_token %}
         <!-- Your site -->
 
         <div id="main" class="ui page  white" ng-controller="MapController">
             <div class="column">
-{#                <site-nav></site-nav>#}
-
-
                 <div id="principal" >
 
 
@@ -137,64 +36,6 @@ font-size: 1.5em;"></i></a></li>
                             <div class="sidebar-content active">
                                 <div class="sidebar-pane" id="filtros-mapa">
                                     <div class="inline field">
-
-                                        <h2>Filtros</h2>
-                                        <div class="ui radio checkbox" ng-click="update('')">
-                                            <input type="radio" name="map-filter" checked>
-                                            <label>Mostrar todo</label>
-                                        </div>
-                                        <br>
-                                        <div class="ui radio checkbox" ng-click="update('fonacide')">
-                                            <input  type="radio" name="map-filter">
-                                            <label>Instituciones Beneficiadas FONACIDE</label>
-                                        </div>
-                                        <br>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="map-filter">
-                                            <label>Instituciones Denunciadas (Prensa)</label>
-                                        </div>
-                                        <br>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="map-filter">
-                                            <label>Instituciones Denunciadas (Ciudadania)</label>
-                                        </div>
-                                        <br>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="map-filter">
-                                            <label>Instituciones con informe Contraloria</label>
-                                        </div>
-
-
-                                        <div class="ui radio checkbox" ng-click="update('contrataciones')">
-                                            <input type="radio" name="map-filter">
-                                            <label>Contrataciones por Distrito</label>
-                                        </div>
-
-
-                                        
-{#                                        <div class="priodidad">#}
-{#                                                <p>#}
-{#                                                  <label for="amount">Max Prioridad:</label>#}
-{#                                                  <input type="text" id="amount" readonly style="border:0; color:white; font-weight:bold; background-color : #3b83c0; ">#}
-{#                                                </p>#}
-{##}
-{##}
-{##}
-{#                                                 #}
-{#                                                <div id="slider-range-min"></div>#}
-{#                                        </div>#}
-
-                                        <div class="fonacide">
-
-                                            <i class="icon-icon-desk"></i>
-                                            <i class="icon-icon-school"></i>
-                                            <i class="icon-icon-toilet"></i>
-
-                                        </div>
-                                        
-
-
-                                        </script>
 
                                     </div>
                                 </div>
@@ -261,23 +102,23 @@ font-size: 1.5em;"></i></a></li>
 {#                    $ComentariosController.setEstablecimiento(codigoEstablecimiento);#}
             }
 
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-57407289-1', 'auto');
-          ga('send', 'pageview');
-
-
+          // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          //
+          // ga('create', 'UA-57407289-1', 'auto');
+          // ga('send', 'pageview');
 
 
 
-      
-        
 
 
-          
+
+
+
+
+
 
         </script>
 

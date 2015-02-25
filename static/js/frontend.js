@@ -133,7 +133,7 @@
                 fecha: '',
                 email: ''
             };
-            
+
             $controller.tab = 'map';
         };
 
@@ -195,7 +195,7 @@
 
         };
 
-        var sidebar = L.control.sidebar('sidebar');
+        // var sidebar = L.control.sidebar('sidebar');
 
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
 //            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -205,7 +205,7 @@
             }).addTo($scope.map);
 
         $scope.onEachFeature = function(feature, layer) {
-    // Load the default style. 
+    // Load the default style.
     layer.setStyle(defaultStyle);
     // Create a self-invoking function that passes in the layer
     // and the properties associated with this particular record.
@@ -238,7 +238,7 @@
       // Create a mouseout event that undoes the mouseover changes
       layer.on("mouseout", function (e) {
         // Start by reverting the style back
-        layer.setStyle(defaultStyle); 
+        layer.setStyle(defaultStyle);
         // And then destroying the popup
         $("#popup-" + properties.DISTRICT).remove();
       });
@@ -249,13 +249,12 @@
 
 
 
-   
+
 
 
         backEnd.establecimiento_short.query({}, function(data, headers){
 
             $scope.mapData = data;
-            sidebar.addTo($scope.map);
 //            $( "#slider-range-min" ).slider({
 //      range: "min",
 //      value: 37,
@@ -332,20 +331,20 @@
 
                     $scope.ContratacionesLayer .on('mouseover', function(e) {
                             e.layer.openPopup();
-                        }); 
+                        });
                         $scope.ContratacionesLayer.on('mouseout', function(e) {
                             e.layer.closePopup();
                         });
 
 
-                   } 
-                 
+                   }
+
 
 
                    $scope.loading=false;
 
-                  
-                   
+
+
 
 
 
@@ -356,7 +355,7 @@
                 default:
                      if ( $scope.ContratacionesLayer) {
                     $scope.map.removeLayer($scope.ContratacionesLayer);}
-                  
+
                     updateMap(function(map){return map});
             }
         };

@@ -26,7 +26,15 @@
     font-size: 1.3em;
 }
 
-.titulo .logo {
+.botones-prinicpales i {
 
-    width: 300px;
+    font-size: 10vw;
+
+
+}
+
+
+.botones-prinicpales p{
+    margin-top: 10px;
+    font-size: 1.5em;
 }

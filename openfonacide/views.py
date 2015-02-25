@@ -38,7 +38,7 @@ class JSONResponse(HttpResponse):
 
 class Index(View):
     def get(self, request, *args, **kwargs):
-        return render_to_response('index.html', context_instance=RequestContext(request))
+        return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
 
 class ListaInstitucionesController(View):

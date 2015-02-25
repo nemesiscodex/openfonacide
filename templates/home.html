@@ -1,22 +1,56 @@
 {% load staticfiles %}
-<div id="home" class="content row" style="padding: 20px">
+<div id="home " class="content" style="padding: 20px">
 
-    <h1><img src="{% static 'js/images/datos-abiertos.png' %}" height="50px"/> <b>Open Fonacide</b></h1>
-    <hr>
-    <h3>Descripcion del Servicio</h3>
 
-    <p></p>
+    <div class="ui  centered grid">
 
-    <h3>Objetivo</h3>
+        <div class="ten wide column centered ">
+        <div class="column titulo">
 
-    <p>
-        El objetivo de esta pagina es mostrar la situación actual de la infraestructura de las instutuciones educativas del Paraguay, utilizando una lista de prioridades para el desembolso del fondo del Fonacide
-    </p>
+            <div class="ui page grid">
+                <div class="sixteen wide column">
+                    <img src="{% static 'img/logo.png' %}/" alt="" class="ui  image"/>
+            </div>>
+                </div>
 
-    <h3>Fuente de datos</h3>
 
-    <p>
-        Los datos fueron obtenidos de la fuente oficial (<a href="http://datos.mec.gov.py/data/establecimientos">MEC</a>)
-        y corresponden al año 2012
-    </p>
+            <div class="ui icon input fluid">
+                <input type="text" placeholder="Search...">
+                <i class="search icon"></i>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+    <div class="ui centered grid ">
+        <div class="twelve wide column centered">
+            <div class="ui four column doubling grid">
+                <div class="column">
+                    <div class="ui segment">
+                        <img src="/images/avatar/large/elliot.jpg" class="ui fluid image">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui segment">
+                        <img src="/images/avatar/large/matt.jpg" class="ui fluid image">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui segment">
+                        <img src="/images/avatar/large/jenny.jpg" class="ui fluid image">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui segment">
+                        <img src="/images/avatar/large/steve.jpg" class="ui fluid image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
 </div>

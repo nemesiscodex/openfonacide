@@ -98,7 +98,7 @@ else:
          'default': {
                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
                 'NAME':     'openfonacide',
-                'USER':     'postgres',
+                'USER':     'fonacide',
                 'PASSWORD': '12345',
                 'HOST':     'localhost',
                 'PORT':     '5432'

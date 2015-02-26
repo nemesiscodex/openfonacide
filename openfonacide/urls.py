@@ -7,6 +7,7 @@ admin.autodiscover()
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
+    url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
     url(r'^api\.html$', PartialGroupView.as_view(template_name='api.html'), name='api.html'),
     url(r'^institucion-list\.html$', PartialGroupView.as_view(template_name='institucion-list.html'), name='institucion-list.html'),
     url(r'^home\.html$', PartialGroupView.as_view(template_name='home.html'), name='home.html'),
@@ -47,7 +48,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^/?$', Index.as_view(), name='index'),
+    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|info|graficas|extra)?/?$', Index.as_view(), name='index'),
     url(r'^partials/', include(partial_patterns, namespace='partials')),
     url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadControllerV2.as_view(), name='prioridad'),
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
@@ -56,6 +57,8 @@ urlpatterns = patterns('',
     url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
 )
+
+# handler404 = PartialGroupView.as_view(template_name='home.html')
 
 
 

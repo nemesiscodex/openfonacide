@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from openfonacide.models import *
 from openfonacide.serializers import *
+from openfonacide import jsonh as JSONH
 
 
 class PartialGroupView(TemplateView):
@@ -97,7 +98,7 @@ class EstablecimientoController(View):
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(establecimiento.data)
+        return JSONResponse(JSONH.pack(establecimiento.data))
 
 
 class InstitucionController(View):

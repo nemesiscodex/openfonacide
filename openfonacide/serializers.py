@@ -85,7 +85,10 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
         return "<Sin nombre>"
 
     def get_field_f_short_name(self, obj):
-        return obj.fonacide
+        if obj.fonacide is None:
+            return 'f'
+        else:
+            return 't'
 
 class ConstruccionAulasSerializer(serializers.ModelSerializer):
     class Meta:

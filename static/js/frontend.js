@@ -1,5 +1,5 @@
 (function(){
-    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'vcRecaptcha']);
+    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate']);
 
     app.run(function($http, $cookies) {
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -9,6 +9,28 @@
         $interpolateProvider.startSymbol('{$');
         $interpolateProvider.endSymbol('$}');
     });
+
+    app.config(['$routeProvider', '$locationProvider',
+      function($routeProvider, $locationProvider) {
+        $routeProvider
+          .when('/', {
+            templateUrl: 'partials/home.html',
+          })
+          .when('/map/', {
+            controller: 'MapController',
+            templateUrl: '../partials/map.html'
+          })
+          .when('/map/:establecimiento', {
+            controller: 'MapController',
+            templateUrl: '../partials/map.html'
+          })
+          .when('/map/:establecimiento/:institucion', {
+            controller: 'MapController',
+            templateUrl: '../../partials/map.html'
+          });
+
+        $locationProvider.html5Mode(true);
+    }]);
 
     function nuevaDirectiva(nombre, template){
         app.directive(nombre, function(){
@@ -47,25 +69,25 @@
             var backEndUrl = '';
             return{
                 "establecimiento":
-                    $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../establecimiento/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true},
                         get: {method: 'GET', isArray:false, cache:true}
                     }),
                 "prioridades":
-                    $resource(backEndUrl + 'prioridades/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../prioridades/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true},
                         get: {method: 'GET', isArray:false, cache:true}
                     }),
                 "establecimiento_short":
-                    $resource(backEndUrl + 'establecimiento/:id', {id:"@id",short:'true'}, {
+                    $resource(backEndUrl + '../establecimiento/:id', {id:"@id",short:'true'}, {
                         query: {method: 'GET', isArray:true, cache:true}
                     }),
                 "institucion":
-                    $resource(backEndUrl + 'institucion/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../institucion/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true}
                     }),
                 "comentarios":
-                    $resource(backEndUrl + 'comentarios/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../comentarios/:id', {id:"@id"}, {
                         get: {method: 'GET', isArray: true, cache: false},
                         save: {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                             transformRequest: function (obj) {
@@ -198,10 +220,17 @@
         // var sidebar = L.control.sidebar('sidebar');
 
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
-//            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
-                maxZoom: 18
+
+//            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
+//                maxZoom: 18
+//            }).addTo($scope.map);
+        var mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © '+ mapLink,
+            maxZoom: 18,
             }).addTo($scope.map);
 
         $scope.onEachFeature = function(feature, layer) {
@@ -253,8 +282,7 @@
 
 
         backEnd.establecimiento_short.query({}, function(data, headers){
-
-            $scope.mapData = data;
+            $scope.mapData = JSONH.unpack(data);
 //            $( "#slider-range-min" ).slider({
 //      range: "min",
 //      value: 37,
@@ -309,6 +337,7 @@
                    if (! $scope.ContratacionesLayer) {
 
                     $scope.ContratacionesLayer = L.geoJson().addTo($scope.map);
+
 
                    $.getJSON( "/static/geojson/00.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
                    $.getJSON( "/static/geojson/01.json", function( data ) {$scope.ContratacionesLayer.addData(data);});

@@ -48,7 +48,10 @@
    text-align: left !important;
 padding-left: 35px !important;
 }
-
+.sidebar .dropdownn {
+    padding-bottom: 33px !important;
+    
+}
 input[type="range"] {
     -webkit-appearance: none;
     border-width: 1px;

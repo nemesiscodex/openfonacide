@@ -38,3 +38,30 @@
     margin-top: 10px;
     font-size: 1.5em;
 }
+
+.sidebar .ui.checkbox label {
+    color: white !important;
+}
+
+.sidebar .filtros {
+    margin: 30px 0px;
+   text-align: left !important;
+padding-left: 35px !important;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50rem;
+    border-color: rgba(0, 0, 0, 0.1);
+    padding: 3px 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #89B84C;
+    border-radius: 50rem;
+    height: 0.7em;
+    width: 0.7em;
+}

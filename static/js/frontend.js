@@ -49,6 +49,7 @@
     nuevaDirectiva('institucionList','institucion-list.html');
     nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');
+    nuevaDirectiva('search','search.html');
     nuevaDirectiva('siteNav','nav.html');
     nuevaDirectiva('institucionModal','institucion-modal.html');
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');
@@ -409,7 +410,7 @@
                 for(var i=0; i<data.length; i++){
                     point = data[i];
                     marker = new L.Marker([point.lat, point.lon], {title:point.name});
-                    marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
+                    marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="$(\'.right.sidebar\').sidebar(\'toggle\');openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
                     markers.addLayer(marker);
                 }
             }

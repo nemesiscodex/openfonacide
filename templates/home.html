@@ -1,60 +1,54 @@
 {% load staticfiles %}
 <div id="home " class="content" style="padding: 20px">
 
+    <div class="ui centered grid">
 
-    <div class="ui  centered grid">
-
-        <div class="fourteen wide column centered ">
-            <div class="column titulo">
-
-                <div class="ui page grid">
-                    <div class="sixteen wide column">
-                        <img src="{% static 'img/logo.png' %}/" alt="" class="ui  image"/>
-                    </div>
-                    <div class="row">
-                      <form class="ui form">
-                        <div class="ui icon massive input fluid">
-                          <input type="text" placeholder="Buscar Instituci&oacute;n...">
-                          <i class="search icon"></i>
-                        </div>
-                      </form>
-                    </div>
-                </div>
-
+        <div class="ten wide computer fourteen wide mobile tablet column centered ">
+            <div class="sixteen wide column">
+                <img src="{% static 'img/logo.svg' %}/" alt="" class="ui svg image"/>
             </div>
+        </div>
+
+        <div class="ten wide computer sixteen wide mobile tablet column centered ">
+            <search></search>
+
 
         </div>
 
     </div>
 
     <div class="ui centered grid botones-prinicpales">
-      <div class="four column doubling centered row">
+        <div class="four column doubling centered row">
 
-        <a href="map" class="column">
-          <div class="ui raised segment center aligned">
-            <i class="marker icon"></i>
-            <h3>MAPA</h3>
-          </div>
-        </a>
-        <a href="javascript:void(0)" class="column">
-          <div class="ui raised segment center aligned">
-            <i class="info circle icon"></i>
-            <h3>FONACIDE</h3>
-          </div>
-        </a>
-        <a href="javascript:void(0)" class="column">
-          <div class="ui raised segment center aligned">
-            <i class="bar chart icon"></i>
-            <h3>GRAFICOS</h3>
-          </div>
-        </a>
-        <a href="javascript:void(0)" class="column">
-          <div class="ui raised segment center aligned">
-            <i class="table icon"></i>
-            <h3>RESUMEN</h3>
-          </div>
-        </a>
-      </div>
+            <a href="map" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="marker icon"></i>
+
+                    <h3>MAPA</h3>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="info circle icon"></i>
+
+                    <h3>FONACIDE</h3>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="bar chart icon"></i>
+
+                    <h3>GRAFICOS</h3>
+                </div>
+            </a>
+            <a href="javascript:void(0)" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="table icon"></i>
+
+                    <h3>RESUMEN</h3>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 </div>

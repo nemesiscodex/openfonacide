@@ -17,7 +17,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
                   'proyecto_111', 'proyecto_822', 'uri', 'nombre')
 
     def get_field_title(self, obj):
-        return obj.nombre
+        return obj.nombre.replace('{','').replace('}','')
 
     def get_field_description(self, obj):
         return obj.direccion

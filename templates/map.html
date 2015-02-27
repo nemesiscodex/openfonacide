@@ -1,32 +1,147 @@
-<div id="map" >
+
+    <div class="detalle ui right vertical overlay sidebar push uncover" style="z-index: 10;  background: #67809f;">
+        <div class="ui top attached tabular menu">
+            <div class="active item">Est Nro 5544 | Esc Capitan Bado</div>
+        </div>
+        <div class="ui bottom attached active tab segment stackable grid">
+        <div class="ui black basic button active" style="margin-left: 10px; margin-top:15px">2012</div>
+        <div class="ui black basic button" style=" margin-top:15px">2013</div>
+        <div class="ui black basic button" style=" margin-top:15px">2014</div>
+        <div class="ui black basic button" style=" margin-top:15px">2015</div>
+            <div class="two columns row">
+                <div class="column">
+                    <div class="ui centered raised segment" style="width: 100%; height: 370px;">
+                        <div class="ui active inverted dimmer">
+                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+                        </div>
+                        <p></p></div>
+                    <br>
+                </div>
+                <div class="column">
+                    <div class="ui raised segment" style="width: 100%; height: 370px;">
+                        <div class="ui active inverted dimmer">
+                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+                        </div>
+                        <p></p></div>
+                    <br>
+                </div>
+                <div class="column">
+                    <div class="ui raised segment" style="width: 100%; height: 370px;">
+                        <div class="ui active inverted dimmer">
+                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+                        </div>
+                        <p></p></div>
+                    <br>
+                </div>
+                <div class="column">
+                    <div class="ui raised segment" style="width: 100%; height: 370px;">
+                        <div class="ui active inverted dimmer">
+                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+                        </div>
+                        <p></p></div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="ui left  vertical  overlay sidebar push uncover"
+     style="z-index: 10; background: #67809f;">
+
+    <div class="item filtros">
+        <div class="ui checkbox">
+            <input type="checkbox" name="fun">
+            <label>Instiuciones beneficiadas <br/> por el fonacide</label>
+        </div>
+    </div>
+    <div class="item filtros">
+        <div class="ui checkbox">
+            <input type="checkbox" name="fun">
+            <label>Instituciones <br/>Denunciadas</label>
+        </div>
+    </div>
+    <div class="item filtros">
+        <div class="ui checkbox">
+            <input type="checkbox" name="fun">
+            <label>Instituciones con <br/> informe de contraloria</label>
+        </div>
+    </div>
+    <div class="item filtros dropdownn" style="z-index: 15;">
+        <select class="ui dropdown">
+            <option value="">Departamento</option>
+            <option value="1">Central</option>
+            <option value="0">Cordillera</option>
+        </select>
+    </div>
+
+    <div class="item filtros">
+        <h4>Tipo de Prioridad</h4>
+
+        <div class="ui grid">
+            <div class="two column row">
+                <div class="ui checkbox column">
+                    <input type="checkbox" name="fun">
+                    <label>Sanitarios</label>
+                </div>
+                <div class="ui checkbox column">
+                    <input type="checkbox" name="fun">
+                    <label>Aulas</label>
+                </div>
+            </div>
+            <div class="two column row">
+                <div class="ui checkbox column">
+                    <input type="checkbox" name="fun">
+                    <label>Mobiliario</label>
+                </div>
+                <div class="ui checkbox column">
+                    <input type="checkbox" name="fun">
+                    <label>Otros Espacios</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="item filtros">
+        <h4>Filtrar por prioridad</h4>
+
+        <div class="ui slider range">
+            <input type="range"/>
+        </div>
+
+
+    </div>
+
+</div>
+<div  class="fullscreen pusher" id="map">
+
+    <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">
+        <div class="ui indeterminate text loader">Cargando Mapa</div>
+    </div>
     <div id="menu-launch" class="ui big launch basic right attached fixed button"
          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
         <i class="content icon"></i>
     </div>
 
 
+
 </div>
 <script>
+
 $(document).ready(function(){
-    $("#menu-launch").click(function() {
 
-         $('.left.sidebar').sidebar('toggle');
-
-          $('.ui.checkbox')
-                    .checkbox()
-                    ;
-
-        $('.ui.dropdown').dropdown({
-    action: 'activate'
-  });
+    $('.left.sidebar').sidebar();
 
 
 
+    $('.ui.checkbox').checkbox();
 
-
+    $('.ui.dropdown').dropdown({
+        action: 'activate'
     });
 
+    $("#menu-launch").click(function() {
+        $('.left.sidebar').sidebar('toggle');
+    });
 
 });
+
 </script>
 </div>

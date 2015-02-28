@@ -2,5 +2,6 @@ OpenFonacide - Contralor de Fonacide  [![Build Status](https://travis-ci.org/nem
 =
 http://mecmapi-nemesiscodex.rhcloud.com/
 
-![screenshot](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/home.png)
+![screenshot00](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/home.png)
 
+![screenshot01](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/home2.png)

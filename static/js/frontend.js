@@ -406,10 +406,16 @@
                 }
             });
             var markers = $scope.markers;
+            var redMarker = L.AwesomeMarkers.icon({
+                prefix: '',
+                icon: ' university icon margin-left',
+                markerColor: 'blue',
+                extraClasses: 'info icon'
+              });
             if(data){
                 for(var i=0; i<data.length; i++){
                     point = data[i];
-                    marker = new L.Marker([point.lat, point.lon], {title:point.name});
+                    marker = new L.Marker([point.lat, point.lon], {title:point.name, icon: redMarker});
                     marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="$(\'.right.sidebar\').sidebar(\'toggle\');openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
                     markers.addLayer(marker);
                 }

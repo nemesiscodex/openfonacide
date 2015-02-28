@@ -5,3 +5,5 @@ http://mecmapi-nemesiscodex.rhcloud.com/
 ![screenshot00](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/home.png)
 
 ![screenshot01](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/home2.png)
+
+![screenshot02](https://github.com/nemesiscodex/openfonacide/raw/mockup/images/map.png)

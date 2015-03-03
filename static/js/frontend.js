@@ -27,6 +27,18 @@
           .when('/map/:establecimiento/:institucion', {
             controller: 'MapController',
             templateUrl: '../../partials/map.html'
+          })
+          .when('/resumen/', {
+            controller: 'ResumenController',
+            templateUrl: '../partials/resumen.html'
+          })
+          .when('/graficos/', {
+            controller: 'GraficosController',
+            templateUrl: '../partials/graficos.html'
+          })
+          .when('/fonacide/', {
+            controller: 'FonacideController',
+            templateUrl: '../partials/fonacide.html'
           });
 
         $locationProvider.html5Mode(true);
@@ -184,6 +196,15 @@
 
     }]);
 
+    app.controller('FonacideController', ['$scope', function($scope){
+
+    }]);
+    app.controller('GraficosController', ['$scope', function($scope){
+
+    }]);
+    app.controller('ResumenController', ['$scope', function($scope){
+
+    }]);
 
     /**
      * Controlador del mapa

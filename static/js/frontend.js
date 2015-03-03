@@ -20,6 +20,7 @@
             controller: 'MapController',
             templateUrl: '../partials/map.html'
           })
+
           .when('/map/:establecimiento', {
             controller: 'MapController',
             templateUrl: '../partials/map.html'
@@ -73,6 +74,7 @@
     nuevaDirectiva('sanitarios','institucion-modal/instituciones-tabs/sanitarios.html');
     nuevaDirectiva('informacion','institucion-modal/instituciones-tabs/informacion.html');
     nuevaDirectiva('fonacide','institucion-modal/fonacide.html');
+    nuevaDirectiva('resumen','institucion-modal/fonacide.html');
 
 
     /**

@@ -13,7 +13,7 @@ a:hover {
     border-radius: 3px !important;
 }
 
-.content,#map,#loading_map{
+#map,#loading_map{
     height: 100%;
 }
 

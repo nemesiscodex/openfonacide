@@ -52,7 +52,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|info|graficas|extra)?/?$', Index.as_view(), name='index'),
+    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
     url(r'^partials/', include(partial_patterns, namespace='partials')),
     url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadControllerV2.as_view(), name='prioridad'),
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),

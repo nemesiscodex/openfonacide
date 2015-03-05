@@ -1,6 +1,6 @@
 
 body {
-   // background-color: #e4f1fe
+   /* background-color: #e4f1fe*/
 }
 
 .teal-link{
@@ -64,6 +64,13 @@ a:hover {
 
 .sidebar .ui.checkbox label {
     color: white !important;
+}
+
+.margenBTN {
+
+    margin-bottom: 50px;
+
+margin-top: 130px;
 }
 
 .sidebar .filtros {

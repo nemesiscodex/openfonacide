@@ -69,8 +69,13 @@ a:hover {
    text-align: left !important;
 padding-left: 35px !important;
 }
+.sidebar .filtros.dropdown {
+    margin: 30px 0px;
+   text-align: left !important;
+padding-left: 35px !important;
+}
 .sidebar .dropdownn {
-    padding-bottom: 33px !important;
+    padding-bottom: 0px !important;
     
 }
 input[type="range"] {
@@ -92,6 +97,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .menu-principal {
     margin:0px !important;
+}
+
+footer {
+    color: #ffffff !important;
 }
 
 /* SIDEBAR SIZE */

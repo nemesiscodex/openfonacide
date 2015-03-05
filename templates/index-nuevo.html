@@ -24,8 +24,8 @@
         <div id="" ng-view ></div>
 
 
-         <footer-info class="" style="width: 98%;" ng-hide="isTab('map')"></footer-info>
-
+        <login-modal></login-modal>
+        <denuncia-modal></denuncia-modal>
         <!-- Your site ends -->
 
         <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
@@ -44,6 +44,7 @@
         <script src="{% static 'js/frontend.js' %}"></script>
 
 
+         <footer-info ng-hide="isTab('map')"></footer-info>
 
     </body>
 

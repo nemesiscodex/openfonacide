@@ -1,0 +1,74 @@
+<style>
+    .ui.denuncia .ui.label {
+        background-color: transparent;
+        border-right: solid 1px lightgray;
+    }
+</style>
+<div class="ui denuncia modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        <i class="warning circle red icon"></i>
+        Denuncia
+    </div>
+    <div class="content">
+        <p style="float: right">3 de marzo de 2015</p>
+
+        <p></p>
+
+        <p>Señores MEC:</p>
+
+        Yo,
+
+        <div class="ui fluid input"><input type="text" placeholder="Nombre completo"></div>
+        de CI
+        <div class="ui fluid input"><input type="text" placeholder="Cedula de Identidad"></div>
+        con fecha de nacimiento
+        <div class="ui fluid input"><input type="date" placeholder="Fecha de nacimiento"></div>
+        quiero
+        reportar que
+        <div class="ui small fluid selection dropdown">
+            <div class="default text">Tipo de denuncia</div>
+
+            <div class="menu">
+                <div class="item" data-value="1">las obras no se completaron</div>
+                <div class="item" data-value="0">las obras se completaron de mala manera</div>
+            </div>
+        </div>
+        en la institucion
+
+        <div class="ui fluid input"><input type="text" disabled value="Escuela Nro 1234"></div>
+        <br>
+
+        <div class="ui labeled green icon button">
+            <i class="plus circle icon"></i>
+            Agregar imagen
+        </div>
+        <br>
+        <br>
+
+        <div class="ui checkbox">
+            <input type="checkbox" name="fun">
+            <label>Acepto ....</label>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui  buttons">
+            <div class="ui red basic  button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <div class="ui green basic  button">
+                <i class="checkmark icon"></i>
+                Enviar
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.ui.dropdown').dropdown();
+        $('.ui.checkbox').checkbox();
+    });
+
+</script>

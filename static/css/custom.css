@@ -90,6 +90,10 @@ input[type="range"]::-webkit-slider-thumb {
     width: 0.7em;
 }
 
+.menu-principal {
+    margin:0px !important;
+}
+
 /* SIDEBAR SIZE */
 /* tablet */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -110,4 +114,13 @@ input[type="range"]::-webkit-slider-thumb {
     .detalle.sidebar{
         width: 60% !important;
     }
+}
+
+
+.verde1 {
+    background: #90c695 !important;
+}
+
+.verde2 {
+    background: #019875 !important;
 }

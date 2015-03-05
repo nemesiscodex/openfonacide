@@ -22,7 +22,8 @@ a:hover {
 }
 
 #map,#loading_map{
-    height: 97%;
+    /*margin-top: 35px;*/
+    height: calc(100% - 35px);
 }
 
 .mycluster{

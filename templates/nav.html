@@ -6,8 +6,14 @@
             <a href="" class="active item"><i class="marker icon"></i> Mapa</a>
             <a href="" class="item"><i class="info circle icon"></i> Fonacide</a>
             <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user icon"></i>Admin
 
-                <a href="" class="active item"><i class="user icon"></i>Admin</a>
+                    <div class="menu">
+                        <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
+                    </div>
+                </div>
+
                 <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign out icon"></i>Cerrar Sesion</a>
             </div>
 
@@ -54,7 +60,7 @@
 </div>
 <script>
     $(function () {
-
+        $('.dropdown').dropdown();
         $('.vmenu').hide();
         $('.right.menu.open .open').on("click", function (e) {
             e.preventDefault();

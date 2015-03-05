@@ -61,6 +61,7 @@
     nuevaDirectiva('api','api.html');
     nuevaDirectiva('loginModal','login.html');
     nuevaDirectiva('denunciaModal','denuncia.html');
+    nuevaDirectiva('archivosContraloria','archivos-contraloria.html');
     nuevaDirectiva('institucionList','institucion-list.html');
     nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');

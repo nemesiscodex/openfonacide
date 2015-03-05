@@ -59,6 +59,7 @@
      */
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
+    nuevaDirectiva('loginModal','login.html');
     nuevaDirectiva('institucionList','institucion-list.html');
     nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');

@@ -6,3 +6,13 @@ install:
   - pip install -q -e . --use-mirrors
 script:
   - python setup.py test
+deploy:
+  provider: openshift
+  user: nemesiscodex
+  password:
+    secure: MOJVuoFEWYwzvKODtJHWZPXsZAoWMMyyavVbxI4RcVaQQxffEh2B2hGv05LooZ2VSVSppyNtwvSjdHfifjm/IuPCjuaG/p0lOnFqDmDNzURkhubiH6JvJ66RJ7B9u2b7dYSsjQSMKTx0G1huwKRLrsd/LH1y5t4EQc4ay06rstI=
+  app: mecmapi
+  domain: master
+  on:
+    repo: nemesiscodex/openfonacide
+    branch: master

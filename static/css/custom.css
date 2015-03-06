@@ -26,6 +26,11 @@ a:hover {
     height: calc(100% - 35px);
 }
 
+body.pushable {
+
+    background-color: inherit !important;
+}
+
 .mycluster{
     	width: 40px;
         height: 40px;

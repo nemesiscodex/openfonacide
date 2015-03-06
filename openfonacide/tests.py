@@ -19,7 +19,7 @@ class UtilsTest(TestCase):
 		x = u'79° 58\' 56" W' 
 		ny = conversion(y)
 		nx = conversion(x)
-		self.assertEqual(ny,'40.4461111111')
-		self.assertEqual(nx,'-79.9822222222')
+		self.assertEqual("%0.6f"%ny,'40.446111')
+		self.assertEqual("%0.6f"%nx,'-79.982222')
 		
 		

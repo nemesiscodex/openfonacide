@@ -8,11 +8,10 @@ script:
   - python setup.py test
 deploy:
   provider: openshift
-  user: nemesiscodex
+  user: nemesiscodex@gmail.com
   password:
-    secure: D4/BZJ0S/VfVUMgMigAw3KqECmXS+Ztusg3beD1QAlc0GjYpkgEmiHfhEaolon/VSX9n17KAYFMkk4ug84PSb7mUpSQEreqWfB+a/uw52xwFQzWNrxddyysL16euNQNFlojjKTFHGJwfQQ374hlVk/cuvfjIutDJO945AdG9j0I=
+    secure: Nluqyv4/IdgTdlCof8QRXkj1JJg2oqVNBXCwUztxjBe7LrmkzEqBy98+yL0zvvvyqitR+059e2wGDohWhO5GDm+ACc3wMDgYlHwqLS0YAImPDZxs2fMc6PNeOYroeFNEnn9vW/HS8rHGooXMR03im6KnEtOuESP+oe4bJ7mTJ6Q=
   app: mecmapi
-  domain: master
+  domain: 'nemesicodex'
   on:
     repo: nemesiscodex/openfonacide
-    branch: master

@@ -12,6 +12,6 @@ deploy:
   password:
     secure: Nluqyv4/IdgTdlCof8QRXkj1JJg2oqVNBXCwUztxjBe7LrmkzEqBy98+yL0zvvvyqitR+059e2wGDohWhO5GDm+ACc3wMDgYlHwqLS0YAImPDZxs2fMc6PNeOYroeFNEnn9vW/HS8rHGooXMR03im6KnEtOuESP+oe4bJ7mTJ6Q=
   app: mecmapi
-  domain: 'nemesicodex'
+  domain: 'nemesiscodex'
   on:
     repo: nemesiscodex/openfonacide

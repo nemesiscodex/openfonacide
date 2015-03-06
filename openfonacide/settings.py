@@ -1,6 +1,7 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import socket
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -104,6 +105,9 @@ else:
                 'PORT':     '5432'
             }
     }
+if "test" in sys.argv:
+	DATABASES['default']['ENGINE']='django.db.backends.sqlite3'
+	DATABASES['default']['NAME']='sqlite3' 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

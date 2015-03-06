@@ -47,7 +47,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    # 'django.middleware.gzip.GZipMiddleware',
+    #'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,7 +98,7 @@ else:
          'default': {
                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
                 'NAME':     'openfonacide',
-                'USER':     'postgres',
+                'USER':     'fonacide',
                 'PASSWORD': '12345',
                 'HOST':     'localhost',
                 'PORT':     '5432'

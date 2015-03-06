@@ -1,0 +1,128 @@
+<div class="ui archivos contraloria step0 modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        Subir archivo
+    </div>
+    <div class="content">
+        <div class="image">
+            <i class="file icon"></i>
+        </div>
+        <div class="description">
+            <div class="ui segment" style="border: dotted">
+                <div class="" style="height: 100px">Arrastre su archivo aqui.</div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui  buttons">
+            <div class="ui red basic button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <div class="ui green basic next button"
+                 onclick="event.preventDefault();$('.archivos.contraloria.modal.step1').modal('show')">
+                <i class="right arrow icon"></i>
+                Siguiente
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui archivos contraloria step1 modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        Detalle del documento
+    </div>
+    <div class="content">
+        <form class="ui form">
+            <div class="two fields">
+                <div class="field">
+
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Nombre</label>
+                            <input type="text" name="name" placeholder="Nombre">
+                        </div>
+                        <div class="field">
+                            <label>Fecha</label>
+                            <input type="date" name="date" placeholder="Fecha">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="field">
+                    <label>Distrito</label>
+
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="gender">
+
+                        <div class="default text">Distrito</div>
+                        <i class="dropdown icon"></i>
+
+                        <div class="menu">
+                            <div class="item" data-value="d1">Distrito 1</div>
+                            <div class="item" data-value="d2">Distrito 2</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <div class="ui top attached segment">
+            <p>
+
+            <div class="ui label">
+                Colegio Iturbe
+                <i class="delete icon"></i>
+            </div>
+            <div class="ui label">
+                Escuela nro 1234
+                <i class="delete icon"></i>
+            </div>
+            <div class="ui label">
+                Escuela nro 1235
+                <i class="delete icon"></i>
+            </div>
+
+            </p>
+        </div>
+        <div class="ui bottom attached menu">
+            <div class="ui upward dropdown item">
+                <i class="university icon"></i>
+
+                <div class="menu">
+                    <div class="item">
+                        (Sin datos..)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui  buttons">
+            <div class="ui red basic button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <div class="ui green basic button">
+                <i class="right arrow icon"></i>
+                Guardar
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.dropdown').dropdown();
+        $('.archivos.contraloria.modal.step0').modal({
+            allowMultiple: true
+        });
+        $('.archivos.contraloria.modal.step1')
+                .modal('attach events', '.archivos.contraloria.modal.step0 .next.button')
+        ;
+    })
+
+</script>

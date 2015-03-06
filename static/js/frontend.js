@@ -1,5 +1,5 @@
 (function(){
-    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'vcRecaptcha']);
+    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate']);
 
     app.run(function($http, $cookies) {
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -9,6 +9,41 @@
         $interpolateProvider.startSymbol('{$');
         $interpolateProvider.endSymbol('$}');
     });
+
+    app.config(['$routeProvider', '$locationProvider',
+      function($routeProvider, $locationProvider) {
+        $routeProvider
+          .when('/', {
+            templateUrl: 'partials/home.html',
+          })
+          .when('/map/', {
+            controller: 'MapController',
+            templateUrl: '../partials/map.html'
+          })
+
+          .when('/map/:establecimiento', {
+            controller: 'MapController',
+            templateUrl: '../partials/map.html'
+          })
+          .when('/map/:establecimiento/:institucion', {
+            controller: 'MapController',
+            templateUrl: '../../partials/map.html'
+          })
+          .when('/resumen/', {
+            controller: 'ResumenController',
+            templateUrl: '../partials/resumen.html'
+          })
+          .when('/graficos/', {
+            controller: 'GraficosController',
+            templateUrl: '../partials/graficos.html'
+          })
+          .when('/fonacide/', {
+            controller: 'FonacideController',
+            templateUrl: '../partials/fonacide.html'
+          });
+
+        $locationProvider.html5Mode(true);
+    }]);
 
     function nuevaDirectiva(nombre, template){
         app.directive(nombre, function(){
@@ -24,9 +59,13 @@
      */
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
+    nuevaDirectiva('loginModal','login.html');
+    nuevaDirectiva('denunciaModal','denuncia.html');
+    nuevaDirectiva('archivosContraloria','archivos-contraloria.html');
     nuevaDirectiva('institucionList','institucion-list.html');
     nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');
+    nuevaDirectiva('search','search.html');
     nuevaDirectiva('siteNav','nav.html');
     nuevaDirectiva('institucionModal','institucion-modal.html');
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');
@@ -38,6 +77,7 @@
     nuevaDirectiva('sanitarios','institucion-modal/instituciones-tabs/sanitarios.html');
     nuevaDirectiva('informacion','institucion-modal/instituciones-tabs/informacion.html');
     nuevaDirectiva('fonacide','institucion-modal/fonacide.html');
+    nuevaDirectiva('resumen','institucion-modal/fonacide.html');
 
 
     /**
@@ -47,25 +87,25 @@
             var backEndUrl = '';
             return{
                 "establecimiento":
-                    $resource(backEndUrl + 'establecimiento/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../establecimiento/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true},
                         get: {method: 'GET', isArray:false, cache:true}
                     }),
                 "prioridades":
-                    $resource(backEndUrl + 'prioridades/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../prioridades/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true},
                         get: {method: 'GET', isArray:false, cache:true}
                     }),
                 "establecimiento_short":
-                    $resource(backEndUrl + 'establecimiento/:id', {id:"@id",short:'true'}, {
+                    $resource(backEndUrl + '../establecimiento/:id', {id:"@id",short:'true'}, {
                         query: {method: 'GET', isArray:true, cache:true}
                     }),
                 "institucion":
-                    $resource(backEndUrl + 'institucion/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../institucion/:id', {id:"@id"}, {
                         query: {method: 'GET', isArray:true, cache:true}
                     }),
                 "comentarios":
-                    $resource(backEndUrl + 'comentarios/:id', {id:"@id"}, {
+                    $resource(backEndUrl + '../comentarios/:id', {id:"@id"}, {
                         get: {method: 'GET', isArray: true, cache: false},
                         save: {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                             transformRequest: function (obj) {
@@ -133,7 +173,7 @@
                 fecha: '',
                 email: ''
             };
-            
+
             $controller.tab = 'map';
         };
 
@@ -161,6 +201,15 @@
 
     }]);
 
+    app.controller('FonacideController', ['$scope', function($scope){
+
+    }]);
+    app.controller('GraficosController', ['$scope', function($scope){
+
+    }]);
+    app.controller('ResumenController', ['$scope', function($scope){
+
+    }]);
 
     /**
      * Controlador del mapa
@@ -195,17 +244,24 @@
 
         };
 
-        var sidebar = L.control.sidebar('sidebar');
+        // var sidebar = L.control.sidebar('sidebar');
 
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
-//            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
-                maxZoom: 18
+
+//            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
+//                maxZoom: 18
+//            }).addTo($scope.map);
+        var mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © '+ mapLink,
+            maxZoom: 18,
             }).addTo($scope.map);
 
         $scope.onEachFeature = function(feature, layer) {
-    // Load the default style. 
+    // Load the default style.
     layer.setStyle(defaultStyle);
     // Create a self-invoking function that passes in the layer
     // and the properties associated with this particular record.
@@ -238,7 +294,7 @@
       // Create a mouseout event that undoes the mouseover changes
       layer.on("mouseout", function (e) {
         // Start by reverting the style back
-        layer.setStyle(defaultStyle); 
+        layer.setStyle(defaultStyle);
         // And then destroying the popup
         $("#popup-" + properties.DISTRICT).remove();
       });
@@ -249,13 +305,11 @@
 
 
 
-   
+
 
 
         backEnd.establecimiento_short.query({}, function(data, headers){
-
-            $scope.mapData = data;
-            sidebar.addTo($scope.map);
+            $scope.mapData = JSONH.unpack(data);
 //            $( "#slider-range-min" ).slider({
 //      range: "min",
 //      value: 37,
@@ -311,6 +365,7 @@
 
                     $scope.ContratacionesLayer = L.geoJson().addTo($scope.map);
 
+
                    $.getJSON( "/static/geojson/00.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
                    $.getJSON( "/static/geojson/01.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
                    $.getJSON( "/static/geojson/02.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
@@ -332,20 +387,20 @@
 
                     $scope.ContratacionesLayer .on('mouseover', function(e) {
                             e.layer.openPopup();
-                        }); 
+                        });
                         $scope.ContratacionesLayer.on('mouseout', function(e) {
                             e.layer.closePopup();
                         });
 
 
-                   } 
-                 
+                   }
+
 
 
                    $scope.loading=false;
 
-                  
-                   
+
+
 
 
 
@@ -356,7 +411,7 @@
                 default:
                      if ( $scope.ContratacionesLayer) {
                     $scope.map.removeLayer($scope.ContratacionesLayer);}
-                  
+
                     updateMap(function(map){return map});
             }
         };
@@ -377,11 +432,17 @@
                 }
             });
             var markers = $scope.markers;
+            var redMarker = L.AwesomeMarkers.icon({
+                prefix: '',
+                icon: ' university icon margin-left',
+                markerColor: 'blue',
+                extraClasses: 'info icon'
+              });
             if(data){
                 for(var i=0; i<data.length; i++){
                     point = data[i];
-                    marker = new L.Marker([point.lat, point.lon], {title:point.name});
-                    marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
+                    marker = new L.Marker([point.lat, point.lon], {title:point.name, icon: redMarker});
+                    marker.bindPopup("<h4>"+point.name+'</h4><div class="ui labeled blue tiny icon button" onClick="$(\'.right.sidebar\').sidebar(\'toggle\');openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i>Detalles</div><hr>'+point.dir);
                     markers.addLayer(marker);
                 }
             }

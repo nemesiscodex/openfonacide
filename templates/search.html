@@ -1,0 +1,23 @@
+<div class="ui fluid category search">
+    <div class="ui icon massive fluid input">
+      <input class="prompt" type="text" placeholder="Buscar Instituciones...">
+      <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+  </div>
+
+<script>
+        $('.ui.category.search')
+      .search({
+        apiSettings: {
+                    url: 'establecimiento/?q={query}',
+                    action: 'categorySearch'
+                },
+        minCharacters: 4,
+        maxResults: 5,
+        cache: true,
+        type: 'category',
+      })
+    ;
+
+</script>

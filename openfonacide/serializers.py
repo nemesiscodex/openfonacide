@@ -17,7 +17,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
                   'proyecto_111', 'proyecto_822', 'uri', 'nombre')
 
     def get_field_title(self, obj):
-        return obj.nombre
+        return obj.nombre.replace('{','').replace('}','')
 
     def get_field_description(self, obj):
         return obj.direccion
@@ -85,7 +85,10 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
         return "<Sin nombre>"
 
     def get_field_f_short_name(self, obj):
-        return obj.fonacide
+        if obj.fonacide is None:
+            return 'f'
+        else:
+            return 't'
 
 class ConstruccionAulasSerializer(serializers.ModelSerializer):
     class Meta:

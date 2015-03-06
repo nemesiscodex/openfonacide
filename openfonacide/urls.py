@@ -7,9 +7,17 @@ admin.autodiscover()
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
+    url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
+    url(r'^fonacide\.html$', PartialGroupView.as_view(template_name='fonacide.html'), name='fonacide.html'),
+    url(r'^graficos\.html$', PartialGroupView.as_view(template_name='graficos.html'), name='graficos.html'),
+    url(r'^resumen\.html$', PartialGroupView.as_view(template_name='resumen.html'), name='resumen.html'),
+    url(r'^login\.html$', PartialGroupView.as_view(template_name='login.html'), name='login.html'),
+    url(r'^denuncia\.html$', PartialGroupView.as_view(template_name='denuncia.html'), name='denuncia.html'),
+    url(r'^archivos-contraloria\.html$', PartialGroupView.as_view(template_name='archivos-contraloria.html'), name='archivos-contraloria.html'),
     url(r'^api\.html$', PartialGroupView.as_view(template_name='api.html'), name='api.html'),
     url(r'^institucion-list\.html$', PartialGroupView.as_view(template_name='institucion-list.html'), name='institucion-list.html'),
     url(r'^home\.html$', PartialGroupView.as_view(template_name='home.html'), name='home.html'),
+    url(r'^search\.html$', PartialGroupView.as_view(template_name='search.html'), name='search.html'),
     url(r'^nav\.html$', PartialGroupView.as_view(template_name='nav.html'), name='nav.html'),
     url(r'^visualizaciones\.html$', PartialGroupView.as_view(template_name='visualizaciones.html'), name='visualizaciones.html'),
     url(r'^institucion-modal\.html$', PartialGroupView.as_view(template_name='institucion-modal.html'), name='institucion-modal.html'),
@@ -47,15 +55,18 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^/?$', Index.as_view(), name='index'),
-    url(r'^partials/', include(partial_patterns, namespace='partials')),
+    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
+    # (.*)/? es para poder llamar desde cualquier lugar
+    url(r'^(.*)/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadControllerV2.as_view(), name='prioridad'),
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
-    url(r'^establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
+    url(r'^(.*)/?establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
     url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
 )
+
+# handler404 = PartialGroupView.as_view(template_name='home.html')
 
 
 

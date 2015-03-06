@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from openfonacide.models import *
 from openfonacide.serializers import *
+from openfonacide import jsonh as JSONH
 
 
 class PartialGroupView(TemplateView):
@@ -38,7 +39,7 @@ class JSONResponse(HttpResponse):
 
 class Index(View):
     def get(self, request, *args, **kwargs):
-        return render_to_response('index.html', context_instance=RequestContext(request))
+        return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
 
 class ListaInstitucionesController(View):
@@ -90,14 +91,28 @@ class EstablecimientoController(View):
                     Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
                 if query is not None:
-                    establecimiento = EstablecimientoSerializer(Institucion.objects.filter(nombre__icontains=query) |
-                                                                Institucion.objects.filter(direccion__icontains=query),
-                                                                many=True)
-                    establecimiento = {"results": establecimiento.data}
+                    establecimiento1 = EstablecimientoSerializer(
+                        Institucion.objects.filter(nombre__icontains=query)[:10],
+                        many=True)
+                    establecimiento2 = EstablecimientoSerializer(
+                        Institucion.objects.filter(direccion__icontains=query)[:10],
+                        many=True)
+                    establecimiento = {
+                        "results": {
+                            "category1": {
+                                "name": "Nombre",
+                                "results": establecimiento1.data
+                            },
+                            "category2": {
+                                "name": "Direccion",
+                                "results": establecimiento2.data
+                            }
+                        }
+                    }
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(establecimiento.data)
+        return JSONResponse(JSONH.pack(establecimiento.data))
 
 
 class InstitucionController(View):

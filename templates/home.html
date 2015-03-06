@@ -1,22 +1,54 @@
 {% load staticfiles %}
-<div id="home" class="content row" style="padding: 20px">
+<div id="home " class="content" style="padding: 20px; padding-bottom: 100px;">
 
-    <h1><img src="{% static 'js/images/datos-abiertos.png' %}" height="50px"/> <b>Open Fonacide</b></h1>
-    <hr>
-    <h3>Descripcion del Servicio</h3>
+    <div class="ui centered grid">
 
-    <p></p>
+        <div class="ten wide computer fourteen wide mobile tablet column centered ">
+            <div class="sixteen wide column">
+                <img src="{% static 'img/logo.svg' %}" alt="" class="ui svg image"/>
+            </div>
+        </div>
 
-    <h3>Objetivo</h3>
+        <div class="ten wide computer sixteen wide mobile tablet column centered ">
+            <search></search>
 
-    <p>
-        El objetivo de esta pagina es mostrar la situación actual de la infraestructura de las instutuciones educativas del Paraguay, utilizando una lista de prioridades para el desembolso del fondo del Fonacide
-    </p>
 
-    <h3>Fuente de datos</h3>
+        </div>
 
-    <p>
-        Los datos fueron obtenidos de la fuente oficial (<a href="http://datos.mec.gov.py/data/establecimientos">MEC</a>)
-        y corresponden al año 2012
-    </p>
+    </div>
+
+    <div class="ui centered grid botones-prinicpales">
+        <div class="four column doubling centered row">
+
+            <a href="map" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="marker icon teal"></i>
+
+                    <h3>MAPA</h3>
+                </div>
+            </a>
+            <a href="fonacide" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="info circle icon teal"></i>
+
+                    <h3>FONACIDE</h3>
+                </div>
+            </a>
+            <a href="graficos" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="bar chart icon teal"></i>
+
+                    <h3>GRAFICOS</h3>
+                </div>
+            </a>
+            <a href="resumen" class="column">
+                <div class="ui raised segment center aligned">
+                    <i class="table icon teal"></i>
+
+                    <h3>RESUMEN</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
 </div>

@@ -1,20 +1,40 @@
 
-
-.content,#map,#loading_map{
-    height: 96%;
+body {
+   /* background-color: #e4f1fe*/
 }
 
-.container{
-    /*width: 100%;*/
-    background-color: white;
-    border: 1px solid #3b83c0;
-    padding: 0;
+.teal-link{
+    color: white;
+}
+.teal-link:hover{
+    color: #446cb3
+}
+
+a {
+    color: #59abc3
+}
+a:hover {
+    color: #446cb3
+}
+
+.search .input input {
+    border-radius: 3px !important;
+}
+
+#map,#loading_map{
+    /*margin-top: 35px;*/
+    height: calc(100% - 35px);
+}
+
+body.pushable {
+
+    background-color: inherit !important;
 }
 
 .mycluster{
     	width: 40px;
         height: 40px;
-        background-color: #3b83c0;
+        background-color: #59abc3;
         text-align: center;
         font-size: 20px;
         border-radius: 30px;
@@ -22,6 +42,108 @@
         padding-top: 5px;
 }
 
+.university.icon.margin-left{
+    margin-left: 0.3rem;
+}
+
 .link{
     font-size: 1.3em;
+}
+
+.botones-prinicpales i {
+
+    font-size: 10vw;
+
+
+}
+
+.botones-prinicpales h3 {
+    color: teal;
+}
+
+
+.botones-prinicpales p{
+    margin-top: 10px;
+    font-size: 1.5em;
+}
+
+.sidebar .ui.checkbox label {
+    color: white !important;
+}
+
+.margenBTN {
+
+    margin-bottom: 50px;
+
+margin-top: 130px;
+}
+
+.sidebar .filtros {
+    margin: 30px 0px;
+   text-align: left !important;
+padding-left: 35px !important;
+}
+.sidebar .filtros.dropdown {
+    margin: 30px 0px;
+   text-align: left !important;
+padding-left: 35px !important;
+}
+.sidebar .dropdownn {
+    padding-bottom: 0px !important;
+    
+}
+input[type="range"] {
+    -webkit-appearance: none;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50rem;
+    border-color: rgba(0, 0, 0, 0.1);
+    padding: 3px 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #89B84C;
+    border-radius: 50rem;
+    height: 0.7em;
+    width: 0.7em;
+}
+
+.menu-principal {
+    margin:0px !important;
+}
+
+footer {
+    /*color: #ffffff !important; */
+}
+
+/* SIDEBAR SIZE */
+/* tablet */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .detalle.sidebar{
+        width: 60% !important;
+    }
+}
+
+/* mobile */
+@media only screen and (max-width: 767px) {
+    .detalle.sidebar{
+        width: 100% !important;
+    }
+}
+
+/* computer */
+@media only screen and (min-width: 992px) {
+    .detalle.sidebar{
+        width: 60% !important;
+    }
+}
+
+
+.verde1 {
+    background: #90c695 !important;
+}
+
+.verde2 {
+    background: #019875 !important;
 }

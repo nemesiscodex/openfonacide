@@ -1,60 +1,72 @@
-<div class="ui large inverted blue pointing menu">
+<div class="ui grid" style="padding-right:10px; padding-left: 10px">
+    <div class="computer tablet only row">
+        <div class="ui inverted teal menu navbar ">
+            <a href="/" class="brand item">Contralor de Fonacide</a>
+            <a href="/" class="item"><i class="home icon"></i>Inicio</a>
+            <a href="/map" class="active item"><i class="marker icon"></i> Mapa</a>
+            <a href="/fonacide" class="item"><i class="info circle icon"></i> Fonacide</a>
+            <a href="/graficos" class="item"><i class="bar chart icon"></i> Graficos</a>
+            <a href="/resumen" class="item"><i class="table icon"></i> Resumen</a>
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user icon"></i>Admin
 
-    <a  class="blue item" data-step="1" data-intro="Esta es la p&aacute;gina principal" ng-class="{active:isTab('home')}"  ng-click="setTab('home')">
-        <i class="home icon"></i> OpenFonacide
-    </a>
-    <a class="blue item" data-step="2" data-intro="Esta es la definicion del API Rest" ng-class="{active:isTab('api')}" ng-click="setTab('api')">
-        <i class="puzzle icon"></i> API
-    </a>
-    <a class="blue item" data-step="3" data-intro="En este mapa se visualiza cada uno de los establecimientos educativos. Con su respectiva información" ng-class="{active:isTab('map')}" ng-click="setTab('map')">
-        <i class="map icon"></i> Mapa de instituciones
-    </a>
-{#    <a class="blue item" data-step="4" data-intro="Esta es la lista de instituciones en una tabla." ng-class="{active:isTab('instituciones')}" ng-click="setTab('instituciones')">#}
-{#        <i class="list icon"></i> Lista de instituciones#}
-{#    </a>#}
-    <a class="blue item" data-step="4" data-intro="Aqui puede encontrar visualizaciones hechas con los datos del fonacide." ng-class="{active:isTab('visualizaciones')}" ng-click="setTab('visualizaciones')">
-       <i class="picture icon"></i>Visualizaciones
-    </a>
-    <a class="blue item" onclick="javascript:introJs().start()">
-       <i class="help icon"></i>
-    </a>
+                    <div class="menu">
+                        <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
+                    </div>
+                </div>
 
-    <div class="right menu">
-        <div class="ui search">
-            <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Buscar">
-                <i class="search icon"></i>
+                <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign out icon"></i>Cerrar Sesion</a>
             </div>
-            <div class="results"></div>
+
+             <div class="ui small icon input" style="float: right">
+                <input type="text" placeholder="Buscar institución...">
+                <i class="search link icon"></i>
+            </div>
         </div>
     </div>
-    <script type="text/javascript">
-        function changeMap(lat, lon){
-            var map = angular.element($('#map')).scope().map;
-            map.setView([lat, lon], 18);
-        }
-        $('.ui.search')
-            .search({
-                apiSettings: {
-                    url: 'establecimiento/?q={query}'
-                },
-                minCharacters: 4,
-                maxResults: 20,
-                cache: false,
-                onResults: function(response){
-                    var results = response.results;
-                    var $results = $('#results');
-                    $results.html("");
-                    var items = "";
-                    for(var i = 0; i < results.length; i++){
-                        items= items + "<a class=\"item\" onClick=\"changeMap("+results[i].latitud+","+results[i].longitud+")\">"+results[i].title.replace(/[{}'"]/g,'')+"</a>";
-                    }
-                    $results.html(items);
-                    $('.results.sidebar').sidebar('show');
-                },
-{#            }).onResults(function (response) {#}
-{#                    console.log(response)#}
-            })
-        ;
-    </script>
+    <div class="mobile only row">
+        <div class="ui inverted teal menu navbar " style="z-index: 100">
+            <a href="" class="brand item">Contralor de Fonacide</a>
+
+            <div class="right menu open">
+                <div class="item">
+                </div>
+                <div class="ui item"><i class="user icon"></i>Admin</div>
+
+                <a href="" class="open menu item">
+                    <i class="content icon"></i>
+                </a>
+            </div>
+
+
+            <div class="ui fluid icon input">
+                <input type="text" placeholder="Buscar institución...">
+                <i class="search link icon"></i>
+            </div>
+            <div class="vmenu">
+
+                <a class="item" style="width: 100%" onclick="$('.login.modal').modal('show')"><i class="sign out icon"></i>Cerrar Sesion</a>
+                <a href="/" class="item" style="width: 100%"><i class="home icon"></i>Inicio</a>
+                <a href="/map" class="active item" style="width: 100%"><i class="marker icon"></i> Mapa</a>
+                <a href="/fonacide" class="item" style="width: 100%"><i class="info circle icon"></i> Fonacide</a>
+                <a href="/graficos" class="item" style="width: 100%"><i class="bar chart icon"></i> Graficos</a>
+                <a href="/resumen" class="item" style="width: 100%"><i class="table icon"></i> Resumen</a>
+
+                <div class="menu">
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+<script>
+    $(function () {
+        $('.dropdown').dropdown();
+        $('.vmenu').hide();
+        $('.right.menu.open .open').on("click", function (e) {
+            e.preventDefault();
+            $('.vmenu').toggle();
+        });
+    })
+</script>

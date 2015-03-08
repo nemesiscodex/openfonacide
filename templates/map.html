@@ -1,33 +1,5 @@
-<site-nav></site-nav>
-<!--<div class="ui secondary verde2 inverted  menu menu-principal">-->
 
-  <!--<a class="active item">-->
-    <!--<i class="marker icon"></i> Mapa-->
-  <!--</a>-->
-  <!--<a class="item">-->
-    <!--<i class="info circle icon"></i> Fonacide-->
-  <!--</a>-->
-  <!--<a class="item">-->
-    <!--<i class="bar chart icon "></i> Graficos-->
-  <!--</a>-->
-  <!--<a class="item">-->
-    <!--<i class="table icon "></i> Resumen-->
-  <!--</a>-->
-  <!--<div class="right menu">-->
-    <!--<div class="item">-->
-      <!--<div class="ui icon input">-->
-        <!--<input type="text" placeholder="Buscar institución...">-->
-        <!--<i class="search link icon"></i>-->
-      <!--</div>-->
-    <!--</div>-->
-      <!--<div class="ui item"><i class="user icon"></i>Admin</div>-->
-
-    <!--<a class="ui item">-->
-      <!--Cerrar Sesion-->
-    <!--</a>-->
-  <!--</div>-->
-</div>
-    <div class="detalle ui right vertical overlay sidebar push uncover" style="z-index: 10;  background: #67809f;">
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 10; ">
         <div class="ui top attached tabular menu">
             <div class="active item">Est Nro 5544 | Esc Capitan Bado</div>
         </div>
@@ -37,16 +9,23 @@
         <div class="ui black basic button" style=" margin-top:15px">2014</div>
         <div class="ui black basic button" style=" margin-top:15px">2015</div>
             <div class="one columns row">
-                <div class="column ">
-                    <div class="ui grid segment">
+                <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
+                         style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
+                      <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
+                </div>
+                <div class="column " style="padding-left: 40px">
+
+                    <div class="ui stackable grid segment">
                         <div class="four wide column">
 
-                            <div class="row centered ui segment">
+                            <div class="row  center aligned ui segment">
+                                <div class="content">
                                 <h3>Tipo de Requerimiento</h3>
                                 <i class="university icon Big"></i>
                                 <h4>Reparacion <br/>AULAS</h4>
+                                    </div>
                             </div>
-                            <div class="row ui segment centered">
+                            <div class="row ui  center aligned  segment centered">
 
                                 <div class="ui small statistic">
                                   <div class="value circular ui icon">
@@ -59,7 +38,7 @@
                             </div>
                         </div>
                         <div class="twelve wide column">
-                            <div class="ui grid segment">
+                            <div class="ui grid stackable  center aligned  segment" style="margin-top:0">
 
 
                                 <div class="six wide column">
@@ -90,8 +69,8 @@
 
                                 </div>
                                </div>
-                               <div class="ui grid segment">
-                                <div class="six wide column">
+                               <div class="ui doubling center aligned  grid segment">
+                                <div class="five wide column">
 
 
                                     <h3>Adjudicaciones</h3>
@@ -99,9 +78,54 @@
                                     <p>Fecha:2014/10/20</p>
 
                                 </div>
-                                 <div class="four wide column">
+                                 <div class="five wide column">
                                     <h3>Estado de la obra</h3>
-                                    <a class="ui tag label">No definido</a>
+
+                                     <div class="ui upward icon dropdown button">
+                                         <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui black empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                         </span>
+
+                                         <div class="menu">
+                                             <!--<div class="header">-->
+                                                 <!--Estados-->
+                                             <!--</div>-->
+                                             <!--<div class="ui left icon input">-->
+                                                 <!--<i class="search icon"></i>-->
+                                                 <!--<input type="text" name="search" placeholder="Search...">-->
+                                             <!--</div>-->
+                                             <div class="header">
+                                                 <i class="tags icon"></i>
+                                                 ESTADOS DE LA OBRA
+                                             </div>
+                                             <div class="item active">
+                                                 <div class="ui gray empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui blue empty circular label"></div>
+                                                 Adjudicado
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui yellow empty circular label"></div>
+                                                 En ejecucion
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui green empty circular label"></div>
+                                                 Realizada
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui red empty circular label"></div>
+                                                 Parada
+                                             </div>
+                                         </div>
+                                     </div>
+
 
 
 
@@ -115,111 +139,17 @@
 
 
                                 </div>
-                                <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+
                             </div>
 
 
 
                         </div>
-                        <div class="row">
-                            <div class="three wide column"></div>
-                            <div class="eight wide column"></div>
-                            <div class="five wide column"></div>
-                        </div>
+                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
                     </div>
                 </div>
-                 <div class="column ">
-                    <div class="ui grid segment">
-                        <div class="four wide column">
 
-                            <div class="row centered ui segment">
-                                <h3>Tipo de Requerimiento</h3>
-                                <i class="university icon Big"></i>
-                                <h4>Construcción <br/>AULAS</h4>
-                            </div>
-                            <div class="row ui segment centered">
-
-                                <div class="ui small statistic">
-                                  <div class="value circular ui icon">
-                                    3
-                                  </div>
-                                  <div class="label">
-                                    Orden de Prioridad
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="twelve wide column">
-                            <div class="ui grid segment">
-
-
-                                <div class="six wide column">
-
-
-                                    <div class="row centered">
-
-                                        <div class="ui statistic small ">
-                                        <div class="value">20</div>
-                                        <label for="beneficiados">Potenciales Beneficiados</label>
-                                    </div>
-                                    </div>
-                                     <div class="row centered">
-
-                                        <div class="ui statistic">
-                                        <div class="value">3</div>
-                                        <label for="cantidad">Cantidad</label>
-                                    </div>
-                                    </div>
-
-
-
-                                </div>
-                                <div class="ten wide column"><h3>Justificación</h3>
-
-                                    <p>Superpoblacion de alumnos </p>
-
-
-                                </div>
-                               </div>
-                               <div class="ui grid segment">
-                                <div class="six wide column">
-
-
-                                    <h3>Adjudicaciones</h3>
-                                    <a class="ui teal label">20.000.000 Gs</a>
-                                    <p>Fecha:2014/10/20</p>
-
-                                </div>
-                                 <div class="four wide column">
-                                    <h3>Estado de la obra</h3>
-                                    <a class="ui tag label">No definido</a>
-
-
-
-                                </div>
-                                <div class="six wide column">
-                                    <h3>Documentos relacionados</h3>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-
-
-
-                                </div>
-                                <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
-                            </div>
-
-
-
-                        </div>
-                        <div class="row">
-                            <div class="three wide column"></div>
-                            <div class="eight wide column"></div>
-                            <div class="five wide column"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
+                <div class="column" style="padding-left: 40px">
                     <div class="ui raised segment" style="width: 100%; height: 370px;">
                         <div class="ui active inverted dimmer">
                             <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
@@ -227,7 +157,7 @@
                         <p></p></div>
                     <br>
                 </div>
-                <div class="column">
+                <div class="column" style="padding-left: 40px">
                     <div class="ui raised segment" style="width: 100%; height: 370px;">
                         <div class="ui active inverted dimmer">
                             <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
@@ -240,7 +170,10 @@
     </div>
 <div class="ui left  vertical  overlay sidebar push uncover verde1"
      style="z-index: 10; background: #36d7b7;">
-
+    <div class="ui big filter launch basic left attached fixed button"
+         style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
+      <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
+    </div>
     <div class="item filtros">
         <div class="ui checkbox">
             <input type="checkbox" name="fun">
@@ -318,12 +251,12 @@
     </div>
 
 </div>
-<div  class="fullscreen pusher" id="map">
+<div  class="pusher" id="map">
 
     <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">
         <div class="ui indeterminate text loader">Cargando Mapa</div>
     </div>
-    <div id="menu-launch" class="ui big launch basic right attached fixed button"
+    <div id="menu-launch" class="ui big filter launch basic right attached fixed button"
          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
     </div>
@@ -337,17 +270,17 @@
 
 $(document).ready(function(){
 
-    $('.left.sidebar').sidebar();
-
-
+    $('.sidebar').sidebar({
+        context: $('#ng-view'),
+        dimPage: false,
+        closable: false
+    });
 
     $('.ui.checkbox').checkbox();
 
-    $('.ui.dropdown').dropdown({
-        action: 'activate'
-    });
+    $('.ui.dropdown').dropdown();
 
-    $("#menu-launch").click(function() {
+    $(".filter.launch").click(function() {
         $('.left.sidebar').sidebar('toggle');
     });
 

@@ -16,12 +16,11 @@
 
     </head>
 
-    <body  ng-app="frontEnd"  ng-controller="PageController"  >
-
-
+    <body  ng-app="frontEnd"  ng-controller="PageController">
         <!-- Your site -->
+        <site-nav ng-if="$location.path() != '/'"></site-nav>
 
-        <div ng-view ></div>
+        <div id="ng-view" ng-view ></div>
 
         <archivos-contraloria></archivos-contraloria>
         <login-modal></login-modal>
@@ -44,7 +43,7 @@
         <script src="{% static 'js/frontend.js' %}"></script>
 
 
-         <footer-info ng-hide="isTab('map')"></footer-info>
+         <footer-info></footer-info>
 
     </body>
 

@@ -34,7 +34,7 @@ body.pushable {
 .mycluster{
     	width: 40px;
         height: 40px;
-        background-color: #59abc3;
+        background-color: #00b5ad;
         text-align: center;
         font-size: 20px;
         border-radius: 30px;
@@ -75,7 +75,7 @@ body.pushable {
 
     margin-bottom: 50px;
 
-margin-top: 130px;
+    margin-top: 130px;
 }
 
 .sidebar .filtros {
@@ -121,7 +121,7 @@ footer {
 /* tablet */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .detalle.sidebar{
-        width: 60% !important;
+        width: 65% !important;
     }
 }
 
@@ -135,7 +135,7 @@ footer {
 /* computer */
 @media only screen and (min-width: 992px) {
     .detalle.sidebar{
-        width: 60% !important;
+        width: 65% !important;
     }
 }
 

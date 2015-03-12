@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.pagination import PaginationSerializer
+from rest_framework.pagination import PaginationSerializer #Funciona bien en djangorest 3.0, no en 3.1
 from openfonacide.models import *
 from openfonacide.utils import conversion
 

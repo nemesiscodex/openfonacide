@@ -16,7 +16,7 @@
 
     </head>
 
-    <body  ng-app="frontEnd"  ng-controller="PageController">
+    <body ng-app="frontEnd"  ng-controller="PageController">
         <!-- Your site -->
         <site-nav ng-if="$location.path() != '/'"></site-nav>
 
@@ -41,6 +41,15 @@
         <script src="{% static 'js/intro.min.js' %}"></script>
         <script src="{% static 'js/jsonh.js' %}"></script>
         <script src="{% static 'js/frontend.js' %}"></script>
+        <script>
+			var $MapController;
+			
+			function openPopUp(codigoEstablecimiento, title){
+                if(!$MapController)
+                    $MapController = angular.element($('#ng-view')).scope();
+                    $MapController.showInfoPopUp(codigoEstablecimiento, title);
+            }
+        </script>
 
 
          <footer-info></footer-info>

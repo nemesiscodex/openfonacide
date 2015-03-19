@@ -92,6 +92,25 @@ padding-left: 35px !important;
     padding-bottom: 0px !important;
     
 }
+
+.ui.tabular.menu .item{
+position: relative;
+background-color: #ddd;
+color: rgba(0,0,0,.8);
+border-color: #d4d4d5;
+font-weight: 700;
+margin-bottom: -1px;
+border-bottom: 1px solid #fff;
+box-shadow: none;
+border-radius: 5px 5px 0 0;
+}
+
+.ui.tabular.menu .item:hover {
+ background-color: white;
+color: rgba(0,0,0,.8);
+}
+
+
 input[type="range"] {
     -webkit-appearance: none;
     border-width: 1px;

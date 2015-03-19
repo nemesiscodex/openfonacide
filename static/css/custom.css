@@ -111,6 +111,11 @@ color: rgba(0,0,0,.8);
 }
 
 
+div.ui.requerimiento.stackable.grid.segment {
+background: whitesmoke;
+}
+
+
 input[type="range"] {
     -webkit-appearance: none;
     border-width: 1px;

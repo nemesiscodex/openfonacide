@@ -90,53 +90,6 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
         else:
             return 't'
 
-class ConstruccionAulasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConstruccionAulas
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito', 'localidad_barrio',
-            'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados', 'nivel_educativo_beneficiado',
-            'espacio_destinado', 'cantidad_espacios_nuevos', 'abastecimiento_agua', 'corriente_electrica',
-            'titulo_propiedad', 'cuenta_con_espacio_construccion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-
-
-
-        
-        
-class ConstruccionSanitarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConstruccionSanitario
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'cant_sanitarios_construccion', 'abastecimiento_agua', 'corriente_electrica',
-            'titulo_propiedad', 'cuenta_con_espacio', 'justificacion', 'departamento',
-            'cod_departamento'
-        )
-        
-        
-class ReparacionAulasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReparacionAulas
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'espacio_destinado_a', 'cant_espacios_necesitan_reparacion',
-            'cant_espacios_construidos_adecuacion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-        
-        
-class ReparacionSanitarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReparacionSanitario
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'cantidad_sanitarios_construidos_reparacion',
-            'cantidad_sanitarios_construidos_adecuacion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-
 
 class PrioridadesSerializer(serializers.Serializer):
     construccion_aulas = serializers.SerializerMethodField('get_construccion_aulas')
@@ -161,16 +114,6 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_establecimiento=institucion.codigo_institucion)
     return serializerClass(data, many=True)
-
-
-
-
-class ComentariosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comentarios
-        fields = ('texto', 'autor', 'fecha', 'email')
-
-
 
 
 class EspaciosSerializer(serializers.ModelSerializer):

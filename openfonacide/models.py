@@ -59,7 +59,7 @@ class InstitucionData(models.Model):
     correo_electronico = models.CharField(max_length=256)
 
 
-# Prioridades
+##################3 Prioridades
 
 class ConstruccionAulas(models.Model):
     prioridad = models.IntegerField(null=True)
@@ -162,6 +162,9 @@ class Comentarios(models.Model):
     autor = models.CharField(max_length=256, null=False)
     fecha = models.DateField(null=False)
     email = models.CharField(max_length=256, null=False)
+
+
+
 
 
 

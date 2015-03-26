@@ -194,7 +194,7 @@ class SanitariosSerializer(serializers.ModelSerializer):
         fields = (
 
 
-       "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad" ,  
+      "periodo",  "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad" ,
       "cod_establecimiento" ,"cod_institucion", "nombre_institucion"  ,"codigo_zona", "nombre_zona" ,"nivel_educativo_beneficiado",
        "abastecimiento_agua" ,"servicio_sanitario_actual" ,  "cuenta_con_espacio_construccion", "tipo_requerimiento_infraestructura",
          "cantidad_requerida"  ,"numero_beneficiados" ,"justificacion",   "uri_establecimiento", "uri_institucion"

@@ -64,7 +64,9 @@ class InstitucionData(models.Model):
     correo_electronico = models.CharField(max_length=256)
 
 
-#Prioridades 2.0###############################################################################
+# Prioridades 2.0###############################################################################
+# En este modelo se representan los datasets de Aluas y Otros Espacios
+# por que solo difieren en el valor del campo espacio_destinado
 class Espacios(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     cod_departamento = models.CharField(max_length=256, null=True)
@@ -166,4 +168,3 @@ class EstadosLocales(models.Model):
     prevencion_incendio = models.CharField(max_length=256, null=True)
     uri_establecimiento = models.CharField(max_length=256, null=True)
 
-    

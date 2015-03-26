@@ -251,17 +251,50 @@
 
         $scope.map = L.map('map').setView([-25.308, -57.6], 13);
 
-//            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://openstreetmap.org">OpenStreetMap</a>',
-//                maxZoom: 18
-//            }).addTo($scope.map);
-        var mapLink =
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; ' + mapLink + ' Contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © ' + mapLink,
-                maxZoom: 18,
-            }).addTo($scope.map);
+        /* Open Street Map */
+        //Mapnik
+        var osmMapnikLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+        //B&W
+        var osmBWLayer = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+        //DE
+        var osmDELayer = L.tileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+        //HOT
+        var osmHOTLayer = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+        });
+        /* ThunderForest */
+        //OpenCycleMap
+        var thunderforestOpenCycleMapLayer = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+        /* CartoDB*/
+        //Positron
+        var cartodbPositronLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18
+        });
+
+        var baseLayers = {
+            "Open Street Map - Mapnik": osmMapnikLayer,
+            "Open Street Map - Blanco y Negro": osmBWLayer,
+            "Open Street Map - DE": osmDELayer,
+            "Open Street Map - HOT": osmHOTLayer,
+            "ThunderForest - Open Cycle Map": thunderforestOpenCycleMapLayer,
+            "CartoDB - Positron": cartodbPositronLayer
+        };
+
+        var layerControl = L.control.groupedLayers(baseLayers,{},{});
+        $scope.map.addControl(layerControl);
+
+        osmMapnikLayer.addTo($scope.map);
 
         $scope.onEachFeature = function (feature, layer) {
             // Load the default style.
@@ -309,17 +342,6 @@
 
         backEnd.establecimiento_short.query({}, function (data, headers) {
             $scope.mapData = JSONH.unpack(data);
-//            $( "#slider-range-min" ).slider({
-//      range: "min",
-//      value: 37,
-//      min: 1,
-//      max: 700,
-//      slide: function( event, ui ) {
-//        $( "#amount" ).val( "" + ui.value );
-//      }
-//      });
-//            $( "#amount" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
-
 
             $scope.update('');
         });

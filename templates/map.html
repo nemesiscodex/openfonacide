@@ -1,8 +1,16 @@
 
     <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 10; ">
         <div class="ui top attached tabular menu">
-            <div class="active item">Est Nro 5544 | Esc Capitan Bado</div>
+
+
+
+          <div class="item" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" ng-click="$parent.institucion_actual = institucion.codigo_institucion" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+            {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
+          </div>
         </div>
+
+
+
         <div class="ui bottom attached active tab segment stackable grid">
         <div class="ui black basic button active" style="margin-left: 10px; margin-top:15px">2012</div>
         <div class="ui black basic button" style=" margin-top:15px">2013</div>
@@ -13,23 +21,27 @@
                          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
                       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
                 </div>
-                <div class="column " style="padding-left: 40px">
 
-                    <div class="ui stackable grid segment">
+
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas" ng-show="item.cod_institucion==institucion_actual">
+                    {$ item.cod_institucion $} -    {$ institucion_actual $}
+
+                    <div class="ui requerimiento stackable grid segment">
                         <div class="four wide column">
+
 
                             <div class="row  center aligned ui segment">
                                 <div class="content">
                                 <h3>Tipo de Requerimiento</h3>
                                 <i class="university icon Big"></i>
-                                <h4>Reparacion <br/>AULAS</h4>
+                                <h4> {$ item.tipo_requerimiento_infraestructura $}<br/>{$ item.espacio_destinado $}</h4>
                                     </div>
                             </div>
                             <div class="row ui  center aligned  segment centered">
 
                                 <div class="ui small statistic">
                                   <div class="value circular ui icon">
-                                    22
+                                    {$ item.prioridad $}
                                   </div>
                                   <div class="label">
                                     Orden de Prioridad
@@ -47,14 +59,14 @@
                                     <div class="row centered">
 
                                         <div class="ui statistic small ">
-                                        <div class="value">20</div>
+                                        <div class="value">{$ item.numero_beneficiados $}</div>
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
                                      <div class="row centered">
 
                                         <div class="ui statistic">
-                                        <div class="value">3</div>
+                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
                                         <label for="cantidad">Cantidad</label>
                                     </div>
                                     </div>
@@ -64,7 +76,7 @@
                                 </div>
                                 <div class="ten wide column"><h3>Justificación</h3>
 
-                                    <p>Superpoblacion de alumnos </p>
+                                    <p>{$ item.justificacion $}</p>
 
 
                                 </div>
@@ -149,25 +161,299 @@
                     </div>
                 </div>
 
-                <div class="column" style="padding-left: 40px">
-                    <div class="ui raised segment" style="width: 100%; height: 370px;">
-                        <div class="ui active inverted dimmer">
-                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios"  ng-show="item.cod_institucion==institucion_actual" >
+                      {$ item.cod_institucion $} -
+                    {$ institucion_actual $}
+                    <div class="ui stackable grid segment requerimiento">
+                        <div class="four wide column">
+
+
+                            <div class="row  center aligned ui segment">
+                                <div class="content">
+                                <h3>Tipo de Requerimiento</h3>
+                                <i class="university icon Big"></i>
+                                <h4> {$ item.tipo_requerimiento_infraestructura $}<br/>Sanitario</h4>
+                                    </div>
+                            </div>
+                            <div class="row ui  center aligned  segment centered">
+
+                                <div class="ui small statistic">
+                                  <div class="value circular ui icon">
+                                    {$ item.prioridad $}
+                                  </div>
+                                  <div class="label">
+                                    Orden de Prioridad
+                                  </div>
+                                </div>
+                            </div>
                         </div>
-                        <p></p></div>
-                    <br>
-                </div>
-                <div class="column" style="padding-left: 40px">
-                    <div class="ui raised segment" style="width: 100%; height: 370px;">
-                        <div class="ui active inverted dimmer">
-                            <div class="ui text loader" style="left: 45%;top: 45%">Cargando</div>
+                        <div class="twelve wide column">
+                            <div class="ui grid stackable  center aligned  segment" style="margin-top:0">
+
+
+                                <div class="six wide column">
+
+
+                                    <div class="row centered">
+
+                                        <div class="ui statistic small ">
+                                        <div class="value">{$ item.numero_beneficiados $}</div>
+                                        <label for="beneficiados">Potenciales Beneficiados</label>
+                                    </div>
+                                    </div>
+                                     <div class="row centered">
+
+                                        <div class="ui statistic">
+                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
+                                        <label for="cantidad">Cantidad</label>
+                                    </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="ten wide column"><h3>Justificación</h3>
+
+                                    <p>{$ item.justificacion $}</p>
+
+
+                                </div>
+                               </div>
+                               <div class="ui doubling center aligned  grid segment">
+                                <div class="five wide column">
+
+
+                                    <h3>Adjudicaciones</h3>
+                                    <a class="ui teal label">20.000.000 Gs</a>
+                                    <p>Fecha:2014/10/20</p>
+
+                                </div>
+                                 <div class="five wide column">
+                                    <h3>Estado de la obra</h3>
+
+                                     <div class="ui upward icon dropdown button">
+                                         <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui black empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                         </span>
+
+                                         <div class="menu">
+                                             <!--<div class="header">-->
+                                                 <!--Estados-->
+                                             <!--</div>-->
+                                             <!--<div class="ui left icon input">-->
+                                                 <!--<i class="search icon"></i>-->
+                                                 <!--<input type="text" name="search" placeholder="Search...">-->
+                                             <!--</div>-->
+                                             <div class="header">
+                                                 <i class="tags icon"></i>
+                                                 ESTADOS DE LA OBRA
+                                             </div>
+                                             <div class="item active">
+                                                 <div class="ui gray empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui blue empty circular label"></div>
+                                                 Adjudicado
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui yellow empty circular label"></div>
+                                                 En ejecucion
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui green empty circular label"></div>
+                                                 Realizada
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui red empty circular label"></div>
+                                                 Parada
+                                             </div>
+                                         </div>
+                                     </div>
+
+
+
+
+                                </div>
+                                <div class="six wide column">
+                                    <h3>Documentos relacionados</h3>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+
+
+
+                                </div>
+
+                            </div>
+
+
+
                         </div>
-                        <p></p></div>
-                    <br>
+                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                    </div>
                 </div>
+
+
+                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios"  ng-show="item.cod_institucion==institucion_actual" >
+                      {$ item.cod_institucion $} -
+                    {$ institucion_actual $}
+                    <div class="ui stackable grid segment requerimiento">
+                        <div class="four wide column">
+
+
+                            <div class="row  center aligned ui segment">
+                                <div class="content">
+                                <h3>Tipo de Requerimiento</h3>
+                                <i class="university icon Big"></i>
+                                <h4>Mobiliario <br/> {$ item.nombre_mobiliario $}</h4>
+                                    </div>
+                            </div>
+                            <div class="row ui  center aligned  segment centered">
+
+                                <div class="ui small statistic">
+                                  <div class="value circular ui icon">
+                                    {$ item.prioridad $}
+                                  </div>
+                                  <div class="label">
+                                    Orden de Prioridad
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="twelve wide column">
+                            <div class="ui grid stackable  center aligned  segment" style="margin-top:0">
+
+
+                                <div class="six wide column">
+
+
+                                    <div class="row centered">
+
+                                        <div class="ui statistic small ">
+                                        <div class="value">{$ item.numero_beneficiados $}</div>
+                                        <label for="beneficiados">Potenciales Beneficiados</label>
+                                    </div>
+                                    </div>
+                                     <div class="row centered">
+
+                                        <div class="ui statistic">
+                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
+                                        <label for="cantidad">Cantidad</label>
+                                    </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="ten wide column"><h3>Justificación</h3>
+
+                                    <p>{$ item.justificacion $}</p>
+
+
+                                </div>
+                               </div>
+                               <div class="ui doubling center aligned  grid segment">
+                                <div class="five wide column">
+
+
+                                    <h3>Adjudicaciones</h3>
+                                    <a class="ui teal label">20.000.000 Gs</a>
+                                    <p>Fecha:2014/10/20</p>
+
+                                </div>
+                                 <div class="five wide column">
+                                    <h3>Estado de la obra</h3>
+
+                                     <div class="ui upward icon dropdown button">
+                                         <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui black empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                         </span>
+
+                                         <div class="menu">
+                                             <!--<div class="header">-->
+                                                 <!--Estados-->
+                                             <!--</div>-->
+                                             <!--<div class="ui left icon input">-->
+                                                 <!--<i class="search icon"></i>-->
+                                                 <!--<input type="text" name="search" placeholder="Search...">-->
+                                             <!--</div>-->
+                                             <div class="header">
+                                                 <i class="tags icon"></i>
+                                                 ESTADOS DE LA OBRA
+                                             </div>
+                                             <div class="item active">
+                                                 <div class="ui gray empty circular label"></div>
+                                                 Indefinido
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui blue empty circular label"></div>
+                                                 Adjudicado
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui yellow empty circular label"></div>
+                                                 En ejecucion
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui green empty circular label"></div>
+                                                 Realizada
+                                             </div>
+                                             <div class="item">
+                                                 <div class="ui red empty circular label"></div>
+                                                 Parada
+                                             </div>
+                                         </div>
+                                     </div>
+
+
+
+
+                                </div>
+                                <div class="six wide column">
+                                    <h3>Documentos relacionados</h3>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+
+
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
             </div>
+
+
+
         </div>
     </div>
+
+
+
 <div class="ui left  vertical  overlay sidebar push uncover verde1"
      style="z-index: 10; background: #36d7b7;">
     <div class="ui big filter launch basic left attached fixed button"

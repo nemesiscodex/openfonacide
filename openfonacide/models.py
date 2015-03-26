@@ -64,7 +64,6 @@ class InstitucionData(models.Model):
     correo_electronico = models.CharField(max_length=256)
 
 
-
 #Prioridades 2.0###############################################################################
 class Espacios(models.Model):
     periodo = models.CharField(max_length=50, null=True)

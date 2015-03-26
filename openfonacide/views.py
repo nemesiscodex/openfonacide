@@ -98,6 +98,7 @@ class EstablecimientoController(View):
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
+                    return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
@@ -125,7 +126,7 @@ class EstablecimientoController(View):
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(JSONH.pack(establecimiento.data))
+        return JSONResponse(establecimiento.data)
 
 
 class InstitucionController(View):

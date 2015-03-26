@@ -220,28 +220,28 @@
     app.controller('MapController', ['$scope', 'backEnd', '$filter', function($scope,backEnd,$filter){
         $scope.showInfo = false;
         $scope.modalTitle = "";
-        $scope.setModalTitle = function(title){
+        $scope.setModalTitle = function (title) {
             $scope.modalTitle = title;
         };
         $scope.loading = true;
         $scope.infoData = {};
 
-        $scope.showInfoPopUp = function(id, title){
+        $scope.showInfoPopUp = function (id, title) {
             $scope.setModalTitle(title);
             $scope.infoData = {};
-            backEnd.establecimiento.get({id: id}, function(value, headers){
+            backEnd.establecimiento.get({id: id}, function (value, headers) {
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
-                backEnd.institucion.query({id:id}, function(value, headers){
+                backEnd.institucion.query({id: id}, function (value, headers) {
                     $scope.infoData.instituciones = value;
                     $('#info_modal').modal('show');
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $('#info_modal').modal('refresh');
-                    },1300);
+                    }, 1300);
 
                 });
             });
-            backEnd.prioridades.get({id: id}, function(value, headers){
+            backEnd.prioridades.get({id: id}, function (value, headers) {
                 $scope.prioridades = value;
             });
 
@@ -259,59 +259,55 @@
             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
         L.tileLayer(
             'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; ' + mapLink + ' Contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © '+ mapLink,
-            maxZoom: 18,
+                attribution: '&copy; ' + mapLink + ' Contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © ' + mapLink,
+                maxZoom: 18,
             }).addTo($scope.map);
 
-        $scope.onEachFeature = function(feature, layer) {
-    // Load the default style.
-    layer.setStyle(defaultStyle);
-    // Create a self-invoking function that passes in the layer
-    // and the properties associated with this particular record.
-    (function(layer, properties) {
-      // Create a mouseover event
-      layer.on("mouseover", function (e) {
-        // Change the style to the highlighted version
-        layer.setStyle(highlightStyle);
-        // Create a popup with a unique ID linked to this record
-        var popup = $("<div></div>", {
-            id: "popup-" + properties.DISTRICT,
-            css: {
-                position: "absolute",
-                bottom: "85px",
-                left: "50px",
-                zIndex: 1002,
-                backgroundColor: "white",
-                padding: "8px",
-                border: "1px solid #ccc"
-            }
-        });
-        // Insert a headline into that popup
-        var hed = $("<div></div>", {
-            text: "District " + properties.DISTRICT + ": " + properties.REPRESENTATIVE,
-            css: {fontSize: "16px", marginBottom: "3px"}
-        }).appendTo(popup);
-        // Add the popup to the map
-        popup.appendTo("#map");
-      });
-      // Create a mouseout event that undoes the mouseover changes
-      layer.on("mouseout", function (e) {
-        // Start by reverting the style back
-        layer.setStyle(defaultStyle);
-        // And then destroying the popup
-        $("#popup-" + properties.DISTRICT).remove();
-      });
-      // Close the "anonymous" wrapper function, and call it while passing
-      // in the variables necessary to make the events work the way we want.
-    })(layer, feature.properties);
-};
+        $scope.onEachFeature = function (feature, layer) {
+            // Load the default style.
+            layer.setStyle(defaultStyle);
+            // Create a self-invoking function that passes in the layer
+            // and the properties associated with this particular record.
+            (function (layer, properties) {
+                // Create a mouseover event
+                layer.on("mouseover", function (e) {
+                    // Change the style to the highlighted version
+                    layer.setStyle(highlightStyle);
+                    // Create a popup with a unique ID linked to this record
+                    var popup = $("<div></div>", {
+                        id: "popup-" + properties.DISTRICT,
+                        css: {
+                            position: "absolute",
+                            bottom: "85px",
+                            left: "50px",
+                            zIndex: 1002,
+                            backgroundColor: "white",
+                            padding: "8px",
+                            border: "1px solid #ccc"
+                        }
+                    });
+                    // Insert a headline into that popup
+                    var hed = $("<div></div>", {
+                        text: "District " + properties.DISTRICT + ": " + properties.REPRESENTATIVE,
+                        css: {fontSize: "16px", marginBottom: "3px"}
+                    }).appendTo(popup);
+                    // Add the popup to the map
+                    popup.appendTo("#map");
+                });
+                // Create a mouseout event that undoes the mouseover changes
+                layer.on("mouseout", function (e) {
+                    // Start by reverting the style back
+                    layer.setStyle(defaultStyle);
+                    // And then destroying the popup
+                    $("#popup-" + properties.DISTRICT).remove();
+                });
+                // Close the "anonymous" wrapper function, and call it while passing
+                // in the variables necessary to make the events work the way we want.
+            })(layer, feature.properties);
+        };
 
 
-
-
-
-
-        backEnd.establecimiento_short.query({}, function(data, headers){
+        backEnd.establecimiento_short.query({}, function (data, headers) {
             $scope.mapData = JSONH.unpack(data);
 //            $( "#slider-range-min" ).slider({
 //      range: "min",
@@ -321,23 +317,24 @@
 //      slide: function( event, ui ) {
 //        $( "#amount" ).val( "" + ui.value );
 //      }
-//    });
+//      });
 //            $( "#amount" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
 
 
             $scope.update('');
         });
 
-        $scope.update = function(filterType){
+        $scope.update = function (filterType) {
 
             $scope.loading = true;
 
-            switch (filterType){
+            switch (filterType) {
                 case 'fonacide':
-                   if ( $scope.ContratacionesLayer) {
-                    $scope.map.removeLayer($scope.ContratacionesLayer);}
-                    updateMap(function(map){
-                        var ret = $filter('filter')(map, function(elemento,index){
+                    if ($scope.ContratacionesLayer) {
+                        $scope.map.removeLayer($scope.ContratacionesLayer);
+                    }
+                    updateMap(function (map) {
+                        var ret = $filter('filter')(map, function (elemento, index) {
 
                             return (elemento.f == 't')
                         }, true);
@@ -345,93 +342,131 @@
                     });
                     break;
                 case 'denunciaPrensa':
-                    updateMap(function(map){
+                    updateMap(function (map) {
                         return map;
                     });
                     break;
                 case 'denunciaCiudadania':
-                    updateMap(function(map){
+                    updateMap(function (map) {
                         return map;
                     });
                     break;
                 case 'informeContraloria':
-                    updateMap(function(map){
+                    updateMap(function (map) {
                         return map;
                     });
                     break;
                 case 'contrataciones':
-                     /* Geojson para contratataciones */
+                    /* Geojson para contratataciones */
 
                     $scope.map.removeLayer($scope.markers);
 
-                   if (! $scope.ContratacionesLayer) {
+                    if (!$scope.ContratacionesLayer) {
 
-                    $scope.ContratacionesLayer = L.geoJson().addTo($scope.map);
+                        $scope.ContratacionesLayer = L.geoJson().addTo($scope.map);
 
 
-                   $.getJSON( "/static/geojson/00.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/01.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/02.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/03.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/04.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/05.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/06.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/07.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/08.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/09.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/10.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/11.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/12.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/13.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/14.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/15.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/16.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
-                   $.getJSON( "/static/geojson/17.json", function( data ) {$scope.ContratacionesLayer.addData(data);});
+                        $.getJSON("/static/geojson/00.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/01.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/02.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/03.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/04.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/05.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/06.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/07.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/08.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/09.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/10.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/11.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/12.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/13.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/14.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/15.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/16.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
+                        $.getJSON("/static/geojson/17.json", function (data) {
+                            $scope.ContratacionesLayer.addData(data);
+                        });
 
-                    $scope.ContratacionesLayer .on('mouseover', function(e) {
+                        $scope.ContratacionesLayer.on('mouseover', function (e) {
                             e.layer.openPopup();
                         });
-                        $scope.ContratacionesLayer.on('mouseout', function(e) {
+                        $scope.ContratacionesLayer.on('mouseout', function (e) {
                             e.layer.closePopup();
                         });
 
 
-                   }
+                    }
 
 
-
-                   $scope.loading=false;
-
+                    $scope.loading = false;
 
 
-
-
-
-                        /* FIN GEOJSON*/
+                    /* FIN GEOJSON*/
 
 
                     break;
                 default:
-                     if ( $scope.ContratacionesLayer) {
-                    $scope.map.removeLayer($scope.ContratacionesLayer);}
+                    if ($scope.ContratacionesLayer) {
+                        $scope.map.removeLayer($scope.ContratacionesLayer);
+                    }
 
-                    updateMap(function(map){return map});
+                    updateMap(function (map) {
+                        return map
+                    });
             }
         };
 
-        var updateMap = function(filterFunction){
+        var updateMap = function (filterFunction) {
 
             var point;
             var marker;
             var data = filterFunction($scope.mapData);
 
-            if($scope.markers)
+            if ($scope.markers)
                 $scope.map.removeLayer($scope.markers);
 
             $scope.markers = new L.MarkerClusterGroup({
 
                 iconCreateFunction: function (cluster) {
-                    return L.divIcon({ html: cluster.getChildCount(), className: 'mycluster', iconSize: L.point(40, 40) });
+                    return L.divIcon({
+                        html: cluster.getChildCount(),
+                        className: 'mycluster',
+                        iconSize: L.point(40, 40)
+                    });
                 }
             });
             var markers = $scope.markers;
@@ -440,12 +475,12 @@
                 icon: ' university icon margin-left',
                 markerColor: 'gray',
                 extraClasses: 'info icon'
-              });
-            if(data){
-                for(var i=0; i<data.length; i++){
+            });
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
                     point = data[i];
-                    marker = new L.Marker([point.lat, point.lon], {title:point.name, icon: redMarker});
-                    marker.bindPopup("<h4>"+point.name+'</h4><div class="circular ui teal icon button" onClick="$(\'.right.sidebar\').sidebar(\'toggle\');openPopUp('+point.id+',\''+point.name.replace('\n','')+'\')" ><i class="plus outline icon"></i> Detalles</div><hr>'+point.dir);
+                    marker = new L.Marker([point.lat, point.lon], {title: point.name, icon: redMarker});
+                    marker.bindPopup("<h4>" + point.name + '</h4><div class="circular ui teal icon button" onClick="$(\'.right.sidebar\').sidebar(\'toggle\');openPopUp(' + point.id + ',\'' + point.name.replace('\n', '') + '\')" ><i class="plus outline icon"></i> Detalles</div><hr>' + point.dir);
                     markers.addLayer(marker);
                 }
             }

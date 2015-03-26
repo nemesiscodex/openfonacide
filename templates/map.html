@@ -4,10 +4,13 @@
 
 
 
-          <div class="item" ng-class="{active:$first}" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
-            {$ institucion.nombre_institucion $}
+          <div class="item" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" ng-click="$parent.institucion_actual = institucion.codigo_institucion" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+            {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
           </div>
         </div>
+
+
+
         <div class="ui bottom attached active tab segment stackable grid">
         <div class="ui black basic button active" style="margin-left: 10px; margin-top:15px">2012</div>
         <div class="ui black basic button" style=" margin-top:15px">2013</div>
@@ -20,7 +23,8 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas" >
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas" ng-show="item.cod_institucion==institucion_actual and item">
+                    {$ item.cod_institucion $} -    {$ institucion_actual $}
 
                     <div class="ui requerimiento stackable grid segment">
                         <div class="four wide column">
@@ -158,8 +162,9 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios" >
-
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios"  ng-show="item.cod_institucion==institucion_actual" >
+                      {$ item.cod_institucion $} -
+                    {$ institucion_actual $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 
@@ -296,8 +301,9 @@
                 </div>
 
 
-                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios" >
-
+                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios"  ng-show="item.cod_institucion==institucion_actual" >
+                      {$ item.cod_institucion $} -
+                    {$ institucion_actual $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 
@@ -445,6 +451,9 @@
 
         </div>
     </div>
+
+
+
 <div class="ui left  vertical  overlay sidebar push uncover verde1"
      style="z-index: 10; background: #36d7b7;">
     <div class="ui big filter launch basic left attached fixed button"

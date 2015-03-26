@@ -233,16 +233,22 @@
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
                     backEnd.institucion.query({id:id}, function(value, headers){
+
+
                         $scope.infoData.instituciones = value;
-                        $('#info_modal').modal('show');
-                        setTimeout(function(){
-                            $('#info_modal').modal('refresh');
-                        },1300);
+                        $scope.institucion_actual =  $scope.infoData.instituciones[0].codigo_institucion;
+                        $scope.anho_actual = 2015;
+                       // $('#info_modal').modal('show');
+                       // setTimeout(function(){
+                       //  $('#info_modal').modal('refresh');
+                       // },1300);
 
                     });
             });
             backEnd.prioridades.get({id: id}, function(value, headers){
                 $scope.prioridades = value;
+
+
             });
 
         };

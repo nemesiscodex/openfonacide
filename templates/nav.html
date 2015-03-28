@@ -7,17 +7,21 @@
             <a href="/fonacide" class="item"  ng-class="{active: $location.path().match('/?fonacide.*') != null}"><i class="info circle icon"></i> Fonacide</a>
             <a href="/graficos" class="item" ng-class="{active: $location.path().match('/?graficos.*') != null}"><i class="bar chart icon"></i> Graficos</a>
             <a href="/resumen" class="item" ng-class="{active: $location.path().match('/?resumen.*') != null}"><i class="table icon"></i> Resumen</a>
+
             <div class="right menu">
-                <div class="ui dropdown item">
-                    <i class="user icon"></i>Admin
-
-                    <div class="menu">
-                        <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
+            {% if user.is_authenticated %}
+                    <div class="ui dropdown item">
+                        <i class="user icon"></i>{{ user.username | upper }}
+                        <div class="menu">
+                            <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
+                        </div>
                     </div>
+                    <a href="" class="item"  onclick="_logout()"><i class="sign out icon"></i>Cerrar Sesion</a>
+            {% else %}
+                <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign in icon"></i>Iniciar Sesion</a>
+            {% endif %}
                 </div>
-
-                <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign out icon"></i>Cerrar Sesion</a>
-            </div>
+            
 
              <div class="ui small icon input" style="float: right">
                 <input type="text" placeholder="Buscar institución...">
@@ -59,6 +63,9 @@
     </div>
 </div>
 <script>
+    function _logout(){
+        document.location="{% url 'logout' %}"
+    }
     $(function () {
         $('.vmenu').hide();
         $('.dropdown').dropdown();

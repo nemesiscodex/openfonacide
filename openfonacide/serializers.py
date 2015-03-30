@@ -90,53 +90,6 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
         else:
             return 't'
 
-class ConstruccionAulasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConstruccionAulas
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito', 'localidad_barrio',
-            'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados', 'nivel_educativo_beneficiado',
-            'espacio_destinado', 'cantidad_espacios_nuevos', 'abastecimiento_agua', 'corriente_electrica',
-            'titulo_propiedad', 'cuenta_con_espacio_construccion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-
-
-
-        
-        
-class ConstruccionSanitarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConstruccionSanitario
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'cant_sanitarios_construccion', 'abastecimiento_agua', 'corriente_electrica',
-            'titulo_propiedad', 'cuenta_con_espacio', 'justificacion', 'departamento',
-            'cod_departamento'
-        )
-        
-        
-class ReparacionAulasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReparacionAulas
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'espacio_destinado_a', 'cant_espacios_necesitan_reparacion',
-            'cant_espacios_construidos_adecuacion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-        
-        
-class ReparacionSanitarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReparacionSanitario
-        fields = (
-            'prioridad', 'cod_local', 'cod_institucion', 'nombre_institucion', 'nro_esc', 'distrito',
-            'localidad_barrio', 'zona', 'nombre_asentamiento', 'region_supervision', 'nro_beneficiados',
-            'nivel_educativo_beneficiado', 'cantidad_sanitarios_construidos_reparacion',
-            'cantidad_sanitarios_construidos_adecuacion', 'justificacion', 'departamento', 'cod_departamento',
-        )
-
 
 class PrioridadesSerializer(serializers.Serializer):
     construccion_aulas = serializers.SerializerMethodField('get_construccion_aulas')
@@ -163,21 +116,11 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
     return serializerClass(data, many=True)
 
 
-
-
-class ComentariosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comentarios
-        fields = ('texto', 'autor', 'fecha', 'email')
-
-
-
-
 class EspaciosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Espacios
         fields = (
-           "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad",   "cod_establecimiento", "cod_institucion" ,"nombre_institucion",  "codigo_zona", 
+           "periodo", "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad",   "cod_establecimiento", "cod_institucion" ,"nombre_institucion",  "codigo_zona",
           "nombre_zona" ,"nivel_educativo_beneficiado" ,"cuenta_con_espacio_construccion", "espacio_destinado" ,  "tipo_requerimiento_infraestructura" , "cantidad_requerida" , "numero_beneficiados" ,"justificacion" ,  "uri_establecimiento", "uri_institucion"
 
         )
@@ -194,7 +137,7 @@ class SanitariosSerializer(serializers.ModelSerializer):
         fields = (
 
 
-       "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad" ,  
+      "periodo",  "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad" ,
       "cod_establecimiento" ,"cod_institucion", "nombre_institucion"  ,"codigo_zona", "nombre_zona" ,"nivel_educativo_beneficiado",
        "abastecimiento_agua" ,"servicio_sanitario_actual" ,  "cuenta_con_espacio_construccion", "tipo_requerimiento_infraestructura",
          "cantidad_requerida"  ,"numero_beneficiados" ,"justificacion",   "uri_establecimiento", "uri_institucion"

@@ -9,11 +9,24 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 from openfonacide.models import *
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
+
+"""
+	ViewSets for API
+"""
+
+class EstablecimientoViewSet(ViewSet):
+	# Recordar que los establecimientos se guardaron en el modelo 
+	# Institucion
+	# TODO: REFACTORIZAR!
+	queryset = Institucion.objects.all()
+
+class InstitucionViewSet(ViewSet):
+	queryset = InstitucionData.objects.all()
 
 class PartialGroupView(TemplateView):
     """
@@ -85,6 +98,7 @@ class EstablecimientoController(View):
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
+                    return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
@@ -112,7 +126,7 @@ class EstablecimientoController(View):
                     return JSONResponse(establecimiento)
                 else:
                     establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(JSONH.pack(establecimiento.data))
+        return JSONResponse(establecimiento.data)
 
 
 class InstitucionController(View):
@@ -124,20 +138,6 @@ class InstitucionController(View):
         else:
             institucion = InstitucionSerializer(InstitucionData.objects.all(), many=True)
         return JSONResponse(institucion.data)
-
-
-class PrioridadController(View):
-    def get(self, request, *args, **kwargs):
-        codigo_establecimiento = kwargs.get('codigo_establecimiento')
-        result = {
-            "construccion_aulas": get_P(codigo_establecimiento, ConstruccionAulas, ConstruccionAulasSerializer).data,
-            "construccion_sanitarios": get_P(codigo_establecimiento, ConstruccionSanitario,
-                                             ConstruccionSanitarioSerializer).data,
-            "reparacion_aulas": get_P(codigo_establecimiento, ReparacionAulas, ReparacionAulasSerializer).data,
-            "reparacion_sanitarios": get_P(codigo_establecimiento, ReparacionSanitario,
-                                           ReparacionSanitarioSerializer).data
-        }
-        return JSONResponse(result)
 
 
 class PrioridadControllerV2(View):

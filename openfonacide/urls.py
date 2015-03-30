@@ -1,9 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-
+from rest_framework import routers
 from openfonacide.views import *
 
 admin.autodiscover()
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'establecimiento',EstablecimientoViewSet)
+router.register(r'institucion',InstitucionViewSet)
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
@@ -64,6 +68,7 @@ urlpatterns = patterns('',
     url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/v1/', include(router.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )

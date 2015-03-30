@@ -64,6 +64,8 @@ urlpatterns = patterns('',
     url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')

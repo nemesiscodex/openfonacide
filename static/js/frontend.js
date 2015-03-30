@@ -252,7 +252,7 @@
 
             });
 
-            $('.right.sidebar').sidebar('toggle');
+            $('.right.sidebar').sidebar('show');
 
         };
 

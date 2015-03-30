@@ -12,10 +12,10 @@
 
 
         <div class="ui bottom attached active tab segment stackable grid">
-        <div class="ui black basic button active" style="margin-left: 10px; margin-top:15px">2012</div>
-        <div class="ui black basic button" style=" margin-top:15px">2013</div>
-        <div class="ui black basic button" style=" margin-top:15px">2014</div>
-        <div class="ui black basic button" style=" margin-top:15px">2015</div>
+        <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
+        <div class="ui black basic button"  ng-class="{active:periodo == 2013}" ng-click="periodo=2013" style=" margin-top:15px">2013</div>
+        <div class="ui black basic button"  ng-class="{active:periodo == 2014}"ng-click="periodo=2014"  style=" margin-top:15px">2014</div>
+        <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
                          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
@@ -23,8 +23,8 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas" ng-show="item.cod_institucion==institucion_actual">
-                    {$ item.cod_institucion $} -    {$ institucion_actual $}
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.cod_institucion==institucion_actual">
+                    {$ item.cod_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}
 
                     <div class="ui requerimiento stackable grid segment">
                         <div class="four wide column">
@@ -162,9 +162,9 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios"  ng-show="item.cod_institucion==institucion_actual" >
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.cod_institucion==institucion_actual" >
                       {$ item.cod_institucion $} -
-                    {$ institucion_actual $}
+                    {$ institucion_actual $} - Periodo: {$ item.periodo $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 
@@ -301,9 +301,9 @@
                 </div>
 
 
-                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios"  ng-show="item.cod_institucion==institucion_actual" >
+                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.cod_institucion==institucion_actual" >
                       {$ item.cod_institucion $} -
-                    {$ institucion_actual $}
+                    {$ institucion_actual $} - Periodo: {$ item.periodo $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 

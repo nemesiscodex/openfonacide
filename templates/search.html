@@ -7,9 +7,7 @@
 </div>
 
 <script>
-    console.log("Ejecutado");
     var message = function(message, type) {
-                        console.log(message);
                         var
                                 html = ''
                                 ;
@@ -48,10 +46,10 @@
                         var html = '',
                                 escape = $.fn.search.settings.templates.escape
                                 ;
+                        var open = true;
                         if (response.results !== undefined) {
                             // each category
                             $.each(response.results, function (index, category) {
-
                                 if (category.results !== undefined && category.results.length > 0) {
                                     var resultNumber = category.results.length;
                                     total_resultdos += resultNumber;
@@ -60,9 +58,10 @@
                                     }
                                     html += ''
                                     + '<div class="title"><i class="dropdown icon"></i><b>' + category.name + '  ('+resultNumber+' resultados)</b></div>'
-                                    + '<div class="content">'
+                                    + '<div class="content'+(open?' active':'')+'">'
                                     + '<div class="ui divided list secondary vertical fluid menu">'
                                     ;
+                                    open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
                                         html += '<a class="item" data-id="'+result.codigo_establecimiento+'">';

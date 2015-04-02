@@ -1,6 +1,7 @@
+
 <div class="ui grid" style="margin:0">
     <div class="computer tablet only row" style="padding: 0">
-        <div class="ui inverted teal menu navbar ">
+        <div class="ui inverted teal large menu navbar ">
             <a href="/" class="brand item">Contralor de Fonacide <i class="unhide icon"></i></a>
             <a href="/" class="item"><i class="home icon"></i>Inicio</a>
             <a href="/map" class="item" ng-class="{active: $location.path().match('/?map.*') != null}"><i class="marker icon"></i> Mapa</a>
@@ -20,17 +21,17 @@
             {% else %}
                 <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign in icon"></i>Iniciar Sesion</a>
             {% endif %}
-                </div>
-            
-
-             <div class="ui small icon input" style="float: right">
-                <input type="text" placeholder="Buscar institución...">
-                <i class="search link icon"></i>
             </div>
+
+        <search style="float: right;width: 350px" input-class="large"></search>
+
+
         </div>
+
     </div>
     <div class="mobile only row" style="padding: 0;">
-        <div class="ui inverted teal menu navbar " style="z-index: 100">
+        <div class="ui inverted teal large menu navbar " style="z-index: 100">
+            <search input-class="large"></search>
             <a href="" class="brand item">Contralor de Fonacide<i class="unhide icon"></i></a>
 
             <div class="right menu open" onclick="$('.vmenu').toggle()">
@@ -41,11 +42,6 @@
                 </a>
             </div>
 
-
-            <div class="ui fluid icon input">
-                <input type="text" placeholder="Buscar institución...">
-                <i class="search link icon"></i>
-            </div>
             <div class="vmenu" style="display: none">
 
                 <a class="item" style="width: 100%" onclick="$('.login.modal').modal('show')"><i class="sign out icon"></i>Cerrar Sesion</a>
@@ -58,11 +54,13 @@
                 <div class="menu">
                 </div>
             </div>
+
         </div>
 
     </div>
 </div>
 <script>
+
     function _logout(){
         document.location="{% url 'logout' %}"
     }

@@ -1,23 +1,83 @@
-<div class="ui fluid category search">
-    <div class="ui icon massive fluid input">
-      <input class="prompt" type="text" placeholder="Buscar Instituciones...">
-      <i class="search icon"></i>
+<div class="ui fluid category search" style="font-size:14px">
+    <div class="ui icon fluid input">
+        <input class="prompt" type="text" placeholder="Buscar Instituciones...">
+        <i class="search icon"></i>
     </div>
-    <div class="results"></div>
-  </div>
+    <div class="results ui styled accordion"></div>
+</div>
 
 <script>
-        $('.ui.category.search')
-      .search({
-        apiSettings: {
+    console.log("Ejecutado");
+    $('.ui.category.search')
+            .search({
+                apiSettings: {
                     url: 'establecimiento/?q={query}',
-                    action: 'categorySearch'
                 },
-        minCharacters: 4,
-        maxResults: 5,
-        cache: true,
-        type: 'category',
-      })
+                minCharacters: 4,
+                maxResults: 5,
+                cache: true,
+                templates: {
+                    standard: function (response) {
+                        var html = '',
+                                escape = $.fn.search.settings.templates.escape
+                                ;
+                        if (response.results !== undefined) {
+                            // each category
+                            $.each(response.results, function (index, category) {
+                                if (category.results !== undefined && category.results.length > 0) {
+                                    var resultNumber = category.results.length;
+                                    if(category.results.length >= 10){
+                                        resultNumber = '+' + category.results.length;
+                                    }
+                                    html += ''
+                                    + '<div class="title"><i class="dropdown icon"></i><b>' + category.name + '  ('+resultNumber+' resultados)</b></div>'
+                                    + '<div class="content">'
+                                    + '<div class="ui divided list secondary vertical fluid menu">'
+                                    ;
+                                    // each item inside category
+                                    $.each(category.results, function (index, result) {
+                                        html += '<a class="item" data-id="'+result.codigo_establecimiento+'">';
+                                        if (result.url) {
+                                            html += '<a href="' + result.url + '"></a>';
+                                        }
+                                        html += '<div class="content">';
+
+                                        if (result.title !== undefined) {
+                                            result.title = escape(result.title);
+                                            html += '<div class="header">' + result.title + '</div>';
+                                        }
+                                        if (result.description !== undefined) {
+                                            html += '<div class="description">' + result.description + '</div>';
+                                        }
+                                        html += ''
+                                        + '</div>'
+                                        + '</a>'
+                                        ;
+                                    });
+                                    html += ''
+                                    + '</div>'
+                                    + '</div>'
+                                    + '<script>'
+                                    + "$('.ui.category.search .results').accordion('refresh')" + "<\/script>"
+                                    ;
+                                }
+                            });
+                            if (response.action) {
+                                html += ''
+                                + '<a href="' + response.action.url + '" class="action">'
+                                + response.action.text
+                                + '</a>';
+                            }
+                            return html;
+                        }
+                        return false;
+                    }
+                },
+                onSelect: function (result, response) {
+                    console.log(result);
+                    console.log(response);
+                }
+            })
     ;
 
 </script>

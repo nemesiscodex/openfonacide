@@ -172,3 +172,17 @@ footer {
 .verde2 {
     background: #019875 !important;
 }
+
+
+/*Search*/
+
+.results.ui.styled.accordion .item .content{
+    padding: 0;
+}
+.results.ui.styled.accordion .item:first-child {
+    border-top: none;
+}
+.results.ui.styled.accordion .item {
+    margin:0;
+    border-top: 1px solid rgba(39,41,43,.15);
+}

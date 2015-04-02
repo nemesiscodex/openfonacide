@@ -8,6 +8,29 @@
 
 <script>
     console.log("Ejecutado");
+    var message = function(message, type) {
+                        console.log(message);
+                        var
+                                html = ''
+                                ;
+                        if (message !== undefined && type !== undefined) {
+                            html += ''
+                            + '<div class="message ' + type + '">'
+                            ;
+                            // message type
+                            if (type == 'empty') {
+                                html += ''
+                                + '<div class="header">No Results</div class="header">'
+                                + '<div class="description">' + message + '</div class="description">'
+                                ;
+                            }
+                            else {
+                                html += ' <div class="description">' + message + '</div>';
+                            }
+                            html += '</div>';
+                        }
+                        return html;
+                    };
     $('.ui.category.search')
             .search({
                 apiSettings: {
@@ -17,6 +40,7 @@
                 maxResults: 5,
                 cache: true,
                 templates: {
+                    message: message,
                     standard: function (response) {
                         var query = response.results.query.toUpperCase();
                         var total_resultdos = 0;
@@ -49,7 +73,6 @@
 
                                         if (result.title !== undefined) {
                                             result.title = escape(result.title);
-                                            console.log(result.title.replace(/["]/g,'').replace(query, '<span class="highlight">'+query+'</span>'));
                                             html += '<div class="header">' + result.title.replace(/&quot;/g,'').replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
                                         }
                                         if (result.description !== undefined) {
@@ -68,6 +91,8 @@
                                     ;
                                 }
                             });
+                            if(total_resultdos === 0)
+                                return message("Su busqueda no produjo resultados.", 'empty result');
                             response.action = {
                                 url: '',
                                 text: 'Mostrar los '+total_resultdos+' resultados'
@@ -82,10 +107,6 @@
                         }
                         return false;
                     }
-                },
-                onSelect: function (result, response) {
-                    console.log(result);
-                    console.log(response);
                 }
             })
     ;

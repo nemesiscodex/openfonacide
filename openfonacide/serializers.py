@@ -10,7 +10,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
     longitud = serializers.SerializerMethodField('get_field_lon')
     latitud = serializers.SerializerMethodField('get_field_lat')
     class Meta:
-        model = Institucion
+        model = Establecimiento
         fields = ('title', 'description', 'anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
                   'nombre_distrito', 'codigo_zona', 'nombre_zona', 'codigo_barrio_localidad', 'nombre_barrio_localidad',
                   'direccion', 'coordenadas_y', 'coordenadas_x', 'latitud', 'longitud', 'anho_cod_geo', 'programa',
@@ -60,7 +60,7 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
     dir = serializers.SerializerMethodField('get_field_dir_short_name')
     f = serializers.SerializerMethodField('get_field_f_short_name')
     class Meta:
-        model = Institucion
+        model = Establecimiento
         fields = ('id', 'lat', 'lon','name','dir','f')
 
     def get_field_id_short_name(self, obj):

@@ -1,15 +1,15 @@
 # coding=utf-8
 from django.test import TestCase
-from openfonacide.models import Institucion
+from openfonacide.models import Establecimiento
 from openfonacide.utils import conversion
 
 class InstitucionTest(TestCase):
 	def setUp(self):
-		i = Institucion.objects.create(nombre="Institucion1",anio="2015")
+		i = Establecimiento.objects.create(nombre="Institucion1",anio="2015")
 		i.save()
 		
 	def test_db_access(self):
-		k = Institucion.objects.get(anio="2015")
+		k = Establecimiento.objects.get(anio="2015")
 		self.assertEqual(k.nombre,"Institucion1")
 
 

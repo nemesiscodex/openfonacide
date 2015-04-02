@@ -18,14 +18,19 @@
                 cache: true,
                 templates: {
                     standard: function (response) {
+                        var query = response.results.query.toUpperCase();
+                        var total_resultdos = 0;
+                        var query_replace = '<span class="highlight">'+query+'</span>';
                         var html = '',
                                 escape = $.fn.search.settings.templates.escape
                                 ;
                         if (response.results !== undefined) {
                             // each category
                             $.each(response.results, function (index, category) {
+
                                 if (category.results !== undefined && category.results.length > 0) {
                                     var resultNumber = category.results.length;
+                                    total_resultdos += resultNumber;
                                     if(category.results.length >= 10){
                                         resultNumber = '+' + category.results.length;
                                     }
@@ -44,10 +49,11 @@
 
                                         if (result.title !== undefined) {
                                             result.title = escape(result.title);
-                                            html += '<div class="header">' + result.title + '</div>';
+                                            console.log(result.title.replace(/["]/g,'').replace(query, '<span class="highlight">'+query+'</span>'));
+                                            html += '<div class="header">' + result.title.replace(/&quot;/g,'').replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
                                         }
                                         if (result.description !== undefined) {
-                                            html += '<div class="description">' + result.description + '</div>';
+                                            html += '<div class="description">' + result.description.replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
                                         }
                                         html += ''
                                         + '</div>'
@@ -62,6 +68,10 @@
                                     ;
                                 }
                             });
+                            response.action = {
+                                url: '',
+                                text: 'Mostrar los '+total_resultdos+' resultados'
+                            };
                             if (response.action) {
                                 html += ''
                                 + '<a href="' + response.action.url + '" class="action">'

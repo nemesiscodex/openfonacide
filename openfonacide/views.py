@@ -120,7 +120,8 @@ class EstablecimientoController(View):
                             "category2": {
                                 "name": "Direccion",
                                 "results": establecimiento2.data
-                            }
+                            },
+                            "query": query
                         }
                     }
                     return JSONResponse(establecimiento)

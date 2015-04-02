@@ -1,7 +1,7 @@
 
 <div class="ui grid" style="margin:0">
     <div class="computer tablet only row" style="padding: 0">
-        <div class="ui inverted teal menu navbar ">
+        <div class="ui inverted teal large menu navbar ">
             <a href="/" class="brand item">Contralor de Fonacide <i class="unhide icon"></i></a>
             <a href="/" class="item"><i class="home icon"></i>Inicio</a>
             <a href="/map" class="item" ng-class="{active: $location.path().match('/?map.*') != null}"><i class="marker icon"></i> Mapa</a>
@@ -23,15 +23,15 @@
             {% endif %}
             </div>
 
-        <search style="float: right;width: 300px"></search>
+        <search style="float: right;width: 350px" input-class="large"></search>
 
 
         </div>
 
     </div>
     <div class="mobile only row" style="padding: 0;">
-        <div class="ui inverted teal menu navbar " style="z-index: 100">
-            <search></search>
+        <div class="ui inverted teal large menu navbar " style="z-index: 100">
+            <search input-class="large"></search>
             <a href="" class="brand item">Contralor de Fonacide<i class="unhide icon"></i></a>
 
             <div class="right menu open" onclick="$('.vmenu').toggle()">

@@ -45,18 +45,28 @@
         $locationProvider.html5Mode(true);
     }]);
 
-    function nuevaDirectiva(nombre, template){
+    function nuevaDirectiva(nombre, template, config){
+        if(typeof (config) != 'object')
+            config = {};
         app.directive(nombre, function(){
-        return {
+        return $.extend({
             restrict: 'E',
-            templateUrl: 'partials/'+template
-        }
+            templateUrl: 'partials/'+ template
+        }, config);
     });
     }
 
     /**
      * Directivas
      */
+
+    nuevaDirectiva('search','search.html',
+        {
+            scope: {inputClass: '@'},
+            link: function(scope, element, attrs){
+                $(element).find('.input').addClass(scope.inputClass);
+            }
+        });
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
     nuevaDirectiva('loginModal','login.html');
@@ -65,7 +75,6 @@
     nuevaDirectiva('institucionList','institucion-list.html');
     nuevaDirectiva('visualizaciones','visualizaciones.html');
     nuevaDirectiva('home','home.html');
-    nuevaDirectiva('search','search.html');
     nuevaDirectiva('siteNav','nav.html');
     nuevaDirectiva('institucionModal','institucion-modal.html');
     nuevaDirectiva('establecimientoTabla','institucion-modal/establecimiento-tabla.html');

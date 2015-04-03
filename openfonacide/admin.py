@@ -4,25 +4,30 @@ from import_export.admin import ImportExportModelAdmin
 
 from openfonacide.models import *
 
-#
-# @admin.register(ReparacionSanitario)
-# class ReparacionSanitarioAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ReparacionAulas)
-# class ReparacionAulasAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ConstruccionSanitario)
-# class ConstruccionSanitarioAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ConstruccionAulas)
-# class ConstruccionAulasAdmin(admin.ModelAdmin):
-#     pass
+class EstablecimientoResource(resources.ModelResource):
+
+    class Meta:
+        model = Establecimiento
+        # exclude = ('id',)
+
+
+@admin.register(Establecimiento)
+class EstablecimientoAdmin(ImportExportModelAdmin):
+    resource_class = EstablecimientoResource
+    pass
+
+
+class InstitucionResource(resources.ModelResource):
+
+    class Meta:
+        model = Institucion
+        # exclude = ('id',)
+
+
+@admin.register(Institucion)
+class InstitucionAdmin(ImportExportModelAdmin):
+    resource_class = InstitucionResource
+    pass
 
 
 class SanitariosResource(resources.ModelResource):
@@ -39,7 +44,6 @@ class SanitariosAdmin(ImportExportModelAdmin):
 
 
 class EspaciosResource(resources.ModelResource):
-
     class Meta:
         model = Espacios
         # exclude = ('id',)

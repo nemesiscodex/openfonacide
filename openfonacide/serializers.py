@@ -11,10 +11,34 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
     latitud = serializers.SerializerMethodField('get_field_lat')
     class Meta:
         model = Establecimiento
-        fields = ('title', 'description', 'anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
-                  'nombre_distrito', 'codigo_zona', 'nombre_zona', 'codigo_barrio_localidad', 'nombre_barrio_localidad',
-                  'direccion', 'coordenadas_y', 'coordenadas_x', 'latitud', 'longitud', 'anho_cod_geo', 'programa',
-                  'proyecto_111', 'proyecto_822', 'uri', 'nombre')
+        fields = (
+            'anio',
+            'codigo_establecimiento',
+            'codigo_departamento',
+            'nombre_departamento',
+            'codigo_distrito',
+            'nombre_distrito',
+            'codigo_zona',
+            'nombre_zona',
+            'codigo_barrio_localidad',
+            'nombre_barrio_localidad',
+            'direccion',
+            'coordenadas_y',
+            'coordenadas_x',
+            'latitud',
+            'longitud',
+            'anho_cod_geo',
+            'uri',
+            # Nombre corresponde a la concatenacion de los nombres de instituciones
+            # dentro de el establecimiento
+            'nombre',
+            # Fonacide es una variable calculada, correspondiente a si esta en una lista de prioridades
+            'fonacide',
+            'title',
+            'description',
+            'longitud',
+            'latitud'
+        )
 
     def get_field_title(self, obj):
         return obj.nombre.replace('{','').replace('}','')
@@ -36,13 +60,23 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
 class InstitucionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institucion
-        fields = ('anio', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito', 'nombre_distrito',
-                  'codigo_barrio_localidad', 'nombre_barrio_localidad', 'codigo_zona', 'nombre_zona',
-                  'codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'sector_o_tipo_gestion',
-                  'codigo_region_administrativa', 'nombre_region_administrativa', 'nombre_supervisor',
-                  'niveles_modalidades', 'codigo_tipo_organizacion', 'nombre_tipo_organizacion',
-                  'participacion_comunitaria', 'direccion', 'nro_telefono', 'tiene_internet', 'paginaweb',
-                  'correo_electronico')
+        fields = (
+            'periodo',
+            'codigo_departamento',
+            'nombre_departamento',
+            'codigo_distrito',
+            'nombre_distrito',
+            'codigo_barrio_localidad',
+            'nombre_barrio_localidad',
+            'codigo_zona',
+            'nombre_zona',
+            'codigo_establecimiento',
+            'codigo_institucion',
+            'nombre_institucion',
+            'anho_cod_geo',
+            'uri_establecimiento',
+            'uri_institucion',
+        )
 
 class ListaInstitucionesSerializer(serializers.ModelSerializer):
     class Meta:

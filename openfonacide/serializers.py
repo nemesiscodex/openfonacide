@@ -35,7 +35,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
 
 class InstitucionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InstitucionData
+        model = Institucion
         fields = ('anio', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito', 'nombre_distrito',
                   'codigo_barrio_localidad', 'nombre_barrio_localidad', 'codigo_zona', 'nombre_zona',
                   'codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'sector_o_tipo_gestion',
@@ -46,7 +46,7 @@ class InstitucionSerializer(serializers.ModelSerializer):
 
 class ListaInstitucionesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InstitucionData
+        model = Institucion
         fields = ('codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'nombre_departamento',
                   'nombre_distrito','nombre_barrio_localidad', 'nombre_region_administrativa', 'nombre_supervisor',
                   'niveles_modalidades', 'direccion', 'nro_telefono')
@@ -100,7 +100,7 @@ class PrioridadesSerializer(serializers.Serializer):
 def get_P(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
-    instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
+    instituciones = Institucion.objects.filter(codigo_establecimiento=establecimiento)
     data = prioridadClass.objects.filter(cod_local=establecimiento)
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
@@ -109,7 +109,7 @@ def get_P(establecimiento, prioridadClass, serializerClass):
 def get_Pr(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
-    instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
+    instituciones = Institucion.objects.filter(codigo_establecimiento=establecimiento)
     data = prioridadClass.objects.filter(cod_establecimiento=establecimiento)
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_establecimiento=institucion.codigo_institucion)

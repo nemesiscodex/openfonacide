@@ -26,7 +26,7 @@ class EstablecimientoViewSet(ViewSet):
 	queryset = Establecimiento.objects.all()
 
 class InstitucionViewSet(ViewSet):
-	queryset = InstitucionData.objects.all()
+	queryset = Institucion.objects.all()
 
 class PartialGroupView(TemplateView):
     """
@@ -59,7 +59,7 @@ class ListaInstitucionesController(View):
     def get(self, request, *args, **kwargs):
         cantidad = request.GET.get('rows')
         pagina = request.GET.get('page')
-        lista = InstitucionData.objects.all()
+        lista = Institucion.objects.all()
         if cantidad is not None:
             paginator = Paginator(lista, cantidad)
         else:
@@ -135,9 +135,9 @@ class InstitucionController(View):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         if codigo_establecimiento:
             institucion = InstitucionSerializer(
-                InstitucionData.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
+                Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
         else:
-            institucion = InstitucionSerializer(InstitucionData.objects.all(), many=True)
+            institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(institucion.data)
 
 

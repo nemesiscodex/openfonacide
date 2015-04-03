@@ -11,7 +11,7 @@ class Establecimiento(models.Model):
     Modelo de datos que representa los Establecimientos
     """
     anio = models.CharField(max_length=256)
-    codigo_establecimiento = models.CharField(max_length=256, primary_key=True)
+    codigo_establecimiento = models.CharField(max_length=256)
     codigo_departamento = models.CharField(max_length=256)
     nombre_departamento = models.CharField(max_length=256)
     codigo_distrito = models.CharField(max_length=256)
@@ -27,13 +27,18 @@ class Establecimiento(models.Model):
     longitud = models.CharField(max_length=256)
     anho_cod_geo = models.CharField(max_length=256)
     uri = models.CharField(max_length=256)
+    # Nombre corresponde a la concatenacion de los nombres de instituciones
+    # dentro de el establecimiento
     nombre = models.CharField(max_length=256, default='<Sin nombre>')
+    # Fonacide es una variable calculada, correspondiente a si esta en una lista de prioridades
     fonacide = models.CharField(max_length=5, null=True)
 
+    class Meta:
+        unique_together = (("anio", "codigo_establecimiento"),)
 
 # Datos Específicos de Instituciones Educativas
-class InstitucionData(models.Model):
-    anio = models.CharField(max_length=256)
+class Institucion(models.Model):
+    periodo = models.CharField(max_length=256)
     codigo_departamento = models.CharField(max_length=256)
     nombre_departamento = models.CharField(max_length=256)
     codigo_distrito = models.CharField(max_length=256)
@@ -42,22 +47,28 @@ class InstitucionData(models.Model):
     nombre_barrio_localidad = models.CharField(max_length=256)
     codigo_zona = models.CharField(max_length=256)
     nombre_zona = models.CharField(max_length=256)
-    codigo_establecimiento = models.ForeignKey('Establecimiento')
+    codigo_establecimiento = models.CharField(max_length=256)
     codigo_institucion = models.CharField(max_length=256)
     nombre_institucion = models.CharField(max_length=256)
-    sector_o_tipo_gestion = models.CharField(max_length=256)
-    codigo_region_administrativa = models.CharField(max_length=256)
-    nombre_region_administrativa = models.CharField(max_length=256)
-    nombre_supervisor = models.CharField(max_length=256)
-    niveles_modalidades = models.CharField(max_length=256)
-    codigo_tipo_organizacion = models.CharField(max_length=256)
-    nombre_tipo_organizacion = models.CharField(max_length=256)
-    participacion_comunitaria = models.CharField(max_length=256)
-    direccion = models.CharField(max_length=256)
-    nro_telefono = models.CharField(max_length=256)
-    tiene_internet = models.CharField(max_length=256)
-    paginaweb = models.CharField(max_length=256)
-    correo_electronico = models.CharField(max_length=256)
+    anho_cod_geo = models.CharField(max_length=256)
+    uri_establecimiento = models.CharField(max_length=256, null=True)
+    uri_institucion = models.CharField(max_length=256, null=True)
+
+    # Estos campos no aparecen en la nueva version
+
+    # sector_o_tipo_gestion = models.CharField(max_length=256)
+    # codigo_region_administrativa = models.CharField(max_length=256)
+    # nombre_region_administrativa = models.CharField(max_length=256)
+    # nombre_supervisor = models.CharField(max_length=256)
+    # niveles_modalidades = models.CharField(max_length=256)
+    # codigo_tipo_organizacion = models.CharField(max_length=256)
+    # nombre_tipo_organizacion = models.CharField(max_length=256)
+    # participacion_comunitaria = models.CharField(max_length=256)
+    # direccion = models.CharField(max_length=256)
+    # nro_telefono = models.CharField(max_length=256)
+    # tiene_internet = models.CharField(max_length=256)
+    # paginaweb = models.CharField(max_length=256)
+    # correo_electronico = models.CharField(max_length=256)
 
 
 # Prioridades 2.0###############################################################################

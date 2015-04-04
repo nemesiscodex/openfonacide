@@ -101,7 +101,7 @@ else:
                 'NAME':     'openfonacide',
                 'USER':     'fonacide',
                 'PASSWORD': '12345',
-                'HOST':     '10.1.2.5',
+                'HOST':     'localhost',
                 'PORT':     '5432'
             }
     }

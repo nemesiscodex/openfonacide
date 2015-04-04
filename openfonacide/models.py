@@ -36,6 +36,7 @@ class Establecimiento(models.Model):
     class Meta:
         unique_together = (("anio", "codigo_establecimiento"),)
 
+
 # Datos Específicos de Instituciones Educativas
 class Institucion(models.Model):
     periodo = models.CharField(max_length=256)
@@ -53,6 +54,9 @@ class Institucion(models.Model):
     anho_cod_geo = models.CharField(max_length=256)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
+
+    class Meta:
+        verbose_name_plural = "instituciones"
 
     # Estos campos no aparecen en la nueva version
 
@@ -74,7 +78,7 @@ class Institucion(models.Model):
 # Prioridades 2.0###############################################################################
 # En este modelo se representan los datasets de Aluas y Otros Espacios
 # por que solo difieren en el valor del campo espacio_destinado
-class Espacios(models.Model):
+class Espacio(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     codigo_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
@@ -97,7 +101,7 @@ class Espacios(models.Model):
     uri_institucion = models.CharField(max_length=256, null=True)
 
 
-class Sanitarios(models.Model):
+class Sanitario(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     codigo_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
@@ -121,7 +125,7 @@ class Sanitarios(models.Model):
     uri_institucion = models.CharField(max_length=256, null=True)
 
 
-class Mobiliarios(models.Model):
+class Mobiliario(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     codigo_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
@@ -138,13 +142,13 @@ class Mobiliarios(models.Model):
     cantidad_requerida = models.CharField(max_length=256, null=True)
     numero_beneficiados = models.CharField(max_length=256, null=True)
     justificacion = models.CharField(max_length=1200, null=True)
-    #No se encuentra en el csv
+    # No se encuentra en el csv
     # uri_establecimiento = models.CharField(max_length=256, null=True)
     # uri_institucion = models.CharField(max_length=256, null=True)
 
 
 # Servicios Básicos de los establecimientos según fonacide
-class EstadosLocales(models.Model):
+class EstadoLocal(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     codigo_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
@@ -164,3 +168,5 @@ class EstadosLocales(models.Model):
     prevencion_incendio = models.CharField(max_length=256, null=True)
     uri_establecimiento = models.CharField(max_length=256, null=True)
 
+    class Meta:
+        verbose_name_plural = "estadoslocales"

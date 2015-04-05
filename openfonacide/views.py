@@ -150,7 +150,7 @@ class PrioridadControllerV2(View):
                                              SanitariosSerializer).data,
             "mobiliarios":get_Pr(codigo_establecimiento, Mobiliario,
                                              MobiliariosSerializer).data,
-           "estados":get_Pr(codigo_establecimiento, EstadoLocal,
+           "estados":get_Pr(codigo_establecimiento, ServicioBasico,
                                              EstadosLocalesSerializer).data,
 
 

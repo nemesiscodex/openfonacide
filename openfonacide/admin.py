@@ -75,11 +75,11 @@ class MobiliariosAdmin(ImportExportModelAdmin):
 class EstadosResource(resources.ModelResource):
 
     class Meta:
-        model = EstadoLocal
+        model = ServicioBasico
         # exclude = ('id',)
 
 
-@admin.register(EstadoLocal)
+@admin.register(ServicioBasico)
 class EstadosAdmin(ImportExportModelAdmin):
     resource_class = EstadosResource
     pass

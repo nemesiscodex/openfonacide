@@ -197,7 +197,7 @@ class MobiliariosSerializer(serializers.ModelSerializer):
 
 class EstadosLocalesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = EstadoLocal
+        model = ServicioBasico
         fields = (
 "periodo", "cod_departamento", "nombre_departamento", "cod_distrito" ,"nombre_distrito" ,"cod_establecimiento" ,
  "codigo_barrio_localidad" ,"nombre_barrio_localidad", "codigo_zona" ,"nombre_zona",

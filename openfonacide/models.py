@@ -148,7 +148,7 @@ class Mobiliario(models.Model):
 
 
 # Servicios Básicos de los establecimientos según fonacide
-class EstadoLocal(models.Model):
+class ServicioBasico(models.Model):
     periodo = models.CharField(max_length=50, null=True)
     codigo_departamento = models.CharField(max_length=256, null=True)
     nombre_departamento = models.CharField(max_length=256, null=True)
@@ -169,4 +169,4 @@ class EstadoLocal(models.Model):
     uri_establecimiento = models.CharField(max_length=256, null=True)
 
     class Meta:
-        verbose_name_plural = "estadoslocales"
+        verbose_name_plural = "serviciosbasicos"

@@ -33,11 +33,11 @@ class InstitucionAdmin(ImportExportModelAdmin):
 class SanitariosResource(resources.ModelResource):
 
     class Meta:
-        model = Sanitarios
+        model = Sanitario
         # exclude = ('id',)
 
 
-@admin.register(Sanitarios)
+@admin.register(Sanitario)
 class SanitariosAdmin(ImportExportModelAdmin):
     resource_class = SanitariosResource
     pass
@@ -45,11 +45,11 @@ class SanitariosAdmin(ImportExportModelAdmin):
 
 class EspaciosResource(resources.ModelResource):
     class Meta:
-        model = Espacios
+        model = Espacio
         # exclude = ('id',)
 
 
-@admin.register(Espacios)
+@admin.register(Espacio)
 class EspaciosAdmin(ImportExportModelAdmin):
     resource_class = EspaciosResource
     pass
@@ -60,11 +60,11 @@ class EspaciosAdmin(ImportExportModelAdmin):
 class MobiliariosResource(resources.ModelResource):
 
     class Meta:
-        model = Mobiliarios
+        model = Mobiliario
         # exclude = ('id',)
 
 
-@admin.register(Mobiliarios)
+@admin.register(Mobiliario)
 class MobiliariosAdmin(ImportExportModelAdmin):
     resource_class = MobiliariosResource
     pass
@@ -75,11 +75,11 @@ class MobiliariosAdmin(ImportExportModelAdmin):
 class EstadosResource(resources.ModelResource):
 
     class Meta:
-        model = EstadosLocales
+        model = ServicioBasico
         # exclude = ('id',)
 
 
-@admin.register(EstadosLocales)
+@admin.register(ServicioBasico)
 class EstadosAdmin(ImportExportModelAdmin):
     resource_class = EstadosResource
     pass

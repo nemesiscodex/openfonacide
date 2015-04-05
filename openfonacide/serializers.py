@@ -152,7 +152,7 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
 
 class EspaciosSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Espacios
+        model = Espacio
         fields = (
            "periodo", "cod_departamento" ,   "nombre_departamento", "cod_distrito" ,   "nombre_distrito", "prioridad",   "cod_establecimiento", "cod_institucion" ,"nombre_institucion",  "codigo_zona",
           "nombre_zona" ,"nivel_educativo_beneficiado" ,"cuenta_con_espacio_construccion", "espacio_destinado" ,  "tipo_requerimiento_infraestructura" , "cantidad_requerida" , "numero_beneficiados" ,"justificacion" ,  "uri_establecimiento", "uri_institucion"
@@ -167,7 +167,7 @@ class EspaciosSerializer(serializers.ModelSerializer):
 
 class SanitariosSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sanitarios
+        model = Sanitario
         fields = (
 
 
@@ -183,7 +183,7 @@ class SanitariosSerializer(serializers.ModelSerializer):
 
 class MobiliariosSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Mobiliarios
+        model = Mobiliario
         fields = (
 
 "periodo", "cod_departamento" ,   "nombre_departamento" ,"cod_distrito" ,   "nombre_distrito", "prioridad" ,  
@@ -197,7 +197,7 @@ class MobiliariosSerializer(serializers.ModelSerializer):
 
 class EstadosLocalesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = EstadosLocales
+        model = ServicioBasico
         fields = (
 "periodo", "cod_departamento", "nombre_departamento", "cod_distrito" ,"nombre_distrito" ,"cod_establecimiento" ,
  "codigo_barrio_localidad" ,"nombre_barrio_localidad", "codigo_zona" ,"nombre_zona",

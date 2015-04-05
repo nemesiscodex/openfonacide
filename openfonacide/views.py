@@ -145,12 +145,12 @@ class PrioridadControllerV2(View):
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         result = {
-            "aulas": get_Pr(codigo_establecimiento, Espacios, EspaciosSerializer).data,
-            "sanitarios": get_Pr(codigo_establecimiento, Sanitarios,
+            "aulas": get_Pr(codigo_establecimiento, Espacio, EspaciosSerializer).data,
+            "sanitarios": get_Pr(codigo_establecimiento, Sanitario,
                                              SanitariosSerializer).data,
-            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliarios,
+            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliario,
                                              MobiliariosSerializer).data,
-           "estados":get_Pr(codigo_establecimiento, EstadosLocales,
+           "estados":get_Pr(codigo_establecimiento, ServicioBasico,
                                              EstadosLocalesSerializer).data,
 
 

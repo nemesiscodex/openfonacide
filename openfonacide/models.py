@@ -142,9 +142,9 @@ class Mobiliario(models.Model):
     cantidad_requerida = models.CharField(max_length=256, null=True)
     numero_beneficiados = models.CharField(max_length=256, null=True)
     justificacion = models.CharField(max_length=1200, null=True)
-    # No se encuentra en el csv
-    # uri_establecimiento = models.CharField(max_length=256, null=True)
-    # uri_institucion = models.CharField(max_length=256, null=True)
+    # Tener especial consideracion, puede no existir en la fuente
+    uri_establecimiento = models.CharField(max_length=256, null=True)
+    uri_institucion = models.CharField(max_length=256, null=True)
 
 
 # Servicios Básicos de los establecimientos según fonacide

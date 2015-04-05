@@ -1,32 +1,40 @@
 import datetime
 import json
-import urllib
-import urllib2
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
-from openfonacide.models import *
+from rest_framework import viewsets
+from rest_framework import pagination
+
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
 
 """
-	ViewSets for API
+    ViewSets for API
 """
 
-class EstablecimientoViewSet(ViewSet):
-	# Recordar que los establecimientos se guardaron en el modelo 
-	# Establecimiento
-	# TODO: REFACTORIZAR!
-	queryset = Establecimiento.objects.all()
 
-class InstitucionViewSet(ViewSet):
-	queryset = Institucion.objects.all()
+class PaginadorEstandard(pagination.LimitOffsetPagination):
+    default_limit = 100
+
+
+class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
+    pagination_class = PaginadorEstandard
+
+
+class EstablecimientoViewSet(OpenFonacideViewSet):
+    serializer_class = EstablecimientoSerializer
+    queryset = Establecimiento.objects.all()
+
+
+class InstitucionViewSet(OpenFonacideViewSet):
+    serializer_class = InstitucionSerializer
+    queryset = Institucion.objects.all()
+
 
 class PartialGroupView(TemplateView):
     """
@@ -55,32 +63,34 @@ class Index(View):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
 
-class ListaInstitucionesController(View):
-    def get(self, request, *args, **kwargs):
-        cantidad = request.GET.get('rows')
-        pagina = request.GET.get('page')
-        lista = Institucion.objects.all()
-        if cantidad is not None:
-            paginator = Paginator(lista, cantidad)
-        else:
-            paginator = Paginator(lista, 10)
-        total = len(lista)
-        if pagina is None:
-            pagina = 1
-        try:
-            instituciones = paginator.page(pagina)
-        except PageNotAnInteger:
-            instituciones = paginator.page(1)
-        except EmptyPage:
-            instituciones = paginator.page(paginator.num_pages)
-        lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-        # result = lista_instituciones.data
-        result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-                  'rows': lista_instituciones.data}
-        return JSONResponse(result)
+# Deprecated
+# class ListaInstitucionesController(View):
+# def get(self, request, *args, **kwargs):
+#         cantidad = request.GET.get('rows')
+#         pagina = request.GET.get('page')
+#         lista = Institucion.objects.all()
+#         if cantidad is not None:
+#             paginator = Paginator(lista, cantidad)
+#         else:
+#             paginator = Paginator(lista, 10)
+#         total = len(lista)
+#         if pagina is None:
+#             pagina = 1
+#         try:
+#             instituciones = paginator.page(pagina)
+#         except PageNotAnInteger:
+#             instituciones = paginator.page(1)
+#         except EmptyPage:
+#             instituciones = paginator.page(paginator.num_pages)
+#         lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
+#         # result = lista_instituciones.data
+#         result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
+#                   'rows': lista_instituciones.data}
+#         return JSONResponse(result)
 
 
 class EstablecimientoController(View):
+
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
@@ -141,28 +151,22 @@ class InstitucionController(View):
         return JSONResponse(institucion.data)
 
 
-class PrioridadControllerV2(View):
+class PrioridadController(View):
+
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         result = {
-            "aulas": get_Pr(codigo_establecimiento, Espacio, EspaciosSerializer).data,
+            "aulas": get_Pr(codigo_establecimiento, Espacio, EspacioSerializer).data,
             "sanitarios": get_Pr(codigo_establecimiento, Sanitario,
-                                             SanitariosSerializer).data,
-            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliario,
-                                             MobiliariosSerializer).data,
-           "estados":get_Pr(codigo_establecimiento, ServicioBasico,
-                                             EstadosLocalesSerializer).data,
+                                 SanitarioSerializer).data,
+            "mobiliarios": get_Pr(codigo_establecimiento, Mobiliario,
+                                  MobiliarioSerializer).data,
+            "estados": get_Pr(codigo_establecimiento, ServicioBasico,
+                              ServicioBasicoSerializer).data,
 
 
-            
-        
-            
         }
         return JSONResponse(result)
-
-
-
-
 
 
 # class TotalPrioridadController(View):
@@ -178,33 +182,33 @@ class PrioridadControllerV2(View):
 #         return JSONResponse(result)
 
 
-
-
-
 class ComentariosController(View):
-    def get(self, request, *args, **kwargs):
-        codigo_establecimiento = kwargs.get('codigo_establecimiento')
-        comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
-        return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
+    pass
 
-    def post(self, request, *args, **kwargs):
-        codigo_establecimiento = kwargs.get('codigo_establecimiento')
-
-        captcha = json.loads(request.POST.get('captcha'))
-
-        # captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
-        #                                  data=urllib.urlencode({
-        #                                      "secret": "secret",
-        #                                      "response": captcha
-        #                                  })).read()
-
-        # analize captcha result
-
-        comentario = Comentarios()
-        comentario.codigo_establecimiento_id = codigo_establecimiento
-        comentario.autor = request.POST.get('autor')
-        comentario.email = request.POST.get('email')
-        comentario.texto = request.POST.get('texto')
-        comentario.fecha = datetime.datetime.now()
-        comentario.save()
-        return JSONResponse({"success": True});
+    # Not yet Implemented
+    # def get(self, request, *args, **kwargs):
+    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
+    #     comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
+    #     return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
+    #
+    # def post(self, request, *args, **kwargs):
+    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
+    #
+    #     captcha = json.loads(request.POST.get('captcha'))
+    #
+    #     # captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
+    #     #                                  data=urllib.urlencode({
+    #     #                                      "secret": "secret",
+    #     #                                      "response": captcha
+    #     #                                  })).read()
+    #
+    #     # analize captcha result
+    #
+    #     comentario = Comentarios()
+    #     comentario.codigo_establecimiento_id = codigo_establecimiento
+    #     comentario.autor = request.POST.get('autor')
+    #     comentario.email = request.POST.get('email')
+    #     comentario.texto = request.POST.get('texto')
+    #     comentario.fecha = datetime.datetime.now()
+    #     comentario.save()
+    #     return JSONResponse({"success": True});

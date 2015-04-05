@@ -10,11 +10,35 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
     longitud = serializers.SerializerMethodField('get_field_lon')
     latitud = serializers.SerializerMethodField('get_field_lat')
     class Meta:
-        model = Institucion
-        fields = ('title', 'description', 'anio', 'codigo_establecimiento', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito',
-                  'nombre_distrito', 'codigo_zona', 'nombre_zona', 'codigo_barrio_localidad', 'nombre_barrio_localidad',
-                  'direccion', 'coordenadas_y', 'coordenadas_x', 'latitud', 'longitud', 'anho_cod_geo', 'programa',
-                  'proyecto_111', 'proyecto_822', 'uri', 'nombre')
+        model = Establecimiento
+        fields = (
+            'anio',
+            'codigo_establecimiento',
+            'codigo_departamento',
+            'nombre_departamento',
+            'codigo_distrito',
+            'nombre_distrito',
+            'codigo_zona',
+            'nombre_zona',
+            'codigo_barrio_localidad',
+            'nombre_barrio_localidad',
+            'direccion',
+            'coordenadas_y',
+            'coordenadas_x',
+            'latitud',
+            'longitud',
+            'anho_cod_geo',
+            'uri',
+            # Nombre corresponde a la concatenacion de los nombres de instituciones
+            # dentro de el establecimiento
+            'nombre',
+            # Fonacide es una variable calculada, correspondiente a si esta en una lista de prioridades
+            'fonacide',
+            'title',
+            'description',
+            'longitud',
+            'latitud'
+        )
 
     def get_field_title(self, obj):
         return obj.nombre.replace('{','').replace('}','')
@@ -35,18 +59,28 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
 
 class InstitucionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InstitucionData
-        fields = ('anio', 'codigo_departamento', 'nombre_departamento', 'codigo_distrito', 'nombre_distrito',
-                  'codigo_barrio_localidad', 'nombre_barrio_localidad', 'codigo_zona', 'nombre_zona',
-                  'codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'sector_o_tipo_gestion',
-                  'codigo_region_administrativa', 'nombre_region_administrativa', 'nombre_supervisor',
-                  'niveles_modalidades', 'codigo_tipo_organizacion', 'nombre_tipo_organizacion',
-                  'participacion_comunitaria', 'direccion', 'nro_telefono', 'tiene_internet', 'paginaweb',
-                  'correo_electronico')
+        model = Institucion
+        fields = (
+            'periodo',
+            'codigo_departamento',
+            'nombre_departamento',
+            'codigo_distrito',
+            'nombre_distrito',
+            'codigo_barrio_localidad',
+            'nombre_barrio_localidad',
+            'codigo_zona',
+            'nombre_zona',
+            'codigo_establecimiento',
+            'codigo_institucion',
+            'nombre_institucion',
+            'anho_cod_geo',
+            'uri_establecimiento',
+            'uri_institucion',
+        )
 
 class ListaInstitucionesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InstitucionData
+        model = Institucion
         fields = ('codigo_establecimiento', 'codigo_institucion', 'nombre_institucion', 'nombre_departamento',
                   'nombre_distrito','nombre_barrio_localidad', 'nombre_region_administrativa', 'nombre_supervisor',
                   'niveles_modalidades', 'direccion', 'nro_telefono')
@@ -60,7 +94,7 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
     dir = serializers.SerializerMethodField('get_field_dir_short_name')
     f = serializers.SerializerMethodField('get_field_f_short_name')
     class Meta:
-        model = Institucion
+        model = Establecimiento
         fields = ('id', 'lat', 'lon','name','dir','f')
 
     def get_field_id_short_name(self, obj):
@@ -100,7 +134,7 @@ class PrioridadesSerializer(serializers.Serializer):
 def get_P(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
-    instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
+    instituciones = Institucion.objects.filter(codigo_establecimiento=establecimiento)
     data = prioridadClass.objects.filter(cod_local=establecimiento)
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_institucion=institucion.codigo_institucion)
@@ -109,7 +143,7 @@ def get_P(establecimiento, prioridadClass, serializerClass):
 def get_Pr(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
-    instituciones = InstitucionData.objects.filter(codigo_establecimiento=establecimiento)
+    instituciones = Institucion.objects.filter(codigo_establecimiento=establecimiento)
     data = prioridadClass.objects.filter(cod_establecimiento=establecimiento)
     for institucion in instituciones:
         data = data | prioridadClass.objects.filter(cod_establecimiento=institucion.codigo_institucion)

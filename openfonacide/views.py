@@ -21,12 +21,12 @@ from openfonacide import jsonh as JSONH
 
 class EstablecimientoViewSet(ViewSet):
 	# Recordar que los establecimientos se guardaron en el modelo 
-	# Institucion
+	# Establecimiento
 	# TODO: REFACTORIZAR!
-	queryset = Institucion.objects.all()
+	queryset = Establecimiento.objects.all()
 
 class InstitucionViewSet(ViewSet):
-	queryset = InstitucionData.objects.all()
+	queryset = Institucion.objects.all()
 
 class PartialGroupView(TemplateView):
     """
@@ -59,7 +59,7 @@ class ListaInstitucionesController(View):
     def get(self, request, *args, **kwargs):
         cantidad = request.GET.get('rows')
         pagina = request.GET.get('page')
-        lista = InstitucionData.objects.all()
+        lista = Institucion.objects.all()
         if cantidad is not None:
             paginator = Paginator(lista, cantidad)
         else:
@@ -88,28 +88,28 @@ class EstablecimientoController(View):
         if short is not None:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializerShort(
-                    Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
                 if query is not None:
                     establecimiento = EstablecimientoSerializerShort(
-                        Institucion.objects.filter(nombre__icontains=query) |
-                        Institucion.objects.filter(direccion__icontains=query), many=True)
+                        Establecimiento.objects.filter(nombre__icontains=query) |
+                        Establecimiento.objects.filter(direccion__icontains=query), many=True)
                     establecimiento = {"results": establecimiento.data}
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
+                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.all(), many=True)
                     return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
-                    Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
                 if query is not None:
                     establecimiento1 = EstablecimientoSerializer(
-                        Institucion.objects.filter(nombre__icontains=query)[:10],
+                        Establecimiento.objects.filter(nombre__icontains=query)[:10],
                         many=True)
                     establecimiento2 = EstablecimientoSerializer(
-                        Institucion.objects.filter(direccion__icontains=query)[:10],
+                        Establecimiento.objects.filter(direccion__icontains=query)[:10],
                         many=True)
                     establecimiento = {
                         "results": {
@@ -126,7 +126,7 @@ class EstablecimientoController(View):
                     }
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
+                    establecimiento = EstablecimientoSerializer(Establecimiento.objects.all(), many=True)
         return JSONResponse(establecimiento.data)
 
 
@@ -135,9 +135,9 @@ class InstitucionController(View):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         if codigo_establecimiento:
             institucion = InstitucionSerializer(
-                InstitucionData.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
+                Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
         else:
-            institucion = InstitucionSerializer(InstitucionData.objects.all(), many=True)
+            institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(institucion.data)
 
 

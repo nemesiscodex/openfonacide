@@ -32,7 +32,7 @@
     $('.ui.category.search')
             .search({
                 apiSettings: {
-                    url: 'establecimiento/?q={query}',
+                    url: 'institucion/?q={query}&cantidad=10'
                 },
                 minCharacters: 4,
                 maxResults: 5,
@@ -64,18 +64,24 @@
                                     open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
-                                        html += '<a class="item" data-id="'+result.codigo_establecimiento+'">';
+                                        html += '<a class="item" data-id="'+result.codigo_institucion+'">';
                                         if (result.url) {
                                             html += '<a href="' + result.url + '"></a>';
                                         }
                                         html += '<div class="content">';
 
-                                        if (result.title !== undefined) {
-                                            result.title = escape(result.title);
-                                            html += '<div class="header">' + result.title.replace(/&quot;/g,'').replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
+                                        if (result.nombre_institucion !== undefined) {
+                                            result.nombre_institucion = escape(result.nombre_institucion);
+                                            html += '<div class="header"><div class="ui horizontal label" title="Codigo de Institucion">' + result.codigo_institucion + '</div>' + result.nombre_institucion.replace(/&quot;/g,'').replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
                                         }
-                                        if (result.description !== undefined) {
-                                            html += '<div class="description">' + result.description.replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
+                                        if (result.direccion !== undefined) {
+                                            html += '<div class="description">' + result.direccion.replace(query, '<span class="highlight">'+query+'</span>') + '</div>';
+                                        }
+                                        if (result.nombre_distrito !== undefined) {
+                                            html += '<div class="ui teal horizontal label" title="Distrito">' + result.nombre_distrito.replace(query, '<span class="highlight blue">'+query+'</span>') + '</div>';
+                                        }
+                                        if (result.nombre_barrio_localidad !== undefined) {
+                                            html += '<div class="ui green horizontal label" title="Barrio/Localidad">' + result.nombre_barrio_localidad.replace(query, '<span class="highlight blue">'+query+'</span>') + '</div>';
                                         }
                                         html += ''
                                         + '</div>'
@@ -94,7 +100,7 @@
                                 return message("Su busqueda no produjo resultados.", 'empty result');
                             response.action = {
                                 url: '',
-                                text: 'Mostrar los '+total_resultdos+' resultados'
+                                text: 'Mostrar todos los resultados'
                             };
                             if (response.action) {
                                 html += ''

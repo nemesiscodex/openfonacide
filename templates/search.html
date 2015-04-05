@@ -64,10 +64,8 @@
                                     open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
-                                        html += '<a class="item" data-id="'+result.codigo_institucion+'">';
-                                        if (result.url) {
-                                            html += '<a href="' + result.url + '"></a>';
-                                        }
+                                        html += '<a class="item"  href="' + response.results.base_url + 'map/' + result.codigo_establecimiento + '/' + result.codigo_institucion + '">';
+
                                         html += '<div class="content">';
 
                                         if (result.nombre_institucion !== undefined) {

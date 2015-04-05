@@ -2,6 +2,7 @@ import datetime
 import json
 import urllib
 import urllib2
+from django.core.urlresolvers import reverse
 from django.db import connection
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -196,7 +197,8 @@ class InstitucionController(View):
                             "results": institucion4
                         },
                         "query": query,
-                        "periodo": periodo
+                        "periodo": periodo,
+                        "base_url": reverse('index')
                     }
                 }
                 return JSONResponse(instituciones)

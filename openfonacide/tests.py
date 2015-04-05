@@ -27,7 +27,7 @@ class EstablecimientoTest(TestCase):
                 anio="2015",
                 codigo_establecimiento="00112233"
             )
-            nuevo_objeto.save()
+            # Will never reach this point
         except Exception, e:
             self.assertRegexpMatches(e.message, "columns anio, codigo_establecimiento are not unique")
 
@@ -68,6 +68,14 @@ class UtilsTest(TestCase):
     def test_conversion_cero(self):
         y = u'0° N'
         x = u'0° N'
+        ny = conversion(y)
+        nx = conversion(x)
+        self.assertEqual("%0.6f" % ny, '0.000000')
+        self.assertEqual("%0.6f" % nx, '0.000000')
+
+    def test_conversion_bad_input(self):
+        y = u'WERQ'
+        x = u'TARE'
         ny = conversion(y)
         nx = conversion(x)
         self.assertEqual("%0.6f" % ny, '0.000000')

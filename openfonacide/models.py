@@ -25,7 +25,7 @@ class Establecimiento(models.Model):
     coordenadas_x = models.CharField(max_length=256)
     latitud = models.CharField(max_length=256)
     longitud = models.CharField(max_length=256)
-    anho_cod_geo = models.CharField(max_length=256)
+    anho_codigo_geo = models.CharField(max_length=256)
     uri = models.CharField(max_length=256)
     # Nombre corresponde a la concatenacion de los nombres de instituciones
     # dentro de el establecimiento
@@ -51,7 +51,7 @@ class Institucion(models.Model):
     codigo_establecimiento = models.CharField(max_length=256)
     codigo_institucion = models.CharField(max_length=256)
     nombre_institucion = models.CharField(max_length=256)
-    anho_cod_geo = models.CharField(max_length=256)
+    anho_codigo_geo = models.CharField(max_length=256)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
 
@@ -91,7 +91,7 @@ class Espacio(models.Model):
     codigo_zona = models.CharField(max_length=256, null=True)
     nombre_zona = models.CharField(max_length=256, null=True)
     nivel_educativo_beneficiado = models.CharField(max_length=256, null=True)
-    cuenta_espacio_para_construccion = models.CharField(max_length=256, null=True)
+    cuenta_con_espacio_para_construccion = models.CharField(max_length=256, null=True)
     nombre_espacio = models.CharField(max_length=200, null=True)
     tipo_requerimiento_infraestructura = models.CharField(max_length=200, null=True)
     cantidad_requerida = models.CharField(max_length=256, null=True)
@@ -116,7 +116,7 @@ class Sanitario(models.Model):
     nivel_educativo_beneficiado = models.CharField(max_length=256, null=True)
     abastecimiento_agua = models.CharField(max_length=256, null=True)
     servicio_sanitario_actual = models.CharField(max_length=256, null=True)
-    cuenta_espacio_para_construccion = models.CharField(max_length=256, null=True)
+    cuenta_con_espacio_para_construccion = models.CharField(max_length=256, null=True)
     tipo_requerimiento_infraestructura = models.CharField(max_length=200, null=True)
     cantidad_requerida = models.CharField(max_length=256, null=True)
     numero_beneficiados = models.CharField(max_length=256, null=True)
@@ -142,9 +142,9 @@ class Mobiliario(models.Model):
     cantidad_requerida = models.CharField(max_length=256, null=True)
     numero_beneficiados = models.CharField(max_length=256, null=True)
     justificacion = models.CharField(max_length=1200, null=True)
-    # No se encuentra en el csv
-    # uri_establecimiento = models.CharField(max_length=256, null=True)
-    # uri_institucion = models.CharField(max_length=256, null=True)
+    # Tener especial consideracion, puede no existir en la fuente
+    uri_establecimiento = models.CharField(max_length=256, null=True)
+    uri_institucion = models.CharField(max_length=256, null=True)
 
 
 # Servicios Básicos de los establecimientos según fonacide

@@ -520,7 +520,7 @@
                 for (var i = 0; i < data.length; i++) {
                     point = data[i];
                     marker = new L.Marker([point.lat, point.lon], {title: point.name, icon: redMarker});
-                    marker.bindPopup("<h4>" + point.name + '</h4><div class="circular ui teal icon button" onClick="openPopUp(' + point.id + ',\'' + point.name.replace('\n', '') + '\')" ><i class="plus outline icon"></i> Detalles</div><hr>' + point.dir);
+                    marker.bindPopup("<h4>" + point.name + '</h4><div class="circular ui teal icon button" onClick="openPopUp( \'' +  point.id + '\',\'' + point.name.replace('\n', '') + '\')" ><i class="plus outline icon"></i> Detalles</div><hr>' + point.dir);
                     markers.addLayer(marker);
                 }
             }

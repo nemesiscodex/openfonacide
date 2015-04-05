@@ -28,7 +28,7 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
             'coordenadas_x',
             'latitud',
             'longitud',
-            'anho_codigo_geo',
+            'anho_cod_geo',
             'uri',
             # Nombre corresponde a la concatenacion de los nombres de instituciones
             # dentro de el establecimiento
@@ -72,14 +72,15 @@ class InstitucionSerializer(serializers.ModelSerializer):
             'codigo_establecimiento',
             'codigo_institucion',
             'nombre_institucion',
-            'anho_codigo_geo',
+            'anho_cod_geo',
             'uri_establecimiento',
             'uri_institucion',
         )
 
+
 # Deprecated
 # class ListaInstitucionesSerializer(serializers.ModelSerializer):
-#     class Meta:
+# class Meta:
 #         model = Institucion
 #         fields = ('codigo_establecimiento',
 #                   'codigo_institucion',
@@ -182,7 +183,7 @@ class EspacioSerializer(serializers.ModelSerializer):
             "codigo_zona",
             "nombre_zona",
             "nivel_educativo_beneficiado",
-            "cuenta_con_espacio_para_construccion",
+            "cuenta_espacio_para_construccion",
             "nombre_espacio",
             "tipo_requerimiento_infraestructura",
             "cantidad_requerida",
@@ -211,7 +212,7 @@ class SanitarioSerializer(serializers.ModelSerializer):
             "nivel_educativo_beneficiado",
             "abastecimiento_agua",
             "servicio_sanitario_actual",
-            "cuenta_con_espacio_para_construccion",
+            "cuenta_espacio_para_construccion",
             "tipo_requerimiento_infraestructura",
             "cantidad_requerida",
             "numero_beneficiados",

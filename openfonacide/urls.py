@@ -62,7 +62,7 @@ urlpatterns = patterns('',
     url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
-    url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
+    url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
     url(r'^((?!admin).)*/?establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
     url(r'^((?!admin).)*/?institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),

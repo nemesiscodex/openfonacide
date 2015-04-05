@@ -1,17 +1,35 @@
+{% block top %}
+
 <div class="ui login small modal">
     <i class="close icon"></i>
 
     <div class="header">
-        Iniciar Session
+        Iniciar Sesion
     </div>
+
+{% endblock %}
+
+{% block content %}
+
     <div class="content">
             <div class="column">
-                <div class="ui form ">
+                {% if form.errors %}
+                    <div class="ui negative message">
+                        <div class="header">
+                            El usuario o password es incorrecto.
+                        </div>
+                        <p>
+                            Porfavor vuelva a intentar.
+                        </p>
+                    </div>
+                {% endif %}
+                <form class="ui form" role="form" autocomplete="on" method="post" action="{% url 'django.contrib.auth.views.login' %}?next={% url 'index' %}">
+                    {% csrf_token %}
                     <div class="field">
                         <label>Usuario</label>
 
                         <div class="ui left icon input">
-                            <input type="text" placeholder="Usuario">
+                            <input type="text" name="username" placeholder="Usuario">
                             <i class="user icon"></i>
                         </div>
                     </div>
@@ -19,7 +37,7 @@
                         <label>Contraseña</label>
 
                         <div class="ui left icon input">
-                            <input type="password" placeholder="Contraseña">
+                            <input type="password" name="password" placeholder="Contraseña">
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -27,16 +45,13 @@
 
                         <a href="javascript:void(0)">Olvide mi Contraseña</a>
                     </div>
-                    <div class="ui blue submit button">Entrar</div>
-                </div>
+                    <button type="submit" class="ui blue submit button">Entrar</button>
+                </form>
             </div>
-
     </div>
+
+{% endblock %}
+
+{% block bottom %}
 </div>
-<script>
-    $(function () {
-//        $('.modal')
-//                .modal('show');
-//        ;
-    });
-</script>
+{% endblock %}

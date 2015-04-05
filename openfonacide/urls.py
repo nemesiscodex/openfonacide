@@ -1,9 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-
+from rest_framework import routers
 from openfonacide.views import *
 
 admin.autodiscover()
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'establecimiento',EstablecimientoViewSet)
+router.register(r'institucion',InstitucionViewSet)
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
@@ -57,13 +61,16 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
-    url(r'^(.*)/?partials/', include(partial_patterns, namespace='partials')),
+    url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadControllerV2.as_view(), name='prioridad'),
     url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
-    url(r'^(.*)/?establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
-    url(r'^institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
+    url(r'^((?!admin).)*/?establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
+    url(r'^((?!admin).)*/?institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')

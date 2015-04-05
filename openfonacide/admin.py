@@ -4,94 +4,52 @@ from import_export.admin import ImportExportModelAdmin
 
 from openfonacide.models import *
 
-#
-# @admin.register(ReparacionSanitario)
-# class ReparacionSanitarioAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ReparacionAulas)
-# class ReparacionAulasAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ConstruccionSanitario)
-# class ConstruccionSanitarioAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(ConstruccionAulas)
-# class ConstruccionAulasAdmin(admin.ModelAdmin):
-#     pass
-
-class ReparacionSanitarioResource(resources.ModelResource):
+class EstablecimientoResource(resources.ModelResource):
 
     class Meta:
-        model = ReparacionSanitario
+        model = Establecimiento
         # exclude = ('id',)
 
-@admin.register(ReparacionSanitario)
-class ReparacionSanitarioAdmin(ImportExportModelAdmin):
-    resource_class = ReparacionSanitarioResource
+
+@admin.register(Establecimiento)
+class EstablecimientoAdmin(ImportExportModelAdmin):
+    resource_class = EstablecimientoResource
     pass
 
 
-class ReparacionAulasResource(resources.ModelResource):
+class InstitucionResource(resources.ModelResource):
 
     class Meta:
-        model = ReparacionAulas
+        model = Institucion
         # exclude = ('id',)
 
-@admin.register(ReparacionAulas)
-class ReparacionAulasAdmin(ImportExportModelAdmin):
-    resource_class = ReparacionAulasResource
-    pass
 
-
-class ConstruccionAulasResource(resources.ModelResource):
-
-    class Meta:
-        model = ConstruccionAulas
-        # exclude = ('id',)
-
-@admin.register(ConstruccionAulas)
-class ConstruccionAulasAdmin(ImportExportModelAdmin):
-    resource_class = ConstruccionAulasResource
-    pass
-
-class ConstruccionSanitarioResource(resources.ModelResource):
-
-    class Meta:
-        model = ConstruccionSanitario
-        # exclude = ('id',)
-
-@admin.register(ConstruccionSanitario)
-class ConstruccionSanitarioAdmin(ImportExportModelAdmin):
-    resource_class = ConstruccionSanitarioResource
+@admin.register(Institucion)
+class InstitucionAdmin(ImportExportModelAdmin):
+    resource_class = InstitucionResource
     pass
 
 
 class SanitariosResource(resources.ModelResource):
 
     class Meta:
-        model = Sanitarios
+        model = Sanitario
         # exclude = ('id',)
 
 
-@admin.register(Sanitarios)
+@admin.register(Sanitario)
 class SanitariosAdmin(ImportExportModelAdmin):
     resource_class = SanitariosResource
     pass
 
 
 class EspaciosResource(resources.ModelResource):
-
     class Meta:
-        model = Espacios
+        model = Espacio
         # exclude = ('id',)
 
 
-@admin.register(Espacios)
+@admin.register(Espacio)
 class EspaciosAdmin(ImportExportModelAdmin):
     resource_class = EspaciosResource
     pass
@@ -102,11 +60,11 @@ class EspaciosAdmin(ImportExportModelAdmin):
 class MobiliariosResource(resources.ModelResource):
 
     class Meta:
-        model = Mobiliarios
+        model = Mobiliario
         # exclude = ('id',)
 
 
-@admin.register(Mobiliarios)
+@admin.register(Mobiliario)
 class MobiliariosAdmin(ImportExportModelAdmin):
     resource_class = MobiliariosResource
     pass
@@ -117,11 +75,11 @@ class MobiliariosAdmin(ImportExportModelAdmin):
 class EstadosResource(resources.ModelResource):
 
     class Meta:
-        model = EstadosLocales
+        model = ServicioBasico
         # exclude = ('id',)
 
 
-@admin.register(EstadosLocales)
+@admin.register(ServicioBasico)
 class EstadosAdmin(ImportExportModelAdmin):
     resource_class = EstadosResource
     pass

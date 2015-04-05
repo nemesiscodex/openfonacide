@@ -9,11 +9,24 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 from openfonacide.models import *
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
+
+"""
+	ViewSets for API
+"""
+
+class EstablecimientoViewSet(ViewSet):
+	# Recordar que los establecimientos se guardaron en el modelo 
+	# Establecimiento
+	# TODO: REFACTORIZAR!
+	queryset = Establecimiento.objects.all()
+
+class InstitucionViewSet(ViewSet):
+	queryset = Institucion.objects.all()
 
 class PartialGroupView(TemplateView):
     """
@@ -46,7 +59,7 @@ class ListaInstitucionesController(View):
     def get(self, request, *args, **kwargs):
         cantidad = request.GET.get('rows')
         pagina = request.GET.get('page')
-        lista = InstitucionData.objects.all()
+        lista = Institucion.objects.all()
         if cantidad is not None:
             paginator = Paginator(lista, cantidad)
         else:
@@ -75,27 +88,28 @@ class EstablecimientoController(View):
         if short is not None:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializerShort(
-                    Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
                 if query is not None:
                     establecimiento = EstablecimientoSerializerShort(
-                        Institucion.objects.filter(nombre__icontains=query) |
-                        Institucion.objects.filter(direccion__icontains=query), many=True)
+                        Establecimiento.objects.filter(nombre__icontains=query) |
+                        Establecimiento.objects.filter(direccion__icontains=query), many=True)
                     establecimiento = {"results": establecimiento.data}
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializerShort(Institucion.objects.all(), many=True)
+                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.all(), many=True)
+                    return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
-                    Institucion.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
             else:
                 if query is not None:
                     establecimiento1 = EstablecimientoSerializer(
-                        Institucion.objects.filter(nombre__icontains=query)[:10],
+                        Establecimiento.objects.filter(nombre__icontains=query)[:10],
                         many=True)
                     establecimiento2 = EstablecimientoSerializer(
-                        Institucion.objects.filter(direccion__icontains=query)[:10],
+                        Establecimiento.objects.filter(direccion__icontains=query)[:10],
                         many=True)
                     establecimiento = {
                         "results": {
@@ -106,13 +120,14 @@ class EstablecimientoController(View):
                             "category2": {
                                 "name": "Direccion",
                                 "results": establecimiento2.data
-                            }
+                            },
+                            "query": query
                         }
                     }
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(JSONH.pack(establecimiento.data))
+                    establecimiento = EstablecimientoSerializer(Establecimiento.objects.all(), many=True)
+        return JSONResponse(establecimiento.data)
 
 
 class InstitucionController(View):
@@ -120,36 +135,22 @@ class InstitucionController(View):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         if codigo_establecimiento:
             institucion = InstitucionSerializer(
-                InstitucionData.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
+                Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
         else:
-            institucion = InstitucionSerializer(InstitucionData.objects.all(), many=True)
+            institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(institucion.data)
-
-
-class PrioridadController(View):
-    def get(self, request, *args, **kwargs):
-        codigo_establecimiento = kwargs.get('codigo_establecimiento')
-        result = {
-            "construccion_aulas": get_P(codigo_establecimiento, ConstruccionAulas, ConstruccionAulasSerializer).data,
-            "construccion_sanitarios": get_P(codigo_establecimiento, ConstruccionSanitario,
-                                             ConstruccionSanitarioSerializer).data,
-            "reparacion_aulas": get_P(codigo_establecimiento, ReparacionAulas, ReparacionAulasSerializer).data,
-            "reparacion_sanitarios": get_P(codigo_establecimiento, ReparacionSanitario,
-                                           ReparacionSanitarioSerializer).data
-        }
-        return JSONResponse(result)
 
 
 class PrioridadControllerV2(View):
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         result = {
-            "aulas": get_Pr(codigo_establecimiento, Espacios, EspaciosSerializer).data,
-            "sanitarios": get_Pr(codigo_establecimiento, Sanitarios,
+            "aulas": get_Pr(codigo_establecimiento, Espacio, EspaciosSerializer).data,
+            "sanitarios": get_Pr(codigo_establecimiento, Sanitario,
                                              SanitariosSerializer).data,
-            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliarios,
+            "mobiliarios":get_Pr(codigo_establecimiento, Mobiliario,
                                              MobiliariosSerializer).data,
-           "estados":get_Pr(codigo_establecimiento, EstadosLocales,
+           "estados":get_Pr(codigo_establecimiento, ServicioBasico,
                                              EstadosLocalesSerializer).data,
 
 

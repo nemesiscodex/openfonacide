@@ -1,16 +1,17 @@
 # coding=utf-8
 from django.test import TestCase
-from openfonacide.models import Institucion
+from openfonacide.models import Establecimiento
 from openfonacide.utils import conversion
 
-class InstitucionTest(TestCase):
+
+class EstablecimientoTest(TestCase):
     def setUp(self):
-        i = Institucion.objects.create(nombre="Institucion1",anio="2015")
+        i = Establecimiento.objects.create(nombre="Institucion1", anio="2015")
         i.save()
-		
+
     def test_db_access(self):
-        k = Institucion.objects.get(anio="2015")
-        self.assertEqual(k.nombre,"Institucion1")
+        k = Establecimiento.objects.get(anio="2015")
+        self.assertEqual(k.nombre, "Institucion1")
 
 
 class UtilsTest(TestCase):
@@ -19,8 +20,8 @@ class UtilsTest(TestCase):
         x = u'79° 58\' 56" W'
         ny = conversion(y)
         nx = conversion(x)
-        self.assertEqual("%0.6f"%ny,'40.446111')
-        self.assertEqual("%0.6f"%nx,'-79.982222')
+        self.assertEqual("%0.6f" % ny, '40.446111')
+        self.assertEqual("%0.6f" % nx, '-79.982222')
 
     def test_conversion_nort_east(self):
         y = u'30° N'
@@ -53,4 +54,3 @@ class UtilsTest(TestCase):
         nx = conversion(x)
         self.assertEqual("%0.6f"%ny, '0.000000')
         self.assertEqual("%0.6f"%nx, '0.000000')
-

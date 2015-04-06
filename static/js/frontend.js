@@ -67,6 +67,81 @@
                 $(element).find('.input').addClass(scope.inputClass);
             }
         });
+    nuevaDirectiva('mapDirective','map-directive.html', {
+        link: function(scope, element, attrs, controller){
+
+            console.log('mapDirectiveLink');
+            scope.$parent.$mapDirective = $(element);
+            if(scope.$parent.$parent.map)
+                scope.$parent.$parent.map.remove();
+            var map = L.map($(element).find('#map')[0]).setView([-25.308, -57.6], 13);
+
+            /* Open Street Map */
+            //Mapnik
+            var osmMapnikLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            });
+            //B&W
+            var osmBWLayer = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            });
+            //DE
+            var osmDELayer = L.tileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            });
+            //HOT
+            var osmHOTLayer = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+            });
+            /* ThunderForest */
+            //OpenCycleMap
+            var thunderforestOpenCycleMapLayer = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            });
+            /* CartoDB*/
+            //Positron
+            var cartodbPositronLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                subdomains: 'abcd',
+                minZoom: 0,
+                maxZoom: 18
+            });
+
+            var baseLayers = {
+                "Open Street Map - Mapnik": osmMapnikLayer,
+                "Open Street Map - Blanco y Negro": osmBWLayer,
+                "Open Street Map - DE": osmDELayer,
+                "Open Street Map - HOT": osmHOTLayer,
+                "ThunderForest - Open Cycle Map": thunderforestOpenCycleMapLayer,
+                "CartoDB - Positron": cartodbPositronLayer
+            };
+
+            var layerControl = L.control.groupedLayers(baseLayers,{},{});
+            map.addControl(layerControl);
+
+            osmMapnikLayer.addTo(map);
+            scope.$parent.$parent.map = map;
+
+            (function(){
+                $(element).parent().find('.sidebar').sidebar({
+                    context: $(element).parent(),
+                    dimPage: false,
+                    closable: false
+                });
+
+                $('.ui.checkbox').checkbox();
+
+                $('.ui.dropdown').dropdown();
+
+                $(element).parent().find(".filter.launch").click(function () {
+                    $('.left.sidebar').sidebar('toggle');
+                });
+            })();
+            console.log(scope.$parent);
+            console.log(scope.$parent.$parent);
+            scope.$parent.$parent.initMap();
+        }
+    });
     nuevaDirectiva('footerInfo','footer.html');
     nuevaDirectiva('api','api.html');
     nuevaDirectiva('loginModal','login.html');
@@ -226,18 +301,16 @@
     /**
      * Controlador del mapa
      */
-    app.controller('MapController', ['$scope', 'backEnd', '$filter', function($scope,backEnd,$filter){
+    app.controller('MapController', ['$scope', 'backEnd', '$filter', '$routeParams', function($scope,backEnd,$filter,$routeParams){
         $scope.showInfo = false;
         $scope.modalTitle = "";
-        $scope.setModalTitle = function (title) {
-            $scope.modalTitle = title;
-        };
         $scope.loading = true;
         $scope.infoData = {};
 
-        $scope.showInfoPopUp = function (id, title) {
-            $scope.setModalTitle(title);
+        $scope.showInfoPopUp = function (id, idInstitucion) {
             $scope.infoData = {};
+            $scope.infoData.instituciones = [];
+            $scope.institucion_actual = undefined;
             backEnd.establecimiento.get({id: id}, function (value, headers) {
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
@@ -245,14 +318,17 @@
 
 
                         $scope.infoData.instituciones = value;
-                        $scope.institucion_actual =  $scope.infoData.instituciones[0].codigo_institucion;
+                        if($.inArray(idInstitucion, $scope.infoData.instituciones.map(function(el){return el.codigo_institucion})) >= 0)
+                            $scope.institucion_actual = idInstitucion;
+                        else
+                            $scope.institucion_actual =  $scope.infoData.instituciones[0].codigo_institucion;
                         $scope.periodo = 2015;
 
                        // $('#info_modal').modal('show');
                        // setTimeout(function(){
                        //  $('#info_modal').modal('refresh');
                        // },1300);
-
+                        $scope.$parent.$mapDirective.parent().find('.right.sidebar').sidebar('show');
                     });
             });
             backEnd.prioridades.get({id: id}, function (value, headers) {
@@ -261,58 +337,8 @@
 
             });
 
-            $('.right.sidebar').sidebar('show');
 
         };
-
-        // var sidebar = L.control.sidebar('sidebar');
-
-        $scope.map = L.map('map').setView([-25.308, -57.6], 13);
-
-        /* Open Street Map */
-        //Mapnik
-        var osmMapnikLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-        //B&W
-        var osmBWLayer = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-        //DE
-        var osmDELayer = L.tileLayer('http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-        //HOT
-        var osmHOTLayer = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
-        });
-        /* ThunderForest */
-        //OpenCycleMap
-        var thunderforestOpenCycleMapLayer = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        });
-        /* CartoDB*/
-        //Positron
-        var cartodbPositronLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-            subdomains: 'abcd',
-            minZoom: 0,
-            maxZoom: 18
-        });
-
-        var baseLayers = {
-            "Open Street Map - Mapnik": osmMapnikLayer,
-            "Open Street Map - Blanco y Negro": osmBWLayer,
-            "Open Street Map - DE": osmDELayer,
-            "Open Street Map - HOT": osmHOTLayer,
-            "ThunderForest - Open Cycle Map": thunderforestOpenCycleMapLayer,
-            "CartoDB - Positron": cartodbPositronLayer
-        };
-
-        var layerControl = L.control.groupedLayers(baseLayers,{},{});
-        $scope.map.addControl(layerControl);
-
-        osmMapnikLayer.addTo($scope.map);
 
         $scope.onEachFeature = function (feature, layer) {
             // Load the default style.
@@ -357,12 +383,6 @@
             })(layer, feature.properties);
         };
 
-
-        backEnd.establecimiento_short.query({}, function (data, headers) {
-            $scope.mapData = JSONH.unpack(data);
-
-            $scope.update('');
-        });
 
         $scope.update = function (filterType) {
 
@@ -529,6 +549,21 @@
 
 
             $scope.loading = false;
-        }
+        };
+        $scope.$parent.$parent.initMap = function(){
+            if($routeParams.establecimiento)
+                $scope.showInfoPopUp($routeParams.establecimiento, $routeParams.institucion);
+            if(!$scope.$parent.mapData)
+                backEnd.establecimiento_short.query({}, function (data, headers) {
+                    $scope.mapData = JSONH.unpack(data);
+                    $scope.$parent.mapData = $scope.mapData;
+                    $scope.update('');
+                });
+            else{
+                $scope.mapData = $scope.$parent.mapData;
+                $scope.update('');
+            }
+        };
+
     }]);
 })();

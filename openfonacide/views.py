@@ -1,10 +1,15 @@
 import datetime
 import json
-
+import urllib
+import urllib2
+from django.core.urlresolvers import reverse
+from django.db import connection
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from openfonacide.utils import dictfetch, escapelike
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
 from rest_framework import pagination
@@ -14,7 +19,7 @@ from openfonacide import jsonh as JSONH
 
 
 """
-    ViewSets for API
+ViewSets for API
 """
 
 
@@ -95,59 +100,110 @@ class EstablecimientoController(View):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
+        anio = request.GET.get('anio')
+        if not anio:
+            anio = '2014'
         if short is not None:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializerShort(
-                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento, anio=anio))
             else:
                 if query is not None:
                     establecimiento = EstablecimientoSerializerShort(
-                        Establecimiento.objects.filter(nombre__icontains=query) |
-                        Establecimiento.objects.filter(direccion__icontains=query), many=True)
+                        Establecimiento.objects.filter(nombre__icontains=query, anio=anio) |
+                        Establecimiento.objects.filter(direccion__icontains=query, anio=anio), many=True)
                     establecimiento = {"results": establecimiento.data}
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.all(), many=True)
+                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio), many=True)
                     return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
-                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento))
+                    Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento, anio=anio))
             else:
-                if query is not None:
-                    establecimiento1 = EstablecimientoSerializer(
-                        Establecimiento.objects.filter(nombre__icontains=query)[:10],
-                        many=True)
-                    establecimiento2 = EstablecimientoSerializer(
-                        Establecimiento.objects.filter(direccion__icontains=query)[:10],
-                        many=True)
-                    establecimiento = {
-                        "results": {
-                            "category1": {
-                                "name": "Nombre",
-                                "results": establecimiento1.data
-                            },
-                            "category2": {
-                                "name": "Direccion",
-                                "results": establecimiento2.data
-                            },
-                            "query": query
-                        }
-                    }
-                    return JSONResponse(establecimiento)
-                else:
-                    establecimiento = EstablecimientoSerializer(Establecimiento.objects.all(), many=True)
+                establecimiento = EstablecimientoSerializer(Establecimiento.objects.filter(anio=anio), many=True)
         return JSONResponse(establecimiento.data)
 
 
 class InstitucionController(View):
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
+        query = request.GET.get('q')
+        periodo = request.GET.get('periodo')
+        cantidad = request.GET.get('cantidad')
+        if not periodo:
+            periodo = '2014'
         if codigo_establecimiento:
             institucion = InstitucionSerializer(
-                Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento), many=True)
+                Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento, periodo=periodo), many=True)
         else:
-            institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
+            if query is not None:
+                base_query = 'SELECT * FROM openfonacide_institucion inst ' \
+                             'JOIN openfonacide_establecimiento est on ' \
+                             '(est.anio=inst.periodo AND est.codigo_establecimiento=inst.codigo_establecimiento)'
+                cursor = connection.cursor()
+                cursor.execute(
+                    base_query +
+                    " WHERE inst.codigo_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    [periodo]
+                )
+                institucion0 = dictfetch(cursor, cantidad)
+                cursor.execute(
+                    base_query +
+                    " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    [periodo]
+                )
+                institucion1 = dictfetch(cursor, cantidad)
+                cursor.execute(
+                    base_query +
+                    " WHERE est.direccion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    [periodo]
+                )
+                institucion2 = dictfetch(cursor, cantidad)
+                cursor.execute(
+                    base_query +
+                    " WHERE inst.nombre_distrito like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    [periodo]
+                )
+                institucion3 = dictfetch(cursor, cantidad)
+                cursor.execute(
+                    base_query +
+                    " WHERE inst.nombre_barrio_localidad like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    [periodo]
+                )
+                institucion4 = dictfetch(cursor, cantidad)
+                print institucion2
+                instituciones = {
+                    "results": {
+                        "category0": {
+                            "name": "Codigo de Instituci&oacute;n",
+                            "results": institucion0
+                        },
+                        "category1": {
+                            "name": "Nombre",
+                            "results": institucion1
+                        },
+                        "category2": {
+                            "name": "Direccion",
+                            "results": institucion2
+                        },
+                        "category3": {
+                            "name": "Distrito",
+                            "results": institucion3
+                        },
+                        "category4": {
+                            "name": "Barrio/Localidad",
+                            "results": institucion4
+                        },
+                        "query": query,
+                        "periodo": periodo,
+                        "base_url": reverse('index')
+                    }
+                }
+                return JSONResponse(instituciones)
+            else:
+                institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
         return JSONResponse(institucion.data)
 
 
@@ -170,7 +226,7 @@ class PrioridadController(View):
 
 
 # class TotalPrioridadController(View):
-#     def get(self, request, *args, **kwargs):
+# def get(self, request, *args, **kwargs):
 #
 #         result = {
 #             "establecimietos": get_fonacide().data,

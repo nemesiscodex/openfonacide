@@ -270,3 +270,17 @@ class ServicioBasicoSerializer(serializers.ModelSerializer):
             "prevencion_incendio",
             "uri_establecimiento"
         )
+
+
+class PrioridadSerializer(serializers.Serializer):
+
+    espacio = EspacioSerializer(read_only=True, many=True)
+    sanitario = SanitarioSerializer(read_only=True, many=True)
+    mobiliario = MobiliarioSerializer(read_only=True, many=True)
+    servicio = ServicioBasicoSerializer(read_only=True, many=True)
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass

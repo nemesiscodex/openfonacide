@@ -1,19 +1,16 @@
-import datetime
-import json
-import urllib
-import urllib2
 from django.core.urlresolvers import reverse
 from django.db import connection
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from openfonacide.utils import dictfetch, escapelike
+from django.http import HttpResponse, Http404
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
 from rest_framework import pagination
+from rest_framework.response import Response
+from rest_framework import permissions
 
+from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
@@ -28,12 +25,91 @@ class PaginadorEstandard(pagination.LimitOffsetPagination):
 
 
 class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
     pagination_class = PaginadorEstandard
 
 
 class EstablecimientoViewSet(OpenFonacideViewSet):
     serializer_class = EstablecimientoSerializer
     queryset = Establecimiento.objects.all()
+
+
+class DummyPrioridad(object):
+    espacio = None
+    mobiliario = None
+    sanitario = None
+    servicio = None
+
+
+class PrioridadAPIViewDetail(viewsets.views.APIView):
+    """
+    Vista para listar las prioridades, y servicios de un establecimiento
+    en especifico, dado un codigo de establecimiento
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self, codigo_establecimiento):
+        prioridad = DummyPrioridad()
+        not_found = 0
+        try:
+            prioridad.espacio = Espacio.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except Espacio.DoesNotExist:
+            not_found += 1
+        try:
+            prioridad.mobiliario = Mobiliario.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except Mobiliario.DoesNotExist:
+            not_found += 1
+        try:
+            prioridad.sanitario = Sanitario.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except Sanitario.DoesNotExist:
+            not_found += 1
+        try:
+            prioridad.servicio = ServicioBasico.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except ServicioBasico.DoesNotExist:
+            not_found += 1
+
+        if not_found == 4:
+            return Http404
+
+        return prioridad
+
+    def get(self, request, codigo_establecimiento, format=None):
+        prioridad = self.get_object(codigo_establecimiento)
+        serializer = PrioridadSerializer(prioridad)
+        if format == "jsonh":
+            return Response(JSONH.pack(serializer.data))
+        return Response(serializer.data)
+
+
+class PrioridadAPIView(viewsets.views.APIView):
+    """
+    Vista para listar todas las prioridades, espacios (aulas, otros)
+    mobiliarios, sanitarios. Y ademas los serivicios basicos
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+    # queryset = DummyPrioridad()
+
+    def get_queryset(self):
+        queryset = DummyPrioridad()
+        queryset.espacio = Espacio.objects.all()
+        queryset.mobiliario = Mobiliario.objects.all()
+        queryset.sanitario = Sanitario.objects.all()
+        queryset.servicio = ServicioBasico.objects.all()
+        return queryset
+
+    def get(self, request, format=None):
+        """
+        Retorna la lista de todas las prioridades y servicios
+        """
+        prioridad_serializada = PrioridadSerializer(self.get_queryset())
+
+        if format == "json":
+            return JSONResponse(prioridad_serializada.data)
+
+        if format == "jsonh":
+            return JSONResponse(JSONH.pack(prioridad_serializada.data))
+
+        return Response(prioridad_serializada.data)
 
 
 class InstitucionViewSet(OpenFonacideViewSet):
@@ -71,11 +147,11 @@ class Index(View):
 # Deprecated
 # class ListaInstitucionesController(View):
 # def get(self, request, *args, **kwargs):
-#         cantidad = request.GET.get('rows')
-#         pagina = request.GET.get('page')
-#         lista = Institucion.objects.all()
-#         if cantidad is not None:
-#             paginator = Paginator(lista, cantidad)
+# cantidad = request.GET.get('rows')
+# pagina = request.GET.get('page')
+# lista = Institucion.objects.all()
+# if cantidad is not None:
+# paginator = Paginator(lista, cantidad)
 #         else:
 #             paginator = Paginator(lista, 10)
 #         total = len(lista)
@@ -95,7 +171,6 @@ class Index(View):
 
 
 class EstablecimientoController(View):
-
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
@@ -115,7 +190,8 @@ class EstablecimientoController(View):
                     establecimiento = {"results": establecimiento.data}
                     return JSONResponse(establecimiento)
                 else:
-                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio), many=True)
+                    establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio),
+                                                                     many=True)
                     return JSONResponse(JSONH.pack(establecimiento.data))
         else:
             if codigo_establecimiento:
@@ -169,7 +245,8 @@ class InstitucionController(View):
                 institucion3 = dictfetch(cursor, cantidad)
                 cursor.execute(
                     base_query +
-                    " WHERE inst.nombre_barrio_localidad like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                    " WHERE inst.nombre_barrio_localidad like '%%" + escapelike(
+                        query.upper()) + "%%' AND inst.periodo=%s",
                     [periodo]
                 )
                 institucion4 = dictfetch(cursor, cantidad)
@@ -208,7 +285,6 @@ class InstitucionController(View):
 
 
 class PrioridadController(View):
-
     def get(self, request, *args, **kwargs):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         result = {

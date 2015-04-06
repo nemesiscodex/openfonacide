@@ -1,13 +1,16 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
+
 from openfonacide.views import *
+
 
 admin.autodiscover()
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'establecimiento', EstablecimientoViewSet)
 router.register(r'institucion', InstitucionViewSet)
+router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
@@ -70,9 +73,16 @@ urlpatterns = patterns('',
     # url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
+    url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )
+
+urlpatterns += [
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
+]
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')
 

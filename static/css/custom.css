@@ -188,4 +188,6 @@ footer {
 }
 .highlight{
     background: #ffff00;
+}.highlight.blue{
+    background: #4E4C89;
 }

@@ -12,6 +12,7 @@ router.register(r'institucion', InstitucionViewSet)
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
     url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
+    url(r'^map-directive\.html$', PartialGroupView.as_view(template_name='map-directive.html'), name='map-directive.html'),
     url(r'^fonacide\.html$', PartialGroupView.as_view(template_name='fonacide.html'), name='fonacide.html'),
     url(r'^graficos\.html$', PartialGroupView.as_view(template_name='graficos.html'), name='graficos.html'),
     url(r'^resumen\.html$', PartialGroupView.as_view(template_name='resumen.html'), name='resumen.html'),

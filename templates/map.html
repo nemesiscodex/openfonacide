@@ -22,8 +22,8 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.cod_institucion==institucion_actual">
-                    {$ item.cod_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
+                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}
 
                     <div class="ui requerimiento stackable grid segment">
                         <div class="four wide column">
@@ -33,14 +33,14 @@
                                 <div class="content">
                                 <h3>Tipo de Requerimiento</h3>
                                 <i class="university icon Big"></i>
-                                <h4> {$ item.tipo_requerimiento_infraestructura $}<br/>{$ item.espacio_destinado $}</h4>
+                                <h4>{$ item.nombre_espacio $}<span ng-show="!item.nombre_espacio">AULA</span><br/>{$ item.tipo_requerimiento_infraestructura $}</h4>
                                     </div>
                             </div>
                             <div class="row ui  center aligned  segment centered">
 
                                 <div class="ui small statistic">
                                   <div class="value circular ui icon">
-                                    {$ item.prioridad $}
+                                    {$ item.numero_prioridad $}
                                   </div>
                                   <div class="label">
                                     Orden de Prioridad
@@ -161,8 +161,8 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.cod_institucion==institucion_actual" >
-                      {$ item.cod_institucion $} -
+                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                      {$ item.codigo_institucion $} -
                     {$ institucion_actual $} - Periodo: {$ item.periodo $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
@@ -179,7 +179,7 @@
 
                                 <div class="ui small statistic">
                                   <div class="value circular ui icon">
-                                    {$ item.prioridad $}
+                                    {$ item.numero_prioridad $}
                                   </div>
                                   <div class="label">
                                     Orden de Prioridad
@@ -300,8 +300,8 @@
                 </div>
 
 
-                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.cod_institucion==institucion_actual" >
-                      {$ item.cod_institucion $} -
+                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                      {$ item.codigo_institucion $} -
                     {$ institucion_actual $} - Periodo: {$ item.periodo $}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
@@ -311,14 +311,14 @@
                                 <div class="content">
                                 <h3>Tipo de Requerimiento</h3>
                                 <i class="university icon Big"></i>
-                                <h4>Mobiliario <br/> {$ item.nombre_mobiliario $}</h4>
+                                <h4>MOBILIARIO <br/> {$ item.nombre_mobiliario $}</h4>
                                     </div>
                             </div>
                             <div class="row ui  center aligned  segment centered">
 
                                 <div class="ui small statistic">
                                   <div class="value circular ui icon">
-                                    {$ item.prioridad $}
+                                    {$ item.numero_prioridad $}
                                   </div>
                                   <div class="label">
                                     Orden de Prioridad

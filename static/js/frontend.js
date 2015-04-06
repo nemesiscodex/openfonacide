@@ -309,6 +309,8 @@
 
         $scope.showInfoPopUp = function (id, idInstitucion) {
             $scope.infoData = {};
+            $scope.infoData.instituciones = [];
+            $scope.institucion_actual = undefined;
             backEnd.establecimiento.get({id: id}, function (value, headers) {
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
@@ -326,7 +328,7 @@
                        // setTimeout(function(){
                        //  $('#info_modal').modal('refresh');
                        // },1300);
-
+                        $scope.$parent.$mapDirective.parent().find('.right.sidebar').sidebar('show');
                     });
             });
             backEnd.prioridades.get({id: id}, function (value, headers) {
@@ -334,7 +336,7 @@
 
 
             });
-            $scope.$parent.$mapDirective.parent().find('.right.sidebar').sidebar('show');
+
 
         };
 

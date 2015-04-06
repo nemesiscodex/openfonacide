@@ -47,8 +47,16 @@ INSTALLED_APPS = (
     'openfonacide'
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+
+}
+
 MIDDLEWARE_CLASSES = (
-    #'django.middleware.gzip.GZipMiddleware',
+    # 'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,48 +74,48 @@ WSGI_APPLICATION = 'openfonacide.wsgi.application'
 
 if ON_PAAS:
     # determine if we are on MySQL or POSTGRESQL
-    if "OPENSHIFT_POSTGRESQL_DB_USERNAME" in os.environ: 
-    
+    if "OPENSHIFT_POSTGRESQL_DB_USERNAME" in os.environ:
+
         DATABASES = {
             'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',  
-                'NAME':     os.environ['OPENSHIFT_APP_NAME'],
-                'USER':     os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME'],
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': os.environ['OPENSHIFT_APP_NAME'],
+                'USER': os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME'],
                 'PASSWORD': os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD'],
-                'HOST':     os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
-                'PORT':     os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
-            }
-        }
-        
-    elif "OPENSHIFT_MYSQL_DB_USERNAME" in os.environ: 
-    
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.mysql',
-                'NAME':     os.environ['OPENSHIFT_APP_NAME'],
-                'USER':     os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
-                'PASSWORD': os.environ['OPENSHIFT_MYSQL_DB_PASSWORD'],
-                'HOST':     os.environ['OPENSHIFT_MYSQL_DB_HOST'],
-                'PORT':     os.environ['OPENSHIFT_MYSQL_DB_PORT'],
+                'HOST': os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
+                'PORT': os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
             }
         }
 
-        
+    elif "OPENSHIFT_MYSQL_DB_USERNAME" in os.environ:
+
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.environ['OPENSHIFT_APP_NAME'],
+                'USER': os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
+                'PASSWORD': os.environ['OPENSHIFT_MYSQL_DB_PASSWORD'],
+                'HOST': os.environ['OPENSHIFT_MYSQL_DB_HOST'],
+                'PORT': os.environ['OPENSHIFT_MYSQL_DB_PORT'],
+            }
+        }
+
+
 else:
     # stock django
     DATABASES = {
-         'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME':     'openfonacide',
-                'USER':     'fonacide',
-                'PASSWORD': '12345',
-                'HOST':     'localhost',
-                'PORT':     '5432'
-            }
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'openfonacide',
+            'USER': 'fonacide',
+            'PASSWORD': '12345',
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
     }
 if "test" in sys.argv:
-	DATABASES['default']['ENGINE']='django.db.backends.sqlite3'
-	DATABASES['default']['NAME']='sqlite3' 
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = 'sqlite3'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -134,7 +142,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'wsgi','static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'wsgi', 'static')
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -145,6 +153,6 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR,"static"),
+    os.path.join(BASE_DIR, "static"),
 )
 

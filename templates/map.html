@@ -15,6 +15,11 @@
         <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
 
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
+
+         <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más información de la institución</div></a>
+
+
+
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
                          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
@@ -301,8 +306,8 @@
 
 
                  <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
-                      {$ item.codigo_institucion $} -
-                    {$ institucion_actual $} - Periodo: {$ item.periodo $}
+{#                      {$ item.codigo_institucion $} -#}
+{#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 

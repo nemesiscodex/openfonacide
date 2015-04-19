@@ -1,4 +1,6 @@
 django >= 1.7, < 1.8
 djangorestframework == 3.1.1
 django-import-export
+django-filter == 0.9.2
 psycopg2
+django-rest-swagger == 0.2.9

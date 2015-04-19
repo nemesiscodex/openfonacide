@@ -7,10 +7,14 @@ from openfonacide.views import *
 
 admin.autodiscover()
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'establecimiento', EstablecimientoViewSet)
-router.register(r'institucion', InstitucionViewSet)
-router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
+router = routers.DefaultRouter(trailing_slash=True)
+router.register(r'establecimientos', EstablecimientoViewSet)
+router.register(r'instituciones', InstitucionViewSet)
+router.register(r'espacios', EspacioViewSet)
+router.register(r'mobiliarios', MobiliarioViewSet)
+router.register(r'sanitarios', SanitarioViewSet)
+router.register(r'serviciosbasicos', ServicioBasicoViewSet)
+router.register(r'prioridades', PrioridadAPIView, base_name="prioridad")
 
 partial_patterns = patterns('',
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
@@ -63,6 +67,10 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
+    url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
+    url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
@@ -72,9 +80,6 @@ urlpatterns = patterns('',
     url(r'^((?!admin).)*/?institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     # url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
-    url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )

@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.core.urlresolvers import reverse
 from django.db import connection
 from django.shortcuts import render_to_response
@@ -5,7 +6,7 @@ from django.template import RequestContext
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
 from rest_framework.renderers import JSONRenderer
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -27,11 +28,64 @@ class PaginadorEstandard(pagination.LimitOffsetPagination):
 class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = PaginadorEstandard
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 class EstablecimientoViewSet(OpenFonacideViewSet):
+    """
+    Este `Endpoint` muestra los establecimientos escolares del MEC
+    y permite filtrar los resultados por los campos
+    *codigo_establecimiento*, *anio*, y *uri*
+
+    Nota: el parámetro *anio* se refiere al año se utilizó este nombre
+    para evitar problemas de codificación
+
+    """
     serializer_class = EstablecimientoSerializer
     queryset = Establecimiento.objects.all()
+    filter_fields = ('codigo_establecimiento', 'anio', 'uri', 'nombre_departamento', 'nombre_distrito')
+    lookup_field = 'codigo_establecimiento'
+
+
+class InstitucionViewSet(OpenFonacideViewSet):
+    serializer_class = InstitucionSerializer
+    queryset = Institucion.objects.all()
+    filter_fields = (
+        'codigo_institucion', 'codigo_establecimiento', 'periodo', 'uri_institucion', 'nombre_departamento',
+        'nombre_distrito'
+    )
+    lookup_field = 'codigo_institucion'
+
+
+class EspacioViewSet(OpenFonacideViewSet):
+    serializer_class = EspacioSerializer
+    queryset = Espacio.objects.all()
+    filter_fields = (
+        'periodo', 'codigo_establecimiento', 'codigo_institucion', 'nombre_espacio',
+        'tipo_requerimiento_infraestructura'
+    )
+    lookup_field = 'codigo_establecimiento'
+
+
+class SanitarioViewSet(OpenFonacideViewSet):
+    serializer_class = SanitarioSerializer
+    queryset = Sanitario.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion', 'tipo_requerimiento_infraestructura')
+    lookup_field = 'codigo_establecimiento'
+
+
+class MobiliarioViewSet(OpenFonacideViewSet):
+    serializer_class = MobiliarioSerializer
+    queryset = Mobiliario.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion')
+    lookup_field = 'codigo_establecimiento'
+
+
+class ServicioBasicoViewSet(OpenFonacideViewSet):
+    serializer_class = ServicioBasicoSerializer
+    queryset = ServicioBasico.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento')
+    lookup_field = 'codigo_establecimiento'
 
 
 class DummyPrioridad(object):
@@ -112,11 +166,6 @@ class PrioridadAPIView(viewsets.views.APIView):
         return Response(prioridad_serializada.data)
 
 
-class InstitucionViewSet(OpenFonacideViewSet):
-    serializer_class = InstitucionSerializer
-    queryset = Institucion.objects.all()
-
-
 class PartialGroupView(TemplateView):
     """
     Utilizada para los templates de AngularJS
@@ -152,11 +201,11 @@ class Index(View):
 # lista = Institucion.objects.all()
 # if cantidad is not None:
 # paginator = Paginator(lista, cantidad)
-#         else:
-#             paginator = Paginator(lista, 10)
-#         total = len(lista)
-#         if pagina is None:
-#             pagina = 1
+# else:
+# paginator = Paginator(lista, 10)
+# total = len(lista)
+# if pagina is None:
+# pagina = 1
 #         try:
 #             instituciones = paginator.page(pagina)
 #         except PageNotAnInteger:

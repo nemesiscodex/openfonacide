@@ -4,6 +4,7 @@ import hashlib, os
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -171,8 +172,8 @@ class Recuperar(View):
             token = request.GET.get('token')
             print email
             if password == password_confirm:
-                user = User.objects.get(email=email)
-                if user:
+                try:
+                    user = User.objects.get(email=email)
                     token_gen = PasswordResetTokenGenerator()
                     if token_gen.check_token(user, token):
                         user.set_password(password)
@@ -184,7 +185,7 @@ class Recuperar(View):
                         _query['error'] = 'invalid_token'
                         _query['message'] = 'Esta url ha caducado o es inválida!'
                         # redirect ?error=invalid_token
-                else:
+                except ObjectDoesNotExist:
                     # redirect ?error=user_does_not_exist
                     _query['error'] = 'user_does_not_exist'
                     _query['message'] = 'El usuario no existe!'

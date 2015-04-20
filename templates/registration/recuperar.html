@@ -1,0 +1,34 @@
+<div class="ui stackable three column centered grid">
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="column">
+    <div class="ui segments">
+      <div class="ui secondary segment">
+        <center><h2>Recuperar Contraseña</h2></center>
+      </div>
+      <div class="ui segment">
+
+        <div class="content">
+                <div class="column">
+                    <form name="recuperarForm" class="ui form" role="form"
+                    autocomplete="off" method="post" action="{% url 'recuperar_pass' %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label>Email</label>
+                            <div class="ui left icon input">
+                                <input required type="email" name="email" placeholder="Email">
+                                <i class="mail icon"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="ui blue submit button">Enviar</button>
+                    </form>
+                </div>
+        </div>
+
+      </div>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>

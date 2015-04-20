@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+
+import hashlib, os
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMessage
 from django.db import connection
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, Context
+from django.template.loader import get_template
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
 from rest_framework.renderers import JSONRenderer
@@ -10,6 +16,9 @@ from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import permissions
 
+from django.contrib.auth.models import User
+
+from openfonacide.models import RecuperarPassword
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
@@ -141,6 +150,32 @@ class JSONResponse(HttpResponse):
 
 class Index(View):
     def get(self, request, *args, **kwargs):
+        return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+
+class Recuperar(View):
+    def get(self, request, *args, **kwargs):
+        return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+
+        user = User.objects.get(email=email)
+        if user:
+            token_gen = PasswordResetTokenGenerator()
+            token = token_gen.make_token(user)
+            print user.username
+            ctx = {
+                "name": user.username,
+                "url": request.build_absolute_uri(reverse('recuperar_pass')) + '?token=' + token
+            }
+            mensaje = get_template('registration/mail.recuperar.html').render(Context(ctx))
+            to = [ email ]
+            mail = EmailMessage('Recuperar Contraseña',
+                                mensaje,
+                                to=to,
+                                from_email='openfonacide@ceamso.com.py')
+            mail.content_type = 'html'
+            mail.send()
+
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
 

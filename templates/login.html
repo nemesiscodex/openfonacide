@@ -13,8 +13,7 @@
 
     <div class="content">
             <div class="column">
-                {% if form.errors %}
-                    <div class="ui negative message">
+                    <div class="ui negative message" ng-show="errors">
                         <div class="header">
                             El usuario o password es incorrecto.
                         </div>
@@ -22,7 +21,6 @@
                             Porfavor vuelva a intentar.
                         </p>
                     </div>
-                {% endif %}
                 <form class="ui form" role="form" autocomplete="on" method="post" action="{% url 'django.contrib.auth.views.login' %}?next={% url 'index' %}">
                     {% csrf_token %}
                     <div class="field">

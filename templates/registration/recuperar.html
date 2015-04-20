@@ -9,7 +9,49 @@
       </div>
       <div class="ui segment">
 
-        <div class="content">
+    <div class="ui positive message" ng-if="recCtrl.success">
+      <i class="close icon"></i>
+      <div class="header">
+        Exito!
+      </div>
+      <p>{$ recCtrl.message $}</p>
+    </div>
+
+    <div class="ui negative message" ng-if="recCtrl.error">
+      <i class="close icon"></i>
+      <div class="header">
+        Error!
+      </div>
+      <p>{$ recCtrl.message $}</p>
+    </div>
+        {# CONFIRMACION #}
+        <div class="content" ng-if="recCtrl.confirmar && !recCtrl.success">
+                <div class="column">
+                    <form name="recuperarForm" class="ui form" role="form"
+                    autocomplete="off" method="post" action="{$ recCtrl.action $}">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="field">
+                            <label>Contraseña</label>
+                            <div class="ui left icon input">
+                                <input required type="password" name="password" placeholder="Contraseña">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Confirmar contraseña</label>
+                            <div class="ui left icon input">
+                                <input required type="password" name="password_confirm" placeholder="Contraseña">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="ui blue submit button">Enviar</button>
+                    </form>
+                </div>
+        </div>
+
+        {# MAIL #}
+        <div class="content" ng-if="!recCtrl.confirmar && !recCtrl.success">
                 <div class="column">
                     <form name="recuperarForm" class="ui form" role="form"
                     autocomplete="off" method="post" action="{% url 'recuperar_pass' %}">

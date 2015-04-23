@@ -35,7 +35,6 @@
                     url: 'institucion/?q={query}&cantidad=10'
                 },
                 minCharacters: 4,
-                maxResults: 5,
                 cache: true,
                 templates: {
                     message: message,
@@ -64,7 +63,7 @@
                                     open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
-                                        html += '<a class="item"  href="' + response.results.base_url + 'map/' + result.codigo_establecimiento + '/' + result.codigo_institucion + '">';
+                                        html += '<a class="item"  href="' + response.results.base_url + 'map?establecimiento=' + result.codigo_establecimiento + '&institucion=' + result.codigo_institucion + '">';
 
                                         html += '<div class="content">';
 

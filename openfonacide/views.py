@@ -1,14 +1,25 @@
+# -*- coding: utf-8 -*-
+
+import hashlib, os
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import redirect
+from django.template import RequestContext, Context
+from django.template.loader import get_template
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
+from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import permissions
+
+from django.contrib.auth.models import User
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
@@ -143,6 +154,72 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
+class Recuperar(View):
+    def get(self, request, *args, **kwargs):
+        return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+    def post(self, request, *args, **kwargs):
+        method = request.POST.get('_method')
+        _query = request.GET.copy()
+        print request.REQUEST.__str__();
+        print _query;
+        _query.pop("error", None)
+        _query.pop("message", None)
+        _query.pop("success", None)
+        if method == 'PUT':
+            password = request.POST.get('password')
+            password_confirm = request.POST.get('password_confirm')
+            email = request.GET.get('email')
+            token = request.GET.get('token')
+            print email
+            if password == password_confirm:
+                try:
+                    user = User.objects.get(email=email)
+                    token_gen = PasswordResetTokenGenerator()
+                    if token_gen.check_token(user, token):
+                        user.set_password(password)
+                        user.save()
+                        _query['success'] = 'password_changed'
+                        _query['message'] = 'Tu password ha sido cambiado!'
+                        # redirect ?success=password_changed
+                    else:
+                        _query['error'] = 'invalid_token'
+                        _query['message'] = 'Esta url ha caducado o es inválida!'
+                        # redirect ?error=invalid_token
+                except ObjectDoesNotExist:
+                    # redirect ?error=user_does_not_exist
+                    _query['error'] = 'user_does_not_exist'
+                    _query['message'] = 'El usuario no existe!'
+            else:
+                # redirect ?error=password_missmatch
+                _query['error'] = 'password_missmatch'
+                _query['message'] = 'Las contraseñas no coinciden!'
+                pass
+        else:
+            email = request.POST.get('email')
+
+            user = User.objects.get(email=email)
+            if user:
+                token_gen = PasswordResetTokenGenerator()
+                token = token_gen.make_token(user)
+                print user.username
+                ctx = {
+                    "name": user.username,
+                    "url": request.build_absolute_uri(reverse('recuperar_pass')) + '?token=' + token + '&email=' + email
+                }
+                mensaje = get_template('registration/mail.recuperar.html').render(Context(ctx))
+                to = [ email ]
+                mail = EmailMessage('Recuperar Contraseña',
+                                    mensaje,
+                                    to=to,
+                                    from_email='openfonacide@ceamso.com.py')
+                mail.content_type = 'html'
+                mail.send()
+
+            _query['success'] = 'email_sent'
+            _query['message'] = 'Se ha enviado un correo con las instrucciones!'
+            #redirect ?success=email_sent
+        return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
+
 
 # Deprecated
 # class ListaInstitucionesController(View):
@@ -250,7 +327,6 @@ class InstitucionController(View):
                     [periodo]
                 )
                 institucion4 = dictfetch(cursor, cantidad)
-                print institucion2
                 instituciones = {
                     "results": {
                         "category0": {

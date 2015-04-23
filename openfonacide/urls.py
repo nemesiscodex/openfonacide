@@ -14,7 +14,6 @@ router.register(r'espacios', EspacioViewSet)
 router.register(r'mobiliarios', MobiliarioViewSet)
 router.register(r'sanitarios', SanitarioViewSet)
 router.register(r'serviciosbasicos', ServicioBasicoViewSet)
-router.register(r'prioridades', PrioridadAPIView, base_name="prioridad")
 
 partial_patterns = patterns('',
     url(r'^registration/login\.html$', PartialGroupView.as_view(template_name='registration/login.html'), name='registration/login.html'),
@@ -71,8 +70,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
-    url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),

@@ -11,6 +11,7 @@ from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets, filters
 from rest_framework import pagination
@@ -53,6 +54,16 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
     queryset = Establecimiento.objects.all()
     filter_fields = ('codigo_establecimiento', 'anio', 'uri', 'nombre_departamento', 'nombre_distrito')
     lookup_field = 'codigo_establecimiento'
+
+    @detail_route(methods=['get'], url_path='prioridad')
+    def prioridad(self, request, codigo_establecimiento=None):
+        prioridad_view = PrioridadAPIViewDetail()
+        prioridad = prioridad_view.get_object(codigo_establecimiento=codigo_establecimiento)
+        p_ser = PrioridadSerializer(prioridad)
+        if request.GET.get('format') is 'jsonh':
+            print request.GET['format']
+            return Response(JSONH.pack(p_ser.data))
+        return Response(p_ser.data)
 
 
 class InstitucionViewSet(OpenFonacideViewSet):
@@ -113,20 +124,26 @@ class PrioridadAPIViewDetail(viewsets.views.APIView):
     def get_object(self, codigo_establecimiento):
         prioridad = DummyPrioridad()
         not_found = 0
+
         try:
-            prioridad.espacio = Espacio.objects.get(codigo_establecimiento=codigo_establecimiento)
+            Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except Establecimiento.DoesNotExist:
+            return Http404
+
+        try:
+            prioridad.espacio = Espacio.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Espacio.DoesNotExist:
             not_found += 1
         try:
-            prioridad.mobiliario = Mobiliario.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.mobiliario = Mobiliario.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Mobiliario.DoesNotExist:
             not_found += 1
         try:
-            prioridad.sanitario = Sanitario.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.sanitario = Sanitario.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Sanitario.DoesNotExist:
             not_found += 1
         try:
-            prioridad.servicio = ServicioBasico.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.servicio = ServicioBasico.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except ServicioBasico.DoesNotExist:
             not_found += 1
 
@@ -137,6 +154,7 @@ class PrioridadAPIViewDetail(viewsets.views.APIView):
 
     def get(self, request, codigo_establecimiento, format=None):
         prioridad = self.get_object(codigo_establecimiento)
+        print(prioridad)
         serializer = PrioridadSerializer(prioridad)
         if format == "jsonh":
             return Response(JSONH.pack(serializer.data))
@@ -200,9 +218,11 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
+
 class Recuperar(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+
     def post(self, request, *args, **kwargs):
         method = request.POST.get('_method')
         _query = request.GET.copy()
@@ -253,7 +273,7 @@ class Recuperar(View):
                     "url": request.build_absolute_uri(reverse('recuperar_pass')) + '?token=' + token + '&email=' + email
                 }
                 mensaje = get_template('registration/mail.recuperar.html').render(Context(ctx))
-                to = [ email ]
+                to = [email]
                 mail = EmailMessage('Recuperar Contraseña',
                                     mensaje,
                                     to=to,
@@ -263,7 +283,7 @@ class Recuperar(View):
 
             _query['success'] = 'email_sent'
             _query['message'] = 'Se ha enviado un correo con las instrucciones!'
-            #redirect ?success=email_sent
+            # redirect ?success=email_sent
         return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
 
 
@@ -280,8 +300,8 @@ class Recuperar(View):
 # total = len(lista)
 # if pagina is None:
 # pagina = 1
-#         try:
-#             instituciones = paginator.page(pagina)
+# try:
+# instituciones = paginator.page(pagina)
 #         except PageNotAnInteger:
 #             instituciones = paginator.page(1)
 #         except EmptyPage:

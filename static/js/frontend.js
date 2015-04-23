@@ -16,30 +16,40 @@
           .when('/', {
             templateUrl: 'partials/home.html',
           })
+          .when('/accounts/login/', {
+            templateUrl: '/partials/registration/login.html'
+          })
+
+          .when('/accounts/recuperar/', {
+            controller: 'RecuperarController',
+            controllerAs: 'recCtrl',
+            templateUrl: '/partials/registration/recuperar.html'
+          })
+
           .when('/map/', {
             controller: 'MapController',
-            templateUrl: '../partials/map.html'
+            templateUrl: '/partials/map.html'
           })
 
           .when('/map/:establecimiento', {
             controller: 'MapController',
-            templateUrl: '../partials/map.html'
+            templateUrl: '/partials/map.html'
           })
           .when('/map/:establecimiento/:institucion', {
             controller: 'MapController',
-            templateUrl: '../../partials/map.html'
+            templateUrl: '/partials/map.html'
           })
           .when('/resumen/', {
             controller: 'ResumenController',
-            templateUrl: '../partials/resumen.html'
+            templateUrl: '/partials/resumen.html'
           })
           .when('/graficos/', {
             controller: 'GraficosController',
-            templateUrl: '../partials/graficos.html'
+            templateUrl: '/partials/graficos.html'
           })
           .when('/fonacide/', {
             controller: 'FonacideController',
-            templateUrl: '../partials/fonacide.html'
+            templateUrl: '/partials/fonacide.html'
           });
 
         $locationProvider.html5Mode(true);
@@ -201,6 +211,34 @@
                     })
             }
         }]);
+
+    /**
+     * Controlador de recuperacion de contraseña
+     */
+    app.controller('RecuperarController', [ '$scope', '$location', function($scope, $location){
+        var $controller = this;
+        var query = $location.search();
+
+        $controller.action = $location.$$url;
+
+        if(query.token){
+          $controller.confirmar = true;
+        }else
+          $controller.confirmar = false;
+
+        if(query.error){
+          $controller.error = query.error;
+          $controller.message = query.message;
+
+        }else if(query.success){
+          $controller.success = query.success;
+          $controller.message = query.message;
+        }
+
+
+
+    }]);
+
 
     /**
      * Controlador de la pagina

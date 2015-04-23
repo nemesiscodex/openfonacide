@@ -5,6 +5,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/ui.jqgrid.css' %}" />
+        <base href="{% url 'index' %}">
         <link href="{% static 'semantic.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/leaflet.css' %}" rel="stylesheet">
         <link href="{% static 'css/leaflet.groupedlayercontrol.min.css' %}" rel="stylesheet">
@@ -24,7 +25,7 @@
         <span ng-init="errors = true"></span>
         {% endif %}
 
-        <div id="ng-view" ng-view ></div>
+        <div id="ng-view" ng-view >{% url 'index' %}</div>
 
         <archivos-contraloria></archivos-contraloria>
         <login-modal></login-modal>
@@ -52,15 +53,7 @@
         <script src="{% static 'js/frontend.directive.js' %}"></script>
         <script src="{% static 'js/frontend.PageController.js' %}"></script>
         <script src="{% static 'js/frontend.RecuperarController.js' %}"></script>
-        <script>
-			var $MapController;
-
-			function openPopUp(codigoEstablecimiento, title){
-                if(!$MapController)
-                    $MapController = angular.element($('#ng-view')).scope();
-                    $MapController.showInfoPopUp(codigoEstablecimiento, title);
-            }
-        </script>
+      
 
 
          <footer-info></footer-info>

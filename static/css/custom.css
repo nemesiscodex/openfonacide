@@ -21,6 +21,13 @@ a:hover {
     border-radius: 3px !important;
 }
 
+
+
+.search .ui.label.visible, .search  .ui.labels.visible .label {
+  
+display: table-cell !important;
+}
+
 #map,#loading_map{
     /*margin-top: 35px;*/
     height: calc(100% - 35px);

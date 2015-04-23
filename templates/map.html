@@ -1,4 +1,3 @@
-
     <style>
     /*Ver donde ubicar las reglas*/
     
@@ -24,14 +23,13 @@
 
     </style>
     
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; ">
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; " du-scroll-container>
         <div class="ui top attached tabular menu">
 
 
-
-          <div class="item" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" ng-click="$parent.institucion_actual = institucion.codigo_institucion" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" href="/map?establecimiento={$ institucion.codigo_establecimiento $}&institucion={$ institucion.codigo_institucion $}" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
             {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
-          </div>
+          </a>
         </div>
 
 
@@ -40,6 +38,12 @@
         <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
 
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
+
+         <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más información de la institución</div></a>
+        <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
+
+
+
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
                          style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
@@ -47,8 +51,8 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
-                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}
+                <div class="column " id="prio-aulas" style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
+{#                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}#}
 
                     <div class="ui requerimiento stackable grid segment">
                         <div class="four wide column">
@@ -115,7 +119,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -181,14 +185,14 @@
 
 
                         </div>
-                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                           <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
                     </div>
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
-                      {$ item.codigo_institucion $} -
-                    {$ institucion_actual $} - Periodo: {$ item.periodo $}
+                <div class="column "  id="prio-sanitarios" style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+{#                      {$ item.codigo_institucion $} -#}
+{#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 
@@ -254,7 +258,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -325,9 +329,9 @@
                 </div>
 
 
-                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
-                      {$ item.codigo_institucion $} -
-                    {$ institucion_actual $} - Periodo: {$ item.periodo $}
+                 <div class="column " id="prio-mobiliarios" style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+{#                      {$ item.codigo_institucion $} -#}
+{#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
                         <div class="four wide column">
 
@@ -393,7 +397,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -459,13 +463,29 @@
 
 
                         </div>
-                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                           <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
                     </div>
                 </div>
 
 
-                <div class="column " ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
+                <div class="column" ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
 
+                <div class="column"><div  id="disqus_thread"></div></div>
+                
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'contralorfonacide';
+   
+
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 
@@ -489,7 +509,7 @@
                 </div>
 -->
 
-<div class="ui left  vertical  overlay sidebar push uncover "
+<div class="ui left  vertical  overlay sidebar push uncover"
      style="z-index: 1002; background: #f7f7f7;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
@@ -587,8 +607,30 @@
      </div>
    
 </div>
-<map-directive class="pusher">
-</map-directive>
-
-
+<div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">
+    <div class="ui indeterminate text loader">Cargando Mapa</div>
 </div>
+<div id="menu-launch" class="ui big filter launch basic right attached fixed button"
+     style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
+  <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
+</div>
+<div class="pusher mapContainer">
+  <div id="map" style="height: 96%">
+  </div>
+</div>
+<script>
+  (function(){
+
+    $('.ui.checkbox').checkbox();
+    $('.ui.dropdown').dropdown();
+    angular.element(".filter.launch").click(function(){
+      angular.element('.left.sidebar')
+      .sidebar({
+        context: angular.element('[ng-view]'),
+        dimPage: false,
+        closable: false
+      })
+      .sidebar('toggle');
+    });
+  })();
+</script>

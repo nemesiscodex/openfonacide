@@ -327,7 +327,6 @@ class InstitucionController(View):
                     [periodo]
                 )
                 institucion4 = dictfetch(cursor, cantidad)
-                print institucion2
                 instituciones = {
                     "results": {
                         "category0": {

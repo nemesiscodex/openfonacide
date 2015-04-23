@@ -205,3 +205,8 @@ position: absolute;
 z-index: 900;
 pointer-events: none;
 }
+
+/* Footer */
+.footer-info {
+    margin: 0% !important;
+}

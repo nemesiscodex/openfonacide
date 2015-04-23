@@ -7,6 +7,10 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+        $scope.scrollTo = function (id) {
+          $location.hash(id);
+          $anchorScroll();
+        };
         $scope.create = function (){
 
           if(window.mapLoaded){
@@ -171,13 +175,14 @@
 
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
-					if(!idInstitucion)
-						idInstitucion = '';
-					if($scope.last.codigo_establecimiento === id
-							&& $scope.last.codigo_institucion === idInstitucion){
-						return;
-					}
-					$scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion}
+          $scope.establecimiento = id;
+          if(!idInstitucion)
+            idInstitucion = '';
+          if($scope.last.codigo_establecimiento === id
+                && $scope.last.codigo_institucion === idInstitucion){
+            return;
+          }
+          $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion}
           //{verified}
           $scope.infoData = {};
           //

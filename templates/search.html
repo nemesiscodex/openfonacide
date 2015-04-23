@@ -1,8 +1,23 @@
 <div class="ui fluid category search" style="font-size:14px">
-    <div class="ui icon fluid input">
-        <input class="prompt" type="text" placeholder="Buscar Instituciones...">
-        <i class="search icon"></i>
+    <div class="ui  labeled input fluid">
+        <div class="ui dropdown label">
+            <div class="text">Buscar</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item">Todos</div>
+              <div class="item">Id institución</div>
+              <div class="item">Id establecimiento</div>
+              <div class="item">Nombre Institucion</div>
+            </div>
+          </div>
+       
+          <div class="ui icon input fluid">
+      <input class="prompt" type="text" placeholder="Buscar Instituciones">
+      <i class="search icon"></i>
     </div>
+
+          
+</div>
     <div class="results ui styled accordion"></div>
 </div>
 
@@ -32,7 +47,7 @@
     $('.ui.category.search')
             .search({
                 apiSettings: {
-                    url: 'institucion/?q={query}&cantidad=10'
+                    url: 'institucion/?q={query}&cantidad=5'
                 },
                 minCharacters: 4,
                 cache: true,
@@ -52,7 +67,7 @@
                                 if (category.results !== undefined && category.results.length > 0) {
                                     var resultNumber = category.results.length;
                                     total_resultdos += resultNumber;
-                                    if(category.results.length >= 10){
+                                    if(category.results.length >= 5){
                                         resultNumber = '+' + category.results.length;
                                     }
                                     html += ''
@@ -113,4 +128,22 @@
             })
     ;
 
+
+
+    $('.dropdown')
+  .dropdown({
+    // you can use any ui transition
+    transition: 'drop',
+  
+    action: function(value, text) {
+      // custom action
+   
+       $(".prompt").attr("placeholder", 'Buscar por ' + text  );
+    }
+   
+  })
+;
+
+
 </script>
+

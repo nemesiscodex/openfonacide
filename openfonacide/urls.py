@@ -13,6 +13,8 @@ router.register(r'institucion', InstitucionViewSet)
 router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
 
 partial_patterns = patterns('',
+    url(r'^registration/login\.html$', PartialGroupView.as_view(template_name='registration/login.html'), name='registration/login.html'),
+    url(r'^registration/recuperar\.html$', PartialGroupView.as_view(template_name='registration/recuperar.html'), name='registration/recuperar.html'),
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
     url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
     url(r'^map-directive\.html$', PartialGroupView.as_view(template_name='map-directive.html'), name='map-directive.html'),
@@ -63,6 +65,9 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
+    url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
     url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
@@ -75,7 +80,6 @@ urlpatterns = patterns('',
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
     url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
 )
 
@@ -85,6 +89,3 @@ urlpatterns += [
 ]
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')
-
-
-

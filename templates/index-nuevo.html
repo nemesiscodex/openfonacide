@@ -20,6 +20,9 @@
     <body ng-app="frontEnd"  ng-controller="PageController">
         <!-- Your site -->
         <site-nav ng-show="$location.path() != '/'"></site-nav>
+        {% if form.errors %}
+        <span ng-init="errors = true"></span>
+        {% endif %}
 
         <div id="ng-view" ng-view ></div>
 
@@ -45,7 +48,7 @@
         <script src="{% static 'js/frontend.js' %}"></script>
         <script>
 			var $MapController;
-			
+
 			function openPopUp(codigoEstablecimiento, title){
                 if(!$MapController)
                     $MapController = angular.element($('#ng-view')).scope();

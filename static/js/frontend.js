@@ -1,5 +1,5 @@
 (function(){
-    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate']);
+    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate', 'duScroll']);
 
     app.run(function($http, $cookies) {
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -306,6 +306,11 @@
         $scope.modalTitle = "";
         $scope.loading = true;
         $scope.infoData = {};
+
+          $scope.scrollTo = function(id) {
+      $location.hash(id);
+      $anchorScroll();
+   }
 
         $scope.showInfoPopUp = function (id, idInstitucion) {
             $scope.infoData = {};

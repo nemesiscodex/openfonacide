@@ -1,5 +1,5 @@
 
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; ">
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; " du-scroll-container>
         <div class="ui top attached tabular menu">
 
 
@@ -17,7 +17,7 @@
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
 
          <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más información de la institución</div></a>
-        <a href="#disqus_thread"><div class=" ui button teal" >  Hacer comentarios</div></a>
+        <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
 
 
 
@@ -96,7 +96,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -235,7 +235,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -374,7 +374,7 @@
 
                                 </div>
                                  <div class="five wide column">
-                                    <h3>Estado de la obra</h3>
+                                    <h3>Estado de la prioridad</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -446,7 +446,9 @@
 
 
                 <div class="column" ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
-                <div id="disqus_thread"></div>
+
+                <div class="column"><div  id="disqus_thread"></div></div>
+                
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'contralorfonacide';

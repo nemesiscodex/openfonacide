@@ -311,6 +311,7 @@
             $scope.infoData = {};
             $scope.infoData.instituciones = [];
             $scope.institucion_actual = undefined;
+            $scope.establecimiento = id;
             backEnd.establecimiento.get({id: id}, function (value, headers) {
                 $scope.infoData.establecimiento = value;
                 $scope.showInfo = true;
@@ -336,6 +337,8 @@
 
 
             });
+
+
 
 
         };

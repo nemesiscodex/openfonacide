@@ -4,7 +4,7 @@
 
 
 
-          <div class="item" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" ng-click="$parent.institucion_actual = institucion.codigo_institucion" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+          <div class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" ng-click="$parent.institucion_actual = institucion.codigo_institucion" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
             {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
           </div>
         </div>
@@ -17,6 +17,7 @@
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
 
          <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más información de la institución</div></a>
+        <a href="#disqus_thread"><div class=" ui button teal" >  Hacer comentarios</div></a>
 
 
 
@@ -27,7 +28,7 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
+                <div class="column " id="prio-aulas" style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
 {#                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}#}
 
                     <div class="ui requerimiento stackable grid segment">
@@ -166,7 +167,7 @@
                 </div>
 
 
-                <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                <div class="column "  id="prio-sanitarios" style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -305,7 +306,7 @@
                 </div>
 
 
-                 <div class="column " style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                 <div class="column " id="prio-mobiliarios" style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -444,8 +445,22 @@
                 </div>
 
 
-                <div class="column " ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
+                <div class="column" ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'contralorfonacide';
+   
 
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 
 

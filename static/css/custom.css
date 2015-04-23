@@ -23,10 +23,6 @@ a:hover {
 
 
 
-.search .ui.label.visible, .search  .ui.labels.visible .label {
-  
-display: table-cell !important;
-}
 
 #map,#loading_map{
     /*margin-top: 35px;*/
@@ -97,7 +93,7 @@ padding-left: 35px !important;
 }
 .sidebar .dropdownn {
     padding-bottom: 0px !important;
-    
+
 }
 
 .ui.tabular.menu .item{
@@ -182,6 +178,10 @@ footer {
 
 
 /*Search*/
+
+.search .dropdown{
+  padding-top: 0.4em;
+}
 
 .results.ui.styled.accordion .item .content{
     padding: 0;

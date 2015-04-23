@@ -25,9 +25,10 @@
 						controllerAs: 'recCtrl',
 						templateUrl: '/partials/registration/recuperar.html'
 					})
-					.when('/map/:establecimiento?/:institucion?', {
+					.when('/map/', {
 						controller: 'MapController',
-						templateUrl: '/partials/map.html'
+						templateUrl: '/partials/map.html',
+						reloadOnSearch: false
 					})
 					.when('/resumen/', {
 						controller: 'ResumenController',

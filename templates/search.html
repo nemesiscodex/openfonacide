@@ -1,22 +1,23 @@
 <div class="ui fluid category search" style="font-size:14px">
-    <div class="ui  labeled input fluid">
-        <div class="ui dropdown label">
-            <div class="text">Buscar</div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                <div class="item">Todos</div>
-              <div class="item">Id institución</div>
-              <div class="item">Id establecimiento</div>
-              <div class="item">Nombre Institucion</div>
-            </div>
-          </div>
-       
+    <div class="ui labeled fluid">
+
+
           <div class="ui icon input fluid">
+            <div class="ui dropdown teal label">
+                <div class="text">Buscar</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item">Todos</div>
+                  <div class="item">Id institución</div>
+                  <div class="item">Id establecimiento</div>
+                  <div class="item">Nombre Institucion</div>
+                </div>
+              </div>
       <input class="prompt" type="text" placeholder="Buscar Instituciones">
       <i class="search icon"></i>
     </div>
 
-          
+
 </div>
     <div class="results ui styled accordion"></div>
 </div>
@@ -134,16 +135,15 @@
   .dropdown({
     // you can use any ui transition
     transition: 'drop',
-  
+
     action: function(value, text) {
       // custom action
-   
+
        $(".prompt").attr("placeholder", 'Buscar por ' + text  );
     }
-   
+
   })
 ;
 
 
 </script>
-

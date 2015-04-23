@@ -21,7 +21,7 @@
       inputClass: '@'
     },
     link: function(scope, element, attrs) {
-      $(element).find('.input').addClass(scope.inputClass);
+      $(element).find('.input,.label').addClass(scope.inputClass);
     }
   });
   nuevaDirectiva('footerInfo', 'footer.html');

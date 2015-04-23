@@ -191,3 +191,10 @@ footer {
 }.highlight.blue{
     background: #4E4C89;
 }
+
+
+.leaflet-top, .leaflet-bottom {
+position: absolute;
+z-index: 900;
+pointer-events: none;
+}

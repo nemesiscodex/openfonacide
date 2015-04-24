@@ -34,7 +34,7 @@
 
 
 
-        <div class="ui bottom attached active tab segment stackable grid">
+        <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px">
         <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
 
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
@@ -46,12 +46,12 @@
 
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
-                         style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
+                         style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
                       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
                 </div>
 
 
-                <div class="column " id="prio-aulas" style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
+                <div class="column " id="prio-aulas" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
 {#                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}#}
 
                     <div class="ui requerimiento stackable grid segment">
@@ -190,7 +190,7 @@
                 </div>
 
 
-                <div class="column "  id="prio-sanitarios" style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                <div class="column "  id="prio-sanitarios" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -329,7 +329,7 @@
                 </div>
 
 
-                 <div class="column " id="prio-mobiliarios" style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                 <div class="column " id="prio-mobiliarios" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -571,7 +571,7 @@
 
         <div class="ui two column grid">
             <div class="column">
-                <div class="ui checkbox ">
+                <div class="ui gi ">
                     <input type="checkbox" name="fun">
                     <label>Sanitarios</label>
                 </div>

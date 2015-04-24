@@ -169,6 +169,13 @@
         };
         //mostrar detalle
         $scope.mostrarDetalle = function() {};
+
+        //mostrar adjudicaciones
+
+         $scope.mostrarAdjudicaciones = function() {
+            $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
+          };
+
         //filtrar
 
         //---------------

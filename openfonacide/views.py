@@ -310,7 +310,7 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'codigo':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.codigo_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        " WHERE inst.codigo_institucion = '" + escapelike(query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
                         [periodo]
                     )
                     institucion0 = dictfetch(cursor, cantidad, offset)

@@ -55,7 +55,7 @@
                 templates: {
                     message: message,
                     standard: function (response) {
-                        var query = response.results.query.toUpperCase();
+                        var query = response.query.toUpperCase();
                         var total_resultdos = 0;
                         var query_replace = '<span class="highlight">'+query+'</span>';
                         var html = '',
@@ -79,7 +79,7 @@
                                     open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
-                                        html += '<a class="item"  href="' + response.results.base_url + 'map?establecimiento=' + result.codigo_establecimiento + '&institucion=' + result.codigo_institucion + '">';
+                                        html += '<a class="item"  href="' + response.base_url + 'map?establecimiento=' + result.codigo_establecimiento + '&institucion=' + result.codigo_institucion + '">';
 
                                         html += '<div class="content">';
 
@@ -112,7 +112,7 @@
                             if(total_resultdos === 0)
                                 return message("Su busqueda no produjo resultados.", 'empty result');
                             response.action = {
-                                url: '',
+                                url: 'results/?q='+query,
                                 text: 'Mostrar todos los resultados'
                             };
                             if (response.action) {
@@ -126,6 +126,11 @@
                         return false;
                     }
                 }
+            })
+            .keypress(function(event){
+              if (event.which == 13) {
+                window.location.href = 'results/?q='+$(this).find('input').val();
+              }
             })
     ;
 

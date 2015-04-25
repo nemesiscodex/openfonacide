@@ -284,7 +284,12 @@ class InstitucionController(View):
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         query = request.GET.get('q')
         periodo = request.GET.get('periodo')
+        offset = request.GET.get('offset')
         cantidad = request.GET.get('cantidad')
+        tipos = ['nombre', 'codigo', 'direccion', 'distrito', 'barrio']
+        tipo = request.GET.get('tipo')
+        if tipo not in tipos:
+            tipo = None
         if not periodo:
             periodo = '2014'
         if codigo_establecimiento:
@@ -292,68 +297,76 @@ class InstitucionController(View):
                 Institucion.objects.filter(codigo_establecimiento=codigo_establecimiento, periodo=periodo), many=True)
         else:
             if query is not None:
+                instituciones = {
+                    "results": {},
+                    "query": query,
+                    "periodo": periodo,
+                    "base_url": reverse('index')
+                }
                 base_query = 'SELECT * FROM openfonacide_institucion inst ' \
                              'JOIN openfonacide_establecimiento est on ' \
                              '(est.anio=inst.periodo AND est.codigo_establecimiento=inst.codigo_establecimiento)'
                 cursor = connection.cursor()
-                cursor.execute(
-                    base_query +
-                    " WHERE inst.codigo_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
-                    [periodo]
-                )
-                institucion0 = dictfetch(cursor, cantidad)
-                cursor.execute(
-                    base_query +
-                    " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
-                    [periodo]
-                )
-                institucion1 = dictfetch(cursor, cantidad)
-                cursor.execute(
-                    base_query +
-                    " WHERE est.direccion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
-                    [periodo]
-                )
-                institucion2 = dictfetch(cursor, cantidad)
-                cursor.execute(
-                    base_query +
-                    " WHERE inst.nombre_distrito like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
-                    [periodo]
-                )
-                institucion3 = dictfetch(cursor, cantidad)
-                cursor.execute(
-                    base_query +
-                    " WHERE inst.nombre_barrio_localidad like '%%" + escapelike(
-                        query.upper()) + "%%' AND inst.periodo=%s",
-                    [periodo]
-                )
-                institucion4 = dictfetch(cursor, cantidad)
-                instituciones = {
-                    "results": {
-                        "category0": {
-                            "name": "Codigo de Instituci&oacute;n",
-                            "results": institucion0
-                        },
-                        "category1": {
-                            "name": "Nombre",
-                            "results": institucion1
-                        },
-                        "category2": {
-                            "name": "Direccion",
-                            "results": institucion2
-                        },
-                        "category3": {
-                            "name": "Distrito",
-                            "results": institucion3
-                        },
-                        "category4": {
-                            "name": "Barrio/Localidad",
-                            "results": institucion4
-                        },
-                        "query": query,
-                        "periodo": periodo,
-                        "base_url": reverse('index')
+                if tipo is None or tipo == 'codigo':
+                    cursor.execute(
+                        base_query +
+                        " WHERE inst.codigo_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        [periodo]
+                    )
+                    institucion0 = dictfetch(cursor, cantidad, offset)
+                    instituciones['results']["codigo"] = {
+                        "name": "Codigo de Instituci&oacute;n",
+                        "results": institucion0
                     }
-                }
+
+                if tipo is None or tipo == 'nombre':
+                    cursor.execute(
+                        base_query +
+                        " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        [periodo]
+                    )
+                    institucion1 = dictfetch(cursor, cantidad, offset)
+                    instituciones['results']["nombre"] = {
+                        "name": "Nombre",
+                        "results": institucion1
+                    }
+
+                if tipo is None or tipo == 'direccion':
+                    cursor.execute(
+                        base_query +
+                        " WHERE est.direccion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        [periodo]
+                    )
+                    institucion2 = dictfetch(cursor, cantidad, offset)
+                    instituciones['results']["direccion"] = {
+                        "name": "Direccion",
+                        "results": institucion2
+                    }
+
+                if tipo is None or tipo == 'distrito':
+                    cursor.execute(
+                        base_query +
+                        " WHERE inst.nombre_distrito like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        [periodo]
+                    )
+                    institucion3 = dictfetch(cursor, cantidad, offset)
+                    instituciones['results']["distrito"] = {
+                        "name": "Distrito",
+                        "results": institucion3
+                    }
+
+                if tipo is None or tipo == 'barrio':
+                    cursor.execute(
+                        base_query +
+                        " WHERE inst.nombre_barrio_localidad like '%%" + escapelike(
+                            query.upper()) + "%%' AND inst.periodo=%s",
+                        [periodo]
+                    )
+                    institucion4 = dictfetch(cursor, cantidad, offset)
+                    instituciones['results']["barrio"] = {
+                        "name": "Barrio/Localidad",
+                        "results": institucion4
+                    }
                 return JSONResponse(instituciones)
             else:
                 institucion = InstitucionSerializer(Institucion.objects.all(), many=True)

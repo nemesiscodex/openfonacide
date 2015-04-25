@@ -41,6 +41,10 @@
 					.when('/fonacide/', {
 						controller: 'FonacideController',
 						templateUrl: '/partials/fonacide.html'
+					})
+					.when('/results', {
+						controller: 'ResultadosController',
+						templateUrl: '/partials/results.html'
 					});
 
 				$locationProvider.html5Mode(true);

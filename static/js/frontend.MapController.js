@@ -203,7 +203,7 @@
             if(isNaN(lat) || isNaN(lon)){
               alert('No se puede localizar el establecimiento.')
             }else{
-              $scope.map.setView([lat, lon], 13)
+              $scope.map.setView([lat, lon], 16)
             }
 
             backEnd.institucion.query({

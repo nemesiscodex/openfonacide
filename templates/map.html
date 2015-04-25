@@ -1,5 +1,29 @@
+    <style>
+    /*Ver donde ubicar las reglas*/
 
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index:950" du-scroll-container>
+    /*Se define en custom.css línea 81*/
+    .sidebar .filtros {
+		padding-left: 0 !important;
+		margin: 20px 0;
+	}
+
+
+    /*Se define en custom.css línea 70*/
+    .sidebar .ui.checkbox label {
+		/*color: white !important; cambiamos el color de la letra*/
+		color: rgba(0, 0, 0, 0.8) !important;
+	}
+
+	/*Se define en semantic.min.css línea 11*/
+	.ui.segment{
+		   margin: 5%;
+		   pargin: 5%;
+	}
+
+
+    </style>
+
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; " du-scroll-container>
         <div class="ui top attached tabular menu">
 
 
@@ -10,7 +34,7 @@
 
 
 
-        <div class="ui bottom attached active tab segment stackable grid">
+        <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px">
         <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
 
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
@@ -22,12 +46,12 @@
 
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
-                         style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
+                         style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
                       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
                 </div>
 
 
-                <div class="column " id="prio-aulas" style="padding-left: 40px" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
+                <div class="column " id="prio-aulas" ng-repeat="item in prioridades.aulas | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual">
 {#                    {$ item.codigo_institucion $} -    {$ institucion_actual $}  - Periodo: {$ item.periodo $} - Periodo: {$ periodo $}#}
 
                     <div class="ui requerimiento stackable grid segment">
@@ -166,7 +190,7 @@
                 </div>
 
 
-                <div class="column "  id="prio-sanitarios" style="padding-left: 40px" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                <div class="column "  id="prio-sanitarios" ng-repeat="item in prioridades.sanitarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -305,7 +329,7 @@
                 </div>
 
 
-                 <div class="column " id="prio-mobiliarios" style="padding-left: 40px" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
+                 <div class="column " id="prio-mobiliarios" ng-repeat="item in prioridades.mobiliarios | filter:periodo"  ng-show="item.codigo_institucion==institucion_actual" >
 {#                      {$ item.codigo_institucion $} -#}
 {#                    {$ institucion_actual $} - Periodo: {$ item.periodo $}#}
                     <div class="ui stackable grid segment requerimiento">
@@ -447,11 +471,11 @@
                 <div class="column" ng-show="!prioridades.aulas.length && !prioridades.sanitarios.length && !prioridades.mobiliarios.length"> No hay registros</div>
 
                 <div class="column"><div  id="disqus_thread"></div></div>
-                
+
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'contralorfonacide';
-   
+
 
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -472,47 +496,65 @@
         </div>
     </div>
 
+<!--
+<div class="two column ">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="fun">
+                        <label>Mobiliario</label>
+                    </div>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="fun">
+                        <label>Otros Espacios</label>
+                    </div>
+                </div>
+-->
 
-
-<div class="ui left  vertical  overlay sidebar push uncover verde1"
-     style="z-index:950; background: #36d7b7;">
+<div class="ui left  vertical  overlay sidebar push uncover"
+     style="z-index: 1002; background: #f7f7f7;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
     </div>
-    <div class="item filtros">
-        <div class="ui checkbox">
-            <input type="checkbox" name="fun">
-            <label>Instiuciones beneficiadas <br/> por el fonacide</label>
-        </div>
+
+    <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
+		<label class="ui teal label">Filtrado por Instituciones</label>
+		<div class="item filtros">
+			<div class="ui checkbox">
+				<input type="checkbox" name="fun">
+				<label>Instituciones beneficiadas <br/> por el fonacide</label>
+			</div>
+		</div>
+		<div class="item filtros">
+			<div class="ui checkbox">
+				<input type="checkbox" name="fun">
+				<label>Instituciones <br/>Denunciadas</label>
+			</div>
+		</div>
+		<div class="item filtros">
+			<div class="ui checkbox">
+				<input type="checkbox" name="fun">
+				<label>Instituciones con <br/> informe de contraloria</label>
+			</div>
+		</div>
     </div>
-    <div class="item filtros">
-        <div class="ui checkbox">
-            <input type="checkbox" name="fun">
-            <label>Instituciones <br/>Denunciadas</label>
-        </div>
-    </div>
-    <div class="item filtros">
-        <div class="ui checkbox">
-            <input type="checkbox" name="fun">
-            <label>Instituciones con <br/> informe de contraloria</label>
-        </div>
-    </div>
-    <div class="item filtros dropdownn" style="z-index: 15;">
+
+     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
+		 <label class="ui teal label">Filtrado por ubicación</label>
+    <div class="item filtros dropdownn" style="z-index: 999999;">
         <select class="ui dropdown">
             <option value="">Departamento</option>
             <option value="1">Central</option>
             <option value="0">Cordillera</option>
         </select>
     </div>
-    <div class="item filtros dropdownn" style="z-index: 15;">
+    <div class="item filtros dropdownn" style="z-index: 99999;">
         <select class="ui dropdown">
             <option value="">Distrito</option>
             <option value="1">Asuncion</option>
             <option value="0">San Lorenzo</option>
         </select>
     </div>
-    <div class="item filtros dropdownn" style="z-index: 15;">
+    <div class="item filtros dropdownn" style="z-index: 9999;">
         <select class="ui dropdown">
             <option value="">Barrio/Localidad</option>
             <option value="1">Sajonia</option>
@@ -520,25 +562,33 @@
         </select>
     </div>
 
+    </div>
+
+     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
+	<label class="ui teal label">Filtrado por prioridades</label>
     <div class="item filtros">
         <h4>Tipo de Prioridad</h4>
 
-        <div class="ui grid">
-            <div class="two column row">
+        <div class="ui two column grid">
+            <div class="column">
                 <div class="ui checkbox column">
                     <input type="checkbox" name="fun">
                     <label>Sanitarios</label>
                 </div>
+            </div>
+            <div class="column">
                 <div class="ui checkbox column">
                     <input type="checkbox" name="fun">
                     <label>Aulas</label>
                 </div>
             </div>
-            <div class="two column row">
+            <div class="column">
                 <div class="ui checkbox column">
                     <input type="checkbox" name="fun">
                     <label>Mobiliario</label>
                 </div>
+            </div>
+            <div class="column">
                 <div class="ui checkbox column">
                     <input type="checkbox" name="fun">
                     <label>Otros Espacios</label>
@@ -546,15 +596,19 @@
             </div>
         </div>
     </div>
-    <div class="item filtros">
-        <h4>Filtrar por prioridad</h4>
+
+     <div class="item filtros">
+        <h4>Prioridad</h4>
 
         <div class="ui slider range">
-            <input type="range"/>
+            <input type="range" style="width: 100%"/>
         </div>
 
 
     </div>
+
+
+     </div>
 
 </div>
 <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">

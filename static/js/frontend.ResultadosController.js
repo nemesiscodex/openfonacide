@@ -47,7 +47,6 @@
             $segment = $('.results.segment'),
             $loader  = $segment.find('.inline.loader');
             for(index in tipoResults){
-              console.log('results');
               $scope.count++;
               $element = $('<result-element numero="numero" result="result"></result-element>');
               scope = $rootScope.$new();

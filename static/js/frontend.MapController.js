@@ -197,6 +197,15 @@
             id: id
           }, function(value, headers) {
             establecimiento_nuevo = value;
+            var lat = parseFloat(establecimiento_nuevo.latitud);
+            var lon = parseFloat(establecimiento_nuevo.longitud);
+
+            if(isNaN(lat) || isNaN(lon)){
+              alert('No se puede localizar el establecimiento.')
+            }else{
+              $scope.map.setView([lat, lon], 13)
+            }
+
             backEnd.institucion.query({
               id: id
             }, function(value, headers) {

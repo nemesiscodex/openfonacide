@@ -56,13 +56,14 @@
               $loader.before($compiledElement);
               scope.$apply();
             }
-            $timeout(function(){
-              var queryUp = data.query.toUpperCase();
-              $.each($('result-element'), function(index, el){
-                $(el).html($(el).html().replace(queryUp, '<span class="highlight">'+queryUp+'</span>'));
-              });
-              $scope.$apply();
-            },20);
+            if(isNaN(data.query))
+              $timeout(function(){
+                var queryUp = data.query.toUpperCase();
+                $.each($('result-element'), function(index, el){
+                  $(el).html($(el).html().replace(queryUp, '<span class="highlight">'+queryUp+'</span>'));
+                });
+                $scope.$apply();
+              },20);
             $loader.removeClass('active');
           })
         })

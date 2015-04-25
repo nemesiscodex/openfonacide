@@ -23,6 +23,13 @@
 </div>
 
 <script>
+    $('body').keyup(function(event){
+      //ESC
+      if(event.keyCode == 27){
+        $('.results').removeClass('visible');
+        $('.results').addClass('hidden');
+      }
+    });
     var message = function(message, type) {
                         var
                                 html = ''

@@ -19,10 +19,11 @@ def conversion(dms):
     return (float(decimal[0]) + float(decimal[1]) / 60.0 + float(decimal[2]) / 3600.0) * direction[decimal_dir]
 
 
-def dictfetch(cursor, N):
+def dictfetch(cursor, N, offset=None):
     "Returns all rows from a cursor as a dict"
     desc = cursor.description
     rows = []
+
     try:
         N = int(N)
     except:
@@ -30,7 +31,15 @@ def dictfetch(cursor, N):
     if not N:
         rows = cursor.fetchall()
     else:
-        rows = cursor.fetchall()[:N]
+        try:
+            offset = int(offset)
+        except:
+            pass
+        if offset and type(offset) == int:
+            N = offset + N
+        else:
+            offset = 0
+        rows = cursor.fetchall()[offset:N]
     return [
         dict(zip([col[0] for col in desc], row))
         for row in rows

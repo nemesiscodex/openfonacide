@@ -39,7 +39,7 @@
 
         backEnd.institucion.get(query,function(data, headers){
           var tipoResults = data.results[$scope.tipo].results;
-          var $element = undefined;
+          var $element = undefined, $compiledElement;
           var scope = undefined;
           if(tipoResults.length == 0)
             $scope.fetch = false;
@@ -52,8 +52,17 @@
               scope = $rootScope.$new();
               scope.numero = $scope.count;
               scope.result = tipoResults[index];
-              $loader.before($compile($element)(scope));
+              $compiledElement = $compile($element)(scope);
+              $loader.before($compiledElement);
+              scope.$apply();
             }
+            $timeout(function(){
+              var queryUp = data.query.toUpperCase();
+              $.each($('result-element'), function(index, el){
+                $(el).html($(el).html().replace(queryUp, '<span class="highlight">'+queryUp+'</span>'));
+              });
+              $scope.$apply();
+            },20);
             $loader.removeClass('active');
           })
         })

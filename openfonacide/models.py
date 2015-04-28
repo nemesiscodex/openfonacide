@@ -58,21 +58,21 @@ class Institucion(models.Model):
     class Meta:
         verbose_name_plural = "instituciones"
 
-    # Estos campos no aparecen en la nueva version
+        # Estos campos no aparecen en la nueva version
 
-    # sector_o_tipo_gestion = models.CharField(max_length=256)
-    # codigo_region_administrativa = models.CharField(max_length=256)
-    # nombre_region_administrativa = models.CharField(max_length=256)
-    # nombre_supervisor = models.CharField(max_length=256)
-    # niveles_modalidades = models.CharField(max_length=256)
-    # codigo_tipo_organizacion = models.CharField(max_length=256)
-    # nombre_tipo_organizacion = models.CharField(max_length=256)
-    # participacion_comunitaria = models.CharField(max_length=256)
-    # direccion = models.CharField(max_length=256)
-    # nro_telefono = models.CharField(max_length=256)
-    # tiene_internet = models.CharField(max_length=256)
-    # paginaweb = models.CharField(max_length=256)
-    # correo_electronico = models.CharField(max_length=256)
+        # sector_o_tipo_gestion = models.CharField(max_length=256)
+        # codigo_region_administrativa = models.CharField(max_length=256)
+        # nombre_region_administrativa = models.CharField(max_length=256)
+        # nombre_supervisor = models.CharField(max_length=256)
+        # niveles_modalidades = models.CharField(max_length=256)
+        # codigo_tipo_organizacion = models.CharField(max_length=256)
+        # nombre_tipo_organizacion = models.CharField(max_length=256)
+        # participacion_comunitaria = models.CharField(max_length=256)
+        # direccion = models.CharField(max_length=256)
+        # nro_telefono = models.CharField(max_length=256)
+        # tiene_internet = models.CharField(max_length=256)
+        # paginaweb = models.CharField(max_length=256)
+        # correo_electronico = models.CharField(max_length=256)
 
 
 # Prioridades 2.0###############################################################################
@@ -170,3 +170,36 @@ class ServicioBasico(models.Model):
 
     class Meta:
         verbose_name_plural = "serviciosbasicos"
+
+
+'''
+Modelo que representa las planficaciones del DNCP,
+estos datos son importados desde el DNCP
+'''
+
+
+class Planificacion(models.Model):
+    id = models.CharField(max_length=256, null=True)
+    anio = models.CharField(max_length=50, null=True)
+    id_llamado = models.CharField(max_length=50, null=True)
+    nombre_licitacion = models.CharField(max_length=256, null=True)
+    convocante = models.CharField(max_length=256, null=True)
+    codigo_sicp = models.CharField(max_length=256, null=True)
+    categoria_id = models.CharField(max_length=256, null=True)
+    categoria_codigo = models.CharField(max_length=256, null=True)
+    categoria = models.CharField(max_length=256, null=True)
+    tipo_procedimiento_id = models.CharField(max_length=256, null=True)
+    tipo_procedimiento_codigo = models.CharField(max_length=256, null=True)
+    tipo_procedimiento = models.CharField(max_length=256, null=True)
+    fecha_estimada = models.CharField(max_length=256, null=True)
+    fecha_publicacion = models.CharField(max_length=256, null=True)
+    _moneda = models.CharField(max_length=256, null=True)
+    moneda = models.CharField(max_length=256, null=True)
+    _estado = models.CharField(max_length=256, null=True)
+    estado = models.CharField(max_length=256, null=True)
+    _objeto_licitacion = models.CharField(max_length=256, null=True)
+    objeto_licitacion = models.CharField(max_length=256, null=True)
+    etiquetas = models.CharField(max_length=256, null=True)
+
+    class Meta:
+        verbose_name_plural = "planificaciones"

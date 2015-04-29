@@ -82,7 +82,7 @@
             window.mapElement = angular.element('#map')[0];
           });
           $scope.inicializar();
-        }
+        };
         //inizializar
         $scope.inicializar = function() {
 						$scope.last = {};
@@ -102,31 +102,32 @@
             if(window.mapData){
               $scope.mapData = window.mapData;
               $scope.loading = false;
-            }else
-              backEnd.establecimiento_short.query({}, function(data,
-                headers) {
+            }else{
+              backEnd.establecimiento_short.query({}, function(data) {
 
                 $scope.mapData = JSONH.unpack(data);
                 window.mapData = $scope.mapData;
                 $scope.actualizar();
               });
-            if ($routeParams.establecimiento)
+            }
+            if ($routeParams.establecimiento){
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
+            }
           }
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {
           var point;
           var marker;
           var data = {};
-          if (typeof(filterFunction) === 'function')
+          if (typeof(filterFunction) === 'function'){
             data = filterFunction($scope.mapData);
-          else
+          }else{
             data = $scope.mapData;
-
-          if ($scope.markers)
+          }
+          if ($scope.markers){
             $scope.map.removeLayer($scope.markers);
-
+          }
           $scope.markers = new L.MarkerClusterGroup({
 
             iconCreateFunction: function(cluster) {
@@ -176,13 +177,14 @@
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
           $scope.establecimiento = id;
-          if(!idInstitucion)
+          if(!idInstitucion){
             idInstitucion = '';
+          }
           if($scope.last.codigo_establecimiento === id
                 && $scope.last.codigo_institucion === idInstitucion){
             return;
           }
-          $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion}
+          $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion};
           //{verified}
           $scope.infoData = {};
           //
@@ -195,20 +197,20 @@
           var instituciones_nuevas = [];
           backEnd.establecimiento.get({
             id: id
-          }, function(value, headers) {
+          }, function(value) {
             establecimiento_nuevo = value;
             var lat = parseFloat(establecimiento_nuevo.latitud);
             var lon = parseFloat(establecimiento_nuevo.longitud);
 
             if(isNaN(lat) || isNaN(lon)){
-              alert('No se puede localizar el establecimiento.')
+              alert('No se puede localizar el establecimiento.');
             }else{
-              $scope.map.setView([lat, lon], 16)
+              $scope.map.setView([lat, lon], 16);
             }
 
             backEnd.institucion.query({
               id: id
-            }, function(value, headers) {
+            }, function(value) {
               instituciones_nuevas = value;
               // $scope.infoData.instituciones = value;
 
@@ -218,12 +220,13 @@
               if ($.inArray(idInstitucion, $scope.infoData.instituciones
                   .map(
                     function(el) {
-                      return el.codigo_institucion
-                    })) >= 0)
+                      return el.codigo_institucion;
+                    })) >= 0){
                 $scope.institucion_actual = idInstitucion;
-              else
+              }else{
                 $scope.institucion_actual = instituciones_nuevas[
                   0].codigo_institucion;
+              }
               $timeout(function(){
                 $scope.$digest();
                 angular.element('.right.sidebar')
@@ -234,14 +237,14 @@
                 })
   							.sidebar('show');
 
-              })
+              });
 
 
             });
           });
           backEnd.prioridades.get({
             id: id
-          }, function(value, headers) {
+          }, function(value) {
             $scope.prioridades = value;
           });
 

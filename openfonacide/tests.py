@@ -29,54 +29,30 @@ class EstablecimientoTest(TestCase):
             )
             # Will never reach this point
         except Exception, e:
-            self.assertRegexpMatches(e.message, "columns anio, codigo_establecimiento are not unique")
+            self.assertRegexpMatches(e.message, ".*UNIQUE constraint.*")
 
+
+def convert(test, iny, inx, outy, outx):
+    ny = conversion(iny)
+    nx = conversion(inx)
+    test.assertEqual("%0.6f" % ny, outy)
+    test.assertEqual("%0.6f" % nx, outx)
 
 class UtilsTest(TestCase):
     def test_conversion_north_west(self):
-        y = u'40° 26\' 46" N'
-        x = u'79° 58\' 56" W'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '40.446111')
-        self.assertEqual("%0.6f" % nx, '-79.982222')
+        convert(self, u'40° 26\' 46" N', u'79° 58\' 56" W',  '40.446111',  '-79.982222')
 
     def test_conversion_nort_east(self):
-        y = u'30° N'
-        x = u'20° E'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '30.000000')
-        self.assertEqual("%0.6f" % nx, '20.000000')
+        convert(self, u'30° N', u'20° E',  '30.000000',  '20.000000')
 
     def test_conversion_south_west(self):
-        y = u'30° S'
-        x = u'10° 30\' W'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '-30.000000')
-        self.assertEqual("%0.6f" % nx, '-10.500000')
+        convert(self, u'30° S', u'10° 30\' W',  '-30.000000',  '-10.500000')
 
     def test_conversion_south_east(self):
-        y = u'100° 30\' S'
-        x = u'10° 70\' E'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '-100.500000')
-        self.assertEqual("%0.6f" % nx, '11.166667')
+        convert(self, u'100° 30\' S', u'10° 70\' E',  '-100.500000',  '11.166667')
 
     def test_conversion_cero(self):
-        y = u'0° N'
-        x = u'0° N'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '0.000000')
-        self.assertEqual("%0.6f" % nx, '0.000000')
+        convert(self, u'0° N', u'0° N',  '0.000000',  '0.000000')
 
     def test_conversion_bad_input(self):
-        y = u'WERQ'
-        x = u'TARE'
-        ny = conversion(y)
-        nx = conversion(x)
-        self.assertEqual("%0.6f" % ny, '0.000000')
-        self.assertEqual("%0.6f" % nx, '0.000000')
+        convert(self, u'WERQ', u'TARE',  '0.000000',  '0.000000')

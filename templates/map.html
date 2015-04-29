@@ -42,12 +42,31 @@
          <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más información de la institución</div></a>
         <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
 
+        <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones de la institución</div>
+
 
 
             <div class="one columns row">
                 <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
                          style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
                       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
+                </div>
+
+                <div class="column">
+                <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;" ng-show="show_adjudicaciones">
+                    <h3>Adjudicaciones</h3>
+                    <div class="sixteen wide column">
+                    <div class="ui  segment">
+                        <ul>
+                            <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>  <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
+                            <li>Adquisición de Muebles para Escuelas - <span class="ui teal label">Gs. 60.000.000</span> <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
+                            <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
+
+                        </ul>
+                    </div>
+                    </div>
+                    
+                </div>
                 </div>
 
 
@@ -113,9 +132,7 @@
                                 <div class="five wide column">
 
 
-                                    <h3>Adjudicaciones</h3>
-                                    <a class="ui teal label">20.000.000 Gs</a>
-                                    <p>Fecha:2014/10/20</p>
+                                   <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
 
                                 </div>
                                  <div class="five wide column">
@@ -185,7 +202,7 @@
 
 
                         </div>
-                           <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                           
                     </div>
                 </div>
 
@@ -252,9 +269,10 @@
                                 <div class="five wide column">
 
 
-                                    <h3>Adjudicaciones</h3>
-                                    <a class="ui teal label">20.000.000 Gs</a>
-                                    <p>Fecha:2014/10/20</p>
+                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
+
+
+                              
 
                                 </div>
                                  <div class="five wide column">
@@ -324,7 +342,7 @@
 
 
                         </div>
-                            <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                          
                     </div>
                 </div>
 
@@ -391,9 +409,7 @@
                                 <div class="five wide column">
 
 
-                                    <h3>Adjudicaciones</h3>
-                                    <a class="ui teal label">20.000.000 Gs</a>
-                                    <p>Fecha:2014/10/20</p>
+                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
 
                                 </div>
                                  <div class="five wide column">
@@ -463,7 +479,7 @@
 
 
                         </div>
-                           <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');"> Esta obra se realizo?</div>
+                          
                     </div>
                 </div>
 

@@ -29,7 +29,7 @@ class EstablecimientoTest(TestCase):
             )
             # Will never reach this point
         except Exception, e:
-            self.assertRegexpMatches(e.message, ".*UNIQUE constraint.*")
+            self.assertRegexpMatches(e.message, ".*UNIQUE constraint.*|columns anio, codigo_establecimiento are not unique")
 
 
 def convert(test, iny, inx, outy, outx):

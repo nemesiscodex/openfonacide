@@ -172,34 +172,31 @@ class ServicioBasico(models.Model):
         verbose_name_plural = "serviciosbasicos"
 
 
-'''
-Modelo que representa las planficaciones del DNCP,
-estos datos son importados desde el DNCP
-'''
-
+# Planificacion de Fonacide
 
 class Planificacion(models.Model):
-    id = models.CharField(max_length=256, null=True)
+    id_planificacion = models.CharField(max_length=200, null=True)
     anio = models.CharField(max_length=50, null=True)
-    id_llamado = models.CharField(max_length=50, null=True)
-    nombre_licitacion = models.CharField(max_length=256, null=True)
-    convocante = models.CharField(max_length=256, null=True)
-    codigo_sicp = models.CharField(max_length=256, null=True)
-    categoria_id = models.CharField(max_length=256, null=True)
-    categoria_codigo = models.CharField(max_length=256, null=True)
-    categoria = models.CharField(max_length=256, null=True)
-    tipo_procedimiento_id = models.CharField(max_length=256, null=True)
-    tipo_procedimiento_codigo = models.CharField(max_length=256, null=True)
-    tipo_procedimiento = models.CharField(max_length=256, null=True)
-    fecha_estimada = models.CharField(max_length=256, null=True)
-    fecha_publicacion = models.CharField(max_length=256, null=True)
-    _moneda = models.CharField(max_length=256, null=True)
-    moneda = models.CharField(max_length=256, null=True)
-    _estado = models.CharField(max_length=256, null=True)
-    estado = models.CharField(max_length=256, null=True)
-    _objeto_licitacion = models.CharField(max_length=256, null=True)
-    objeto_licitacion = models.CharField(max_length=256, null=True)
-    etiquetas = models.CharField(max_length=256, null=True)
+    id_llamado = models.CharField(max_length=200, null=True)
+    nombre_licitacion = models.CharField(max_length=400, null=True)
+    convocante = models.CharField(max_length=200, null=True)
+    codigo_sicp = models.CharField(max_length=50, null=True)
+    categoria_id = models.CharField(max_length=50, null=True)
+    categoria_codigo = models.CharField(max_length=200, null=True)
+    categoria = models.CharField(max_length=200, null=True)
+    tipo_procedimiento_id = models.CharField(max_length=50, null=True)
+    tipo_procedimiento_codigo = models.CharField(max_length=50, null=True)
+    tipo_procedimiento = models.CharField(max_length=200, null=True)
+    fecha_estimada = models.CharField(max_length=50, null=True)
+    fecha_publicacion = models.CharField(max_length=50, null=True)
+    _moneda = models.CharField(max_length=50, null=True)
+    moneda = models.CharField(max_length=50, null=True)
+    _estado = models.CharField(max_length=200, null=True)
+    estado = models.CharField(max_length=200, null=True)
+    _objeto_licitacion = models.CharField(max_length=200, null=True)
+    objeto_licitacion = models.CharField(max_length=200, null=True)
+    etiquetas = models.CharField(max_length=50, null=True)
 
     class Meta:
-        verbose_name_plural = "planificaciones"
+        verbose_name_plural = "Planificaciones"
+

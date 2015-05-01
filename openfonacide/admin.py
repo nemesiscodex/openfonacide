@@ -4,11 +4,29 @@ from import_export.admin import ImportExportModelAdmin
 
 from openfonacide.models import *
 
+
+class PlanificacionResource(resources.ModelResource):
+
+    class Meta:
+        model = Planificacion
+        # exclude = ('id',)
+
+        
+
+
+@admin.register(Planificacion)
+class PlanificacionAdmin(ImportExportModelAdmin):
+    resource_class = PlanificacionResource
+    pass
+
+
 class EstablecimientoResource(resources.ModelResource):
 
     class Meta:
         model = Establecimiento
         # exclude = ('id',)
+
+
 
 
 @admin.register(Establecimiento)

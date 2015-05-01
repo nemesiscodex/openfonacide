@@ -1,0 +1,28 @@
+<div class="ui teal segment" style="margin-bottom: 10px">
+  <div class="ui tiny ribbon label" style="margin-top: -22px; margin-bottom: 4px;">{$ numero $}</div>
+  <div class="ui item">
+    <div class="one column center aligned" style="float:left; margin-right: 10px">
+      <div class="column center aligned" style="padding-bottom: 5px">
+        <span class="ui teal tiny label" ><b>{$ result.codigo_institucion $}</b></span>
+      </div>
+      <div class="column center aligned">
+        &nbsp;&nbsp;<i class="university big icon"></i>
+      </div>
+    </div>
+    <div class="column left aligned" style="float: right">
+      <a class="ui teal label" href="{% url 'index' %}map?establecimiento={$ result.codigo_establecimiento $}&institucion={$ result.codigo_institucion $}" style="margin-bottom: 5px"><i class="marker icon"></i>Ir al mapa.</a>
+      <br>
+      <a class="ui teal label" href="{$ result.uri_institucion $}"> <i class="info circle icon"></i> Mas info</a>
+    </div>
+    <div class="middle aligned content">
+      <div class="header"><b>{$ result.nombre_institucion $}</b></div>
+      <div class="description">{$ result.direccion $}</div>
+    </div>
+    <div>
+      <div class="ui teal image tiny label">Departamento<div class="detail">{$ result.nombre_departamento $}</div></div>
+      <div class="ui teal image tiny label">Distrito<div class="detail">{$ result.nombre_distrito $}</div></div>
+      <div class="ui teal image tiny label">Barrio/Localidad<div class="detail">{$ result.nombre_barrio_localidad $}</div></div>
+      <div class="ui teal image tiny label">Establecimiento<div class="detail">{$ result.codigo_establecimiento $}</div></div>
+    </div>
+  </div>
+</div>

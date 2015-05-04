@@ -3,7 +3,8 @@ from django.test import TestCase
 
 from openfonacide.models import Establecimiento
 from openfonacide.utils import conversion
-from openfonacide.matcher import token_compare, mismo_nivel_educativo, same_tipo_institucion, tiene_nombre_santo, match_nombre_santo
+from openfonacide.matcher import token_compare, mismo_nivel_educativo, same_tipo_institucion, tiene_nombre_santo, \
+    match_nombre_santo
 
 
 class EstablecimientoTest(TestCase):
@@ -31,7 +32,7 @@ class EstablecimientoTest(TestCase):
             # Will never reach this point
         except Exception, e:
             self.assertRegexpMatches(e.message,
-                                     "openfonacide_establecimiento.anio, openfonacide_establecimiento.codigo_establecimiento")
+                                     'columns anio, codigo_establecimiento are not unique')
 
 
 class UtilsTest(TestCase):

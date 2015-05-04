@@ -10,6 +10,7 @@ __author__ = 'synchro'
 
 import string
 import re
+from nltk import metrics
 
 
 class Matcher(object):
@@ -98,6 +99,24 @@ class Matcher(object):
         if not same_tipo_institucion(cadena1, cadena2):
             return
 
+        pos_nombre = tiene_nombre_santo(cadena1, cadena2)
+        if pos_nombre > 0:
+            if match_nombre_santo(cadena1, cadena2, pos_nombre):
+                # Validadas cadenas con nombres de santos
+                print(cadena1 + ' is ok')
+            else:
+                return
+        elif pos_nombre < -1:
+            return
+
+        # Aplicar distancia de Damerau-Levenshtein
+        editdistance = metrics.edit_distance(cadena1, cadena2)
+        if editdistance > (0.3 * max(cadena1, cadena2)):
+            return
+        else:
+            # Match
+            print(cadena1 + ' is OK')
+
 
 def mismo_nivel_educativo(c1, c2):
     """
@@ -133,7 +152,7 @@ def same_tipo_institucion(c1, c2):
 
     """
     # Ver los casos donde los géneros son diferentes "PRIVADO", "PUBLICO"
-    tipos = {"PRIVADA": 1, "PUBLICA": 2}
+    tipos = {"PRIVADA": 1, "PUBLICA": 2, "PRIVADO": 4, "PUBLICO": 8}
 
     assert isinstance(c1, str)
     assert isinstance(c1, str)
@@ -160,3 +179,51 @@ def token_compare(c1, c2, token_dict):
             k2 += j
 
     return k1 == k2
+
+
+def tiene_nombre_santo(c1, c2):
+    """
+    Verificar si c1 o c2 tiene las palabras
+    SAN, SANTA o SANTO, ambos
+
+    :param c1: Cadena 1
+    :param c2: Cadena 2
+    :return: -1 si no tiene ninguno de los valores SAN, SANTO o SANTA
+    :type c1: str
+    :type c2: str
+    """
+
+    tipos = {"SAN ": 1, "SANTO ": 2, "SANTA ": 4}
+
+    assert isinstance(c1, str)
+    assert isinstance(c1, str)
+
+    k1 = 0
+    k2 = 0
+
+    for i, j in tipos.items():
+        if c1.find(i) >= 0:
+            k1 += j
+
+        if c2.find(i) >= 0:
+            k2 += j
+
+    if k1 == k2 and k1 == 0:
+        return -1
+    if k1 == k2 and k1 != 0:
+        return k1
+    return -2  # No se puede Matchear
+
+
+def match_nombre_santo(c1, c2, pos):
+    tipos = {1: 'SAN ', 2: 'SANTA ', 4: 'SANTO '}
+    n = c1.find(tipos[pos])
+    nombre1 = c1[n + len(tipos[pos]):]
+    n = c2.find(tipos[pos])
+    nombre2 = c2[n + len(tipos[pos]):]
+
+    if nombre1 == nombre2:
+        return True
+    else:
+        editdistance = metrics.edit_distance(nombre1, nombre2)
+        return editdistance <= (0.1 * max(nombre1, nombre2))

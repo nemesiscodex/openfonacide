@@ -24,6 +24,12 @@
       $(element).find('.input,.label').addClass(scope.inputClass);
     }
   });
+  nuevaDirectiva('resultElement', 'result-element.html', {
+    scope: {
+      result: '=',
+      numero: '='
+    }
+  });
   nuevaDirectiva('footerInfo', 'footer.html');
   nuevaDirectiva('api', 'api.html');
   nuevaDirectiva('loginModal', 'login.html');

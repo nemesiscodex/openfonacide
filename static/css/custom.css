@@ -195,13 +195,17 @@ footer {
 }
 .highlight{
     background: #ffff00;
-}.highlight.blue{
+}.highlight.blue, .label .highlight{
     background: #4E4C89;
-}
 
 
 .leaflet-top, .leaflet-bottom {
 position: absolute;
 z-index: 900;
 pointer-events: none;
+}
+
+/* Footer */
+.footer-info {
+    margin: 0% !important;
 }

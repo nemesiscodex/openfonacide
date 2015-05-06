@@ -217,6 +217,78 @@
             resumen.estado = $scope.estadosSelected;
           }
           console.log(resumen);
+          var charts = [];
+          var config = {
+            xAxis: [
+              {
+                type: 'category',
+                data: ['Aulas', 'Sanitarios', 'Mobiliarios', 'Otros Espacios']
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value'
+              }
+            ],
+            legend: {
+              data: ['Nuevo', 'Reparación']
+            },
+            series: [
+              {
+                name: 'Nuevo',
+                type: 'bar',
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true,
+                      position: 'inside',
+                      textStyle: {
+                        fontSize: '15',
+                        fontWeight: 'bold'
+                      }
+                    }
+                  }
+                },
+                data: [2400, 2100, 3300, 1500]
+              },
+              {
+                name: 'Reparación',
+                type: 'bar',
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true,
+                      position: 'inside',
+                      textStyle: {
+                        fontSize: '15',
+                        fontWeight: 'bold'
+                      }
+                    }
+                  }
+                },
+                data: [5400, 3500, 0, 4590]
+              }
+            ],
+            tooltip : {
+              trigger: 'axis'
+            },
+          };
+
+          $('.chart.card').show();
+          $('.chart-item').css('height', '300px');
+          $('.chart-item').each(function(id, el){
+            var chart = echarts.init(el, 'macarons');
+
+            chart.setOption(config);
+            charts.push(chart);
+          });
+          window.charts = charts;
+          $(window).off("resize");
+          $(window).resize(function(){
+            for(index in window.charts){
+              charts[index].resize();
+            }
+          })
         };
 
     }]);

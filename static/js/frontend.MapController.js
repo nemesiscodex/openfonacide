@@ -3,6 +3,23 @@
   /**
    * Controlador del mapa
    */
+  function intersect_safe(a, b){
+   var ai = bi= 0;
+   var result = [];
+
+   while( ai < a.length && bi < b.length ){
+      if      (a[ai] < b[bi] ){ ai++; }
+      else if (a[ai] > b[bi] ){ bi++; }
+      else /* they're equal */
+      {
+        result.push(ai);
+        ai++;
+        bi++;
+      }
+   }
+
+   return result;
+  }
   angular.module('frontEnd')
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',
@@ -98,23 +115,94 @@
             $scope.institucion_actual = undefined;
             //
             $scope.periodo = 2015;
+            backEnd.establecimiento_short.get({md5:true}, function(data){
+              var md5hashnew = data.hash;
+              var md5hashold = '';
+              var needReload = false;
+              if(Storage !== 'undefined'){
+                md5hashold = localStorage.getItem('establecimientoHash');
+                needReload = md5hashold !== md5hashnew;
+                window.mapData = localStorage.getItem('mapData');
+                if(window.mapData != undefined)
+                  window.mapData = JSONH.unpack(JSON.parse(window.mapData));
+              }else{
+                needReload = true;
+              }
+              if(window.mapData && !needReload){
+                $scope.mapData = window.mapData;
+                $scope.loading = false;
+                if(window.markers == undefined)
+                  $scope.actualizar();
+              }else{
+                backEnd.establecimiento_short.query({}, function(data) {
 
-            if(window.mapData){
-              $scope.mapData = window.mapData;
-              $scope.loading = false;
-            }else{
-              backEnd.establecimiento_short.query({}, function(data) {
+                  $scope.mapData = JSONH.unpack(data);
+                  window.mapData = $scope.mapData;
+                  if(Storage !== 'undefined'){
+                    localStorage.setItem('mapData', JSON.stringify(data));
+                    localStorage.setItem('establecimientoHash',md5hashnew);
+                  }
+                  $scope.actualizar();
+                });
+              }
 
-                $scope.mapData = JSONH.unpack(data);
-                window.mapData = $scope.mapData;
-                $scope.actualizar();
-              });
-            }
+            })
+
             if ($routeParams.establecimiento){
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
             }
           }
+
+        /**
+        * {nombre:'filtro1', activo:true|false, data: [...]}
+        */
+        $scope.filtros = [];
+        $scope.filtroArray = [];
+        var actualizarFiltroArray = function(){
+          $scope.filtroArray = undefined;
+          var filtro;
+          for(index in $scope.filtros){
+            filtro = $scope.filtros[index];
+            if(filtro.activo){
+              if($scope.filtroArray == undefined){
+                $scope.filtroArray = filtro.data;
+                continue;
+              }
+              intersect_safe($scope.filtroArray, filtro.data)
+            }
+          }
+          if($scope.filtroArray == undefined){
+            $scope.filtroArray = [];
+          }
+        }
+        var originalFilterFunction = function(obj){
+          if($scope.filtroArray.length > 0)
+            return $scope.filtroArray.indexOf(obj.id) != -1;
+          return obj;
+        }
+        $scope.filtro = function(name){
+          var _filtro = $scope.filtros
+            .reduce(function(a, b){
+              if(b.nombre == name) return b; return a;
+              }, undefined);
+          $scope.loading = true;
+          if(_filtro == undefined){
+            backEnd.filtros.query({f: name}, function(data){
+              _filtro = {};
+              _filtro.nombre = name;
+              _filtro.activo = true;
+              _filtro.data = data;
+              $scope.filtros.push(_filtro);
+              actualizarFiltroArray();
+              $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+            })
+          }else{
+            _filtro.activo = !_filtro.activo;
+            actualizarFiltroArray();
+            $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+          }
+        };
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {
           var point;
@@ -164,7 +252,7 @@
 
           $scope.map.addLayer(markers);
 
-
+          window.markers = markers;
           $scope.loading = false;
 
         };

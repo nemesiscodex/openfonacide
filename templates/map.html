@@ -549,7 +549,7 @@
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 		<label class="ui teal label">Filtrado por Instituciones</label>
 		<div class="item filtros">
-			<div class="ui checkbox">
+			<div class="ui checkbox" ng-click="filtro('fonacide')">
 				<input type="checkbox" name="fun">
 				<label>Instituciones beneficiadas <br/> por el fonacide</label>
 			</div>
@@ -642,7 +642,7 @@
 
 </div>
 <!-- <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001"> -->
-    <div class="ui indeterminate large text active loader" ng-class="{active: loading}">
+    <div class="ui indeterminate large text active loader" ng-show="loading" ng-class="{active: loading}">
       <h2>Cargando</h2>
     </div>
 <!-- </div> -->

@@ -10,9 +10,6 @@
     app.controller('GraficosController', ['$scope', function($scope){
 
     }]);
-    app.controller('ResumenController', ['$scope', function($scope){
-
-    }]);
 
 
 })();

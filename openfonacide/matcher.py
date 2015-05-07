@@ -111,7 +111,8 @@ class Matcher(object):
 
         # Aplicar distancia de Damerau-Levenshtein
         editdistance = metrics.edit_distance(cadena1, cadena2)
-        if editdistance > (0.3 * max(cadena1, cadena2)):
+        max_longitud = float(len(max(cadena1, cadena2)))
+        if editdistance > (0.3 * max_longitud):
             return
         else:
             # Match
@@ -226,4 +227,4 @@ def match_nombre_santo(c1, c2, pos):
         return True
     else:
         editdistance = metrics.edit_distance(nombre1, nombre2)
-        return editdistance <= (0.1 * max(nombre1, nombre2))
+        return editdistance <= (0.1 * len(max(nombre1, nombre2)).__float__())

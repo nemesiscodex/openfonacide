@@ -1,5 +1,19 @@
     <style>
     /*Ver donde ubicar las reglas*/
+    .ui.loader::after{
+      border-color: rgba(0,0,0,.6) transparent transparent;
+      border-top-width: 0.4em;
+      border-bottom-width: 4.0em;
+    }
+    .ui.loader::before{
+      border-color: rgba(0,0,0,.2);
+      border-width: 0.4em;
+    }
+    .ui.loader h2{
+      color: #000;
+    }
+
+
 
     /*Se define en custom.css línea 81*/
     .sidebar .filtros {
@@ -65,7 +79,7 @@
                         </ul>
                     </div>
                     </div>
-                    
+
                 </div>
                 </div>
 
@@ -202,7 +216,7 @@
 
 
                         </div>
-                           
+
                     </div>
                 </div>
 
@@ -272,7 +286,7 @@
                                      <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
 
 
-                              
+
 
                                 </div>
                                  <div class="five wide column">
@@ -342,7 +356,7 @@
 
 
                         </div>
-                          
+
                     </div>
                 </div>
 
@@ -479,7 +493,7 @@
 
 
                         </div>
-                          
+
                     </div>
                 </div>
 
@@ -627,9 +641,11 @@
      </div>
 
 </div>
-<div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">
-    <div class="ui indeterminate text loader">Cargando Mapa</div>
-</div>
+<!-- <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001"> -->
+    <div class="ui indeterminate large text active loader" ng-class="{active: loading}">
+      <h2>Cargando</h2>
+    </div>
+<!-- </div> -->
 <div id="menu-launch" class="ui big filter launch basic right attached fixed button"
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
   <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>

@@ -1,4 +1,29 @@
     <style>
+
+    .tooltip {
+	display: block;
+	position: absolute;
+	border: 1px solid #D9D9D9;
+	font: 400 12px/12px Arial;
+	border-radius: 3px;
+	background: #fff;
+	top: -26px;
+	padding: 5px;
+	left: -9px;
+	text-align: center;
+	width: 50px;
+}
+.tooltip.left{
+  left: -14px;
+}
+.tooltip.right{
+  left: -4px;
+}
+.tooltip strong {
+	display: block;
+	padding: 2px;
+}
+
     /*Ver donde ubicar las reglas*/
     .ui.loader::after{
       border-color: rgba(0,0,0,.6) transparent transparent;
@@ -637,11 +662,9 @@
 
      <div class="item filtros">
         <h4>Prioridad</h4>
-
-        <div class="ui slider range">
-            <input type="range" style="width: 100%"/>
+        <div class="content" style="padding: 20px">
+          <div class="range slider"> </div>
         </div>
-
 
     </div>
 
@@ -656,7 +679,7 @@
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
   <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
 </div>
-<div class="pusher mapContainer">
+<div class="pusher mapContainer" style="background-color: #00b5ad" onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
   <div id="map" style="height: 96%">
     <div class="ui indeterminate large text active loader" ng-show="loading" ng-class="{active: loading}">
       <h2>Cargando</h2>
@@ -676,6 +699,58 @@
         closable: false
       })
       .sidebar('toggle');
+    });
+
+    var rangeSlider = $('.range.slider').noUiSlider({
+      start: [0, 200],
+      step: 10,
+      snap: true,
+      connect: true,
+      range: {
+        min: 0,
+        '5%': 10,
+        '10%': 20,
+        '15%': 30,
+        '20%': 40,
+        '25%': 50,
+        '30%': 60,
+        '35%': 70,
+        '40%': 80,
+        '45%': 90,
+        '50%': 100,
+        '55%': 110,
+        '60%': 120,
+        '65%': 130,
+        '70%': 140,
+        '75%': 150,
+        '80%': 160,
+        '85%': 170,
+        '90%': 180,
+        '95%': 190,
+        max: 200
+      }
+    }, true).noUiSlider_pips({
+      mode: 'range',
+      filter: function(value){
+        return value % 100? (value % 50? 0 : 2 ): 1;
+      },
+      density: 3
+    })
+    rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function ( value ) {
+
+      // The tooltip HTML is 'this', so additional
+      // markup can be inserted here.
+      $(this).html(
+        '<span>' + value + '</span>'
+      );
+    });
+    rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function ( value ) {
+
+      // The tooltip HTML is 'this', so additional
+      // markup can be inserted here.
+      $(this).html(
+        '<span>' + value + '</span>'
+      );
     });
   })();
 </script>

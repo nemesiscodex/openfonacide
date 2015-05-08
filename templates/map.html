@@ -510,8 +510,16 @@
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
+        var prev = document.getElementById('disqus_stuff');
+        if(prev !== null){
+          DISQUS.reset({
+            reload: true
+          });
+          return;
+        }
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        dsq.id = 'disqus_stuff';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>

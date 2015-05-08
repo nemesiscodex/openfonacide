@@ -216,6 +216,9 @@
           if ($scope.markers){
             $scope.map.removeLayer($scope.markers);
           }
+          if (window.markers){
+            $scope.map.removeLayer(window.markers);
+          }
           $scope.markers = new L.MarkerClusterGroup({
 
             iconCreateFunction: function(cluster) {
@@ -271,6 +274,7 @@
 
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
+          $('#map').css('width', '100%');
           $scope.establecimiento = id;
           if(!idInstitucion){
             idInstitucion = '';
@@ -297,11 +301,7 @@
             var lat = parseFloat(establecimiento_nuevo.latitud);
             var lon = parseFloat(establecimiento_nuevo.longitud);
 
-            if(isNaN(lat) || isNaN(lon)){
-              alert('No se puede localizar el establecimiento.');
-            }else{
-              $scope.map.setView([lat, lon], 16);
-            }
+
 
             backEnd.institucion.query({
               id: id
@@ -323,12 +323,26 @@
                   0].codigo_institucion;
               }
               $timeout(function(){
+
+                $scope.map.invalidateSize();
                 $scope.$digest();
                 angular.element('.right.sidebar')
                 .sidebar({
                   context: angular.element('[ng-view]'),
                   dimPage: false,
-                  closable: false
+                  closable: false,
+                  onVisible: function(){
+                    $timeout(function(){
+                      if(isNaN(lat) || isNaN(lon)){
+                        alert('No se puede localizar el establecimiento.');
+                      }else{
+                        $('#map').css('width', '35%');
+                        $scope.map.invalidateSize();
+                        $scope.map.setView([lat, lon], 16);
+                      }
+                    },0);
+
+                  }
                 })
   							.sidebar('show');
 

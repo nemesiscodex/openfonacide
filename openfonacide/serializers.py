@@ -81,7 +81,7 @@ class InstitucionSerializer(serializers.ModelSerializer):
 # Deprecated
 # class ListaInstitucionesSerializer(serializers.ModelSerializer):
 # class Meta:
-#         model = Institucion
+# model = Institucion
 #         fields = ('codigo_establecimiento',
 #                   'codigo_institucion',
 #                   'nombre_institucion',
@@ -140,11 +140,14 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
             return 't'
 
 
+'''
+DEPRECATED
 class PrioridadesSerializer(serializers.Serializer):
     construccion_aulas = serializers.SerializerMethodField('get_construccion_aulas')
 
     class Meta:
         fields = ('construccion_aulas',)
+'''
 
 
 def get_P(establecimiento, prioridadClass, serializerClass):
@@ -273,7 +276,6 @@ class ServicioBasicoSerializer(serializers.ModelSerializer):
 
 
 class PrioridadSerializer(serializers.Serializer):
-
     espacio = EspacioSerializer(read_only=True, many=True)
     sanitario = SanitarioSerializer(read_only=True, many=True)
     mobiliario = MobiliarioSerializer(read_only=True, many=True)
@@ -284,3 +286,19 @@ class PrioridadSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         pass
+
+
+class TemporalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Temporal
+        fields = (
+            'periodo',
+            'nombre_departamento',
+            'nombre_distrito',
+            'codigo_institucion',
+            'id_planificacion',
+            'anio',
+            'id_llamado',
+            'nombre_licitacion',
+            'convocante'
+        )

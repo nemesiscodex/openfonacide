@@ -1,6 +1,7 @@
 # encoding: utf-8
 """
-Open data mec map api models
+OpenFonacide Models
+Modelo de datos utilizado en OpenFonacide
 """
 
 from django.db import models
@@ -173,12 +174,11 @@ class ServicioBasico(models.Model):
 
 
 # Planificacion de Fonacide
-
 class Planificacion(models.Model):
     id_planificacion = models.CharField(max_length=200, null=True)
     anio = models.CharField(max_length=50, null=True)
     id_llamado = models.CharField(max_length=200, null=True)
-    nombre_licitacion = models.CharField(max_length=400, null=True)
+    nombre_licitacion = models.CharField(max_length=1024, null=True)
     convocante = models.CharField(max_length=200, null=True)
     codigo_sicp = models.CharField(max_length=50, null=True)
     categoria_id = models.CharField(max_length=50, null=True)
@@ -198,5 +198,28 @@ class Planificacion(models.Model):
     etiquetas = models.CharField(max_length=50, null=True)
 
     class Meta:
-        verbose_name_plural = "Planificaciones"
+        verbose_name_plural = "planificaciones"
 
+
+# Tabla Temporal que almacena los resultados del String Matcher
+class Temporal(models.Model):
+    """
+    Este modelo representa una tabla temporal que almacena información sobre
+    los posibles resultados del String Matcher aplicado.
+    Esta tabla se borra cada vez que se accede a la vista del matcher y se
+    carga cada vez que se Invoca la operación.
+    """
+    # MEC
+    periodo = models.CharField(max_length=256)
+    nombre_departamento = models.CharField(max_length=256)
+    nombre_distrito = models.CharField(max_length=256)
+    codigo_institucion = models.CharField(max_length=256)
+    # DNCP
+    id_planificacion = models.CharField(max_length=200, null=True)
+    anio = models.CharField(max_length=50, null=True)
+    id_llamado = models.CharField(max_length=200, null=True)
+    nombre_licitacion = models.CharField(max_length=1024, null=True)
+    convocante = models.CharField(max_length=200, null=True)
+
+    class Meta:
+        verbose_name_plural = "temporales"

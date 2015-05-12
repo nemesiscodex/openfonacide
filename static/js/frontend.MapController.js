@@ -24,6 +24,12 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+        $scope.prioridadesSeleccionadas = {
+          sanitarios: true,
+          aulas: true,
+          mobiliarios: true,
+          otros: true
+        };
         $scope.scrollTo = function (id) {
           $location.hash(id);
           $anchorScroll();
@@ -181,14 +187,36 @@
             return $scope.filtroArray.indexOf(obj.id) != -1;
           return obj;
         }
-        $scope.filtro = function(name){
+
+        $scope.filtroPrioridad = function(){
+          extra = {};
+
+          for(prop in $scope.prioridadesSeleccionadas){
+            if(!extra.tipo)
+              extra.tipo = [];
+            if($scope.prioridadesSeleccionadas[prop]){
+              console.log(prop);
+              extra.tipo.push(prop);
+            }
+          }
+
+          console.log(extra);
+
+          $scope.filtro('prioridad', extra);
+        }
+
+        $scope.filtro = function(name, extra){
+          if(typeof(extra) != 'object'){
+            extra = {};
+          }
           var _filtro = $scope.filtros
             .reduce(function(a, b){
               if(b.nombre == name) return b; return a;
               }, undefined);
           $scope.loading = true;
           if(_filtro == undefined){
-            backEnd.filtros.query({f: name}, function(data){
+            extra.f = name;
+            backEnd.filtros.query(extra, function(data){
               _filtro = {};
               _filtro.nombre = name;
               _filtro.activo = true;
@@ -338,7 +366,7 @@
                       }else{
                         $('#map').css('width', '35%');
                         $scope.map.invalidateSize();
-                        $scope.map.setView([lat, lon], 16);
+                        $scope.map.setView([lat, lon], 17);
                       }
                     },0);
 

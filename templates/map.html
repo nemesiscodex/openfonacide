@@ -62,7 +62,7 @@
 
     </style>
 
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; " du-scroll-container>
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002;height: 96%  !important;" du-scroll-container>
         <div class="ui top attached tabular menu">
 
 
@@ -573,7 +573,7 @@
 -->
 
 <div class="ui left  vertical  overlay sidebar push uncover"
-     style="z-index: 1002; background: #f7f7f7;">
+     style="z-index: 1002; background: #f7f7f7;height: 96% !important;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
@@ -631,30 +631,29 @@
 	<label class="ui teal label">Filtrado por prioridades</label>
     <div class="item filtros">
         <h4>Tipo de Prioridad</h4>
-
         <div class="ui two column grid">
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Sanitarios</label>
+                    <input ng-click="filtroPrioridad()" checked ng-model="prioridadesSeleccionadas.sanitarios" id="prioridad-sanitarios" type="checkbox" name="fun">
+                    <label for="prioridad-sanitarios">Sanitarios</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Aulas</label>
+                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.aulas" id="prioridad-aulas" type="checkbox" name="fun">
+                    <label for="prioridad-aulas">Aulas</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Mobiliario</label>
+                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.mobiliarios" id="prioridad-mobiliarios" type="checkbox" name="fun">
+                    <label for="prioridad-mobiliarios">Mobiliario</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Otros Espacios</label>
+                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.otros" id="prioridad-otros" type="checkbox" name="fun">
+                    <label for="prioridad-otros">Otros Espacios</label>
                 </div>
             </div>
         </div>
@@ -689,7 +688,6 @@
 <script>
   (function(){
 
-    $('.ui.checkbox').checkbox();
     $('.ui.dropdown').dropdown();
     angular.element(".filter.launch").click(function(){
       angular.element('.left.sidebar')
@@ -699,6 +697,10 @@
         closable: false
       })
       .sidebar('toggle');
+    });
+
+    $('#map').click(function(event){
+      event.stopPropagation();
     });
 
     var rangeSlider = $('.range.slider').noUiSlider({

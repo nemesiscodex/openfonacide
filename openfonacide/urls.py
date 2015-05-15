@@ -83,6 +83,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
     url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
+    url(r'^match/$', MatchController.as_view(), name="match"),
 )
 
 urlpatterns += [

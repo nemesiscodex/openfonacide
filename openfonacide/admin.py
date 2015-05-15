@@ -5,13 +5,21 @@ from import_export.admin import ImportExportModelAdmin
 from openfonacide.models import *
 
 
-class PlanificacionResource(resources.ModelResource):
+class AdjudicacionResource(resources.ModelResource):
+    class Meta:
+        model = Adjudicacion
 
+
+@admin.register(Adjudicacion)
+class AdjudicacionAdmin(ImportExportModelAdmin):
+    resource_class = AdjudicacionResource
+    pass
+
+
+class PlanificacionResource(resources.ModelResource):
     class Meta:
         model = Planificacion
         # exclude = ('id',)
-
-        
 
 
 @admin.register(Planificacion)
@@ -21,12 +29,9 @@ class PlanificacionAdmin(ImportExportModelAdmin):
 
 
 class EstablecimientoResource(resources.ModelResource):
-
     class Meta:
         model = Establecimiento
         # exclude = ('id',)
-
-
 
 
 @admin.register(Establecimiento)
@@ -36,7 +41,6 @@ class EstablecimientoAdmin(ImportExportModelAdmin):
 
 
 class InstitucionResource(resources.ModelResource):
-
     class Meta:
         model = Institucion
         # exclude = ('id',)
@@ -49,7 +53,6 @@ class InstitucionAdmin(ImportExportModelAdmin):
 
 
 class SanitariosResource(resources.ModelResource):
-
     class Meta:
         model = Sanitario
         # exclude = ('id',)
@@ -73,10 +76,7 @@ class EspaciosAdmin(ImportExportModelAdmin):
     pass
 
 
-
-
 class MobiliariosResource(resources.ModelResource):
-
     class Meta:
         model = Mobiliario
         # exclude = ('id',)
@@ -88,10 +88,7 @@ class MobiliariosAdmin(ImportExportModelAdmin):
     pass
 
 
-
-
 class EstadosResource(resources.ModelResource):
-
     class Meta:
         model = ServicioBasico
         # exclude = ('id',)

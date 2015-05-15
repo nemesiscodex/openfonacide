@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
@@ -20,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 
 from django.contrib.auth.models import User
+from openfonacide.matcher import Matcher
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
@@ -154,9 +156,11 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
+
 class Recuperar(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+
     def post(self, request, *args, **kwargs):
         method = request.POST.get('_method')
         _query = request.GET.copy()
@@ -207,7 +211,7 @@ class Recuperar(View):
                     "url": request.build_absolute_uri(reverse('recuperar_pass')) + '?token=' + token + '&email=' + email
                 }
                 mensaje = get_template('registration/mail.recuperar.html').render(Context(ctx))
-                to = [ email ]
+                to = [email]
                 mail = EmailMessage('Recuperar Contraseña',
                                     mensaje,
                                     to=to,
@@ -217,7 +221,7 @@ class Recuperar(View):
 
             _query['success'] = 'email_sent'
             _query['message'] = 'Se ha enviado un correo con las instrucciones!'
-            #redirect ?success=email_sent
+            # redirect ?success=email_sent
         return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
 
 
@@ -229,11 +233,11 @@ class Recuperar(View):
 # lista = Institucion.objects.all()
 # if cantidad is not None:
 # paginator = Paginator(lista, cantidad)
-#         else:
-#             paginator = Paginator(lista, 10)
-#         total = len(lista)
-#         if pagina is None:
-#             pagina = 1
+# else:
+# paginator = Paginator(lista, 10)
+# total = len(lista)
+# if pagina is None:
+# pagina = 1
 #         try:
 #             instituciones = paginator.page(pagina)
 #         except PageNotAnInteger:
@@ -310,7 +314,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'codigo':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.codigo_institucion = '" + escapelike(query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
+                        " WHERE inst.codigo_institucion = '" + escapelike(
+                            query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
                         [periodo]
                     )
                     institucion0 = dictfetch(cursor, cantidad, offset)
@@ -322,7 +327,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'nombre':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        " WHERE inst.nombre_institucion like '%%" + escapelike(
+                            query.upper()) + "%%' AND inst.periodo=%s",
                         [periodo]
                     )
                     institucion1 = dictfetch(cursor, cantidad, offset)
@@ -437,5 +443,63 @@ class ComentariosController(View):
 
 class MatchController(View):
     """
-    Controlador de
+    Controlador de Match
     """
+
+    def get(self, request, *args, **kwargs):
+        inst = Institucion.objects.all()
+        print("Se tienen " + str(len(inst)) + " instituciones")
+        planes = Planificacion.objects.filter(etiquetas="fonacide")
+        print("Se filtraron " + str(len(planes)) + " planificaciones")
+        res = ""
+        time = 0
+        match = 0
+        for i in inst:
+            if planes.filter(convocante__icontains='municipal'):
+                planes_for_match = planes.filter(convocante__icontains=i.nombre_distrito)
+
+            if planes.filter(convocante__icontains='departament'):
+                planes_for_match = planes.filter(convocante__icontains=i.nombre_departamento)
+
+            #print("Para el la institucion " + i.nombre_institucion + " existen " + str(len(
+            #    planes_for_match)) + " que cumplen con el criterio " + i.nombre_departamento + " o " + i.nombre_distrito + " por su campo convocante")
+            for j in planes_for_match:
+                time += 1
+                #print(str(time) + " " + i.nombre_institucion + " _ " + j.nombre_licitacion)
+                ti = Matcher.normalizar_string(i.nombre_institucion)
+                tj = Matcher.normalizar_string(j.nombre_licitacion)
+                res = res + "<p> |" + ti + " _ " + tj + "| </p>"
+                if Matcher.heuristicas(ti, tj):
+                    match += 1
+                    temp = Temporal.objects.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
+                                                   nombre_distrito=i.nombre_distrito,
+                                                   codigo_institucion=i.codigo_institucion,
+                                                   nombre_institucion=i.nombre_institucion,
+                                                   id_planificacion=j.id, anio=j.anio,
+                                                   id_llamado=j.id_llamado, nombre_licitacion=j.nombre_licitacion,
+                                                   convocante=j.convocante)
+                print("[" + str(match) +"/"+str(time)+ "] (" + i.nombre_institucion + " , " + j.nombre_licitacion + ")")
+
+        context = {'resultados': res}
+
+        return render(request, 'openfonacide/match.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

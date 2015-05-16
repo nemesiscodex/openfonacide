@@ -1,8 +1,5 @@
 (function() {
 
-  /**
-   * Controlador del mapa
-   */
   function intersect_safe(a, b){
    var ai = bi= 0;
    var result = [];
@@ -20,6 +17,25 @@
 
    return result;
   }
+
+  String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  function gen_hash(obj){
+    return "hash" + JSON.stringify(obj).hashCode();
+  }
+
+  /**
+   * Controlador del mapa
+   */
   angular.module('frontEnd')
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',

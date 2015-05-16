@@ -29,7 +29,7 @@
     return hash;
   };
 
-  window.gen_hash =  function(obj){
+  function gen_hash(obj){
     return "hash" + JSON.stringify(obj).hashCode();
   }
 
@@ -171,18 +171,24 @@
                 });
               }
 
-            })
+            });
 
             if ($routeParams.establecimiento){
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
             }
-          }
+          };
 
         /**
-        * {nombre:'filtro1', activo:true|false, data: [...]}
+        * { hash: data}
         */
-        $scope.filtros = [];
+        $scope.filtros = {};
+        if(Storage !== 'undefined'){
+            $scope.filtros = JSON.parse(localStorage.getItem('filtros'));
+            if($scope.filtros == null){
+                $scope.filtros = {};
+            }
+        }
         $scope.filtroArray = [];
         var actualizarFiltroArray = function(){
           $scope.filtroArray = undefined;
@@ -222,15 +228,25 @@
                 params.prioridades.rango = [$('#slider-lower').val(), $('#slider-upper').val()];
             }
             if(JSON.stringify(params) != '{}'){
-                backEnd.filtros.query(params, function(data){
-                  $scope.filtroArray = data;
-                  if($scope.filtroArray.length > 0){
+                var _filtro = $scope.filtros[gen_hash(params)];
+                if(_filtro){
+                    $scope.filtroArray = _filtro;
                     $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-                  }else{
-                    alert('No se produjeron resultados para el filtro.');
-                      $scope.loading = false;
-                  }
-                });
+                }else{
+                    backEnd.filtros.query(params, function(data){
+                      $scope.filtroArray = data;
+                      $scope.filtros[gen_hash(params)] = data;
+                      if(Storage !== 'undefined'){
+                        localStorage.setItem('filtros', JSON.stringify($scope.filtros));
+                      }
+                      if($scope.filtroArray.length > 0){
+                        $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                      }else{
+                        alert('No se produjeron resultados para el filtro.');
+                          $scope.loading = false;
+                      }
+                    });
+                }
             }else{
                 $scope.filtroArray = [];
                 $scope.actualizar(function(array){return array.filter(originalFilterFunction)});

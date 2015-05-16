@@ -177,6 +177,12 @@
             $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
           };
 
+        //mostrar Documentos de contraloria
+
+         $scope.mostrarContraloria = function() {
+            $scope.show_contraloria = !$scope.show_contraloria;
+          };
+
         //filtrar
 
         //---------------

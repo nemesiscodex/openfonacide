@@ -38,12 +38,21 @@
         <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
 
         <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
-
-         <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" >  Ver más info de la institución</div></a>
+<!--
+         <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" > Más info</div></a>
         <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
 
-        <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones de la institución</div>
-         <div class=" ui button teal" ng-click="mostrarContraloria()" > Documentos de contraloría</div>
+        <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones</div>
+         <div class=" ui button teal" ng-click="mostrarContraloria()" > Documentos de contraloría</div> -->
+
+         <div class="ui buttons">
+
+
+  <div class="ui button"> <a style="color:rgba(0, 0, 0, 0.6);"href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" > Más info</a></div>
+  <div class="ui button  du-smooth-scroll " href="#disqus_thread">Hacer comentarios</div>
+  <div class="ui button" ng-click="mostrarAdjudicaciones()">Adjudicaciones</div>
+  <div class="ui button" ng-click="mostrarContraloria()" >  Documentos de contraloría</div>
+</div>
 
 
 
@@ -97,7 +106,7 @@
 
                             <div class="row  center aligned ui segment">
                                 <div class="content">
-                                <h3>Tipo de Requerimiento</h3>
+                                <h3>Requerimiento</h3>
                                 <i class="university icon Big"></i>
                                 <h4>{$ item.nombre_espacio $}<span ng-show="!item.nombre_espacio">AULA</span><br/>{$ item.tipo_requerimiento_infraestructura $}</h4>
                                     </div>
@@ -114,11 +123,41 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="twelve wide column">
                             <div class="ui grid stackable  center aligned  segment" style="margin-top:0">
 
+                                 <div class="six wide column">
 
-                                <div class="six wide column">
+
+                                    
+                                     <div class="row centered">
+
+                                        <div class="ui statistic small">
+                                        <div class="value">{$ item.cantidad_requerida $}</div>
+                                        <label for="cantidad">Cantidad requerida</label>
+                                    </div>
+                                    </div>
+
+
+
+                                </div>
+                                
+                                <div class="ten wide column">
+                                    <h3>Justificación</h3>
+
+                                    <p>{$ item.justificacion | capitalize $}</p>
+
+
+                                </div>
+
+                                
+                             </div>
+                               <div class="ui doubling center aligned  grid segment">
+
+
+                                 <div class="six wide column">
 
 
                                     <div class="row centered">
@@ -128,33 +167,13 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     <div class="row centered">
-
-                                        <div class="ui statistic">
-                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
-                                        <label for="cantidad">Cantidad</label>
-                                    </div>
-                                    </div>
+                                     
 
 
 
                                 </div>
-                                <div class="ten wide column"><h3>Justificación</h3>
-
-                                    <p>{$ item.justificacion $}</p>
-
-
-                                </div>
-                               </div>
-                               <div class="ui doubling center aligned  grid segment">
-                                <div class="five wide column">
-
-
-                                   <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
-
-                                </div>
-                                 <div class="five wide column">
-                                    <h3>Estado de la prioridad</h3>
+                                          <div class="six wide column">
+                                    <h3>Estado</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -205,21 +224,22 @@
 
 
                                 </div>
-                                <div class="six wide column">
-                                    <h3>Documentos relacionados</h3>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+
+                                <div class="four wide column">
 
 
+                                   <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 10px"> Esta obra se realizo?</div>
 
                                 </div>
 
+                               
+
+
+                                
+                       
+                                
                             </div>
-
-
-
-                        </div>
+                        </div> 
                            
                     </div>
                 </div>
@@ -234,7 +254,7 @@
 
                             <div class="row  center aligned ui segment">
                                 <div class="content">
-                                <h3>Tipo de Requerimiento</h3>
+                                <h3>Requerimiento</h3>
                                 <i class="university icon Big"></i>
                                 <h4> {$ item.tipo_requerimiento_infraestructura $}<br/>Sanitario</h4>
                                     </div>
@@ -265,36 +285,33 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     <div class="row centered">
-
-                                        <div class="ui statistic">
-                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
-                                        <label for="cantidad">Cantidad</label>
-                                    </div>
-                                    </div>
+                                     
 
 
 
                                 </div>
                                 <div class="ten wide column"><h3>Justificación</h3>
 
-                                    <p>{$ item.justificacion $}</p>
+                                    <p>{$ item.justificacion | capitalize $}</p>
 
 
                                 </div>
                                </div>
                                <div class="ui doubling center aligned  grid segment">
-                                <div class="five wide column">
 
 
-                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
+                                <div class="six wide column">
+                                    <div class="row centered">
 
-
-                              
+                                        <div class="ui statistic small">
+                                        <div class="value">{$ item.cantidad_requerida $}</div>
+                                        <label for="cantidad">Cantidad</label>
+                                    </div>
+                                    </div>
 
                                 </div>
-                                 <div class="five wide column">
-                                    <h3>Estado de la prioridad</h3>
+                                <div class="five wide column">
+                                    <h3>Estado</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -345,16 +362,17 @@
 
 
                                 </div>
-                                <div class="six wide column">
-                                    <h3>Documentos relacionados</h3>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                <div class="four wide column">
 
 
+                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 10px"> Esta obra se realizo?</div>
+
+
+                              
 
                                 </div>
-
+                                 
+                               
                             </div>
 
 
@@ -374,7 +392,7 @@
 
                             <div class="row  center aligned ui segment">
                                 <div class="content">
-                                <h3>Tipo de Requerimiento</h3>
+                                <h3>Requerimiento</h3>
                                 <i class="university icon Big"></i>
                                 <h4>MOBILIARIO <br/> {$ item.nombre_mobiliario $}</h4>
                                     </div>
@@ -396,8 +414,31 @@
 
 
                                 <div class="six wide column">
+                                    <div class="row centered">
+
+                                        <div class="ui statistic small">
+                                        <div class="value">{$ item.cantidad_requerida $}</div>
+                                        <label for="cantidad">Cantidad</label>
+                                    </div>
+                                    </div>
+
+                                    
+                                    
 
 
+
+                                </div>
+                                <div class="ten wide column"><h3>Justificación</h3>
+
+                                    <p>{$ item.justificacion | capitalize $}</p>
+
+
+                                </div>
+                               </div>
+                               <div class="ui doubling center aligned  grid segment">
+
+
+                                <div class="six wide column">
                                     <div class="row centered">
 
                                         <div class="ui statistic small ">
@@ -405,33 +446,10 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     <div class="row centered">
-
-                                        <div class="ui statistic">
-                                        <div class="value">{$ item.cantidad_espacios_nuevos $}</div>
-                                        <label for="cantidad">Cantidad</label>
-                                    </div>
-                                    </div>
-
-
-
+                                     
                                 </div>
-                                <div class="ten wide column"><h3>Justificación</h3>
-
-                                    <p>{$ item.justificacion $}</p>
-
-
-                                </div>
-                               </div>
-                               <div class="ui doubling center aligned  grid segment">
-                                <div class="five wide column">
-
-
-                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
-
-                                </div>
-                                 <div class="five wide column">
-                                    <h3>Estado de la prioridad</h3>
+                                <div class="six wide column">
+                                    <h3>Estado</h3>
 
                                      <div class="ui upward icon dropdown button">
                                          <!--<i class="tags icon"></i>-->
@@ -482,15 +500,14 @@
 
 
                                 </div>
-                                <div class="six wide column">
-                                    <h3>Documentos relacionados</h3>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
-                                    <a href=""><i class="file pdf outline icon"></i> Informe Contraloria</a><br/>
+                                <div class="four wide column">
 
 
+                                     <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 10px"> Esta obra se realizo?</div>
 
                                 </div>
+                                 
+                              
 
                             </div>
 

@@ -253,7 +253,7 @@
                   closable: false
                 })
   							.sidebar('show');
-                 $('.right.sidebar .ui.dropdown').dropdown('active');
+                 $('.right.sidebar .ui.dropdown').dropdown();
 
               });
 

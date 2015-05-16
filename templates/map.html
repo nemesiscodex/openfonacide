@@ -729,13 +729,13 @@
         return value % 100? (value % 50? 0 : 2 ): 1;
       },
       density: 3
-    })
+    });
     rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function ( value ) {
 
       // The tooltip HTML is 'this', so additional
       // markup can be inserted here.
       $(this).html(
-        '<span>' + value + '</span>'
+        '<span>' + parseInt(value) + '</span>'
       );
     });
     rangeSlider.Link('upper').to($('#slider-upper'));
@@ -744,7 +744,7 @@
       // The tooltip HTML is 'this', so additional
       // markup can be inserted here.
       $(this).html(
-        '<span>' + value + '</span>'
+        '<span>' + parseInt(value) + '</span>'
       );
     });
     rangeSlider.Link('lower').to($('#slider-lower'));

@@ -21,8 +21,8 @@ def get_rango(rango):
     if len(rango) != 2:
         return [0, 200]
     try:
-        rango0 = int(rango[0])
-        rango1 = int(rango[1])
+        rango0 = int(float(rango[0]))
+        rango1 = int(float(rango[1]))
         if rango0 > rango1:
             rango0, rango1 = rango1, rango0
         if rango0 == rango1:

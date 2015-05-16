@@ -65,9 +65,7 @@ def filtros(request):
             ubicacion = json.loads(ubicacion)
         else:
             ubicacion = {}
-        JSONResponse(filtro_ubicacion(ubicacion))
-
-    return JSONResponse([])
+        return JSONResponse(filtro_ubicacion(ubicacion))
 
 def get_rango(rango):
     if len(rango) != 2:
@@ -91,12 +89,13 @@ def get_rango(rango):
 
 
 def filtro_prioridad(tipo, rango, ubicacion):
-    print tipo
     cursor = connection.cursor()
     cursor.execute(query_prioridad(tipo, rango, ubicacion))
     rows = cursor.fetchall()
     rows = map(lambda x: x[0], rows)
-    return json.dumps(rows)
+    if rows == {}:
+        return []
+    return rows
 
 
 def query_prioridad(tipo, rango, ubicacion):
@@ -112,12 +111,12 @@ def query_prioridad(tipo, rango, ubicacion):
     dis_id = ubicacion.get('distrito')
     if dis_id:
         query_ubicacion += ' and '
-        query_ubicacion += ' es.codigo_departamento = \'' + dep_id + '\' '
+        query_ubicacion += ' es.codigo_distrito = \'' + dis_id + '\' '
 
     bar_id = ubicacion.get('barrio')
     if bar_id:
         query_ubicacion += ' and '
-        query_ubicacion += ' es.codigo_departamento = \'' + dep_id + '\' '
+        query_ubicacion += ' es.codigo_barrio_localidad = \'' + bar_id + '\' '
 
     if tipo == 'mobiliarios' or 'mobiliarios' in tipo:
         begin_query += ('SELECT DISTINCT es.codigo_establecimiento, '
@@ -189,15 +188,15 @@ def filtro_ubicacion(ubicacion):
     dis_id = ubicacion.get('distrito')
     if dis_id:
         query_ubicacion += ' and '
-        query_ubicacion += ' es.codigo_departamento = \'' + dep_id + '\' '
+        query_ubicacion += ' es.codigo_distrito = \'' + dis_id + '\' '
 
     bar_id = ubicacion.get('barrio')
     if bar_id:
         query_ubicacion += ' and '
-        query_ubicacion += ' es.codigo_departamento = \'' + dep_id + '\' '
+        query_ubicacion += ' es.codigo_barrio_localidad = \'' + bar_id + '\' '
 
     if query_ubicacion == '':
-        return {}
+        return []
 
     query = ('SELECT DISTINCT codigo_establecimiento '
              'FROM openfonacide_establecimiento es ')
@@ -206,4 +205,6 @@ def filtro_ubicacion(ubicacion):
     cursor.execute(query)
     rows = cursor.fetchall()
     rows = map(lambda x: x[0], rows)
-    return json.dumps(rows)
+    if rows == {}:
+        return []
+    return rows

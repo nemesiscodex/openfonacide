@@ -82,7 +82,16 @@
 							cache: false
 						}
 					}
-				)
+				),
+                "ubicaciones": $resource(backEndUrl+ '../ubicacion.json',{},
+                    {
+                        get: {
+                            method: 'GET',
+                            isArray: true,
+                            cache: true
+                        }
+                    }
+                )
 			}
 		}]);
 

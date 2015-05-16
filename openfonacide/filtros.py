@@ -3,6 +3,48 @@ from django.db import connection
 from openfonacide.views import JSONResponse
 
 
+# Genera JSON de ubicaciones
+#
+def generar_ubicacion(request):
+    cursor = connection.cursor()
+    query = ('SELECT codigo_departamento, min(nombre_departamento), codigo_distrito,'
+            'min(nombre_distrito), codigo_barrio_localidad, min(nombre_barrio_localidad) '
+            'FROM openfonacide_establecimiento '
+            'WHERE nombre_barrio_localidad NOT LIKE \'%CONFIRMAR%\' '
+            'GROUP BY codigo_departamento, codigo_distrito, codigo_barrio_localidad '
+            'ORDER BY codigo_departamento, codigo_distrito, codigo_barrio_localidad')
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    # [dep, dis, bar ]
+    anterior = [None, None, None]
+    actual = [None, None, None]
+    dep = None
+    dis = None
+    bar = None
+    result = []
+    for row in rows:
+        actual[0] = row[0]
+        actual[1] = row[2]
+        actual[2] = row[4]
+
+        if anterior[0] != actual[0]:
+            dep = {'id': row[0], 'nombre': row[1], 'distritos':[]}
+            result.append(dep)
+
+        if anterior[1] != actual[1]:
+            dis = {'id': row[2], 'nombre': row[3], 'barrios':[]}
+            dep.get('distritos').append(dis)
+
+        if anterior[2] != actual[2]:
+            bar = {'id': row[4], 'nombre': row[5]}
+            dis.get('barrios').append(bar)
+
+
+        anterior[0] = row[0]
+        anterior[1] = row[2]
+        anterior[2] = row[4]
+    return JSONResponse(result)
+
 def filtros(request):
     nombre = request.GET.get('f')
     if nombre == 'fonacide':

@@ -93,6 +93,7 @@ class Matcher(object):
         normalizada = normalizada.replace('CREP ', 'CENTRO REGIONAL DE EDUCACION PILAR ')
         normalizada = normalizada.replace('AVDA ', 'AVENIDA ')
         normalizada = normalizada.replace('AVDA.', 'AVENIDA')
+        normalizada = normalizada.replace('VOC.', 'VOCACIONAL')
 
         # Reemplaza puntución por espacio
         for p in string.punctuation:

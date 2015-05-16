@@ -13,6 +13,7 @@ from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
+from rest_framework.generics import ListAPIView
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
 from rest_framework import pagination
@@ -43,6 +44,13 @@ class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
 class EstablecimientoViewSet(OpenFonacideViewSet):
     serializer_class = EstablecimientoSerializer
     queryset = Establecimiento.objects.all()
+
+
+class TemporalListView(ListAPIView):
+    model = Temporal
+    serializer_class = TemporalSerializer
+    pagination_class = PaginadorEstandard
+    queryset = Temporal.objects.all()
 
 
 class DummyPrioridad(object):
@@ -246,7 +254,7 @@ class Recuperar(View):
 # # result = lista_instituciones.data
 # result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
 # 'rows': lista_instituciones.data}
-#         return JSONResponse(result)
+# return JSONResponse(result)
 
 
 class EstablecimientoController(View):
@@ -447,7 +455,7 @@ class MatchController(View):
     def get(self, request, *args, **kwargs):
         results = Temporal.objects.all()
         context = {'resultados': results}
-        return render(request, "openfonacide/match.html", context)
+        return JSONResponse(context);
 
 
 

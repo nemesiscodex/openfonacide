@@ -42,10 +42,15 @@
 						controller: 'FonacideController',
 						templateUrl: '/partials/fonacide.html'
 					})
+					.when('/match/', {
+					    controller: 'MatchController',
+					    templateUrl: '/partials/match.html'
+					})
 					.when('/results', {
 						controller: 'ResultadosController',
 						templateUrl: '/partials/results.html'
 					});
+
 
 				$locationProvider.html5Mode(true);
 			}

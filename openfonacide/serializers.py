@@ -296,6 +296,7 @@ class TemporalSerializer(serializers.ModelSerializer):
             'nombre_departamento',
             'nombre_distrito',
             'codigo_institucion',
+            'nombre_institucion',
             'id_planificacion',
             'anio',
             'id_llamado',

@@ -56,6 +56,5 @@
     'institucion-modal/instituciones-tabs/informacion.html');
   nuevaDirectiva('fonacide', 'institucion-modal/fonacide.html');
   nuevaDirectiva('resumen', 'institucion-modal/fonacide.html');
-
-
+  nuevaDirectiva('match', 'match.html');
 })();

@@ -1,0 +1,102 @@
+<div>
+    <style type="text/css" xmlns="http://www.w3.org/1999/html">
+        .strong{
+        font-weight: bold;
+        }
+    </style>
+
+    <script type="text/javascript">
+    
+    changeValues = function(){
+        try{
+            var tmp = $('#checkAll').val();
+            if($('#checkAll').is(":checked")){
+                $("input[type='checkbox']").not("#checkAll").each(function() {
+                    $(this).checkbox('enable');
+                });
+            }else{
+                $("input[type='checkbox']").not("#checkAll").each(function() {
+                    $(this).checkbox('disable');
+                });
+            }
+        }catch(ex){
+            $("input[type='checkbox']").not("#checkAll").each(function() {
+                $(this).checkbox('disable');
+            });
+        }
+    }
+
+    enableAll = function(){
+        $("input[type='checkbox']").not("#checkAll").checkbox('enable');
+    }
+
+    disableAll = function(){
+        $("input[type='checkbox']").not("#checkAll").checkbox('disable');
+    }
+
+    $('#checkAll').checkbox('setting', {
+        'onEnable': enableAll(),
+        'onDisable': disableAll()
+    });
+
+
+
+
+    </script>
+    <table class="ui compact celled definition table" id="resultList">
+        <thead class="full-width">
+        <tr>
+            <th>
+                <div class="ui checkbox">
+                    <input id="checkAll" name="checkAll" onEnable="enableAll()" onDisable="disableAll()"
+                           type="checkbox">
+                    <label
+                            id="dm">M/D</label>
+                </div>
+            </th>
+            <th colspan="8">
+                <div class="ui small button">
+                    Confirmar
+                </div>
+                <label class="strong" style="float: right"> 1 página de 100</label>
+                <button class="ui button" style="float: right">Siguiente Pagina<i class="angle right icon"></i></button>
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>Periodo</th>
+            <th>Departamento</th>
+            <th>Distrito</th>
+            <th>Código de Institución</th>
+            <th>Nombre de Institución</th>
+            <!-- <th>Id de Planificación</th> -->
+            <!-- <th>Año</th> -->
+            <th>Id de Llamado</th>
+            <th>Nombre Licitación</th>
+            <th>Convocante</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div ng-repeat=" t in results ">
+            <tr>
+                <td class="collapsing">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="confirmar"/>
+                        <label></label>
+                    </div>
+                </td>
+                <td>{$ t.periodo $}</td>
+                <td>{$ t.nombre_departamento $}</td>
+                <td>{$ t.nombre_distrito $}</td>
+                <td>{$ t.codigo_institucion $}</td>
+                <td>{$ t.nombre_institucion $}</td>
+                <!-- <td>{{ t.id_planificacion }}</td> -->
+                <!-- <td>{{ t.anio }}</td> -->
+                <td>{$ t.id_llamado $}</td>
+                <td>{$ t.nombre_licitacion $}</td>
+                <td>{$ t.convocante $}</td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>

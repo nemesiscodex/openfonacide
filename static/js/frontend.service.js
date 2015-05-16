@@ -73,7 +73,21 @@
 							return str.join("&");
 						}
 					}
-				})
+				}),
+				"temporal": $resource(backEndUrl + '../temporal/:id',{
+				    get: {
+				        method: 'GET',
+				        isArray: true,
+				        cache: true
+				    },
+				    save: {
+						// Especificar 
+				        method: 'POST',
+				        headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+				    }
+				}),
 			}
 		}]);
 

@@ -1,5 +1,7 @@
 # encoding: utf-8
+import os
 from fuzzywuzzy import fuzz
+from django.db.models import Q
 
 __author__ = 'synchro'
 
@@ -29,16 +31,19 @@ class Matcher(object):
 
     @staticmethod
     def normalizar_string(cadena):
-        # assert isinstance(cadena, str)
-        normalizada = cadena.strip()
-        normalizada = normalizada.upper()
+        assert isinstance(cadena, unicode)
+        normalizada = cadena.upper()
+
         normalizada = normalizada.replace(u'Á', 'A')
         normalizada = normalizada.replace(u'É', 'E')
         normalizada = normalizada.replace(u'Í', 'I')
         normalizada = normalizada.replace(u'Ó', 'O')
         normalizada = normalizada.replace(u'Ú', 'U')
         normalizada = normalizada.replace(u'Ñ', 'N')
-
+        # Error usual encontrado en los datasets
+        normalizada = normalizada.replace(u'Ń', 'N')
+        # Eliminar Stop Words
+        normalizada = remove_stop_words(normalizada)
 
         # Reemplazo de las abreviaciones usuales
         normalizada = normalizada.replace('ESC.', 'ESCUELA')
@@ -63,24 +68,49 @@ class Matcher(object):
         normalizada = normalizada.replace('I. F. D. ', 'INSTITUTO FORMACION DOCENTE')
         normalizada = normalizada.replace('GRAL.', 'GENERAL')
         normalizada = normalizada.replace('GRAL ', 'GENERAL ')
+        normalizada = normalizada.replace('PROF.', 'PROFESOR')
+        normalizada = normalizada.replace('PROF ', 'PROFESOR ')
+        normalizada = normalizada.replace('RCA.', 'REPUBLICA')
+        normalizada = normalizada.replace('RCA ', 'REPUBLICA')
         normalizada = normalizada.replace('MCAL.', 'MARISCAL')
         normalizada = normalizada.replace('MCAL ', 'MARISCAL ')
         normalizada = normalizada.replace('CPTAN.', 'CAPITAN')
         normalizada = normalizada.replace('CPTAN ', 'CAPITAN ')
+        normalizada = normalizada.replace('TTE.', 'TETIENTE')
+        normalizada = normalizada.replace('TTE ', 'TETIENTE ')
         normalizada = normalizada.replace('DR.', 'DOCTOR')
         normalizada = normalizada.replace('DR ', 'DOCTOR ')
+        normalizada = normalizada.replace('PDTE.', 'PRESIDENTE')
+        normalizada = normalizada.replace('PDTE ', 'PRESIDENTE ')
         normalizada = normalizada.replace('STA.', 'SANTA')
         normalizada = normalizada.replace('STA ', 'SANTA ')
+        normalizada = normalizada.replace('NTRA.', 'NUESTRA')
+        normalizada = normalizada.replace('PARROQ.', 'PARROQUIAL')
+        normalizada = normalizada.replace('PARROQ ', 'PARROQUIAL')
+        normalizada = normalizada.replace('E.M.A.', 'EDUCACION MEDIA ABIERTA')
+        normalizada = normalizada.replace('EMA', 'EDUCACION MEDIA ABIERTA ')
+        normalizada = normalizada.replace('C.R.E.P.', 'CENTRO REGIONAL DE EDUCACION PILAR')
+        normalizada = normalizada.replace('CREP ', 'CENTRO REGIONAL DE EDUCACION PILAR ')
+        normalizada = normalizada.replace('AVDA ', 'AVENIDA ')
+        normalizada = normalizada.replace('AVDA.', 'AVENIDA')
 
         # Reemplaza puntución por espacio
         for p in string.punctuation:
             normalizada = normalizada.replace(p, ' ')
 
+        normalizada = re.sub('\s+DEL ', ' ', normalizada)
+        normalizada = re.sub('\s+EL ', ' ', normalizada)
+        normalizada = re.sub('\s+LA ', ' ', normalizada)
+        normalizada = re.sub('\s+PARA ', ' ', normalizada)
+        normalizada = re.sub('\s+Y ', ' ', normalizada)
+
+
         # Eliminar espacios repetidos
         normalizada = re.sub('\s+', ' ', normalizada)
+        normalizada = normalizada.strip()
 
-        if normalizada == "":
-            normalizada = None
+        # if normalizada == "":
+        # normalizada = None
 
         return normalizada
 
@@ -113,7 +143,9 @@ class Matcher(object):
         elif pos_nombre < -1:
             return False
 
-        t_value = fuzz.partial_ratio(cadena1, cadena2)
+        # t_value = fuzz.partial_ratio(cadena1, cadena2)
+        # t_value = fuzz.partial_token_set_ratio(cadena1, cadena2)
+        t_value = fuzz.token_set_ratio(cadena1, cadena2)
         if t_value >= 70:
             print("[matcher] (" + cadena1 + " , " + cadena2 + ") = " + str(t_value))
             return True
@@ -126,12 +158,64 @@ class Matcher(object):
             # Aplicar distancia de Damerau-Levenshtein
             # editdistance = metrics.edit_distance(cadena1, cadena2)
             # max_longitud = float(len(max(cadena1, cadena2)))
-            #if editdistance > (0.3 * max_longitud):
-            #    return False
-            #else:
-            #    # Match
+            # if editdistance > (0.3 * max_longitud):
+            # return False
+            # else:
+            # # Match
             #    print(cadena1 + ' is OK')
             #    return True
+
+    @staticmethod
+    def do_match(institucion_manager=None, planificacion_manager=None, temporal_manager=None):
+        inst = institucion_manager.all()
+        total_instituciones = str(len(inst))
+        print("Se tienen " + total_instituciones + " instituciones")
+        planes = planificacion_manager.filter(etiquetas__icontains="fonacide")
+        total_planificaciones = str(len(planes))
+        print("Se filtraron " + total_planificaciones + " planificaciones")
+        res = ""
+        time = 0
+        match = 0
+        institucion_actual = 0
+        for i in inst:
+            institucion_actual += 1
+            # print("BEGIN Executing OR-Query!")
+            planes_for_match = planes.filter(
+                Q(convocante__icontains=i.nombre_distrito) | Q(convocante__icontains=i.nombre_departamento))
+            planificaciones_candidatas = str(len(planes_for_match))
+            # print("END Executing OR-Query!")
+
+            #print("[" + i.nombre_institucion + "] existen " + str(len(
+            #    planes_for_match)) + " por (" + i.nombre_departamento + " | " + i.nombre_distrito + ") en convocante")
+
+            plan_actual = 0
+            for j in planes_for_match:
+                time += 1
+                plan_actual += 1
+                #print(str(time) + " " + i.nombre_institucion + " _ " + j.nombre_licitacion)
+                ti = Matcher.normalizar_string(i.nombre_institucion)
+                tj = Matcher.normalizar_string(j.nombre_licitacion)
+                res = res + "<p> |" + ti + " _ " + tj + "| </p>"
+
+                if Matcher.heuristicas(ti, tj):
+                    match += 1
+                    temp = temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
+                                                   nombre_distrito=i.nombre_distrito,
+                                                   codigo_institucion=i.codigo_institucion,
+                                                   nombre_institucion=i.nombre_institucion,
+                                                   id_planificacion=j.id, anio=j.anio,
+                                                   id_llamado=j.id_llamado, nombre_licitacion=j.nombre_licitacion,
+                                                   convocante=j.convocante)
+
+                    #print(
+                    #    "[" + str(match) + "/" + str(
+                    #        time) + "] (" + i.nombre_institucion + " , " + j.nombre_licitacion + ")")
+                    print(
+                        "[" + str(institucion_actual) + "/" + str(total_instituciones) + "][" + str(
+                            plan_actual) + "/" + str(planificaciones_candidatas) + "/" + str(
+                            total_planificaciones) + "]")
+
+        return {'resultados': res, 'time': time}
 
 
 def mismo_nivel_educativo(c1, c2):
@@ -244,3 +328,24 @@ def match_nombre_santo(c1, c2, pos):
         editdistance = metrics.edit_distance(nombre1, nombre2)
         return editdistance <= (0.1 * len(max(nombre1, nombre2)).__float__())
 
+
+def remove_stop_words(normalizada=None, file_name='palabrasDNCP.txt'):
+    # Initialize STOP-WORDS source
+    # XXX: Could be improved, by using some global data source for
+    # Stop-Words
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, file_name)
+    sw_file = open(file_path)
+
+    stop_words = list()
+
+    for sw in sw_file.readlines():
+        sw.replace('\n', '')
+        stop_words.append(sw.upper())
+
+    sw_file.close()
+
+    for k in stop_words:
+        normalizada.replace(k, '')
+
+    return normalizada

@@ -13,7 +13,6 @@ from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView
 from django.http import HttpResponse, Http404
-from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
 from rest_framework import pagination
@@ -21,7 +20,6 @@ from rest_framework.response import Response
 from rest_framework import permissions
 
 from django.contrib.auth.models import User
-from openfonacide.matcher import Matcher
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
@@ -238,16 +236,16 @@ class Recuperar(View):
 # total = len(lista)
 # if pagina is None:
 # pagina = 1
-#         try:
-#             instituciones = paginator.page(pagina)
-#         except PageNotAnInteger:
-#             instituciones = paginator.page(1)
-#         except EmptyPage:
-#             instituciones = paginator.page(paginator.num_pages)
-#         lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-#         # result = lista_instituciones.data
-#         result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-#                   'rows': lista_instituciones.data}
+# try:
+# instituciones = paginator.page(pagina)
+# except PageNotAnInteger:
+# instituciones = paginator.page(1)
+# except EmptyPage:
+# instituciones = paginator.page(paginator.num_pages)
+# lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
+# # result = lista_instituciones.data
+# result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
+# 'rows': lista_instituciones.data}
 #         return JSONResponse(result)
 
 
@@ -447,42 +445,12 @@ class MatchController(View):
     """
 
     def get(self, request, *args, **kwargs):
-        inst = Institucion.objects.all()
-        print("Se tienen " + str(len(inst)) + " instituciones")
-        planes = Planificacion.objects.filter(etiquetas="fonacide")
-        print("Se filtraron " + str(len(planes)) + " planificaciones")
-        res = ""
-        time = 0
-        match = 0
-        for i in inst:
-            if planes.filter(convocante__icontains='municipal'):
-                planes_for_match = planes.filter(convocante__icontains=i.nombre_distrito)
+        results = Temporal.objects.all()
+        context = {'resultados': results}
+        return render(request, "openfonacide/match.html", context)
 
-            if planes.filter(convocante__icontains='departament'):
-                planes_for_match = planes.filter(convocante__icontains=i.nombre_departamento)
 
-            #print("Para el la institucion " + i.nombre_institucion + " existen " + str(len(
-            #    planes_for_match)) + " que cumplen con el criterio " + i.nombre_departamento + " o " + i.nombre_distrito + " por su campo convocante")
-            for j in planes_for_match:
-                time += 1
-                #print(str(time) + " " + i.nombre_institucion + " _ " + j.nombre_licitacion)
-                ti = Matcher.normalizar_string(i.nombre_institucion)
-                tj = Matcher.normalizar_string(j.nombre_licitacion)
-                res = res + "<p> |" + ti + " _ " + tj + "| </p>"
-                if Matcher.heuristicas(ti, tj):
-                    match += 1
-                    temp = Temporal.objects.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
-                                                   nombre_distrito=i.nombre_distrito,
-                                                   codigo_institucion=i.codigo_institucion,
-                                                   nombre_institucion=i.nombre_institucion,
-                                                   id_planificacion=j.id, anio=j.anio,
-                                                   id_llamado=j.id_llamado, nombre_licitacion=j.nombre_licitacion,
-                                                   convocante=j.convocante)
-                print("[" + str(match) +"/"+str(time)+ "] (" + i.nombre_institucion + " , " + j.nombre_licitacion + ")")
 
-        context = {'resultados': res}
-
-        return render(request, 'openfonacide/match.html', context)
 
 
 

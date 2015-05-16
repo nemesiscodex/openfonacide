@@ -1,86 +1,73 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>
+{% load staticfiles %}
+
+<style type="text/css">
+    .strong{
+    font-weight: bold;
+    }
+</style>
+
+<script src="{% static 'jquery.js' %}"></script>
+<script src="{% static 'semantic.min.js' %}"></script>
+<link href="{% static 'semantic.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/custom.css' %}" rel="stylesheet">
+<link href="{% static 'css/icon-fonacide.css' %}" rel="stylesheet">
+<link href="{% static 'css/icon-fonacide.css' %}" rel="stylesheet">
+
+
 <div>
-
-    
-    <div>
-        <h2>Matcher
-            <div style="float:right"><i></i></div>
-        </h2>
-
-
-        
-        <div>
-            <div># relaciones pendientes
-            </div>
-
-            <label style="float:right">Tipo de búsqueda</label>
-
-            <div style="float:right">
-                <input type="checkbox" name="public">
-                <label></label>
-            </div>
-
-            <div>
-                <div>
-                    <label>Fecha:</label> 30/05/2015
+    <table class="ui compact celled definition table" id="resultList">
+        <thead class="full-width">
+        <tr>
+            <th>
+                <div class="ui checkbox">
+                    <input id="checkAll" name="checkAll" onEnable="enableAll()" onDisable="disableAll()"
+                           type="checkbox">
+                    <label
+                            id="dm">M/D</label>
                 </div>
-                <div>
-                    <label>Stop words:</label>
-
-                    <div>
-                        Palabra 1
-                        <i></i>
-                    </div>
-
-                    <div>
-                        Palabra 2
-                        <i></i>
-                    </div>
-
-                    <div>
-                        Palabra 3
-                        <i></i>
-                    </div>
+            </th>
+            <th colspan="8">
+                <div class="ui small button">
+                    Confirmar
                 </div>
-            <textarea>
-            </textarea>
-            </div>
-
-
-            <button><i></i>Buscar</button>
-
-        </div>
-
-
-    </div>
-    
-
-    
-    <div>
-        <div>
-            <div>
-                <div>
-                    <h2>Resumen</h2>
+                <label class="strong" style="float: right"> 1 página de 100</label>
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>Periodo</th>
+            <th>Departamento</th>
+            <th>Distrito</th>
+            <th>Código de Institución</th>
+            <th>Nombre de Institución</th>
+            <!-- <th>Id de Planificación</th> -->
+            <!-- <th>Año</th> -->
+            <th>Id de Llamado</th>
+            <th>Nombre Licitación</th>
+            <th>Convocante</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in resultados %}
+        <tr>
+            <td class="collapsing">
+                <div class="ui checkbox">
+                    <input type="checkbox" id="confirmar"/>
+                    <label></label>
                 </div>
-            </div>
-        </div>
-        <div>
-
-            <div>
-                <div>
-                    <h2>Asuncion</h2>
-
-                    <div>
-                        <div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    
+            </td>
+            <td>{{ t.periodo }}</td>
+            <td>{{ t.nombre_departamento }}</td>
+            <td>{{ t.nombre_distrito }}</td>
+            <td>{{ t.codigo_institucion }}</td>
+            <td>{{ t.nombre_institucion }}</td>
+            <!-- <td>{{ t.id_planificacion }}</td> -->
+            <!-- <td>{{ t.anio }}</td> -->
+            <td>{{ t.id_llamado }}</td>
+            <td>{{ t.nombre_licitacion }}</td>
+            <td>{{ t.convocante }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
-</body></html>

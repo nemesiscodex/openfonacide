@@ -572,7 +572,7 @@
                 </div>
 -->
 
-<div class="ui left  vertical  overlay sidebar push uncover"
+<div class="ui left  vertical  overlay filtro sidebar push uncover"
      style="z-index: 1002; background: #f7f7f7;height: 96% !important;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
@@ -604,21 +604,21 @@
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 		 <label class="ui teal label">Filtrado por ubicación</label>
     <div class="item filtros dropdownn" style="z-index: 999999;">
-        <select class="ui dropdown">
+        <select class="ui fluid dropdown">
             <option value="">Departamento</option>
             <option value="1">Central</option>
             <option value="0">Cordillera</option>
         </select>
     </div>
     <div class="item filtros dropdownn" style="z-index: 99999;">
-        <select class="ui dropdown">
+        <select class="ui fluid dropdown">
             <option value="">Distrito</option>
             <option value="1">Asuncion</option>
             <option value="0">San Lorenzo</option>
         </select>
     </div>
     <div class="item filtros dropdownn" style="z-index: 9999;">
-        <select class="ui dropdown">
+        <select class="ui fluid dropdown">
             <option value="">Barrio/Localidad</option>
             <option value="1">Sajonia</option>
             <option value="0">Pte. Franco</option>
@@ -629,43 +629,46 @@
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 	<label class="ui teal label">Filtrado por prioridades</label>
+  <div class="circular tiny ui icon button teal" ng-click="filtroPrioridad()" style="float:right"><i class="refresh icon"></i></div>
     <div class="item filtros">
         <h4>Tipo de Prioridad</h4>
         <div class="ui two column grid">
             <div class="column">
                 <div class="ui checkbox column">
-                    <input ng-click="filtroPrioridad()" checked ng-model="prioridadesSeleccionadas.sanitarios" id="prioridad-sanitarios" type="checkbox" name="fun">
+                    <input ng-model="prioridadesSeleccionadas.sanitarios" id="prioridad-sanitarios" type="checkbox" name="fun">
                     <label for="prioridad-sanitarios">Sanitarios</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.aulas" id="prioridad-aulas" type="checkbox" name="fun">
+                    <input ng-model="prioridadesSeleccionadas.aulas" id="prioridad-aulas" type="checkbox" name="fun">
                     <label for="prioridad-aulas">Aulas</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.mobiliarios" id="prioridad-mobiliarios" type="checkbox" name="fun">
+                    <input ng-model="prioridadesSeleccionadas.mobiliarios" id="prioridad-mobiliarios" type="checkbox" name="fun">
                     <label for="prioridad-mobiliarios">Mobiliario</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input ng-click="filtroPrioridad()" ng-model="prioridadesSeleccionadas.otros" id="prioridad-otros" type="checkbox" name="fun">
+                    <input ng-model="prioridadesSeleccionadas.otros" id="prioridad-otros" type="checkbox" name="fun">
                     <label for="prioridad-otros">Otros Espacios</label>
                 </div>
             </div>
         </div>
     </div>
 
-     <div class="item filtros">
+      <div class="item filtros">
         <h4>Prioridad</h4>
         <div class="content" style="padding: 20px">
           <div class="range slider"> </div>
+          <input id="slider-upper" type="hidden" name="upper" />
+          <input id="slider-lower" type="hidden" name="lower" />
         </div>
 
-    </div>
+      </div>
 
 
      </div>
@@ -746,6 +749,7 @@
         '<span>' + value + '</span>'
       );
     });
+    rangeSlider.Link('upper').to($('#slider-upper'));
     rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function ( value ) {
 
       // The tooltip HTML is 'this', so additional
@@ -754,5 +758,6 @@
         '<span>' + value + '</span>'
       );
     });
+    rangeSlider.Link('lower').to($('#slider-lower'));
   })();
 </script>

@@ -151,6 +151,9 @@ footer {
     .detalle.sidebar{
         width: 65% !important;
     }
+    .filtro.sidebar{
+        width: 355px !important;
+    }
 }
 
 /* mobile */
@@ -164,6 +167,10 @@ footer {
 @media only screen and (min-width: 992px) {
     .detalle.sidebar{
         width: 65% !important;
+    }
+
+    .filtro.sidebar{
+        width: 355px !important;
     }
 }
 

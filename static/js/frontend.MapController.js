@@ -29,7 +29,7 @@
     return hash;
   };
 
-  function gen_hash(obj){
+  window.gen_hash =  function(obj){
     return "hash" + JSON.stringify(obj).hashCode();
   }
 
@@ -40,6 +40,10 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+        $scope.activar_filtro = function(){
+          $('.refresh').parent().transition('jiggle')
+        };
+        $scope.ubicacionSeleccionada = {};
         $scope.prioridadesSeleccionadas = {
           sanitarios: true,
           aulas: true,
@@ -51,7 +55,6 @@
           $anchorScroll();
         };
         $scope.create = function (){
-
           if(window.mapLoaded){
             $scope.inicializar();
             $timeout(function(){
@@ -199,71 +202,39 @@
           }
           window.filtroArray = $scope.filtroArray;
           window.filtros = $scope.filtros;
-        }
+        };
         var originalFilterFunction = function(obj){
           if($scope.filtroArray.length > 0)
             return $scope.filtroArray.indexOf(obj.id) != -1;
           return obj;
-        }
+        };
 
-        $scope.filtroPrioridad = function(){
-          extra = {};
+        $scope.filtro = function(){
 
-          for(prop in $scope.prioridadesSeleccionadas){
-            if(!extra.tipo)
-              extra.tipo = [];
-            if($scope.prioridadesSeleccionadas[prop]){
-              console.log(prop);
-              extra.tipo.push(prop);
+            $scope.loading = true;
+            var params = {};
+            if($scope.ubicacionSeleccionada.check){
+                params.ubicacion = $scope.ubicacionSeleccionada;
             }
-          }
-          extra.rango = [$('#slider-lower').val(), $('#slider-upper').val()];
+            if($scope.prioridadesSeleccionadas.check){
 
-          console.log(extra);
-
-          $scope.filtro('prioridad', extra);
-        }
-
-        $scope.filtro = function(name, extra){
-          if(typeof(extra) != 'object'){
-            extra = {};
-          }
-
-          var _filtro = $scope.filtros
-            .reduce(function(a, b){
-              if(b.nombre == name) return b; return a;
-              }, undefined);
-
-          $scope.loading = true;
-          if(_filtro == undefined || name == 'prioridad'){
-            extra.f = name;
-            backEnd.filtros.query(extra, function(data){
-              _filtro = {};
-              _filtro.nombre = name;
-              _filtro.activo = true;
-              _filtro.data = data;
-              if(name == 'prioridad'){
-                var exists = false;
-                for(var idx in $scope.filtros){
-                  if($scope.filtros[idx].nombre == name){
-                    $scope.filtros[idx] = _filtro;
-                    exists = true;
+                params.prioridades = $scope.prioridadesSeleccionadas;
+                params.prioridades.rango = [$('#slider-lower').val(), $('#slider-upper').val()];
+            }
+            if(JSON.stringify(params) != '{}'){
+                backEnd.filtros.query(params, function(data){
+                  $scope.filtroArray = data;
+                  if($scope.filtroArray.length > 0){
+                    $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                  }else{
+                    alert('No se produjeron resultados para el filtro.');
+                      $scope.loading = false;
                   }
-                }
-                if(!exists){
-                  $scope.filtros.push(_filtro);
-                }
-              }else{
-                $scope.filtros.push(_filtro);
-              }
-              actualizarFiltroArray();
-              $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-            })
-          }else{
-            _filtro.activo = !_filtro.activo;
-            actualizarFiltroArray();
-            $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-          }
+                });
+            }else{
+                $scope.filtroArray = [];
+                $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+            }
         };
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {

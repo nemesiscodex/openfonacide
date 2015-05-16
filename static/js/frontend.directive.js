@@ -61,21 +61,22 @@
             multiple: "=",
             seleccionados: "=",
             seleccionado: "=",
+            callback: '='
         },
         link: function(scope, element, attrs, ctrl){
             ctrl.multiple = scope.multiple;
             ctrl.selected = scope.seleccionado;
+            ctrl.callback = (typeof (scope.callback) == 'function')? scope.callback: function(){};
         },
         controllerAs: 'ctrl',
         controller: ['backEnd', '$scope', '$timeout', function(backEnd, $scope, $timeout){
             var $control = this;
-            console.log(typeof($control.selected));
             if(typeof($control.selected) != 'object'){
                 $control.selected = {
                     departamento: '',
                     distrito: '',
                     barrio: '',
-                    check: false
+                    check: false,
                 };
             }
             $control.ubicacionesSeleccionadas = [];

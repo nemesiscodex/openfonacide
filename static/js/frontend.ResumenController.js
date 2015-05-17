@@ -1,6 +1,6 @@
 (function(){
     angular.module('frontEnd')
-      .controller('ResumenController', ['$scope', '$timeout', function($scope, $timeout){
+      .controller('ResumenController', ['$scope', '$timeout', 'backEnd', function($scope, $timeout, backEnd){
         $scope.filterObject = {};
         $scope.departamentoSelected = '';
         $scope.prioridadesSeleccionadas = {
@@ -24,54 +24,13 @@
 
         var cargarUbicacion = function(){
           //PLACEHOLDER
-          var ubicaciones = [
-            {
-              "id": "0",
-              "nombre": "Asuncion",
-              "distritos": [
-                 {
-                   "id": "0",
-                   "nombre": "Asuncion",
-                   "barrios": [
-                     {
-                       "id": "1",
-                       "nombre": "Villa Aurelia"
-                     },
-                     {
-                       "id": "2",
-                       "nombre": "Mariscal Estigarribia"
-                     },
-                     {
-                       "id": "3",
-                       "nombre": "Villa Morra"
-                     }
-                   ]
-                 },
-                  {
-                    "id": "1",
-                    "nombre": "Distrito 2",
-                    "barrios": [
-                      {
-                        "id": "4",
-                        "nombre": "Barrio 4"
-                      },
-                      {
-                        "id": "5",
-                        "nombre": "Barrio 5"
-                      },
-                      {
-                        "id": "6",
-                        "nombre": "Barrio 6"
-                      }
-                    ]
-                  },
-             ]
-            },
-          ];
-          $scope.distritos = [];
-          $scope.barrios = [];
-          $scope.ubicaciones = ubicaciones;
-          $scope.$watch('departamentoSelected', function(){
+          backEnd.ubicaciones.get({}, function(data){
+            var ubicaciones = data;
+
+            $scope.distritos = [];
+            $scope.barrios = [];
+            $scope.ubicaciones = ubicaciones;
+            $scope.$watch('departamentoSelected', function(){
             $scope.distritos = [];
             $scope.distritoSelected = "";
             $scope.barrioSelected = "";
@@ -86,8 +45,8 @@
               $('#ubicacion-distrito .dropdown,#ubicacion-barrio .dropdown').dropdown('clear');
             },0,false);
 
-          });
-          $scope.$watch('distritoSelected', function(){
+            });
+            $scope.$watch('distritoSelected', function(){
             $scope.barrios = [];
             $scope.barrioSelected = "";
             for(i in $scope.distritos){
@@ -99,12 +58,14 @@
             $timeout(function(){
               $('#ubicacion-barrio .dropdown').dropdown('clear');
             },0,false);
-          });
+            });
 
-          $timeout(function(){
+            $timeout(function(){
             // $('.ui.checkbox').checkbox();
             $('.dropdown').dropdown();
-          },300, false);
+            },300, false);
+          });
+
         };
         cargarUbicacion();
         $scope.agregarUbicacion = function(){

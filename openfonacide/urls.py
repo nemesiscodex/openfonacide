@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from openfonacide.filtros import filtros, generar_ubicacion
 from rest_framework import routers
 
 from openfonacide.views import *
@@ -12,7 +13,6 @@ router.register(r'establecimiento', EstablecimientoViewSet)
 router.register(r'institucion', InstitucionViewSet)
 router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
 
-
 partial_patterns = patterns('',
                             url(r'^registration/login\.html$',
                                 PartialGroupView.as_view(template_name='registration/login.html'),
@@ -20,6 +20,9 @@ partial_patterns = patterns('',
                             url(r'^registration/recuperar\.html$',
                                 PartialGroupView.as_view(template_name='registration/recuperar.html'),
                                 name='registration/recuperar.html'),
+                            url(r'^filtro-ubicacion\.html$',
+                                PartialGroupView.as_view(template_name='filtro-ubicacion.html'),
+                                name='filtro-ubicacion.html'),
                             url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'),
                                 name='footer.html'),
                             url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
@@ -57,8 +60,6 @@ partial_patterns = patterns('',
                             url(r'^institucion-modal\.html$',
                                 PartialGroupView.as_view(template_name='institucion-modal.html'),
                                 name='institucion-modal.html'),
-                            url(r'^match\.html$', PartialGroupView.as_view(template_name='match.html'),
-                                name='match.html'),
                             url(r'^institucion-modal/establecimiento-tabla\.html$',
                                 PartialGroupView.as_view(template_name='institucion-modal/establecimiento-tabla.html'),
                                 name='institucion-modal/establecimiento-tabla.html'),
@@ -91,6 +92,8 @@ partial_patterns = patterns('',
                             url(r'^institucion-modal/fonacide\.html$',
                                 PartialGroupView.as_view(template_name='institucion-modal/fonacide.html'),
                                 name='institucion-modal/fonacide.html'),
+                            url(r'^match\.html$', PartialGroupView.as_view(template_name='match.html'),
+                                name='match.html'),
                             # ... more partials ...,
                             )
 
@@ -102,11 +105,12 @@ urlpatterns = patterns('',
                        # Examples:
                        # url(r'^$', 'mysite.views.home', name='home'),
                        # url(r'^blog/', include('blog.urls')),
+
                        url(r'^accounts/login/$', 'django.contrib.auth.views.login',
                            {'template_name': 'index-nuevo.html'}),
                        url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
                        url(
-                           r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|results|match)?/?$',
+                           r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|results)?/?$',
                            Index.as_view(), name='index'),
                        # (.*)/? es para poder llamar desde cualquier lugar
                        url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
@@ -124,6 +128,8 @@ urlpatterns = patterns('',
                        url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
                        url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
                        url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': 'index'}, name='logout'),
+                       url(r'^filtros/$', filtros, name='filtros'),
+                       url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
                        url(r'^temporal/$', TemporalListView.as_view()),
                        )
 

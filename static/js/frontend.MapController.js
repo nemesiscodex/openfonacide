@@ -1,5 +1,38 @@
 (function() {
 
+  function intersect_safe(a, b){
+   var ai = bi= 0;
+   var result = [];
+
+   while( ai < a.length && bi < b.length ){
+      if      (a[ai] < b[bi] ){ ai++; }
+      else if (a[ai] > b[bi] ){ bi++; }
+      else /* they're equal */
+      {
+        result.push(ai);
+        ai++;
+        bi++;
+      }
+   }
+
+   return result;
+  }
+
+  String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  function gen_hash(obj){
+    return "hash" + JSON.stringify(obj).hashCode();
+  }
+
   /**
    * Controlador del mapa
    */
@@ -7,12 +40,21 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+        $scope.activar_filtro = function(){
+          $('.refresh').parent().transition('jiggle')
+        };
+        $scope.ubicacionSeleccionada = {};
+        $scope.prioridadesSeleccionadas = {
+          sanitarios: true,
+          aulas: true,
+          mobiliarios: true,
+          otros: true
+        };
         $scope.scrollTo = function (id) {
           $location.hash(id);
           $anchorScroll();
         };
         $scope.create = function (){
-
           if(window.mapLoaded){
             $scope.inicializar();
             $timeout(function(){
@@ -98,23 +140,118 @@
             $scope.institucion_actual = undefined;
             //
             $scope.periodo = 2015;
+            backEnd.establecimiento_short.get({md5:true}, function(data){
+              var md5hashnew = data.hash;
+              var md5hashold = '';
+              var needReload = false;
+              if(Storage !== 'undefined'){
+                md5hashold = localStorage.getItem('establecimientoHash');
+                needReload = md5hashold !== md5hashnew;
+                window.mapData = localStorage.getItem('mapData');
+                if(window.mapData != undefined)
+                  window.mapData = JSONH.unpack(JSON.parse(window.mapData));
+              }else{
+                needReload = true;
+              }
+              if(window.mapData && !needReload){
+                $scope.mapData = window.mapData;
+                $scope.loading = false;
+                if(window.markers == undefined)
+                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+              }else{
+                backEnd.establecimiento_short.query({}, function(data) {
 
-            if(window.mapData){
-              $scope.mapData = window.mapData;
-              $scope.loading = false;
-            }else{
-              backEnd.establecimiento_short.query({}, function(data) {
+                  $scope.mapData = JSONH.unpack(data);
+                  window.mapData = $scope.mapData;
+                  if(Storage !== 'undefined'){
+                    localStorage.setItem('mapData', JSON.stringify(data));
+                    localStorage.setItem('establecimientoHash',md5hashnew);
+                  }
+                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                });
+              }
 
-                $scope.mapData = JSONH.unpack(data);
-                window.mapData = $scope.mapData;
-                $scope.actualizar();
-              });
-            }
+            });
+
             if ($routeParams.establecimiento){
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
             }
+          };
+
+        /**
+        * { hash: data}
+        */
+        $scope.filtros = {};
+        if(Storage !== 'undefined'){
+            $scope.filtros = JSON.parse(localStorage.getItem('filtros'));
+            if($scope.filtros == null){
+                $scope.filtros = {};
+            }
+        }
+        $scope.filtroArray = [];
+        var actualizarFiltroArray = function(){
+          $scope.filtroArray = undefined;
+          var filtro;
+          for(index in $scope.filtros){
+            filtro = $scope.filtros[index];
+            if(filtro.activo){
+              if($scope.filtroArray == undefined){
+                $scope.filtroArray = filtro.data;
+                continue;
+              }
+              intersect_safe($scope.filtroArray, filtro.data)
+            }
           }
+          if($scope.filtroArray == undefined){
+            $scope.filtroArray = [];
+          }
+          window.filtroArray = $scope.filtroArray;
+          window.filtros = $scope.filtros;
+        };
+        var originalFilterFunction = function(obj){
+          if($scope.filtroArray.length > 0)
+            return $scope.filtroArray.indexOf(obj.id) != -1;
+          return obj;
+        };
+
+        $scope.filtro = function(){
+
+            $scope.loading = true;
+            var params = {};
+            if($scope.ubicacionSeleccionada.check){
+                params.ubicacion = $scope.ubicacionSeleccionada;
+            }
+            if($scope.prioridadesSeleccionadas.check){
+
+                params.prioridades = $scope.prioridadesSeleccionadas;
+                params.prioridades.rango = [$('#slider-lower').val(), $('#slider-upper').val()];
+            }
+            if(JSON.stringify(params) != '{}'){
+                var _filtro = $scope.filtros[gen_hash(params)];
+                if(_filtro){
+                    $scope.filtroArray = _filtro;
+                    $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                }else{
+                    backEnd.filtros.query(params, function(data){
+                      $scope.filtroArray = data;
+                      $scope.filtros[gen_hash(params)] = data;
+                      if(Storage !== 'undefined'){
+                        localStorage.setItem('filtros', JSON.stringify($scope.filtros));
+                      }
+                      if($scope.filtroArray.length > 0){
+                        $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                      }else{
+                        alert('No se produjeron resultados para el filtro.');
+                          $scope.loading = false;
+                      }
+                    });
+                }
+            }else{
+                $scope.filtroArray = [];
+                $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+            }
+        };
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {
           var point;
@@ -127,6 +264,9 @@
           }
           if ($scope.markers){
             $scope.map.removeLayer($scope.markers);
+          }
+          if (window.markers){
+            $scope.map.removeLayer(window.markers);
           }
           $scope.markers = new L.MarkerClusterGroup({
 
@@ -164,7 +304,7 @@
 
           $scope.map.addLayer(markers);
 
-
+          window.markers = markers;
           $scope.loading = false;
 
         };
@@ -189,6 +329,7 @@
 
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
+          $('#map').css('width', '100%');
           $scope.establecimiento = id;
           if(!idInstitucion){
             idInstitucion = '';
@@ -215,11 +356,7 @@
             var lat = parseFloat(establecimiento_nuevo.latitud);
             var lon = parseFloat(establecimiento_nuevo.longitud);
 
-            if(isNaN(lat) || isNaN(lon)){
-              alert('No se puede localizar el establecimiento.');
-            }else{
-              $scope.map.setView([lat, lon], 16);
-            }
+
 
             backEnd.institucion.query({
               id: id
@@ -241,12 +378,26 @@
                   0].codigo_institucion;
               }
               $timeout(function(){
+
+                $scope.map.invalidateSize();
                 $scope.$digest();
                 angular.element('.right.sidebar')
                 .sidebar({
                   context: angular.element('[ng-view]'),
                   dimPage: false,
-                  closable: false
+                  closable: false,
+                  onVisible: function(){
+                    $timeout(function(){
+                      if(isNaN(lat) || isNaN(lon)){
+                        alert('No se puede localizar el establecimiento.');
+                      }else{
+                        $('#map').css('width', '35%');
+                        $scope.map.invalidateSize();
+                        $scope.map.setView([lat, lon], 17);
+                      }
+                    },0);
+
+                  }
                 })
   							.sidebar('show');
 

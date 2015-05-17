@@ -1,5 +1,44 @@
     <style>
+
+    .tooltip {
+	display: block;
+	position: absolute;
+	border: 1px solid #D9D9D9;
+	font: 400 12px/12px Arial;
+	border-radius: 3px;
+	background: #fff;
+	top: -26px;
+	padding: 5px;
+	left: -9px;
+	text-align: center;
+	width: 50px;
+}
+.tooltip.left{
+  left: -14px;
+}
+.tooltip.right{
+  left: -4px;
+}
+.tooltip strong {
+	display: block;
+	padding: 2px;
+}
+
     /*Ver donde ubicar las reglas*/
+    .ui.loader::after{
+      border-color: rgba(0,0,0,.6) transparent transparent;
+      border-top-width: 0.4em;
+      border-bottom-width: 4.0em;
+    }
+    .ui.loader::before{
+      border-color: rgba(0,0,0,.2);
+      border-width: 0.4em;
+    }
+    .ui.loader h2{
+      color: #000;
+    }
+
+
 
     /*Se define en custom.css línea 81*/
     .sidebar .filtros {
@@ -19,11 +58,16 @@
 		   margin: 5%;
 		   pargin: 5%;
 	}
+  .left.sidebar .ui.segment.attached{
+      width: 90%;
+      margin-left: 5% !important;
+      margin-right: 5% !important;
+  }
 
 
     </style>
 
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002; " du-scroll-container>
+    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002;height: 96%  !important;" du-scroll-container>
         <div class="ui top attached tabular menu">
 
 
@@ -48,7 +92,7 @@
 
 
             <div class="one columns row">
-                <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle')"
+                <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle');$('#map').css('width', '100%');window.map.invalidateSize();"
                          style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
                       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
                 </div>
@@ -66,7 +110,7 @@
                         </ul>
                     </div>
                     </div>
-                    
+
                 </div>
                 </div>
 
@@ -220,7 +264,7 @@
 
 
                         </div>
-                           
+
                     </div>
                 </div>
 
@@ -290,7 +334,7 @@
                                      <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 50px"> Esta obra se realizo?</div>
 
 
-                              
+
 
                                 </div>
                                  <div class="five wide column">
@@ -360,7 +404,7 @@
 
 
                         </div>
-                          
+
                     </div>
                 </div>
 
@@ -497,7 +541,7 @@
 
 
                         </div>
-                          
+
                     </div>
                 </div>
 
@@ -514,8 +558,16 @@
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
+        var prev = document.getElementById('disqus_stuff');
+        if(prev !== null){
+          DISQUS.reset({
+            reload: true
+          });
+          return;
+        }
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        dsq.id = 'disqus_stuff';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
@@ -543,123 +595,109 @@
                 </div>
 -->
 
-<div class="ui left  vertical  overlay sidebar push uncover"
-     style="z-index: 1002; background: #f7f7f7;">
+<div class="ui left  vertical  overlay filtro sidebar push uncover"
+     style="z-index: 1002; background: #f7f7f7;height: 96% !important;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
     </div>
-
-    <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-		<label class="ui teal label">Filtrado por Instituciones</label>
-		<div class="item filtros">
-			<div class="ui checkbox">
-				<input type="checkbox" name="fun">
-				<label>Instituciones beneficiadas <br/> por el fonacide</label>
-			</div>
-		</div>
-		<div class="item filtros">
-			<div class="ui checkbox">
-				<input type="checkbox" name="fun">
-				<label>Instituciones <br/> reportadas</label>
-			</div>
-		</div>
-		<div class="item filtros">
-			<div class="ui checkbox">
-				<input type="checkbox" name="fun">
-				<label>Instituciones con <br/> informe de contraloria</label>
-			</div>
-		</div>
-    </div>
+    <h2  class="header" style="margin-left: 5%; margin-top: 12px">Filtros
+        <button class="ui circular icon button teal right floated" ng-click="filtro()" style="margin-right: -5%">Actualizar <i class="refresh icon"></i></button>
+    </h2>
+     <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-		 <label class="ui teal label">Filtrado por ubicación</label>
-    <div class="item filtros dropdownn" style="z-index: 999999;">
-        <select class="ui dropdown">
-            <option value="">Departamento</option>
-            <option value="1">Central</option>
-            <option value="0">Cordillera</option>
-        </select>
-    </div>
-    <div class="item filtros dropdownn" style="z-index: 99999;">
-        <select class="ui dropdown">
-            <option value="">Ciudad</option>
-            <option value="1">Asuncion</option>
-            <option value="0">San Lorenzo</option>
-        </select>
-    </div>
-    <div class="item filtros dropdownn" style="z-index: 9999;">
-        <select class="ui dropdown">
-            <option value="">Barrio/Localidad</option>
-            <option value="1">Sajonia</option>
-            <option value="0">Pte. Franco</option>
-        </select>
-    </div>
+	<label class="ui teal label">Fonacide</label>
+     <div class="ui toggle checkbox" style="float: right">
 
-    </div>
+        <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()" type="checkbox" >
+        <label for="prioridad-check"></label>
+     </div>
 
-     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-	<label class="ui teal label">Filtrado por prioridades</label>
+     <b ng-if="prioridadesSeleccionadas.check" style="float: right">Activado&nbsp;&nbsp;</b>
+     <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
     <div class="item filtros">
         <h4>Tipo de Prioridad</h4>
-
         <div class="ui two column grid">
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Sanitarios</label>
+                    <input ng-model="prioridadesSeleccionadas.sanitarios" ng-change="activar_filtro()" id="prioridad-sanitarios" type="checkbox" name="fun">
+                    <label for="prioridad-sanitarios">Sanitarios</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Aulas</label>
+                    <input ng-model="prioridadesSeleccionadas.aulas" ng-change="activar_filtro()" id="prioridad-aulas" type="checkbox" name="fun">
+                    <label for="prioridad-aulas">Aulas</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Mobiliario</label>
+                    <input ng-model="prioridadesSeleccionadas.mobiliarios" ng-change="activar_filtro()" id="prioridad-mobiliarios" type="checkbox" name="fun">
+                    <label for="prioridad-mobiliarios">Mobiliario</label>
                 </div>
             </div>
             <div class="column">
                 <div class="ui checkbox column">
-                    <input type="checkbox" name="fun">
-                    <label>Otros Espacios</label>
+                    <input ng-model="prioridadesSeleccionadas.otros" ng-change="activar_filtro()" id="prioridad-otros" type="checkbox" name="fun">
+                    <label for="prioridad-otros">Otros Espacios</label>
                 </div>
             </div>
         </div>
     </div>
 
-     <div class="item filtros">
+      <div class="item filtros">
         <h4>Prioridad</h4>
-
-        <div class="ui slider range">
-            <input type="range" style="width: 100%"/>
+        <div class="content" style="padding: 20px">
+          <div class="range slider"> </div>
+          <input id="slider-upper" type="hidden" name="upper" />
+          <input id="slider-lower" type="hidden" name="lower" />
         </div>
 
-
-    </div>
+      </div>
 
 
      </div>
 
+    <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
+		<label class="ui teal label">Otros</label>
+        <div class="ui toggle checkbox" style="float: right">
+          <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox" >
+          <label for="otros-check"></label>
+        </div>
+        <b ng-if="otrosSeleccionados.check" style="float: right">Activado&nbsp;&nbsp;</b>
+        <b ng-if="!otrosSeleccionados.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
+		<div class="item filtros">
+			<div class="ui checkbox">
+				<input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()" name="fun">
+				<label>Instituciones <br/>Reportadas</label>
+			</div>
+		</div>
+		<div class="item filtros">
+			<div class="ui checkbox">
+				<input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()" name="fun">
+				<label>Instituciones con <br/> informe de contraloria</label>
+			</div>
+		</div>
+    </div>
 </div>
-<div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001">
-    <div class="ui indeterminate text loader">Cargando Mapa</div>
-</div>
+<!-- <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001"> -->
+
+<!-- </div> -->
 <div id="menu-launch" class="ui big filter launch basic right attached fixed button"
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
   <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
 </div>
-<div class="pusher mapContainer">
+<div class="pusher mapContainer" style="background-color: #00b5ad" onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
   <div id="map" style="height: 96%">
+    <div class="ui indeterminate large text active loader" ng-show="loading" ng-class="{active: loading}">
+      <h2>Cargando</h2>
+    </div>
   </div>
 </div>
 <script>
   (function(){
 
-    $('.ui.checkbox').checkbox();
     $('.ui.dropdown').dropdown();
     angular.element(".filter.launch").click(function(){
       angular.element('.left.sidebar')
@@ -670,5 +708,63 @@
       })
       .sidebar('toggle');
     });
+
+    $('#map').click(function(event){
+      event.stopPropagation();
+    });
+
+    var rangeSlider = $('.range.slider').noUiSlider({
+      start: [0, 200],
+      step: 10,
+      snap: true,
+      connect: true,
+      range: {
+        min: 0,
+        '5%': 10,
+        '10%': 20,
+        '15%': 30,
+        '20%': 40,
+        '25%': 50,
+        '30%': 60,
+        '35%': 70,
+        '40%': 80,
+        '45%': 90,
+        '50%': 100,
+        '55%': 110,
+        '60%': 120,
+        '65%': 130,
+        '70%': 140,
+        '75%': 150,
+        '80%': 160,
+        '85%': 170,
+        '90%': 180,
+        '95%': 190,
+        max: 200
+      }
+    }, true).noUiSlider_pips({
+      mode: 'range',
+      filter: function(value){
+        return value % 100? (value % 50? 0 : 2 ): 1;
+      },
+      density: 3
+    });
+    rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function ( value ) {
+
+      // The tooltip HTML is 'this', so additional
+      // markup can be inserted here.
+      $(this).html(
+        '<span>' + parseInt(value) + '</span>'
+      );
+    });
+    rangeSlider.Link('upper').to($('#slider-upper'));
+    rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function ( value ) {
+
+      // The tooltip HTML is 'this', so additional
+      // markup can be inserted here.
+      $(this).html(
+        '<span>' + parseInt(value) + '</span>'
+      );
+    });
+    rangeSlider.Link('lower').to($('#slider-lower'));
   })();
 </script>

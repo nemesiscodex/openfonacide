@@ -41,7 +41,7 @@
 					query: {
 						method: 'GET',
 						isArray: true,
-						cache: true
+						cache: false
 					}
 				}),
 				"institucion": $resource(backEndUrl + '../institucion/:id', {
@@ -74,6 +74,24 @@
 						}
 					}
 				}),
+				"filtros": $resource(backEndUrl + '../filtros/',{},
+					{
+						query: {
+							method: 'GET',
+							isArray: true,
+							cache: false
+						}
+					}
+				),
+                "ubicaciones": $resource(backEndUrl+ '../ubicacion.json',{},
+                    {
+                        get: {
+                            method: 'GET',
+                            isArray: true,
+                            cache: true
+                        }
+                    }
+                ),
 				"temporal": $resource(backEndUrl + '../temporal/:id',{
 				    get: {
 				        method: 'GET',

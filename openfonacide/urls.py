@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from openfonacide.filtros import filtros, generar_ubicacion
 from rest_framework import routers
 
 from openfonacide.views import *
@@ -15,6 +16,7 @@ router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
 partial_patterns = patterns('',
     url(r'^registration/login\.html$', PartialGroupView.as_view(template_name='registration/login.html'), name='registration/login.html'),
     url(r'^registration/recuperar\.html$', PartialGroupView.as_view(template_name='registration/recuperar.html'), name='registration/recuperar.html'),
+    url(r'^filtro-ubicacion\.html$', PartialGroupView.as_view(template_name='filtro-ubicacion.html'), name='filtro-ubicacion.html'),
     url(r'^footer\.html$', PartialGroupView.as_view(template_name='footer.html'), name='footer.html'),
     url(r'^map\.html$', PartialGroupView.as_view(template_name='map.html'), name='map.html'),
     url(r'^result-element\.html$', PartialGroupView.as_view(template_name='result-element.html'), name='result-element.html'),
@@ -83,6 +85,8 @@ urlpatterns = patterns('',
     url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
     url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
+    url(r'^filtros/$', filtros, name='filtros'),
+    url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion')
 )
 
 urlpatterns += [

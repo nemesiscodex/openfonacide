@@ -41,7 +41,7 @@
 					query: {
 						method: 'GET',
 						isArray: true,
-						cache: true
+						cache: false
 					}
 				}),
 				"institucion": $resource(backEndUrl + '../institucion/:id', {
@@ -73,7 +73,25 @@
 							return str.join("&");
 						}
 					}
-				})
+				}),
+				"filtros": $resource(backEndUrl + '../filtros/',{},
+					{
+						query: {
+							method: 'GET',
+							isArray: true,
+							cache: false
+						}
+					}
+				),
+                "ubicaciones": $resource(backEndUrl+ '../ubicacion.json',{},
+                    {
+                        get: {
+                            method: 'GET',
+                            isArray: true,
+                            cache: true
+                        }
+                    }
+                )
 			}
 		}]);
 

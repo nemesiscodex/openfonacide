@@ -1,10 +1,11 @@
 (function(){
   angular.module('frontEnd')
     .controller('ResultadosController', ['$scope', '$location', '$compile',
-      '$rootScope', 'backEnd', '$timeout',
-          function($scope, $location, $compile, $rootScope, backEnd, $timeout){
+      '$rootScope', 'backEnd', '$timeout', '$routeParams',
+          function($scope, $location, $compile, $rootScope, backEnd, $timeout, $routeParams){
       $scope.fetch = true;
       $scope.offset = 0;
+      $scope.query = $routeParams.q.toUpperCase();
       $scope.count = 0;
       $scope.cantidad = 20;
       $scope.tipo = 'nombre';

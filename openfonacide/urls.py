@@ -110,7 +110,7 @@ urlpatterns = patterns('',
                            {'template_name': 'index-nuevo.html'}),
                        url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
                        url(
-                           r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|results)?/?$',
+                           r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|results|match)?/?$',
                            Index.as_view(), name='index'),
                        # (.*)/? es para poder llamar desde cualquier lugar
                        url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),

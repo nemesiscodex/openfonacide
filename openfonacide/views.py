@@ -262,9 +262,10 @@ class EstablecimientoController(View):
         _md5 = request.GET.get('md5')
         if _md5:
             cursor = connection.cursor()
-            cursor.execute('select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
+            cursor.execute(
+                'select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
             result = cursor.fetchone()[0]
-            return JSONResponse({ "hash":result})
+            return JSONResponse({"hash": result})
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
@@ -411,8 +412,8 @@ class PrioridadController(View):
 # class TotalPrioridadController(View):
 # def get(self, request, *args, **kwargs):
 #
-#         result = {
-#             "establecimietos": get_fonacide().data,
+# result = {
+# "establecimietos": get_fonacide().data,
 #
 #
 #
@@ -461,7 +462,7 @@ class MatchController(View):
     def get(self, request, *args, **kwargs):
         results = Temporal.objects.all()
         context = {'resultados': results}
-        return JSONResponse(context);
+        return JSONResponse(context)
 
 
 

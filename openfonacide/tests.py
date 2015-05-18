@@ -65,97 +65,92 @@ class UtilsTest(TestCase):
 
 class MatcherTests(TestCase):
     def test_token_compare_true(self):
-        c1 = "THIS IS A STRING"
-        c2 = "THIS IS OTHER STRING"
-        t = {"THIS": 1, "IS": 2, "STRING": 4}
+        c1 = u"THIS IS A STRING"
+        c2 = u"THIS IS OTHER STRING"
+        t = {u"THIS": 1, u"IS": 2, u"STRING": 4}
         self.assertTrue(token_compare(c1, c2, t))
 
     def test_token_compare_empty(self):
-        c1 = "ASDF"
-        c2 = "PORQ"
-        t = {"ZITH": 1}
+        c1 = u"ASDF"
+        c2 = u"PORQ"
+        t = {u"ZITH": 1}
         self.assertTrue(token_compare(c1, c2, t))
 
     def test_token_compare_false(self):
-        c1 = "THIS IS A"
-        c2 = "THIS IS B"
-        t = {"THIS": 1, "B": 2}
+        c1 = u"THIS IS A"
+        c2 = u"THIS IS B"
+        t = {u"THIS": 1, u"B": 2}
         self.assertFalse(token_compare(c1, c2, t))
 
     def test_mismo_nivel_educativo(self):
-        c1 = "ESCUELA 1"
-        c2 = "ESCUELA 2"
+        c1 = u"ESCUELA 1"
+        c2 = u"ESCUELA 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "COLEGIO 1"
-        c2 = "COLEGIO 2"
+        c1 = u"COLEGIO 1"
+        c2 = u"COLEGIO 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "LICEO 1"
-        c2 = "LICEO 2"
+        c1 = u"LICEO 1"
+        c2 = u"LICEO 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "CENTRO 1"
-        c2 = "CENTRO 2"
+        c1 = u"CENTRO 1"
+        c2 = u"CENTRO 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "SEDE 1"
-        c2 = "SEDE 2"
+        c1 = u"SEDE 1"
+        c2 = u"SEDE 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "AULASALVAJE 1"
-        c2 = "AULASALVAJE 2"
+        c1 = u"AULASALVAJE 1"
+        c2 = u"AULASALVAJE 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
 
     def test_mismo_nivel_educativo_multiple(self):
-        c1 = "ESCUELA COLEGIO LICEO 1"
-        c2 = "ESCUELA COLEGIO LICEO 2"
+        c1 = u"ESCUELA COLEGIO LICEO 1"
+        c2 = u"ESCUELA COLEGIO LICEO 2"
         self.assertTrue(mismo_nivel_educativo(c1, c2))
-        c1 = "ESCUELA COLEGIO LICEO SEDE 1"
-        c2 = "ESCUELA COLEGIO LICEO CENTRO 2"
+        c1 = u"ESCUELA COLEGIO LICEO SEDE 1"
+        c2 = u"ESCUELA COLEGIO LICEO CENTRO 2"
         self.assertFalse(mismo_nivel_educativo(c1, c2))
 
     def test_mismo_nivel_educativo_empty(self):
-        c1 = "SIN NOMBRE"
-        c2 = ""
+        c1 = u"SIN NOMBRE"
+        c2 = u""
         self.assertTrue(mismo_nivel_educativo(c1, c2))
 
     def test_mismo_nivel_educativo_false(self):
-        c1 = "COLEGIO CARLOS ANTONIO LOPEZ"
-        c2 = "LICEO CARLOS ANTONIO LOPEZ"
+        c1 = u"COLEGIO CARLOS ANTONIO LOPEZ"
+        c2 = u"LICEO CARLOS ANTONIO LOPEZ"
         self.assertFalse(mismo_nivel_educativo(c1, c2))
 
     def test_same_tipo_institucion_false(self):
-        c1 = "INSTITUTO PRIVADO"
-        c2 = "COLEGIO PUBLICO"
-        self.assertFalse(same_tipo_institucion(c1, c2))
-
-    def test_same_tipo_institucion_false(self):
-        c1 = "INSTITUTO PRIVADO"
-        c2 = "COLEGIO PUBLICO"
+        c1 = u"INSTITUTO PRIVADO"
+        c2 = u"COLEGIO PUBLICO"
         self.assertFalse(same_tipo_institucion(c1, c2))
 
     def test_same_tipo_institucion_true(self):
-        c1 = "COLEGIO PRIVADO"
-        c2 = "INSTITUTO PRIVADO"
+        c1 = u"COLEGIO PRIVADO"
+        c2 = u"INSTITUTO PRIVADO"
         self.assertTrue(same_tipo_institucion(c1, c2))
-        c1 = "ESCUELA PRIVADA 12321"
-        c2 = "ESCUELA2 PRIVADA 52134523"
+        c1 = u"ESCUELA PRIVADA 12321"
+        c2 = u"ESCUELA2 PRIVADA 52134523"
         self.assertTrue(same_tipo_institucion(c1, c2))
 
     def tiene_nombre_santo(self):
-        c1 = "COLEGIO SAN LUCAS"
-        c2 = "COLEGIO SAN GERONIMO"
+        c1 = u"COLEGIO SAN LUCAS"
+        c2 = u"COLEGIO SAN GERONIMO"
         self.assertEqual(tiene_nombre_santo(c1, c2), 1)
-        c1 = "COLEGIO SANTA LUCAS"
-        c2 = "COLEGIO SAN GERONIMO"
+        c1 = u"COLEGIO SANTA LUCAS"
+        c2 = u"COLEGIO SAN GERONIMO"
         self.assertEqual(tiene_nombre_santo(c1, c2), -2)
-        c1 = "COLEGIO LUCAS"
-        c2 = "COLEGIO GERONIMO"
+        c1 = u"COLEGIO LUCAS"
+        c2 = u"COLEGIO GERONIMO"
         self.assertEqual(tiene_nombre_santo(c1, c2), -1)
-        c1 = "SAN SANTO UNO"
-        c2 = "SAN SANTO DOS"
+        c1 = u"SAN SANTO UNO"
+        c2 = u"SAN SANTO DOS"
         self.assertEqual(tiene_nombre_santo(c1, c2), 3)
 
     def match_nombre_santo(self):
-        c1 = "INSTITUTO SAN LUCAS"
-        c2 = "COLEGIO SAN LUCAS"
-        self.asserTrue(match_nombre_santo(c1, c2, 1))
-        c1 = "SAN PEDRO"
-        c2 = "SAN PABLO"
-        self.asserFalse(match_nombre_santo(c1, c2, 1))
+        c1 = u"INSTITUTO SAN LUCAS"
+        c2 = u"COLEGIO SAN LUCAS"
+        self.assertTrue(match_nombre_santo(c1, c2, 1))
+        c1 = u"SAN PEDRO"
+        c2 = u"SAN PABLO"
+        self.assertFalse(match_nombre_santo(c1, c2, 1))

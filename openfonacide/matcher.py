@@ -15,7 +15,6 @@ from fuzzywuzzy import fuzz
 from nltk import metrics
 
 
-
 class Matcher(object):
     """
     Esta Clase implementa los métodos para facilitar la comparación difusa
@@ -142,36 +141,27 @@ class Matcher(object):
 
         return normalizada
 
-    @property
     def do_match(self):
         inst = self.institucion_manager.all()
         planes = self.planificacion_manager.filter(etiquetas__icontains="fonacide")
         # Cast a List, para tratar con el comportamiento lazy del filter y para operar cachear los resultados
         planes = list((planes.values('id', 'anio', 'id_llamado', 'nombre_licitacion', 'convocante')))
-        time = 0
-        match = 0
-        institucion_actual = 0
         cache_normalizada = dict()
         for i in inst:
-            institucion_actual += 1
             ciudad_regex = re.compile('.*MUNICIPALIDAD.*' + i.nombre_distrito, re.IGNORECASE)
             departamento_regex = re.compile('.*DEPARTAMENTAL.*' + i.nombre_departamento, re.IGNORECASE)
             planes_candidatos_list = (plan for plan in planes if
                                       ciudad_regex.search(plan['convocante']) or departamento_regex.search(
                                           plan['convocante']))
 
-            plan_actual = 0
             for j in planes_candidatos_list:
-                time += 1
-                plan_actual += 1
                 ti = self.normalizar_string(i.nombre_institucion)
                 if j['id'] not in cache_normalizada:
                     cache_normalizada[j['id']] = self.normalizar_string(j['nombre_licitacion'])
                 tj = cache_normalizada[j['id']]
 
                 if heuristicas(ti, tj):
-                    match += 1
-                    temp = self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
+                    self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
                                                         nombre_distrito=i.nombre_distrito,
                                                         codigo_institucion=i.codigo_institucion,
                                                         nombre_institucion=i.nombre_institucion,

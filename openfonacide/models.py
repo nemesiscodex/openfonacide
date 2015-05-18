@@ -62,7 +62,6 @@ class Planificacion(models.Model):
     _objeto_licitacion = models.CharField(max_length=200, null=True)
     objeto_licitacion = models.CharField(max_length=200, null=True)
     etiquetas = models.CharField(max_length=50, null=True)
-    codigo_institucion = models.CharField(max_length=255, null=True)
 
     class Meta:
         verbose_name_plural = "planificaciones"

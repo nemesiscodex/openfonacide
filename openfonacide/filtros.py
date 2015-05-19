@@ -1,6 +1,6 @@
 import json
 from django.db import connection
-from openfonacide.views import JSONResponse
+from django.http import JsonResponse
 
 
 # Genera JSON de ubicaciones
@@ -43,7 +43,7 @@ def generar_ubicacion(request):
         anterior[0] = row[0]
         anterior[1] = row[2]
         anterior[2] = row[4]
-    return JSONResponse(result)
+    return JsonResponse(result, safe=False)
 
 def filtros(request):
     prioridades = request.GET.get('prioridades')
@@ -59,13 +59,13 @@ def filtros(request):
         for key in prioridades:
             if prioridades.get(key) == True:
                 tipo.append(key)
-        return JSONResponse(filtro_prioridad(tipo, rango, ubicacion))
+        return JsonResponse(filtro_prioridad(tipo, rango, ubicacion), safe=False)
     else:
         if ubicacion:
             ubicacion = json.loads(ubicacion)
         else:
             ubicacion = {}
-        return JSONResponse(filtro_ubicacion(ubicacion))
+        return JsonResponse(filtro_ubicacion(ubicacion), safe=False)
 
 def get_rango(rango):
     if len(rango) != 2:
@@ -105,55 +105,46 @@ def query_prioridad(tipo, rango, ubicacion):
     query_ubicacion = ''
     dep_id = ubicacion.get('departamento')
     if dep_id:
-        query_ubicacion += ' and '
+        query_ubicacion += ' AND '
         query_ubicacion += ' es.codigo_departamento = \'' + dep_id + '\' '
 
     dis_id = ubicacion.get('distrito')
     if dis_id:
-        query_ubicacion += ' and '
+        query_ubicacion += ' AND '
         query_ubicacion += ' es.codigo_distrito = \'' + dis_id + '\' '
 
     bar_id = ubicacion.get('barrio')
     if bar_id:
-        query_ubicacion += ' and '
+        query_ubicacion += ' AND '
         query_ubicacion += ' es.codigo_barrio_localidad = \'' + bar_id + '\' '
 
     if tipo == 'mobiliarios' or 'mobiliarios' in tipo:
-        begin_query += ('SELECT DISTINCT es.codigo_establecimiento, '
-                'p_mob.periodo FROM openfonacide_establecimiento es '
-                'JOIN openfonacide_institucion inst '
-                'ON es.codigo_establecimiento = inst.codigo_establecimiento '
-                'LEFT JOIN openfonacide_mobiliario p_mob '
-                'ON p_mob.codigo_institucion = inst.codigo_institucion '
-                'OR p_mob.codigo_establecimiento = es.codigo_establecimiento '
-                'where p_mob.numero_prioridad >= '+ str(rango[0]) +
-                ' and p_mob.numero_prioridad <= ' + str(rango[1]))
+        begin_query += ('SELECT p_mob.codigo_establecimiento '
+                'FROM openfonacide_mobiliario p_mob '
+                'JOIN openfonacide_espacio es '
+                'ON es.codigo_establecimiento = p_mob.codigo_establecimiento '
+                'WHERE p_mob.numero_prioridad >= '+ str(rango[0]) +
+                ' AND p_mob.numero_prioridad <= ' + str(rango[1]))
         begin_query += query_ubicacion
         union = True
     if tipo == 'sanitarios' or 'sanitarios' in tipo:
         if union:
             begin_query += 'UNION '
-        begin_query += ('SELECT DISTINCT es.codigo_establecimiento, '
-                'p_san.periodo FROM openfonacide_establecimiento es '
-                'JOIN openfonacide_institucion inst '
-                'ON es.codigo_establecimiento = inst.codigo_establecimiento '
-                'LEFT JOIN openfonacide_sanitario p_san '
-                'ON p_san.codigo_institucion = inst.codigo_institucion '
-                'OR p_san.codigo_establecimiento = es.codigo_establecimiento '
-                'where p_san.numero_prioridad >= '+ str(rango[0]) +
-                ' and p_san.numero_prioridad <= ' + str(rango[1]))
+        begin_query += ('SELECT p_san.codigo_establecimiento '
+                'FROM openfonacide_sanitario p_san '
+                'JOIN openfonacide_establecimiento es '
+                'ON es.codigo_establecimiento = p_san.codigo_establecimiento '
+                'WHERE p_san.numero_prioridad >= '+ str(rango[0]) +
+                ' AND p_san.numero_prioridad <= ' + str(rango[1]))
         begin_query += query_ubicacion
         union = True
     if tipo == 'aulas' or 'aulas' in tipo:
         if union:
             begin_query += 'UNION '
-        begin_query += ('SELECT DISTINCT es.codigo_establecimiento, '
-                'p_au.periodo FROM openfonacide_establecimiento es '
-                'JOIN openfonacide_institucion inst '
-                'ON es.codigo_establecimiento = inst.codigo_establecimiento '
-                'LEFT JOIN openfonacide_espacio p_au '
-                'ON p_au.codigo_institucion = inst.codigo_institucion '
-                'OR p_au.codigo_establecimiento = es.codigo_establecimiento '
+        begin_query += ('SELECT p_au.codigo_establecimiento '
+                'FROM openfonacide_espacio p_au '
+                'JOIN openfonacide_establecimiento es '
+                'ON es.codigo_establecimiento = p_au.codigo_establecimiento '
                 ' where p_au.nombre_espacio is null '
                 ' and p_au.numero_prioridad >= ' + str(rango[0]) +
                 ' and p_au.numero_prioridad <= ' + str(rango[1]))
@@ -162,20 +153,18 @@ def query_prioridad(tipo, rango, ubicacion):
     if tipo == 'otros' or 'otros' in tipo:
         if union:
             begin_query += 'UNION '
-        begin_query += ('SELECT DISTINCT es.codigo_establecimiento, '
-                'p_es.periodo FROM openfonacide_establecimiento es '
-                'JOIN openfonacide_institucion inst '
-                'ON es.codigo_establecimiento = inst.codigo_establecimiento '
-                'LEFT JOIN openfonacide_espacio p_es '
-                'ON p_es.codigo_institucion = inst.codigo_institucion '
-                'OR p_es.codigo_establecimiento = es.codigo_establecimiento '
+        begin_query += ('SELECT p_es.codigo_establecimiento '
+                'FROM openfonacide_espacio p_es '
+                'JOIN openfonacide_establecimiento es '
+                'ON es.codigo_establecimiento = p_es.codigo_establecimiento '
                 ' where p_es.nombre_espacio is not null '
                 ' and p_es.numero_prioridad >= ' + str(rango[0]) +
                 ' and p_es.numero_prioridad <= ' + str(rango[1]))
         begin_query += query_ubicacion
-    begin_query += ") other where other.periodo is not null"
+    begin_query += ") other "
     if not union:
         return "SELECT 1 WHERE 1 = 0"
+    print begin_query
     return begin_query
 
 def filtro_ubicacion(ubicacion):

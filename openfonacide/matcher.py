@@ -127,6 +127,9 @@ class Matcher(object):
         # Reemplaza puntución por espacio
         for p in string.punctuation:
             normalizada = normalizada.replace(p, ' ')
+        # Corner Case (Seems to be the same but, they don't)
+        normalizada = normalizada.replace(u'°', ' ')
+        normalizada = normalizada.replace(u'º', ' ')
 
         normalizada = re.sub('\s+DEL ', ' ', normalizada)
         normalizada = re.sub('\s+EL ', ' ', normalizada)
@@ -270,10 +273,13 @@ def tiene_nombre_santo(c1, c2):
 
 def match_nombre_santo(c1, c2, pos):
     tipos = {1: 'SAN ', 2: 'SANTA ', 4: 'SANTO '}
-    n = c1.find(tipos[pos])
-    nombre1 = c1[n + len(tipos[pos]):]
-    n = c2.find(tipos[pos])
-    nombre2 = c2[n + len(tipos[pos]):]
+    try:
+        n = c1.find(tipos[pos])
+        nombre1 = c1[n + len(tipos[pos]):]
+        n = c2.find(tipos[pos])
+        nombre2 = c2[n + len(tipos[pos]):]
+    except KeyError:
+        return False
 
     if nombre1 == nombre2:
         return True
@@ -292,23 +298,27 @@ def heuristicas(cadena1, cadena2):
     # CENTRO
     # SEDE
 
-    if not mismo_nivel_educativo(cadena1, cadena2):
-        return False
+    #print("1 - Nivel Educativo")
+    #if not mismo_nivel_educativo(cadena1, cadena2):
+    #    return False
 
+    #print("2 - Tipo institucion")
     # Verificar si las instituciones son Públicas o Privadas
-    if not same_tipo_institucion(cadena1, cadena2):
-        return False
+    #if not same_tipo_institucion(cadena1, cadena2):
+    #    return False
 
+    #print("3 - Heuristica de los santos")
     pos_nombre = tiene_nombre_santo(cadena1, cadena2)
     if pos_nombre > 0:
         if match_nombre_santo(cadena1, cadena2, pos_nombre):
             # Validadas cadenas con nombres de santos
             return True
-        else:
-            return False
+        #else:
+        #    return False
     elif pos_nombre < -1:
         return False
 
+    #print("4 - Fuzzy Logic")
     # t_value = fuzz.partial_ratio(cadena1, cadena2)
     # t_value = fuzz.partial_token_set_ratio(cadena1, cadena2)
     t_value = fuzz.token_set_ratio(cadena1, cadena2)

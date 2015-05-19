@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.http import QueryDict
 from rest_framework.renderers import JSONRenderer
 from rest_framework import viewsets
@@ -115,10 +115,10 @@ class PrioridadAPIView(viewsets.views.APIView):
         prioridad_serializada = PrioridadSerializer(self.get_queryset())
 
         if format == "json":
-            return JSONResponse(prioridad_serializada.data)
+            return JsonResponse(prioridad_serializada.data, safe=False)
 
         if format == "jsonh":
-            return JSONResponse(JSONH.pack(prioridad_serializada.data))
+            return JsonResponse(JSONH.pack(prioridad_serializada.data), safe=False)
 
         return Response(prioridad_serializada.data)
 
@@ -137,17 +137,6 @@ class PartialGroupView(TemplateView):
         context = super(PartialGroupView, self).get_context_data(**kwargs)
         # update the context
         return context
-
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
 
 class Index(View):
@@ -244,7 +233,7 @@ class Recuperar(View):
 #         # result = lista_instituciones.data
 #         result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
 #                   'rows': lista_instituciones.data}
-#         return JSONResponse(result)
+#         return JsonResponse(result, safe=False)
 
 
 class EstablecimientoController(View):
@@ -254,7 +243,7 @@ class EstablecimientoController(View):
             cursor = connection.cursor()
             cursor.execute('select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
             result = cursor.fetchone()[0]
-            return JSONResponse({ "hash":result})
+            return JsonResponse({ "hash":result}, safe=False)
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
@@ -271,18 +260,18 @@ class EstablecimientoController(View):
                         Establecimiento.objects.filter(nombre__icontains=query, anio=anio) |
                         Establecimiento.objects.filter(direccion__icontains=query, anio=anio), many=True)
                     establecimiento = {"results": establecimiento.data}
-                    return JSONResponse(establecimiento)
+                    return JsonResponse(establecimiento, safe=False)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio),
                                                                      many=True)
-                    return JSONResponse(JSONH.pack(establecimiento.data))
+                    return JsonResponse(JSONH.pack(establecimiento.data), safe=False)
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
                     Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento, anio=anio))
             else:
                 establecimiento = EstablecimientoSerializer(Establecimiento.objects.filter(anio=anio), many=True)
-        return JSONResponse(establecimiento.data)
+        return JsonResponse(establecimiento.data, safe=False)
 
 
 class InstitucionController(View):
@@ -373,10 +362,10 @@ class InstitucionController(View):
                         "name": "Barrio/Localidad",
                         "results": institucion4
                     }
-                return JSONResponse(instituciones)
+                return JsonResponse(instituciones, safe=False)
             else:
                 institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(institucion.data)
+        return JsonResponse(institucion.data, safe=False)
 
 
 class PrioridadController(View):
@@ -393,7 +382,7 @@ class PrioridadController(View):
 
 
         }
-        return JSONResponse(result)
+        return JsonResponse(result, safe=False)
 
 
 # class TotalPrioridadController(View):

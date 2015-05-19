@@ -120,6 +120,11 @@ background: whitesmoke;
 }
 
 
+.requerimiento p {
+text-align: left;
+}
+
+
 input[type="range"] {
     -webkit-appearance: none;
     border-width: 1px;

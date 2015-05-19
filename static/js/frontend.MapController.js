@@ -114,6 +114,8 @@
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
             }
+
+
           }
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {
@@ -174,12 +176,14 @@
         //mostrar adjudicaciones
 
          $scope.mostrarAdjudicaciones = function() {
+            $scope.show_contraloria = false;
             $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
           };
 
         //mostrar Documentos de contraloria
 
          $scope.mostrarContraloria = function() {
+           $scope.show_adjudicaciones = false;
             $scope.show_contraloria = !$scope.show_contraloria;
           };
 
@@ -249,6 +253,7 @@
                   closable: false
                 })
   							.sidebar('show');
+                 $('.right.sidebar .ui.dropdown').dropdown();
 
               });
 
@@ -262,8 +267,11 @@
           });
 
 
+
+
         };
         $scope.create();
+
 
       }
     ]);

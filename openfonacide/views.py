@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import hashlib, os
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404
 from rest_framework.generics import ListAPIView
-from rest_framework.renderers import JSONRenderer
+from django.http import Http404, JsonResponse
 from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
@@ -123,10 +120,10 @@ class PrioridadAPIView(viewsets.views.APIView):
         prioridad_serializada = PrioridadSerializer(self.get_queryset())
 
         if format == "json":
-            return JSONResponse(prioridad_serializada.data)
+            return JsonResponse(prioridad_serializada.data, safe=False)
 
         if format == "jsonh":
-            return JSONResponse(JSONH.pack(prioridad_serializada.data))
+            return JsonResponse(JSONH.pack(prioridad_serializada.data), safe=False)
 
         return Response(prioridad_serializada.data)
 
@@ -145,17 +142,6 @@ class PartialGroupView(TemplateView):
         context = super(PartialGroupView, self).get_context_data(**kwargs)
         # update the context
         return context
-
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
 
 class Index(View):
@@ -231,32 +217,6 @@ class Recuperar(View):
         return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
 
 
-# Deprecated
-# class ListaInstitucionesController(View):
-# def get(self, request, *args, **kwargs):
-# cantidad = request.GET.get('rows')
-# pagina = request.GET.get('page')
-# lista = Institucion.objects.all()
-# if cantidad is not None:
-# paginator = Paginator(lista, cantidad)
-# else:
-# paginator = Paginator(lista, 10)
-# total = len(lista)
-# if pagina is None:
-# pagina = 1
-# try:
-# instituciones = paginator.page(pagina)
-# except PageNotAnInteger:
-# instituciones = paginator.page(1)
-# except EmptyPage:
-# instituciones = paginator.page(paginator.num_pages)
-# lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-# # result = lista_instituciones.data
-# result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-# 'rows': lista_instituciones.data}
-# return JSONResponse(result)
-
-
 class EstablecimientoController(View):
     def get(self, request, *args, **kwargs):
         _md5 = request.GET.get('md5')
@@ -265,7 +225,8 @@ class EstablecimientoController(View):
             cursor.execute(
                 'select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
             result = cursor.fetchone()[0]
-            return JSONResponse({"hash": result})
+            return JsonResponse({"hash": result})
+
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
@@ -282,18 +243,18 @@ class EstablecimientoController(View):
                         Establecimiento.objects.filter(nombre__icontains=query, anio=anio) |
                         Establecimiento.objects.filter(direccion__icontains=query, anio=anio), many=True)
                     establecimiento = {"results": establecimiento.data}
-                    return JSONResponse(establecimiento)
+                    return JsonResponse(establecimiento, safe=False)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio),
                                                                      many=True)
-                    return JSONResponse(JSONH.pack(establecimiento.data))
+                    return JsonResponse(JSONH.pack(establecimiento.data), safe=False)
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
                     Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento, anio=anio))
             else:
                 establecimiento = EstablecimientoSerializer(Establecimiento.objects.filter(anio=anio), many=True)
-        return JSONResponse(establecimiento.data)
+        return JsonResponse(establecimiento.data, safe=False)
 
 
 class InstitucionController(View):
@@ -386,10 +347,10 @@ class InstitucionController(View):
                         "name": "Barrio/Localidad",
                         "results": institucion4
                     }
-                return JSONResponse(instituciones)
+                return JsonResponse(instituciones, safe=False)
             else:
                 institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(institucion.data)
+        return JsonResponse(institucion.data, safe=False)
 
 
 class PrioridadController(View):
@@ -406,7 +367,7 @@ class PrioridadController(View):
 
 
         }
-        return JSONResponse(result)
+        return JsonResponse(result, safe=False)
 
 
 # class TotalPrioridadController(View):
@@ -418,7 +379,7 @@ class PrioridadController(View):
 #
 #
 #
-#         }
+# }
 #         return JSONResponse(result)
 
 
@@ -462,7 +423,7 @@ class MatchController(View):
     def get(self, request, *args, **kwargs):
         results = Temporal.objects.all()
         context = {'resultados': results}
-        return JSONResponse(context)
+        return JsonResponse(context)
 
 
 

@@ -3,10 +3,8 @@
 	 * Controlador de Match Difuso
 	 */
 	angular.module('frontEnd')
-		.controller('MatchController', ['$scope', '$location', 'backEnd', function($scope,
-			$location, backEnd) {
-			var $controller = this;
-			
+		.controller('MatchController', ['$scope', 'backEnd', function($scope, backEnd) {
+
 			backEnd.temporal.get({}, function(data){
 				$scope.resultados = data;
 			});

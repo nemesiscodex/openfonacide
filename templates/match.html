@@ -5,65 +5,15 @@
         }
     </style>
 
-    <script type="text/javascript">
-    
-    changeValues = function(){
-        try{
-            var tmp = $('#checkAll').val();
-            if($('#checkAll').is(":checked")){
-                $("input[type='checkbox']").not("#checkAll").each(function() {
-                    $(this).checkbox('enable');
-                });
-            }else{
-                $("input[type='checkbox']").not("#checkAll").each(function() {
-                    $(this).checkbox('disable');
-                });
-            }
-        }catch(ex){
-            $("input[type='checkbox']").not("#checkAll").each(function() {
-                $(this).checkbox('disable');
-            });
-        }
-    }
 
-    enableAll = function(){
-        $("input[type='checkbox']").not("#checkAll").checkbox('enable');
-    }
-
-    disableAll = function(){
-        $("input[type='checkbox']").not("#checkAll").checkbox('disable');
-    }
-
-    $('#checkAll').checkbox('setting', {
-        'onEnable': enableAll(),
-        'onDisable': disableAll()
-    });
-
-
-
-
-    </script>
     <table class="ui compact celled definition table" id="resultList">
         <thead class="full-width">
         <tr>
             <th>
-                <div class="ui checkbox">
-                    <input id="checkAll" name="checkAll" onEnable="enableAll()" onDisable="disableAll()"
-                           type="checkbox">
-                    <label
-                            id="dm">M/D</label>
+                <div id="toggle" class="ui small button">
+                    Toggle
                 </div>
             </th>
-            <th colspan="8">
-                <div class="ui small button">
-                    Confirmar
-                </div>
-                <label class="strong" style="float: right"> 1 página de 100</label>
-                <button class="ui button" style="float: right">Siguiente Pagina<i class="angle right icon"></i></button>
-            </th>
-        </tr>
-        <tr>
-            <th></th>
             <th>Periodo</th>
             <th>Departamento</th>
             <th>Distrito</th>
@@ -77,12 +27,14 @@
         </tr>
         </thead>
         <tbody>
-        <div ng-repeat=" t in results ">
-            <tr>
+        <div>
+            <tr ng-repeat=" t in resultados.results">
                 <td class="collapsing">
-                    <div class="ui checkbox">
-                        <input type="checkbox" id="confirmar"/>
-                        <label></label>
+                    <div class="ui toggle checkbox" style="float: right">
+
+                        <input id="confirmar_check_{$ t.codigo_institucion $}" ng-model="t.confirmar"
+                               ng-change="confirmar()" type="checkbox">
+                        <label for="prioridad-check"></label>
                     </div>
                 </td>
                 <td>{$ t.periodo $}</td>

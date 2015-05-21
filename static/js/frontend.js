@@ -1,5 +1,5 @@
 (function(){
-    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate', 'duScroll']);
+    var app = angular.module('frontEnd', ['ngResource','ngCookies', 'ngRoute', 'ngAnimate', 'duScroll', 'datatables']);
 
     //TODO: estos controllers tienen que tener su propio archivo
     // una vez que realmente se usen.

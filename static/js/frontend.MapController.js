@@ -29,8 +29,22 @@
     return hash;
   };
 
+  function even_string(obj){
+      var keys = [];
+      var obj_str = "";
+      for(var attr in obj){
+          keys.push(attr);
+      }
+      keys.sort();
+      for(var i = 0; i < keys.length; i++){
+          obj_str += keys[i] + '&' +
+          ((typeof(obj[keys[i]]) === 'object')? even_string(obj[keys[i]]): JSON.stringify(obj[keys[i]]));
+      }
+      return obj_str;
+  }
+
   function gen_hash(obj){
-    return "hash" + JSON.stringify(obj).hashCode();
+    return "hash" + even_string(obj).hashCode();
   }
 
   /**
@@ -151,6 +165,9 @@
               if(Storage !== 'undefined'){
                 md5hashold = localStorage.getItem('establecimientoHash');
                 needReload = md5hashold !== md5hashnew;
+                if(needReload){
+                    localStorage.clear();
+                }
                 window.mapData = localStorage.getItem('mapData');
                 if(window.mapData != undefined)
                   window.mapData = JSONH.unpack(JSON.parse(window.mapData));

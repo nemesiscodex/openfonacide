@@ -262,13 +262,14 @@
                       if(Storage !== 'undefined'){
                         localStorage.setItem('filtros', JSON.stringify($scope.filtros));
                       }
-                      if($scope.filtroArray.length > 0){
-                        $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-                      }else{
-                        alert('No se produjeron resultados para el filtro.');
-                          $scope.loading = false;
-                      }
+
                     });
+                }
+                if($scope.filtroArray.length > 0){
+                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                }else{
+                  alert('No se produjeron resultados para el filtro.');
+                    $scope.loading = false;
                 }
             }else{
                 $scope.filtroArray = [];

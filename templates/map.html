@@ -63,7 +63,10 @@
       margin-left: 5% !important;
       margin-right: 5% !important;
   }
-
+  .institucion-tab.ng-move,
+  .institucion-tab.ng-leave{
+      display: none !important;
+  }
 
     </style>
 
@@ -71,7 +74,7 @@
         <div class="ui top attached tabular menu">
 
 
-          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" href="/map?establecimiento={$ institucion.codigo_establecimiento $}&institucion={$ institucion.codigo_institucion $}" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" ng-click="showInfoPopUp(institucion.codigo_establecimiento,institucion.codigo_institucion)" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
             {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
           </a>
         </div>
@@ -136,7 +139,7 @@
                         </ul>
                     </div>
                     </div>
-                    
+
                 </div>
                 </div>
 
@@ -175,7 +178,7 @@
                                  <div class="six wide column">
 
 
-                                    
+
                                      <div class="row centered">
 
                                         <div class="ui statistic small">
@@ -187,7 +190,7 @@
 
 
                                 </div>
-                                
+
                                 <div class="ten wide column">
                                     <h3>Justificación</h3>
 
@@ -196,7 +199,7 @@
 
                                 </div>
 
-                                
+
                              </div>
                                <div class="ui doubling center aligned  grid segment">
 
@@ -211,7 +214,7 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     
+
 
 
 
@@ -276,16 +279,16 @@
 
                                 </div>
 
-                               
 
 
 
-                                
-                       
-                                
+
+
+
+
                             </div>
-                        </div> 
-                           
+                        </div>
+
 
                     </div>
                 </div>
@@ -331,7 +334,7 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     
+
 
 
 
@@ -418,11 +421,11 @@
                                      <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 10px"> Esta obra se realizo?</div>
 
 
-                              
+
 
                                 </div>
-                                 
-                               
+
+
                             </div>
 
 
@@ -472,8 +475,8 @@
                                     </div>
                                     </div>
 
-                                    
-                                    
+
+
 
 
 
@@ -496,7 +499,7 @@
                                         <label for="beneficiados">Potenciales Beneficiados</label>
                                     </div>
                                     </div>
-                                     
+
                                 </div>
                                 <div class="six wide column">
                                     <h3>Estado</h3>
@@ -556,8 +559,8 @@
                                      <div class="fluid ui button green" onclick="$('.denuncia.modal').modal('show');" style="margin-top: 10px"> Esta obra se realizo?</div>
 
                                 </div>
-                                 
-                              
+
+
 
                             </div>
 
@@ -631,13 +634,13 @@
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 	<label class="ui teal label">Fonacide</label>
-     <div class="ui toggle checkbox" style="float: right">
+     <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
 
         <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()" type="checkbox" >
         <label for="prioridad-check"></label>
      </div>
 
-     <b ng-if="prioridadesSeleccionadas.check" style="float: right">Activado&nbsp;&nbsp;</b>
+     <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
      <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
     <div class="item filtros">
         <h4>Tipo de Prioridad</h4>
@@ -684,7 +687,7 @@
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 		<label class="ui teal label">Otros</label>
-        <div class="ui toggle checkbox" style="float: right">
+        <div class="ui toggle checkbox" style="float: right;  opacity: 0.99;">
           <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox" >
           <label for="otros-check"></label>
         </div>
@@ -789,5 +792,10 @@
       );
     });
     rangeSlider.Link('lower').to($('#slider-lower'));
+    rangeSlider.on({
+        change: function(){
+          angular.element('#map').scope().activar_filtro();
+        }
+    });
   })();
 </script>

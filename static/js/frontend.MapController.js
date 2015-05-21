@@ -447,6 +447,7 @@
                     sidebarInicialized = true;
                 }
                 $sidebar.sidebar('show');
+                $('.left.sidebar.visible').sidebar('hide');
                 $timeout(function(){
                     if(isNaN(lat) || isNaN(lon) || lat == 0.0 || lon == 0.0){
                       alert('No se puede localizar el establecimiento.');

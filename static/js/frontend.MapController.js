@@ -38,11 +38,13 @@
    */
   angular.module('frontEnd')
     .controller('MapController', ['$scope', 'backEnd', '$filter',
-      '$routeParams', '$rootScope', '$timeout',
-      function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+      '$routeParams', '$rootScope', '$timeout', '$location',
+      function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
         $scope.activar_filtro = function(){
           $('.refresh').parent().transition('jiggle')
         };
+
+        var sidebarInicialized = false;
         $scope.ubicacionSeleccionada = {};
         $scope.prioridadesSeleccionadas = {
           sanitarios: true,
@@ -59,6 +61,8 @@
             $scope.inicializar();
             $timeout(function(){
               angular.element('.mapContainer').html(window.mapElement);
+              $('#map').css('width', '100%');
+              window.map.invalidateSize();
             });
             $scope.map = window.map;
             return;
@@ -295,9 +299,10 @@
                 icon: grayMarker
               });
               marker.bindPopup("<h4>" + point.name +
-                '</h4><a class="circular ui teal icon button" href="/map?establecimiento=' +
+                '</h4><a class="circular ui teal icon button" onclick="angular.element(this).scope().showInfoPopUp(' +
+                // '</h4><a class="circular ui teal icon button" href="/map?establecimiento=' +
                 point.id +
-                '" ><i class="plus outline icon"></i> Detalles</a><hr>' +
+                ');" ><i class="plus outline icon"></i> Detalles</a><hr>' +
                 point.dir
               );
               markers.addLayer(marker);
@@ -333,15 +338,21 @@
 
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
-          $('#map').css('width', '100%');
+        //   $('#map').css('width', '100%');
           $scope.establecimiento = id;
+          if(!$location.$$search.establecimiento){
+              sidebarInicialized = false;
+          }
+
+          $location.search('establecimiento',id);
+          $location.search('institucion',idInstitucion);
           if(!idInstitucion){
             idInstitucion = '';
           }
-          if($scope.last.codigo_establecimiento === id
-                && $scope.last.codigo_institucion === idInstitucion){
-            return;
-          }
+        //   if($scope.last.codigo_establecimiento === id
+        //         && $scope.last.codigo_institucion === idInstitucion){
+        //     return;
+        //   }
           $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion};
           //{verified}
           $scope.infoData = {};
@@ -382,29 +393,35 @@
                   0].codigo_institucion;
               }
               $timeout(function(){
-
                 $scope.map.invalidateSize();
                 $scope.$digest();
-                angular.element('.right.sidebar')
-                .sidebar({
-                  context: angular.element('[ng-view]'),
-                  dimPage: false,
-                  closable: false,
-                  onVisible: function(){
-                    $timeout(function(){
-                      if(isNaN(lat) || isNaN(lon)){
-                        alert('No se puede localizar el establecimiento.');
-                      }else{
+                var $sidebar = angular.element('.right.sidebar')
+
+                if(!sidebarInicialized){
+                    $sidebar.sidebar({
+                      context: angular.element('[ng-view]'),
+                      dimPage: false,
+                      closable: false,
+                      onVisible: function(){
+
+
+                      }
+                    });
+                    sidebarInicialized = true;
+                }
+                $sidebar.sidebar('show');
+                $timeout(function(){
+                    if(isNaN(lat) || isNaN(lon) || lat == 0.0 || lon == 0.0){
+                      alert('No se puede localizar el establecimiento.');
+                    }else{
+                      if($('#map')[0].style.width !== '35%'){
                         $('#map').css('width', '35%');
                         $scope.map.invalidateSize();
-                        $scope.map.setView([lat, lon], 17);
                       }
-                    },0);
-
-                  }
-                })
-  							.sidebar('show');
-                 $('.right.sidebar .ui.dropdown').dropdown();
+                      $scope.map.setView([lat, lon], 17);
+                    }
+                },0);
+                $('.right.sidebar .ui.dropdown').dropdown();
 
               });
 

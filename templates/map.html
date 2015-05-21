@@ -63,7 +63,10 @@
       margin-left: 5% !important;
       margin-right: 5% !important;
   }
-
+  .institucion-tab.ng-move,
+  .institucion-tab.ng-leave{
+      display: none !important;
+  }
 
     </style>
 
@@ -71,7 +74,7 @@
         <div class="ui top attached tabular menu">
 
 
-          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" href="/map?establecimiento={$ institucion.codigo_establecimiento $}&institucion={$ institucion.codigo_institucion $}" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" ng-click="showInfoPopUp(institucion.codigo_establecimiento,institucion.codigo_institucion)" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
             {$ institucion.nombre_institucion $} -  {$ institucion.codigo_institucion $}
           </a>
         </div>

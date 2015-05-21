@@ -37,25 +37,12 @@
   nuevaDirectiva('archivosContraloria', 'archivos-contraloria.html');
   nuevaDirectiva('institucionList', 'institucion-list.html');
   nuevaDirectiva('visualizaciones', 'visualizaciones.html');
+  nuevaDirectiva('microplanificacion', 'microplanificacion.html');
+  nuevaDirectiva('informacion', 'informacion.html');
   nuevaDirectiva('home', 'home.html');
   nuevaDirectiva('siteNav', 'nav.html');
-  nuevaDirectiva('institucionModal', 'institucion-modal.html');
-  nuevaDirectiva('establecimientoTabla',
-    'institucion-modal/establecimiento-tabla.html');
-  nuevaDirectiva('institucionesTabla',
-    'institucion-modal/instituciones-tabla.html');
-  nuevaDirectiva('comentarios', 'institucion-modal/comentarios.html');
-  nuevaDirectiva('aulas', 'institucion-modal/instituciones-tabs/aulas.html');
-  nuevaDirectiva('mobiliarios',
-    'institucion-modal/instituciones-tabs/mobiliarios.html');
-  nuevaDirectiva('denuncias',
-    'institucion-modal/instituciones-tabs/denuncias.html');
-  nuevaDirectiva('sanitarios',
-    'institucion-modal/instituciones-tabs/sanitarios.html');
-  nuevaDirectiva('informacion',
-    'institucion-modal/instituciones-tabs/informacion.html');
-  nuevaDirectiva('fonacide', 'institucion-modal/fonacide.html');
-  nuevaDirectiva('resumen', 'institucion-modal/fonacide.html');
+  
+
   nuevaDirectiva('filtroUbicacion', 'filtro-ubicacion.html', {
         scope:{
             multiple: "=",

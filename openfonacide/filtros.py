@@ -164,7 +164,6 @@ def query_prioridad(tipo, rango, ubicacion):
     begin_query += ") other "
     if not union:
         return "SELECT 1 WHERE 1 = 0"
-    print begin_query
     return begin_query
 
 def filtro_ubicacion(ubicacion):

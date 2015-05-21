@@ -55,7 +55,15 @@
       '$routeParams', '$rootScope', '$timeout', '$location',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
         $scope.activar_filtro = function(){
-          $('.refresh').parent().transition('jiggle')
+          $('.refresh').parent().transition('jiggle');
+          $('.ui.toggle.checkbox').each(function(idx, el){
+              var $el = $(el);
+              if($el.find(':checkbox').length > 0 && !$el.find(':checkbox')[0].checked){
+                  $timeout(function(){
+                      $(el).transition('flash');
+                  });
+              }
+          });
         };
 
         var sidebarInicialized = false;

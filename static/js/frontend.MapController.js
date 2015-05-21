@@ -91,9 +91,14 @@
           }
           window.mapLoaded = true;
 
-          var map = L.map('map')
+          var map = L.map('map', {
+              minZoom: 7,
+              maxBounds: [
+                [-28.078, -64.313],
+                [-19.068, -51.657]
+              ]
+          })
             .setView([-25.308, -57.6], 13);
-
           /* Open Street Map */
           //Mapnik
           var osmMapnikLayer = L.tileLayer(
@@ -263,6 +268,12 @@
                 if(_filtro){
                     $scope.filtroArray = _filtro;
                     $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                    if($scope.filtroArray.length > 0){
+                      $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                    }else{
+                      alert('No se produjeron resultados para el filtro.');
+                        $scope.loading = false;
+                    }
                 }else{
                     backEnd.filtros.query(params, function(data){
                       $scope.filtroArray = data;
@@ -270,15 +281,15 @@
                       if(Storage !== 'undefined'){
                         localStorage.setItem('filtros', JSON.stringify($scope.filtros));
                       }
-
+                      if($scope.filtroArray.length > 0){
+                        $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                      }else{
+                        alert('No se produjeron resultados para el filtro.');
+                          $scope.loading = false;
+                      }
                     });
                 }
-                if($scope.filtroArray.length > 0){
-                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-                }else{
-                  alert('No se produjeron resultados para el filtro.');
-                    $scope.loading = false;
-                }
+
             }else{
                 $scope.filtroArray = [];
                 $scope.actualizar(function(array){return array.filter(originalFilterFunction)});

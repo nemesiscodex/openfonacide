@@ -1,0 +1,106 @@
+<style type="text/css">
+
+.contenido-explicacion {
+     -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+
+}
+</style>
+
+
+<div class="ui stackable  page" style="margin-bottom: 150px; margin-top: 70px">
+
+
+    <div class="ui segment" style="margin: 0px 60px;">
+
+
+        <div class="column">
+             <h1 class="ui center aligned  header">
+          
+            MICROPLANIFICACION
+            <div class="sub header">"Adaptando la oferta a la demanda de la educacion"</div>
+        </h1>
+        <div class="ui segment contenido-explicacion ">
+        <p>Ley N° 4758/2012: Fonacide
+        Art 37: "Los proyectos de infraestructura y equipamientos establecidos en el Art. 4º de la Ley 4578/2012, serán identificados y priorizados a través de la metodología de la microplanificación de la oferta educativa implementado por el MEC, que considera entre otras cosas las características demográficas, la disponibilidad y la situación de la infraestructura educativa a nivel local.
+        Los proyectos de infraestructura y equipamientos deberán enmarcarse dentro de las normativas vigentes, estándares de calidad de materiales, de mano de obra, de planos tipos, de especificaciones técnicas, establecidas y aplicadas por el MEC, así como de su aprobación y fiscalización por parte de la misma entidad.”</p>
+        </div>
+
+      <div class="ui fluid steps">
+  <div class="step">
+    <i class="truck icon"></i>
+    <div class="content">
+      <div class="title">Shipping</div>
+      <div class="description">Choose your shipping options</div>
+    </div>
+  </div>
+  <div class="active step">
+    <i class="payment icon"></i>
+    <div class="content">
+      <div class="title">Billing</div>
+      <div class="description">Enter billing information</div>
+    </div>
+  </div>
+  <div class="disabled step">
+    <i class="info icon"></i>
+    <div class="content">
+      <div class="title">Confirm Order</div>
+    </div>
+  </div>
+</div>
+
+     
+
+        </div>
+
+       <div class="four column centered row">
+                  <div class="column"></div>
+                  <div class="column">
+                    <div class="big ui button right floated">
+                      <i class="download icon"></i>Descargar el manual de Planificacion
+                    </div>
+                 </div>
+        </div>
+
+</div>
+
+
+
+
+</div>
+
+<script type="text/javascript">
+
+menu = {};
+
+// ready event
+menu.ready = function() {
+
+  // selector cache
+  var
+    $menuItem = $('.menu a.item, .menu .link.item'),
+    // alias
+    handler = {
+      activate: function() {
+        $(this)
+        .addClass('active')
+        .closest('.ui.menu')
+        .find('.item')
+        .not($(this))
+        .removeClass('active');
+      }
+    }
+  ;
+
+  $menuItem
+    .on('click', handler.activate)
+  ;
+
+};
+
+
+// attach ready event
+$(document).ready(menu.ready);
+</script>
+

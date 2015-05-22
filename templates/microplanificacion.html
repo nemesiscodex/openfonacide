@@ -1,9 +1,7 @@
 <style type="text/css">
 
 .contenido-explicacion {
-     -webkit-column-count: 3; /* Chrome, Safari, Opera */
-    -moz-column-count: 3; /* Firefox */
-    column-count: 3;
+    min-height: 200px;
 
 }
 </style>
@@ -18,43 +16,75 @@
         <div class="column">
              <h1 class="ui center aligned  header">
           
-            MICROPLANIFICACION
-            <div class="sub header">"Adaptando la oferta a la demanda de la educacion"</div>
+            MICROPLANIFICACIÓN
+            <div class="sub header">"Adaptando la oferta a la demanda de la educación"</div>
         </h1>
-        <div class="ui segment contenido-explicacion ">
-        <p>Ley N° 4758/2012: Fonacide
-        Art 37: "Los proyectos de infraestructura y equipamientos establecidos en el Art. 4º de la Ley 4578/2012, serán identificados y priorizados a través de la metodología de la microplanificación de la oferta educativa implementado por el MEC, que considera entre otras cosas las características demográficas, la disponibilidad y la situación de la infraestructura educativa a nivel local.
-        Los proyectos de infraestructura y equipamientos deberán enmarcarse dentro de las normativas vigentes, estándares de calidad de materiales, de mano de obra, de planos tipos, de especificaciones técnicas, establecidas y aplicadas por el MEC, así como de su aprobación y fiscalización por parte de la misma entidad.”</p>
+     
+
+
+       
+
+        <div class="ui segment tab contenido-explicacion active" data-tab="que-es">
+
+          <p> Es un conjunto de procesos y procedimientos organizados y coordinados para asegurar la equidad en el acceso a una oferta educativa de calidad, así como el uso eficiente y transparente de los recursos destinados al sector mediante la construcción de acciones en forma colectiva basados en consensos y criterios preestablecidos para el logro de los objetivos de políticas educativas que contribuyan a un mayor desarrollo de la comunidad en general.</p>
+          <p>Este proceso requiere un conocimiento acabado de las necesidades de la comunidad y/o del sector en particular, de la disponibilidad de los recursos, así como de una participación activa y responsable de los actores locales para que las decisiones tomadas se correspondan con la realidad y coherentes con los principios rectores de la política educativa en el país.
+          </p>
+
+          <h4>Microplanificación en Fonacide</h4>
+
+            <p>Ley N° 4758/2012: Fonacide
+            Art 37: "Los proyectos de infraestructura y equipamientos establecidos en el Art. 4º de la Ley 4578/2012, serán identificados y priorizados a través de la metodología de la microplanificación de la oferta educativa implementado por el MEC, que considera entre otras cosas las características demográficas, la disponibilidad y la situación de la infraestructura educativa a nivel local.
+            Los proyectos de infraestructura y equipamientos deberán enmarcarse dentro de las normativas vigentes, estándares de calidad de materiales, de mano de obra, de planos tipos, de especificaciones técnicas, establecidas y aplicadas por el MEC, así como de su aprobación y fiscalización por parte de la misma entidad.”</p>
+         
+
+
+       
         </div>
 
-      <div class="ui fluid steps">
-  <div class="step">
-    <i class="truck icon"></i>
-    <div class="content">
-      <div class="title">Shipping</div>
-      <div class="description">Choose your shipping options</div>
-    </div>
-  </div>
-  <div class="active step">
-    <i class="payment icon"></i>
-    <div class="content">
-      <div class="title">Billing</div>
-      <div class="description">Enter billing information</div>
-    </div>
-  </div>
-  <div class="disabled step">
-    <i class="info icon"></i>
-    <div class="content">
-      <div class="title">Confirm Order</div>
-    </div>
-  </div>
-</div>
+        <div class="ui segment tab contenido-explicacion " data-tab="porque">
+              <p>Porque es un espacio de participación para que la comunidad pueda tomar decisiones responsables y asuma compromisos sobre la distribución de los recursos humanos, físicos y/o financieros, tales como: construcción, reparación o reposición de la infraestructura educativa, provisión del almuerzo escolar, la habilitación de un nivel, modalidad o institución educativa, basados en las necesidades de la realidad local, a fin de fortalecer la gestión del sistema educativo, elemento crucial para brindar un servicio educativo equitativo y de mejor calidad.
+              </p>  
 
+             
+        </div>
+
+
+        <div class="ui segment tab contenido-explicacion " data-tab="proceso">
+        El proceso de Micro planificación se compone de las siguientes fases:
+        <ul>
+          <li>Fase I: Diagnóstico educativo departamental</li>
+          <li>Fase II: Identificación de requerimientos y reasignación de recursos.</li>
+          <li>Fase III: Asignación de recursos.</li>
+          <li>Fase IV: Evaluación.</li>
+
+
+
+
+        </ul> 
+
+
+<a href="microplanificacion-proceso">
+         <div class="large ui button left floated" style="margin-left:0%;" >
+                 <i class="add icon"></i>Ver más
+              </div>
+</a>
+
+
+
+        </div>
+
+         <div class="3 fluid ui buttons menu-micro">
+          <div class="ui button item active" data-tab="que-es">Qué es</div>
+          <div class="ui button item" data-tab="porque">Por qué</div>
+          <div class="ui button item"  data-tab="proceso">Proceso</div>
+        </div>
+
+     
      
 
         </div>
 
-       <div class="four column centered row">
+       <div class="four column centered row" style="margin-top:20px;">
                   <div class="column"></div>
                   <div class="column">
                     <div class="big ui button right floated">
@@ -72,35 +102,8 @@
 
 <script type="text/javascript">
 
-menu = {};
-
-// ready event
-menu.ready = function() {
-
-  // selector cache
-  var
-    $menuItem = $('.menu a.item, .menu .link.item'),
-    // alias
-    handler = {
-      activate: function() {
-        $(this)
-        .addClass('active')
-        .closest('.ui.menu')
-        .find('.item')
-        .not($(this))
-        .removeClass('active');
-      }
-    }
-  ;
-
-  $menuItem
-    .on('click', handler.activate)
-  ;
-
-};
+$('.menu-micro .button').tab();
 
 
-// attach ready event
-$(document).ready(menu.ready);
 </script>
 

@@ -38,6 +38,7 @@
   nuevaDirectiva('institucionList', 'institucion-list.html');
   nuevaDirectiva('visualizaciones', 'visualizaciones.html');
   nuevaDirectiva('microplanificacion', 'microplanificacion.html');
+    nuevaDirectiva('microplanificacion-proceso', 'microplanificacion-proceso.html');
   nuevaDirectiva('informacion', 'informacion.html');
   nuevaDirectiva('home', 'home.html');
   nuevaDirectiva('siteNav', 'nav.html');

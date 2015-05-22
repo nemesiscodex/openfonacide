@@ -46,6 +46,10 @@
 						controller: 'FonacideController',
 						templateUrl: '/partials/microplanificacion.html'
 					})
+					.when('/microplanificacion-proceso/', {
+						controller: 'FonacideController',
+						templateUrl: '/partials/microplanificacion-proceso.html'
+					})
 					.when('/informacion/', {
 						controller: 'FonacideController',
 						templateUrl: '/partials/informacion.html'

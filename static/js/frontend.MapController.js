@@ -54,6 +54,12 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout', '$location',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
+        $scope.es_otros = function(obj){
+            if(typeof obj == 'object'){
+                return obj.nombre_espacio != undefined && obj.nombre_espacio != null;
+            }
+            return false;
+        };
         $scope.activar_filtro = function(){
           $('.refresh').parent().transition('jiggle');
           $('.ui.toggle.checkbox').each(function(idx, el){

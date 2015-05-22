@@ -161,6 +161,7 @@ def query_prioridad(tipo, rango, ubicacion):
                 ' and p_es.numero_prioridad >= ' + str(rango[0]) +
                 ' and p_es.numero_prioridad <= ' + str(rango[1]))
         begin_query += query_ubicacion
+        union = True
     begin_query += ") other "
     if not union:
         return "SELECT 1 WHERE 1 = 0"

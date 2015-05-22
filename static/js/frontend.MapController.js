@@ -1,5 +1,13 @@
 (function() {
 
+  function loading(value){
+      if(value){
+          $('.map-loader').addClass('active');
+      }else{
+          $('.map-loader').removeClass('active');
+      }
+  }
+
   function intersect_safe(a, b){
    var ai = bi= 0;
    var result = [];
@@ -54,6 +62,7 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout', '$location',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
+        loading(false);
         $scope.es_otros = function(obj){
             if(typeof obj == 'object'){
                 return obj.nombre_espacio != undefined && obj.nombre_espacio != null;
@@ -164,11 +173,11 @@
         };
         //inizializar
         $scope.inicializar = function() {
-						$scope.last = {};
+			$scope.last = {};
             //
             $scope.modalTitle = "";
             //
-            $scope.loading = true;
+            loading(true);
             //{verified}
             $scope.infoData = {};
             //
@@ -194,10 +203,10 @@
                 needReload = true;
               }
               if(window.mapData && !needReload){
-                $scope.mapData = window.mapData;
-                $scope.loading = false;
-                if(window.markers == undefined)
-                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                  $scope.mapData = window.mapData;
+                  if(window.markers == undefined)
+                    $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+
               }else{
                 backEnd.establecimiento_short.query({}, function(data) {
 
@@ -259,7 +268,7 @@
 
         $scope.filtro = function(){
 
-            $scope.loading = true;
+            loading(true);
             var params = {};
             if($scope.ubicacionSeleccionada.check){
                 params.ubicacion = $scope.ubicacionSeleccionada;
@@ -272,14 +281,16 @@
             if(JSON.stringify(params) != '{}'){
                 var _filtro = $scope.filtros[gen_hash(params)];
                 if(_filtro){
-                    $scope.filtroArray = _filtro;
-                    $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-                    if($scope.filtroArray.length > 0){
-                      $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
-                    }else{
-                      alert('No se produjeron resultados para el filtro.');
-                        $scope.loading = false;
-                    }
+                    $timeout(function(){
+                        $scope.filtroArray = _filtro;
+                        if($scope.filtroArray.length > 0){
+                          $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                        }else{
+                          alert('No se produjeron resultados para el filtro.');
+                          loading(false);
+                        }
+                    }, 10);
+
                 }else{
                     backEnd.filtros.query(params, function(data){
                       $scope.filtroArray = data;
@@ -291,7 +302,7 @@
                         $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
                       }else{
                         alert('No se produjeron resultados para el filtro.');
-                          $scope.loading = false;
+                        loading(false);
                       }
                     });
                 }
@@ -355,7 +366,7 @@
           $scope.map.addLayer(markers);
 
           window.markers = markers;
-          $scope.loading = false;
+          loading(false);
 
         };
         //mostrar detalle

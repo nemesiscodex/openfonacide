@@ -424,26 +424,3 @@ class MatchController(View):
         results = Temporal.objects.all()
         context = {'resultados': results}
         return JsonResponse(context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="MatchController as controller">
     <style type="text/css" xmlns="http://www.w3.org/1999/html">
         .strong{
         font-weight: bold;
@@ -6,7 +6,7 @@
     </style>
 
 
-    <table datatable="" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="ui compact celled definition table" id="resultList">
+    <table datatable="ng" dt-options="controller.dtOptions" class="ui compact celled definition table" id="resultList">
         <thead class="full-width">
         <tr>
             <th>
@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         <div>
-            <tr ng-repeat=" t in resultados.results">
+            <tr ng-repeat=" t in controller.matches">
                 <td class="collapsing">
                     <div class="ui toggle checkbox" style="float: right">
 

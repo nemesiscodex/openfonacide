@@ -99,13 +99,13 @@
 				        cache: true
 				    },
 				    save: {
-						// Especificar 
+						// Especificar
 				        method: 'POST',
 				        headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
-						},
+						}
 				    }
-				}),
+				})
 			}
 		}]);
 

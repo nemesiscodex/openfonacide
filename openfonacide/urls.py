@@ -66,8 +66,11 @@ urlpatterns = patterns('',
     url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
     url(r'^filtros/$', filtros, name='filtros'),
+    url(r'^agua$',   TemplateView.as_view(template_name='visualizaciones/agua.html'), name="agua"),
+    url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
+    url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
-    url(r'^temporal/$', TemporalListView.as_view()),
+    url(r'^temporal/$', TemporalListView.as_view())
 )
 
 urlpatterns += [

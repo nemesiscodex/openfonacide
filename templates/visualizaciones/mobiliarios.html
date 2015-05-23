@@ -1,0 +1,193 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Solicitud de Mobiliarios - MEC</title>
+		<meta name="description" content="Solicitud de Mobiliarios - MEC" />
+		<meta name="keywords" content="" />
+		<meta name="author" content="MEC" />
+		
+		<link rel="stylesheet" type="text/css" href="{% static 'css/mobiliarios-demo.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/mobiliarios.css' %}" />
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+		
+		
+	</head>
+	<body>
+		<div class="container">
+			<header class="clearfix">
+				
+				<h1>Mobiliarios solicitados por las instituciones educativas</h1>
+				<div class="ui column">
+					<p>Dentro de infraestructura se pueden pedir: Construcción o Reparación de Aulas, Construcción o Reparación de Baños, Construcción de Otros Espacios y Mobiliarios. Sobre este último requerimiento trata esta infografía.
+
+Hace click en los iconos y descubrí qué mobiliarios son los que más piden las escuelas elegibles por FONACIDE:</p>
+
+
+				</div>
+				
+				
+			</header>
+			<div id="grid-gallery" class="grid-gallery">
+				<section class="grid-wrap">
+					<ul class="grid">
+						<li class="grid-sizer"></li><!-- for Masonry column width -->
+						
+					</ul>
+				</section><!-- // grid-wrap -->
+				<section class="slideshow">
+					<ul>
+						
+					</ul>
+					<nav>
+						<span class="icon nav-prev"></span>
+						<span class="icon nav-next"></span>
+						<span class="icon nav-close"></span> 
+					</nav>
+				<!--	<div class="info-keys icon">Navigate with arrow keys</div> -->
+				</section><!-- // slideshow -->
+			</div><!-- // grid-gallery -->
+		</div>
+		<script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+		<script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/cbpGridGallery.js' %}"></script>
+		<script src="{% static 'js/jquery-1.11.3.min.js'%}"></script>
+		<script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+
+		<script src="{% static 'js/mobiliarios-suma.js' %}"></script>
+		<script src="{% static 'js/mobiliariosDetalle.js' %}"></script>
+
+
+
+
+
+		
+
+		<script>
+			
+		</script>
+
+		<script>
+    $(document).ready(function(){
+
+
+     
+
+         var getList =  function getList(lista) {
+
+         			 colores=["turquesa","esmeralda","rio","lila","nefrito","marverde", "sunflower", "carrot","alizarin" ]
+					 var items = [];
+					 $.each(lista, function(i, item) {
+					 		var tamano = "";
+					 		
+
+					 		 if(item.cantidad_requerida > 800 ){
+					 			tamano="large";
+					 		}
+					 		else if(item.cantidad_requerida > 50 ){
+					 			tamano="medium";
+					 		}
+
+					 		color = colores[Math.floor((Math.random() * 8) + 0)];
+
+
+					          items.push('<li class="'+ tamano+ ' '+ color + '"><figure><img class="invert" src="/static/img/thumb/' + item.alias + '.png" ></img></figure></li>');
+
+					   });
+
+					 $('.grid').append( items.join('') );
+}
+
+ var getDetalle =  function getList(lista) {
+
+					 var items = [];
+					 detallesHTML = [];
+					 
+
+					 $.each(lista, function(i, item) {
+					 		detallesHTML = [];
+
+					 		var detalles = $.grep( mobiliariosDetalle, function( n, i ) {
+											  return n.alias===item.alias;
+											});
+					 		//console.log(detalles);
+					 		 detallesHTML.push('<tr><th>Departamento</th> <th>Nombre del Mobiliario</th><th>Cantidad Requerida</th>    <th>Numero de beneficiados</th>  </tr>');
+
+					 		 $.each(detalles, function(i, itemDetalle) { 
+
+					 		 		 //console.log(itemDetalle);
+					 		 		
+					 		 		 detallesHTML.push('<tr><td> '+ 
+					 		 		 	itemDetalle.nombre_departamento + '</td><td>' + itemDetalle.nombre_mobiliario + '</td><td>' + itemDetalle.cantidad_requerida + '</td><td>' + itemDetalle.numero_beneficiados + '</td></tr>');
+					 		 		 
+
+
+					 		 });
+
+					 		detallesRender= detallesHTML.join('');
+
+					          items.push('<li class="itemMobiliario"><figure><figcaption id="' + item.alias +'"><img src="/static/img/thumb/' + item.alias + '.png" style="width:50px;"></img> <h3>'+item.alias +'</h3><p> <strong>Cantidad Requerida: </strong>'+ item.cantidad_requerida +'<br><strong>Numero de Beneficiados con la construccion: </strong>'+ item.numero_beneficiados + ' </p> <div class="detalles"> <table>' + detallesRender + '</table></div><figcaption>  </figure></li>');
+
+
+
+					          
+
+
+
+
+
+					   });
+
+					 $('.slideshow > ul').append( items.join('') );
+}
+
+
+
+/* FUNCION PARA RAMDOMIZAR UNA ARRAY */
+		shuffle = function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+shuffle(mobiliarios);
+
+
+		getList(mobiliarios);
+		getDetalle(mobiliarios);
+		new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+		
+    
+ 
+
+
+
+
+           
+    });
+</script>
+
+
+  
+
+
+
+	</body>
+</html>

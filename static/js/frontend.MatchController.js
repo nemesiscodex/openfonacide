@@ -41,12 +41,16 @@
             controller.dtOptions = DTOptionsBuilder.newOptions()
                 .withOption('bProcessing','true')
                 .withOption('drawCallback', function(){
-                    if($('.save-button').length > 1) return;
                     var save_button = $('<button>Guardar</button>')
                         .addClass('ui teal tiny button right floated save-button')
                         .css('margin-top','-5px');
-                    $('.sLength').append(save_button);
-                    $('.sInfo').append(save_button.clone());
+
+                    if($('.sLength .save-button').length == 0){
+                        $('.sLength').append(save_button);
+                    }
+                    if($('.sInfo .save-button').length == 0){
+                        $('.sInfo').append(save_button.clone());
+                    }
                     $('.save-button').click(controller.guardar);
                     $('#toggle').click(function(){
                         $('.match.checkbox:visible').checkbox('toggle');

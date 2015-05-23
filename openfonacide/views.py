@@ -46,7 +46,7 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
 class TemporalListView(ListAPIView):
     model = Temporal
     serializer_class = TemporalSerializer
-    pagination_class = PaginadorEstandard
+    #pagination_class = PaginadorEstandard
     queryset = Temporal.objects.all()
 
 

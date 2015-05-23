@@ -44,7 +44,8 @@
                     })
                     .when('/match/', {
                         controller: 'MatchController',
-                        templateUrl: '/partials/match.html'
+                        templateUrl: '/partials/match.html',
+                        controllerAs: 'controller'
                     })
                     .when('/microplanificacion/', {
                         controller: 'FonacideController',

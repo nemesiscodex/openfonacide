@@ -118,7 +118,7 @@ class Institucion(models.Model):
     uri_institucion = models.CharField(max_length=256, null=True)
 
     planificaciones = models.ManyToManyRel(Planificacion)
-    adjudicacioens = models.ManyToManyRel(Adjudicacion)
+    adjudicaciones = models.ManyToManyRel(Adjudicacion)
 
     class Meta:
         verbose_name_plural = "instituciones"

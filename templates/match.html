@@ -1,4 +1,4 @@
-<div ng-controller="MatchController as controller">
+<div>
     <style type="text/css" xmlns="http://www.w3.org/1999/html">
         .strong{
         font-weight: bold;
@@ -28,7 +28,7 @@
         </thead>
         <tbody>
         <div>
-            <tr ng-repeat=" t in controller.matches">
+            <tr ng-repeat=" t in resultados">
                 <td class="collapsing">
                     <div class="ui toggle checkbox" style="float: right">
 
@@ -52,3 +52,4 @@
         </tbody>
     </table>
 </div>
+

@@ -92,7 +92,7 @@
                         }
                     }
                 ),
-				"temporal": $resource(backEndUrl + '../temporal/:id',{
+				"temporal": $resource(backEndUrl + '../temporal/:id',{},{
 				    get: {
 				        method: 'GET',
 				        isArray: true,

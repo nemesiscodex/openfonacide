@@ -7,7 +7,7 @@
             // STILL IMPROVING!
             var controller = this;
             controller.matches = [];
-            var page_size = 10;
+            var page_size = 1000;
             var page_number = 1;
             DTDefaultOptions.setLanguage({sProcessing:     "Procesando...",
             sLengthMenu:     "Mostrar _MENU_ registros",
@@ -28,13 +28,11 @@
                     sPrevious: "Anterior"
             }});
             controller.dtOptions = DTOptionsBuilder.newOptions()
-                .withPaginationType('full_numbers')
-                .withOption('bProcessing','true')
-                .withDisplayLength(page_size);
-
+                .withOption('bProcessing','true');
                 /*
                 .withColumnFilter({
-                    aoColumns: [{
+                    aoColumns: [null,
+                    {
                         type: 'number'
                     }, {
                         type: 'text',
@@ -63,18 +61,12 @@
                         bSmart: 'true'
                     }
                     ]
-                });
-                */
+                });*/
 
-            controller.dtInstance = {};
 
-            backEnd.temporal.get({offset: (page_number - 1), limit: page_size}, function (data) {
+            backEnd.temporal.get({}, function (data) {
                 $scope.resultados = data;
-            })
-                .$promise.then(function (results) {
-                    controller.matches = results.results;
-                });
-
+            });
         }]);
 
 })();

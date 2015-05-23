@@ -116,9 +116,8 @@ class Institucion(models.Model):
     anho_cod_geo = models.CharField(max_length=256)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
-
-    planificaciones = models.ManyToManyRel(Planificacion)
-    adjudicaciones = models.ManyToManyRel(Adjudicacion)
+    planificaciones = models.ManyToManyField(Planificacion)
+    adjudicaciones = models.ManyToManyField(Adjudicacion)
 
     class Meta:
         verbose_name_plural = "instituciones"

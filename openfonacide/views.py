@@ -9,8 +9,9 @@ from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
 from django.template.loader import get_template
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View, TemplateView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from django.http import Http404, JsonResponse
 from rest_framework import viewsets
 from rest_framework import pagination
@@ -43,11 +44,35 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
     queryset = Establecimiento.objects.all()
 
 
-class TemporalListView(ListAPIView):
+class TemporalListView(ListCreateAPIView):
     model = Temporal
     serializer_class = TemporalSerializer
-    #pagination_class = PaginadorEstandard
+    # pagination_class = PaginadorEstandard
     queryset = Temporal.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        try:
+            llamado = data['id_llamado']
+            institucion = data['codigo_institucion']
+            periodo = data['periodo']
+        except MultiValueDictKeyError:
+            return JsonResponse({"mensaje": "Faltan parámetros"}, status=500)
+
+        try:
+            p = Planificacion.objects.get(id_llamado=llamado)
+            i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
+        except ObjectDoesNotExist as e:
+            return JsonResponse({"mensaje": e.message}, status=500)
+
+        i.planificaciones.add(p)
+        i.save()
+        a = Adjudicacion.objects.filter(id_llamado=llamado)
+        if len(a) is not 0:
+            i.adjudicaciones.add(a)
+            i.save()
+
+        return JsonResponse({"mensaje": "Creado existosamente"}, status=200)
 
 
 class DummyPrioridad(object):
@@ -381,7 +406,7 @@ class PrioridadController(View):
 #
 #
 # }
-#         return JSONResponse(result)
+# return JSONResponse(result)
 
 
 class ComentariosController(View):
@@ -389,9 +414,9 @@ class ComentariosController(View):
 
     # Not yet Implemented
     # def get(self, request, *args, **kwargs):
-    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    #     comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
-    #     return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
+    # codigo_establecimiento = kwargs.get('codigo_establecimiento')
+    # comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
+    # return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
     #
     # def post(self, request, *args, **kwargs):
     #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
@@ -414,14 +439,3 @@ class ComentariosController(View):
     #     comentario.fecha = datetime.datetime.now()
     #     comentario.save()
     #     return JSONResponse({"success": True});
-
-
-class MatchController(View):
-    """
-    Controlador de Match
-    """
-
-    def get(self, request, *args, **kwargs):
-        results = Temporal.objects.all()
-        context = {'resultados': results}
-        return JsonResponse(context)

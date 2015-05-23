@@ -255,7 +255,7 @@
                             </div>
                         </div>
 
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_aulas.length">Sin registros.</div>
+                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_aulas.length">Sin Requerimientos.</div>
                     </div>
                 </div>
                 <!-- AULAS END -->
@@ -373,7 +373,7 @@
                             </div>
                         </div>
 
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_sanitarios.length">Sin registros.</div>
+                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_sanitarios.length">Sin Requerimientos.</div>
                     </div>
                 </div>
                 <!-- SANITARIOS END -->
@@ -492,7 +492,7 @@
                             </div>
                         </div>
 
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_mobiliarios.length">Sin registros.</div>
+                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_mobiliarios.length">Sin Requerimientos.</div>
                     </div>
                 </div>
                 <!-- MOBILIARIOS END -->
@@ -610,7 +610,7 @@
                             </div>
                         </div>
 
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_otros.length">Sin registros.</div>
+                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_otros.length">Sin Requerimientos.</div>
                     </div>
                 </div>
                 <!-- OTROS END -->
@@ -673,12 +673,12 @@
       <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
     </div>
     <h2  class="header" style="margin-left: 5%; margin-top: 12px">Filtros
-        <button class="ui circular icon button teal right floated" ng-click="filtro()" style="margin-right: -5%">Actualizar <i class="refresh icon"></i></button>
+        <button class="ui circular icon button teal right floated" data-content="Hello. This is a small popup" data-variation="small" ng-click="filtro()" style="margin-right: -5%">Actualizar <i class="refresh icon"></i></button>
     </h2>
      <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-	<label class="ui teal label">Fonacide</label>
+	<label class="ui teal label">Fonacide <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></label>
      <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
 
         <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()" type="checkbox" >
@@ -688,7 +688,7 @@
      <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
      <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
     <div class="item filtros">
-        <h4>Tipo de Prioridad</h4>
+        <h4>Tipo de Prioridad <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></h4>
         <div class="ui two column grid">
             <div class="column">
                 <div class="ui checkbox column">
@@ -731,7 +731,7 @@
      </div>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-		<label class="ui teal label">Otros</label>
+		<label class="ui teal label">Otros <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></label>
         <div class="ui toggle checkbox" style="float: right;  opacity: 0.99;">
           <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox" >
           <label for="otros-check"></label>
@@ -768,6 +768,13 @@
 </div>
 <script>
   (function(){
+
+    $('.circular.info')
+  .popup({
+    on: 'hover'
+  })
+;
+
 
     $('.ui.dropdown').dropdown();
     angular.element(".filter.launch").click(function(){

@@ -278,6 +278,7 @@ class InstitucionController(View):
                 instituciones = {
                     "results": {},
                     "query": query,
+                    "tipo": tipo,
                     "periodo": periodo,
                     "base_url": reverse('index')
                 }

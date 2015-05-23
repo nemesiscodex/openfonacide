@@ -149,7 +149,7 @@
                     <div class="ui tertiary inverted teal segment" style="margin: 0">
                         <div class="ui top left attached teal label"><i class="student large icon">
                             Aulas</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{periodo: periodo, codigo_institucion:institucion_actual, nombre_espacio: null})"  style=" margin:0">
+                        <div class="ui teal segment" ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:{nombre_espacio:null})" ng-if="item.codigo_institucion==institucion_actual" style="margin:0">
                             <div class="ui item">
                                 <div class="ui stackable grid">
                                     <div class="two wide column center aligned"
@@ -267,7 +267,7 @@
                     <div class="ui tertiary inverted teal segment" style="margin: 0">
                         <div class="ui top left attached teal label"><i class="female large icon" style="margin-right: 0">|</i><i class="male large icon">
                             Sanitarios</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{periodo: periodo, codigo_institucion:institucion_actual})"  ng-show="item.codigo_institucion==institucion_actual" style=" margin:0">
+                        <div class="ui teal segment" ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{'$': periodo, '$':institucion_actual}:true)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                             <div class="ui item">
                                 <div class="ui stackable grid">
                                     <div class="two wide column center aligned"
@@ -386,7 +386,7 @@
                     <div class="ui tertiary inverted teal segment" style="margin: 0">
                         <div class="ui top left attached teal label"><i class="columns large icon">
                             Mobiliario</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{periodo: periodo, codigo_institucion:institucion_actual})"  ng-show="item.codigo_institucion==institucion_actual" style=" margin:0">
+                        <div class="ui teal segment" ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{'$': periodo, '$':institucion_actual}:true)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                             <div class="ui item">
                                 <div class="ui stackable grid">
                                     <div class="two wide column center aligned"
@@ -504,7 +504,7 @@
                     <div class="ui tertiary inverted teal segment" style="margin: 0">
                         <div class="ui top left attached teal label"><i class="lab large icon">
                             Otros Espacios</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{periodo: periodo, codigo_institucion: institucion_actual} | filter:es_otros)" style=" margin:0">
+                        <div class="ui teal segment" ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:es_otros)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                             <div class="ui item">
                                 <div class="ui stackable grid">
                                     <div class="two wide column center aligned"
@@ -761,7 +761,7 @@
 </div>
 <div class="pusher mapContainer" style="background-color: #00b5ad" onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
   <div id="map" style="height: 96%">
-    <div class="ui indeterminate large text active loader" ng-show="loading" ng-class="{active: loading}">
+    <div class="ui indeterminate large text active loader map-loader">
       <h2>Cargando</h2>
     </div>
   </div>

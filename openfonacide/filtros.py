@@ -121,7 +121,7 @@ def query_prioridad(tipo, rango, ubicacion):
     if tipo == 'mobiliarios' or 'mobiliarios' in tipo:
         begin_query += ('SELECT p_mob.codigo_establecimiento '
                 'FROM openfonacide_mobiliario p_mob '
-                'JOIN openfonacide_espacio es '
+                'JOIN openfonacide_establecimiento es '
                 'ON es.codigo_establecimiento = p_mob.codigo_establecimiento '
                 'WHERE p_mob.numero_prioridad >= '+ str(rango[0]) +
                 ' AND p_mob.numero_prioridad <= ' + str(rango[1]))

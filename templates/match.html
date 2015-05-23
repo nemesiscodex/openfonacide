@@ -1,17 +1,16 @@
-<div>
-    <style type="text/css" xmlns="http://www.w3.org/1999/html">
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
         .strong{
         font-weight: bold;
         }
     </style>
-
-
+<div class="ui page grid">
+    <div class="sixteen wide column" style="padding-top: 30px;padding-bottom: 30px;">
     <table datatable="ng" dt-options="controller.dtOptions" class="ui compact celled definition table" id="resultList">
         <thead class="full-width">
         <tr>
             <th>
-                <div id="toggle" class="ui small button">
-                    Toggle
+                <div id="toggle" class="ui small basic button">
+                    Todos
                 </div>
             </th>
             <th>Periodo</th>
@@ -30,11 +29,10 @@
         <div>
             <tr ng-repeat=" t in resultados">
                 <td class="collapsing">
-                    <div class="ui toggle checkbox" style="float: right">
-
-                        <input id="confirmar_check_{$ t.codigo_institucion $}" ng-model="t.confirmar"
-                               ng-change="confirmar()" type="checkbox">
-                        <label for="prioridad-check"></label>
+                    <div class="ui toggle match checkbox" style="float: right">
+                        <input id="confirmar_check_{$ t.codigo_institucion $}" data-institucion="{$ t.codigo_institucion $}" data-llamado="{$ t.id_llamado $}"
+                               type="checkbox">
+                        <label for="confirmar_check_{$ t.codigo_institucion $}"></label>
                     </div>
                 </td>
                 <td>{$ t.periodo $}</td>
@@ -51,5 +49,7 @@
         </div>
         </tbody>
     </table>
+
+    </div>
 </div>
 

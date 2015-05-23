@@ -3,9 +3,15 @@
      * Controlador de Match Difuso
      */
     angular.module('frontEnd')
-        .controller('MatchController', ['$scope', 'backEnd', 'DTOptionsBuilder', 'DTDefaultOptions', function ($scope, backEnd, DTOptionsBuilder, DTDefaultOptions) {
+        .controller('MatchController', ['$scope', 'backEnd', 'DTOptionsBuilder', 'DTDefaultOptions','$timeout', function ($scope, backEnd, DTOptionsBuilder, DTDefaultOptions, $timeout) {
             // STILL IMPROVING!
+
             var controller = this;
+            controller.guardar = function(){
+                $('.checkbox input:checked').each(function (idx, el) {
+                    console.log($(el).data('llamado') + '-' + $(el).data('institucion'));
+                })
+            };
             controller.matches = [];
             var page_size = 1000;
             var page_number = 1;
@@ -27,8 +33,25 @@
                     sNext:     "Siguiente",
                     sPrevious: "Anterior"
             }});
+            $.fn.dataTableExt.oStdClasses.sPageButton = 'ui basic button';
+            $.fn.dataTableExt.oStdClasses.sInfo = 'ui white message sInfo';
+            $.fn.dataTableExt.oStdClasses.sFilterInput = 'ui basic input';
+            $.fn.dataTableExt.oStdClasses.sLength = 'ui top attached white message sLength';
+            $.fn.dataTableExt.oStdClasses.sFilter = 'ui bottom attached white message sFilter';
             controller.dtOptions = DTOptionsBuilder.newOptions()
-                .withOption('bProcessing','true');
+                .withOption('bProcessing','true')
+                .withOption('drawCallback', function(){
+                    if($('.save-button').length > 1) return;
+                    var save_button = $('<button>Guardar</button>')
+                        .addClass('ui teal tiny button right floated save-button')
+                        .css('margin-top','-5px');
+                    $('.sLength').append(save_button);
+                    $('.sInfo').append(save_button.clone());
+                    $('.save-button').click(controller.guardar);
+                    $('#toggle').click(function(){
+                        $('.match.checkbox:visible').checkbox('toggle');
+                    });
+                });
                 /*
                 .withColumnFilter({
                     aoColumns: [null,
@@ -62,8 +85,6 @@
                     }
                     ]
                 });*/
-
-
             backEnd.temporal.get({}, function (data) {
                 $scope.resultados = data;
             });

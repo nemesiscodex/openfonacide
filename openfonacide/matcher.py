@@ -151,11 +151,12 @@ class Matcher(object):
         planes = list((planes.values('id', 'anio', 'id_llamado', 'nombre_licitacion', 'convocante')))
         cache_normalizada = dict()
         for i in inst:
+            anio_regex = re.compile(i.periodo, re.IGNORECASE)
             ciudad_regex = re.compile('.*MUNICIPALIDAD.*' + i.nombre_distrito, re.IGNORECASE)
             departamento_regex = re.compile('.*DEPARTAMENTAL.*' + i.nombre_departamento, re.IGNORECASE)
             planes_candidatos_list = (plan for plan in planes if
-                                      ciudad_regex.search(plan['convocante']) or departamento_regex.search(
-                                          plan['convocante']))
+                                      anio_regex.search(plan['anio']) and ciudad_regex.search(
+                                          plan['convocante']) or departamento_regex.search(plan['convocante']))
 
             for j in planes_candidatos_list:
                 ti = self.normalizar_string(i.nombre_institucion)
@@ -164,14 +165,17 @@ class Matcher(object):
                 tj = cache_normalizada[j['id']]
 
                 if heuristicas(ti, tj):
-                    self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
-                                                        nombre_distrito=i.nombre_distrito,
-                                                        codigo_institucion=i.codigo_institucion,
-                                                        nombre_institucion=i.nombre_institucion,
-                                                        id_planificacion=j['id'], anio=j['anio'],
-                                                        id_llamado=j['id_llamado'],
-                                                        nombre_licitacion=j['nombre_licitacion'],
-                                                        convocante=j['convocante'])
+                    existente = self.temporal_manager.filter(anio=i.periodo, codigo_institucion=i.codigo_institucion,
+                                                             id_llamado=j['id_llamado'])
+                    if len(existente) == 0:
+                        self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
+                                                     nombre_distrito=i.nombre_distrito,
+                                                     codigo_institucion=i.codigo_institucion,
+                                                     nombre_institucion=i.nombre_institucion,
+                                                     id_planificacion=j['id'], anio=j['anio'],
+                                                     id_llamado=j['id_llamado'],
+                                                     nombre_licitacion=j['nombre_licitacion'],
+                                                     convocante=j['convocante'])
 
 
 def mismo_nivel_educativo(c1, c2):
@@ -298,8 +302,8 @@ def heuristicas(cadena1, cadena2):
     # CENTRO
     # SEDE
 
-    #print("1 - Nivel Educativo")
-    #if not mismo_nivel_educativo(cadena1, cadena2):
+    # print("1 - Nivel Educativo")
+    # if not mismo_nivel_educativo(cadena1, cadena2):
     #    return False
 
     #print("2 - Tipo institucion")
@@ -313,8 +317,8 @@ def heuristicas(cadena1, cadena2):
         if match_nombre_santo(cadena1, cadena2, pos_nombre):
             # Validadas cadenas con nombres de santos
             return True
-        #else:
-        #    return False
+            #else:
+            #    return False
     elif pos_nombre < -1:
         return False
 

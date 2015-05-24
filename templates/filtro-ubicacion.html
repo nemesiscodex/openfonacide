@@ -1,6 +1,8 @@
 <!-- INICIO UBICACION -->
+
+<div class="ui segment">texto</div>
 <div id="ubicacion" class="ui segment labels teal top attached">
-  <div class="ui teal label">Ubicación
+  <div class="ui teal label">Ubicación <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i>
   </div>
   <div class="ui toggle checkbox" style="float: right;  opacity: 0.99">
     <input id="ubicacion-check" ng-model="ctrl.selected.check" ng-change="ctrl.callback()" type="checkbox" name="public">
@@ -36,3 +38,12 @@
 
 </div>
 <!-- FIN UBICACION -->
+<script type="text/javascript">
+
+$('.circular.info')
+  .popup({
+    on: 'hover'
+  })
+;
+
+</script>

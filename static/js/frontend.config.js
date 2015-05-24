@@ -10,6 +10,10 @@
             $interpolateProvider.startSymbol('{$');
             $interpolateProvider.endSymbol('$}');
         })
+        //Trainling Slash
+        .config(function($resourceProvider) {
+            $resourceProvider.defaults.stripTrailingSlashes = false;
+        })
         //Rutas
         .config(['$routeProvider', '$locationProvider',
             function ($routeProvider, $locationProvider) {

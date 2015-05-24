@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
@@ -51,13 +52,14 @@ class TemporalListView(ListCreateAPIView):
     queryset = Temporal.objects.all()
 
     def post(self, request, *args, **kwargs):
-        data = request.data
+        # NO ANDA!
+        data = json.loads(request.data)
         try:
             llamado = data['id_llamado']
             institucion = data['codigo_institucion']
             periodo = data['periodo']
-        except MultiValueDictKeyError:
-            return JsonResponse({"mensaje": "Faltan parámetros"}, status=500)
+        except MultiValueDictKeyError as e:
+            return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
 
         try:
             p = Planificacion.objects.get(id_llamado=llamado)

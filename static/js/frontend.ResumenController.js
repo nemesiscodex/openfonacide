@@ -58,16 +58,19 @@
         return {
             title : {
                 text: titulo,
-                subtext: subtitulo
+                subtext: subtitulo,
+                x: 'center'
             },
             tooltip : {
                 trigger: 'axis'
             },
             legend: {
                 data: legendData,
+                orient: 'vertical',
+                x: 'left',
                 selected: legendSelected
             },
-            grid: {y: 70, y2:30},
+            grid: {y: 70, y2:30, x: 180, x2: 30},
             toolbox: {
                 show: true,
                 feature: {
@@ -481,9 +484,7 @@
                   }
               }
               $('.chart-item').css('height', '300px').parent().show();
-              var count = 0;
               if(tipoRequerimiento['sanitario']){
-                  count ++;
                   //series
                   options = get_options_pie('Sanitarios', 'Tipo de Requerimientos',
                       ['NUEVO', 'REPARACION', 'ADECUACION'],
@@ -496,7 +497,6 @@
                   $('#chart-sanitarios').parent().hide();
               }
               if(tipoRequerimiento['aulas']) {
-                  count ++;
                   //series
                   options = get_options_pie('Aulas', 'Tipo de Requerimientos',
                       ['NUEVO', 'REPARACION', 'ADECUACION'],
@@ -509,7 +509,6 @@
                   $('#chart-aulas').parent().hide();
               }
               if(tipoRequerimiento['otros']){
-                  count ++;
                   //series
                   options = get_options_pie('Otros espacios', 'Tipo de Requerimientos',
                       ['NUEVO', 'REPARACION', 'ADECUACION'],
@@ -524,15 +523,6 @@
               if(data.beneficiarios.length > 0){
                   var $chart = $('#chart-mobiliarios');
                   var $chartParent = $chart.parent();
-                  count ++;
-                  if(count % 2 != 0){
-                      $chartParent.removeClass('column');
-                      $chartParent.addClass('sixteen wide column');
-                      $chart.css('height', '500px');
-                  }else{
-                      $chartParent.removeClass('sixteen wide');
-                      $chart.css('height', '300px');
-                  }
                   options = get_options_bar("Beneficiarios", "Fonacide",
                       ['Prioridades', 'Promedio', 'Requerida', 'Beneficiados'],
                       {'Prioridades':true, 'Requerida':false, 'Beneficiados':false, 'Promedio':true},

@@ -54,6 +54,18 @@
 						controller: 'FonacideController',
 						templateUrl: '/partials/informacion.html'
 					})
+					.when('/acercade/', {
+						controller: 'FonacideController',
+						templateUrl: '/partials/acercade.html'
+					})
+					.when('/datasets/', {
+						controller: 'FonacideController',
+						templateUrl: '/partials/datasets.html'
+					})
+					.when('/legal/', {
+						controller: 'FonacideController',
+						templateUrl: '/partials/legal.html'
+					})
 					.when('/results', {
 						controller: 'ResultadosController',
 						templateUrl: '/partials/results.html'

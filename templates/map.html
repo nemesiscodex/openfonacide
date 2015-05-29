@@ -682,7 +682,7 @@
      <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-	<label class="ui teal label">Fonacide <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></label>
+	<label class="ui teal label">Fonacide <i class="circular info icon link" data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver " data-variation="small"></i></label>
      <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
 
         <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()" type="checkbox" >
@@ -692,7 +692,7 @@
      <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
      <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
     <div class="item filtros">
-        <h4>Tipo de Prioridad <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></h4>
+        <h4>Tipo de Requerimiento </h4>
         <div class="ui two column grid">
             <div class="column">
                 <div class="ui checkbox column">
@@ -735,7 +735,7 @@
      </div>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-		<label class="ui teal label">Otros <i class="circular info icon link" data-content="Hello. This is a small popup" data-variation="small"></i></label>
+		<label class="ui teal label">Otros <i class="circular info icon link" data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría." data-variation="small"></i></label>
         <div class="ui toggle checkbox" style="float: right;  opacity: 0.99;">
           <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox" >
           <label for="otros-check"></label>

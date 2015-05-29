@@ -38,6 +38,10 @@ partial_patterns = patterns('',
     url(r'^nav\.html$', PartialGroupView.as_view(template_name='nav.html'), name='nav.html'),
     url(r'^visualizaciones\.html$', PartialGroupView.as_view(template_name='visualizaciones.html'), name='visualizaciones.html'),
     url(r'^match\.html$', PartialGroupView.as_view(template_name='match.html'), name='match.html'),
+    url(r'^acercade\.html$', PartialGroupView.as_view(template_name='acercade.html'), name='acercade.html'),
+    url(r'^datasets\.html$', PartialGroupView.as_view(template_name='datasets.html'), name='datasets.html'),
+    url(r'^legal\.html$', PartialGroupView.as_view(template_name='legal.html'), name='legal.html'),
+   
     # ... more partials ...,
 )
 
@@ -52,7 +56,7 @@ urlpatterns = patterns('',
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
-    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|match|results)?/?$', Index.as_view(), name='index'),
+    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),

@@ -1,6 +1,7 @@
 # encoding: utf-8
 """
-Open data mec map api models
+OpenFonacide Models
+Modelo de datos utilizado en OpenFonacide
 """
 
 from django.db import models
@@ -34,7 +35,68 @@ class Establecimiento(models.Model):
     fonacide = models.CharField(max_length=5, null=True)
 
     class Meta:
+        verbose_name_plural = 'establecimientos'
         unique_together = (("anio", "codigo_establecimiento"),)
+
+
+# Planificacion de Fonacide
+class Planificacion(models.Model):
+    id = models.CharField(max_length=200, primary_key=True)
+    anio = models.CharField(max_length=50, null=True)
+    id_llamado = models.CharField(max_length=200, null=True)
+    nombre_licitacion = models.CharField(max_length=1024, null=True)
+    convocante = models.CharField(max_length=200, null=True)
+    codigo_sicp = models.CharField(max_length=50, null=True)
+    categoria_id = models.CharField(max_length=50, null=True)
+    categoria_codigo = models.CharField(max_length=200, null=True)
+    categoria = models.CharField(max_length=200, null=True)
+    tipo_procedimiento_id = models.CharField(max_length=50, null=True)
+    tipo_procedimiento_codigo = models.CharField(max_length=50, null=True)
+    tipo_procedimiento = models.CharField(max_length=200, null=True)
+    fecha_estimada = models.CharField(max_length=50, null=True)
+    fecha_publicacion = models.CharField(max_length=50, null=True)
+    _moneda = models.CharField(max_length=50, null=True)
+    moneda = models.CharField(max_length=50, null=True)
+    _estado = models.CharField(max_length=200, null=True)
+    estado = models.CharField(max_length=200, null=True)
+    _objeto_licitacion = models.CharField(max_length=200, null=True)
+    objeto_licitacion = models.CharField(max_length=200, null=True)
+    etiquetas = models.CharField(max_length=50, null=True)
+
+    class Meta:
+        verbose_name_plural = "planificaciones"
+
+
+class Adjudicacion(models.Model):
+    id = models.CharField(max_length=1024, null=False, primary_key=True)
+    planificacion_id = models.CharField(max_length=1024, null=False)
+    convocatoria_id = models.CharField(max_length=1024, null=False)
+    id_llamado = models.CharField(max_length=255, null=False)
+    nombre_licitacion = models.TextField(null=True)
+    convocante = models.CharField(max_length=1024, null=True)
+    codigo_sicp = models.CharField(max_length=255, null=True)
+    categoria_id = models.CharField(max_length=255, null=True)
+    categoria_codigo = models.CharField(max_length=255, null=True)
+    categoria = models.CharField(max_length=255, null=True)
+    tipo_procedimiento_id = models.CharField(max_length=255, null=True)
+    tipo_procedimiento_codigo = models.CharField(max_length=255, null=True)
+    tipo_procedimiento = models.CharField(max_length=255, null=True)
+    _estado = models.CharField(max_length=255, null=True)
+    estado = models.CharField(max_length=255, null=True)
+    _sistema_adjudicacion = models.CharField(max_length=255, null=True)
+    sistema_adjudicacion = models.CharField(max_length=255, null=True)
+    monto_total_adjudicado = models.CharField(max_length=255, null=True)
+    monto_periodo = models.CharField(max_length=255, null=True)
+    _moneda = models.CharField(max_length=255, null=True)
+    moneda = models.CharField(max_length=255, null=True)
+    fecha_publicacion = models.CharField(max_length=255, null=True)
+    observaciones = models.CharField(max_length=1024, null=True)
+    restricciones = models.CharField(max_length=512, null=True)
+    organismo_financiador_id = models.CharField(max_length=255, null=True)
+    organismo_financiador = models.CharField(max_length=255, null=True)
+
+    class Meta:
+        verbose_name_plural = "adjudicaciones"
 
 
 # Datos Específicos de Instituciones Educativas
@@ -54,29 +116,31 @@ class Institucion(models.Model):
     anho_cod_geo = models.CharField(max_length=256)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
+    planificaciones = models.ManyToManyField(Planificacion)
+    adjudicaciones = models.ManyToManyField(Adjudicacion)
 
     class Meta:
         verbose_name_plural = "instituciones"
 
-    # Estos campos no aparecen en la nueva version
+        # Estos campos no aparecen en la nueva version
 
-    # sector_o_tipo_gestion = models.CharField(max_length=256)
-    # codigo_region_administrativa = models.CharField(max_length=256)
-    # nombre_region_administrativa = models.CharField(max_length=256)
-    # nombre_supervisor = models.CharField(max_length=256)
-    # niveles_modalidades = models.CharField(max_length=256)
-    # codigo_tipo_organizacion = models.CharField(max_length=256)
-    # nombre_tipo_organizacion = models.CharField(max_length=256)
-    # participacion_comunitaria = models.CharField(max_length=256)
-    # direccion = models.CharField(max_length=256)
-    # nro_telefono = models.CharField(max_length=256)
-    # tiene_internet = models.CharField(max_length=256)
-    # paginaweb = models.CharField(max_length=256)
-    # correo_electronico = models.CharField(max_length=256)
+        # sector_o_tipo_gestion = models.CharField(max_length=256)
+        # codigo_region_administrativa = models.CharField(max_length=256)
+        # nombre_region_administrativa = models.CharField(max_length=256)
+        # nombre_supervisor = models.CharField(max_length=256)
+        # niveles_modalidades = models.CharField(max_length=256)
+        # codigo_tipo_organizacion = models.CharField(max_length=256)
+        # nombre_tipo_organizacion = models.CharField(max_length=256)
+        # participacion_comunitaria = models.CharField(max_length=256)
+        # direccion = models.CharField(max_length=256)
+        # nro_telefono = models.CharField(max_length=256)
+        # tiene_internet = models.CharField(max_length=256)
+        # paginaweb = models.CharField(max_length=256)
+        # correo_electronico = models.CharField(max_length=256)
 
 
 # Prioridades 2.0###############################################################################
-# En este modelo se representan los datasets de Aluas y Otros Espacios
+# En este modelo se representan los datasets de Aulas y Otros Espacios
 # por que solo difieren en el valor del campo espacio_destinado
 class Espacio(models.Model):
     periodo = models.CharField(max_length=50, null=True)
@@ -172,34 +236,26 @@ class ServicioBasico(models.Model):
         verbose_name_plural = "serviciosbasicos"
 
 
-
-
-# Planificacion de Fonacide
-
-class Planificacion(models.Model):
-
-    id_planificacion  = models.CharField(max_length=200, null=True)
-    anio =  models.CharField(max_length=50, null=True) 
+# Tabla Temporal que almacena los resultados del String Matcher
+class Temporal(models.Model):
+    """
+    Este modelo representa una tabla temporal que almacena información sobre
+    los posibles resultados del String Matcher aplicado.
+    Esta tabla se borra cada vez que se accede a la vista del matcher y se
+    carga cada vez que se Invoca la operación.
+    """
+    # MEC
+    periodo = models.CharField(max_length=256)
+    nombre_departamento = models.CharField(max_length=256)
+    nombre_distrito = models.CharField(max_length=256)
+    codigo_institucion = models.CharField(max_length=256)
+    nombre_institucion = models.CharField(max_length=256, null=True)
+    # DNCP
+    id_planificacion = models.CharField(max_length=200, null=True)
+    anio = models.CharField(max_length=50, null=True)
     id_llamado = models.CharField(max_length=200, null=True)
-    nombre_licitacion = models.CharField(max_length=400, null=True)
+    nombre_licitacion = models.CharField(max_length=1024, null=True)
     convocante = models.CharField(max_length=200, null=True)
-    codigo_sicp = models.CharField(max_length=50, null=True)
-    categoria_id = models.CharField(max_length=50, null=True)
-    categoria_codigo =  models.CharField(max_length=200, null=True)
-    categoria  = models.CharField(max_length=200, null=True)
-    tipo_procedimiento_id  = models.CharField(max_length=50, null=True)
-    tipo_procedimiento_codigo = models.CharField(max_length=50, null=True)
-    tipo_procedimiento = models.CharField(max_length=200, null=True)
-    fecha_estimada = models.CharField(max_length=50, null=True)
-    fecha_publicacion =   models.CharField(max_length=50, null=True)
-    _moneda = models.CharField(max_length=50, null=True)
-    moneda  = models.CharField(max_length=50, null=True)
-    _estado = models.CharField(max_length=200, null=True)
-    estado = models.CharField(max_length=200, null=True)
-    _objeto_licitacion =  models.CharField(max_length=200, null=True)
-    objeto_licitacion  = models.CharField(max_length=200, null=True)
-    etiquetas = models.CharField(max_length=50, null=True)
 
     class Meta:
-        verbose_name_plural = "Planificaciones"
-
+        verbose_name_plural = "temporales"

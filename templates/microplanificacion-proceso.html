@@ -1,4 +1,21 @@
+<style type="text/css">
 
+.label .content{
+  text-align: left;
+}
+
+.ui.horizontal.statistic {
+  cursor: pointer;
+}
+
+.ui.steps .step.active .title {
+color: teal;
+}
+
+.ui.grid.doubling.segment.tab{
+  min-height: 340px;
+}
+</style>
 
 
 <div class="ui stackable  page" style="margin-bottom: 150px; margin-top: 70px">
@@ -17,7 +34,7 @@
                   <div class="four wide column">
                     <div class=" our wide column ui fluid vertical pointing  menu menu-diagnostico" >
                       <a class="active item" data-tab="diagnostico/descripcion">
-                        Descripcion            
+                        Descripción            
                       </a>
                       <a class="item" data-tab="diagnostico/objetivos">
                         Objetivos            
@@ -36,28 +53,67 @@
 
                   <div class="twelve wide column" >
 
-                    <div class="ui segment active tab" data-tab="diagnostico/descripcion"><p>Porque es un espacio de participación para que la comunidad pueda tomar decisiones responsables y asuma compromisos sobre la distribución de los recursos humanos, físicos y/o financieros, tales como: construcción, reparación o reposición de la infraestructura educativa, provisión del almuerzo escolar, la habilitación de un nivel, modalidad o institución educativa, basados en las necesidades de la realidad local, a fin de fortalecer la gestión del sistema educativo, elemento crucial para brindar un servicio educativo equitativo y de mejor calidad.</p>
+                    <div class="ui segment active tab" data-tab="diagnostico/descripcion">
+                      <p>El diagnóstico es un proceso de análisis fundamental para el desarrollo de una planificación eficiente y efectiva, el mismo brinda una visión acabada de la situación educativa actual, además permite identificar y dimensionar los factores que afectan al sistema educativo, con el propósito de incorporar acciones que permitan el logro de los resultados propuestos.</p>
                     </div>
 
                     <div class="ui segment tab" data-tab="diagnostico/objetivos">
                       <p>Objetivos</p>
-
+                      <ul>
+                        <li>Conocer la situación educativa del departamento que incluye aspectos referentes al contexto socio-demográfico, económico y cultural en el cual se desarrolla la actividad educativa.
+                        </li>
+                        <li>Elaborar, actualizar o ajustar el diagnóstico educativo departamental conforme a la realidad educativa. 
+                        </li>
+                        <li>Instalar capacidad técnica a nivel departamental en el análisis y uso de la información.
+                        </li>
+                        <li>Promover espacios de participación de actores locales.</li>
+                      </ul>
                     </div>
+                    
                     <div class="ui segment tab" data-tab="diagnostico/actores">
                         <p>Actores</p>
-
+                        <ul>
+                          <li>Coordinación Departamental de Supervisión Educativa (CDS)</li>
+                          <li>Supervisión de Apoyo Técnico Pedagógica (SATP)</li>
+                          <li>Supervisión de Apoyo y Control Administrativo (SACA)</li>
+                          <li>Unidad Departamental de Estadística (UDE)</li>
+                          <li>Dirección General de Planificación Educativa (DGPE)</li>
+                          <li>Consejos Departamentales de Educación (CDE)</li>
+                        </ul>
                     </div>
 
                     <div class="ui segment tab" data-tab="diagnostico/detalle">
                       <p>Detalle</p>
-
+                      <p>En este proceso se describe la situación educativa del departamento, teniendo en cuenta los siguientes aspectos:</p>
+                          <ol>
+                            <li>Contexto demográfico, económico y sociocultural.</li>
+                            <li>Contexto educativo</li>
+                              <ul>
+                                <li>Cobertura</li>
+                                <li>Acceso a la educación</li>
+                                <li>Tasa de escolarización</li>
+                                <li>Eficiencia interna</li>
+                                <li>Calidad de la educación</li>
+                                <li>Equidad</li>
+                                <li>Recursos</li>
+                                <li>Costos y financiamiento</li>
+                                <li>Recursos Humanos</li>
+                                <li>Recursos físicos</li>
+                                <li>Organizacional</li>
+                              </ul>
+                          </ol>
                     </div>
                     <div class="ui segment tab" data-tab="diagnostico/producto">
                       <p>Producto</p>
-
+                          <p>Diagnóstico elaborado que dé cuenta de la realidad del departamento en términos de:</p>
+                            <ul>
+                              <li>Contexto General</li>
+                              <li>Contexto Demográfico</li>
+                              <li>Contexto Económico</li>
+                              <li>Contexto Sociocultural</li>
+                              <li>Contexto Educativo</li>
+                            </ul>
                     </div>
-                    
-
                   </div> 
             </div>
 
@@ -66,7 +122,7 @@
                   <div class="four wide column">
                     <div class=" our wide column ui fluid vertical pointing  menu menu-especificacion" >
                       <a class="active item" data-tab="especificacion/descripcion">
-                        Descripcion            
+                        Descripción            
                       </a>
                       <a class="item" data-tab="especificacion/objetivos">
                         Objetivos            
@@ -85,24 +141,103 @@
 
                   <div class="twelve wide column" >
 
-                    <div class="ui segment active tab" data-tab="especificacion/descripcion"><p>Porque es un espacio de participación para que la comunidad pueda tomar decisiones responsables y asuma compromisos sobre la distribución de los recursos humanos, físicos y/o financieros, tales como: construcción, reparación o reposición de la infraestructura educativa, provisión del almuerzo escolar, la habilitación de un nivel, modalidad o institución educativa, basados en las necesidades de la realidad local, a fin de fortalecer la gestión del sistema educativo, elemento crucial para brindar un servicio educativo equitativo y de mejor calidad.</p>
+                    <div class="ui segment active tab" data-tab="especificacion/descripcion"><p>En esta etapa se identifican los requerimientos en términos de secciones, institución educativa, de recursos humanos (cargos directivos u otros cargos), de infraestructura física y almuerzo escolar, así como de los potenciales recursos a reasignar, teniendo en cuenta los criterios, procedimientos, normativas vigentes y el PEI.</p>
                     </div>
 
                     <div class="ui segment tab" data-tab="especificacion/objetivos">
                       <p>Objetivos</p>
+                      <ul>
+                        <li>Identificar los requerimientos en términos de secciones, recursos humanos (cargos directivos u otros cargos), infraestructura física y almuerzo escolar de las instituciones educativas/establecimientos escolares existentes a nivel departamental y local, para atender la demanda educativa de los diferentes niveles/modalidades.</li>
+                        <li>Identificar los recursos a reasignar, conforme a los criterios, procedimientos, normativas vigentes y el Proyecto Educativo Institucional (PEI).</li>
+                        <li>Identificar necesidades de habilitación de un nivel/modalidad o de instituciones educativas para los diferentes niveles conforme a la demanda y oferta educativa existente en el área de influencia.</li>
+                        <li>Promover la participación activa de los actores departamentales y locales (coordinadores y técnicos de CDS, supervisores y técnicos de supervisiones educativas, directores, técnicos, docentes y representantes de ACE de las instituciones educativas, referentes de las Gobernaciones y Municipalidades, entre otros) en el proceso de identificación de requerimientos de recursos humanos e infraestructura física a nivel departamental y local, así como en el proceso de reasignación de recursos.</li>
+                        <li>Instalar mecanismos de utilización eficiente de los recursos destinados al sector, tanto en la asignación como en la reasignación.</li>
+
+                      </ul>
 
                     </div>
                     <div class="ui segment tab" data-tab="especificacion/actores">
                         <p>Actores</p>
+                          <ul>
+                            <li>Dirección General de Educación Inicial y Escolar Básica (DGEIyEB).</li>
+                            <li>Dirección General de Educación Media (DGEM).</li>
+                            <li>Dirección General de Educación Superior (DGES).</li>
+                            <li>Dirección General de Educación Permanente (DGEP).</li>
+                            <li>Dirección General de Educación Indígena (DGEIND)</li>
+                            <li>Dirección General de Educación Inclusiva (DGEINC)</li>
+                            <li>Dirección General de Fortalecimiento del Proceso Educativo (DGFPE).</li>
+                            <li>Dirección General de Gestión Social y Equidad Educativa (DGGSyEE)</li>
+                            <li>Dirección General de Gestión del Talento Humano (DGGTH).</li>
+                            <li>Dirección General de Planificación Educativa (DGPE).</li>
+                            <li>Coordinación Departamental de Supervisión Educativa (CDS).</li>
+                            <li>Supervisión de Apoyo Técnico Pedagógica (SATP).</li>
+                            <li>Supervisión de Apoyo y Control Administrativo (SACA).</li>
+                            <li>Dirección de Infraestructura (DI).</li>
+                            <li>Consejos Departamentales de Educación (CDE).</li>
+                            <li>Gobernación</li>
+                            <li>Municipalidad</li>
 
+                          </ul>
                     </div>
 
                     <div class="ui segment tab" data-tab="especificacion/detalle">
-                      <p>Detalle</p>
+                      
+                      <p>Actividades</p>
+                      <p><b>1.  Criterios para la identificación de secciones, recursos humanos o de infraestructura.</b>
+                        <ul>
+                          <li>Estudio de demanda potencial</li>
+                          <li>Estudio de la oferta</li>
+                        </ul>
+                      </p>
+                      <p><b>2.  Criterios para la habilitación de un nivel/modalidad o institución educativa</b><br>
+                      La habilitación de un nivel/modalidad o institución educativa se realizará en los siguientes casos:
+                        <ul>
+                          <li>La demanda supera la oferta disponible en el área de influencia de la institución educativa. No existe institución educativa del sector oficial que pueda atender la demanda.</li>
+                          <li>No se ofrece el nivel/modalidad educativa que requiere la población de la zona en estudio.</li>
+                        </ul><br>
+                      En el proceso de identificación de requerimientos de habilitación de un nivel/modalidad o institución educativa se debe llevar a cabo las siguientes actividades:
+                      <ul>
+                      <li>Estudio de demanda potencial (matrícula, población en edad escolar, crecimiento poblacional), descrito en detalle en el ítem 2.5.1.</li>
+                      <li>Análisis de la oferta existente en términos de:
+                        <ul>
+                      <li>Cantidad de instituciones educativas que ofrecen el nivel/modalidad para el cual se solicita la apertura.</li>
+                      <li>Cantidad de alumnos por sección en las instituciones educativas del área de influencia.</li>
+                      <li>Infraestructura disponible (aulas) de las instituciones educativas del área de influencia.</li>
+                      <li>Disponibilidad de vías y medios de acceso a la institución educativa para la cual se solicita la apertura.</li></ul></li>
+                      </ul>
+                    </p>
+<p><b>3.  Criterios para la reasignación de recursos</b></p>
+<p>La reasignación de recursos se deberá realizar conforme a los criterios establecidos en las normativas vigentes, previo análisis de las características propias de cada departamento. La reasignación se deberá hacer teniendo en cuenta las siguientes prioridades, primeramente la propia institución educativa, en segundo lugar la localidad, seguido por el distrito, luego el departamento y por último el nivel país.</p>
+<p><b>4.  Criterios para la priorización de requerimientos.</b>
+<ul><li><b>Secciones</b> <br>
+Para la habilitación de secciones se debe tener en cuenta los siguientes criterios:
+<ul>
+  <li><b>Demanda:</b> se priorizarán aquellas instituciones que tienen mayor demanda en términos de cantidad de alumnos. <br>
+Ejemplo: si la institución A tiene una demanda de 30 alumnos para un grado/curso y la institución B tiene una demanda de 50 alumnos para un grado/curso; el orden de priorización será el siguiente:
+<ol>
+<li>Institución B</li>
+<li>Institución A</li>
+</ol></li>
+<li><b>Oferta:</b> se priorizarán aquellas instituciones que no oferten el grado/curso/modalidad y no exista otra institución que pueda albergar la demanda y la cantidad de alumnos amerite la habilitación de la sección.</li></ul></li>
+<li><b>Infraestructura física y equipamientos </b><br>
+Las intervenciones (inversiones) en infraestructura escolar (construcción y/o adecuación de aulas, sanitarios, agua, cocina-comedor y otros) deberá realizarse en instituciones de gestión oficial, es decir, con el título de propiedad a favor del Estado paraguayo.
+El local escolar debe contar con terreno o espacio disponible para la construcción y seguir las normativas y tipologías de construcción establecidas por la Dirección de Infraestructura del MEC.
+Los Proyectos de infraestructura consistirán en la construcción, reposición y mantenimiento de los establecimientos educativos del sector oficial, priorizando las aulas, sanitarios, provisión de agua, cocina – comedor.</li></p></ul>
+
 
                     </div>
                     <div class="ui segment tab" data-tab="especificacion/producto">
                       <p>Producto</p>
+Informe que dé cuenta de:
+<ul>
+
+<li>Secciones (rubros docente).</li>
+<li>Recursos humanos (directivos, técnicos, personal administrativo y de servicio).</li>
+<li>Infraestructura (adecuación y/o construcción de aulas nuevas, sanitarios, etc.).</li>
+<li>Recursos a reasignar a nivel departamental.</li>
+<li>Listado de instituciones educativas seleccionadas para el almuerzo escolar.</li>
+Sistematización de la participación de los actores involucrados en la implementación de la Fase II: <li>“Identificación de requerimientos y reasignación de recursos”.</li>
+Informe del proceso de implementación de la Fase II, identificando los logros, debilidades y desafíos.
 
                     </div>
                     
@@ -115,16 +250,13 @@
                   <div class="four wide column">
                     <div class=" our wide column ui fluid vertical pointing  menu menu-asignacion" >
                       <a class="active item" data-tab="asignacion/descripcion">
-                        Descripcion            
+                        Descripción            
                       </a>
                       <a class="item" data-tab="asignacion/objetivos">
                         Objetivos            
                       </a>
                       <a class="item" data-tab="asignacion/actores">
                         Actores involucrados
-                      </a>
-                      <a class="item" data-tab="asignacion/detalle">            
-                        Detalle            
                       </a>
                       <a class="item" data-tab="asignacion/producto">            
                         Producto            
@@ -134,25 +266,47 @@
 
                   <div class="twelve wide column" >
 
-                    <div class="ui segment active tab" data-tab="asignacion/descripcion"><p>Porque es un espacio de participación para que la comunidad pueda tomar decisiones responsables y asuma compromisos sobre la distribución de los recursos humanos, físicos y/o financieros, tales como: construcción, reparación o reposición de la infraestructura educativa, provisión del almuerzo escolar, la habilitación de un nivel, modalidad o institución educativa, basados en las necesidades de la realidad local, a fin de fortalecer la gestión del sistema educativo, elemento crucial para brindar un servicio educativo equitativo y de mejor calidad.</p>
+                    <div class="ui segment active tab" data-tab="asignacion/descripcion"><p>En esta etapa se asignan los recursos financieros para el funcionamiento de las secciones, nivel/modalidad y/o apertura de una institución educativa para el año lectivo escolar, previo análisis de los requerimientos a nivel nacional, departamental y asignación de cupos departamentales conforme a la disponibilidad presupuestaria. </p>
+
+                    <p>En lo que respecta a infraestructura, equipamiento y almuerzo escolar serán financiados con fondos del FONACIDE y administrados por los gobiernos municipales y departamentales, según establece los Art. 37 y 38 del Decreto 10504/13. </p>
+                    <p>Asimismo, la Dirección de Infraestructura del MEC podrá realizar y/o fiscalizar la construcción y/o adecuación de la infraestructura física, conforme a la 0isponibilidad presupuestaria y los resultados del estudio de factibilidad técnica considerando diferentes fuentes de financiamiento.
+Asimismo, se realiza, la reasignación de los recursos humanos, asignación de cargos directivos u otros cargos.
+</p>
                     </div>
 
                     <div class="ui segment tab" data-tab="asignacion/objetivos">
                       <p>Objetivos</p>
+                      <ul>
+                        <li>Asignar eficientemente los recursos destinados al sector, conforme a los criterios, procedimientos, normativas vigentes y disponibilidad presupuestaria. </li>
+                        <li>Garantizar la equidad en la oferta educativa por medio de mecanismos objetivos de asignación de recursos. </li>
+                      </ul>
 
                     </div>
                     <div class="ui segment tab" data-tab="asignacion/actores">
                         <p>Actores</p>
-
+                          <ul>
+                            <li>Dirección General de Educación Inicial y Escolar Básica (DGEIyEB).</li>
+                            <li>Dirección General de Educación Media (DGEM).</li>
+                            <li>Viceministerio de Educación Superior (VES).</li>
+                            <li>Dirección General de Educación Permanente (DGEP).</li>
+                            <li>Dirección General de Educación Indígena (DGEIND)</li>
+                            <li>Dirección General de Educación Inclusiva (DGEINC)</li>
+                            <li>Dirección General de Gestión del Talento Humano (DGGTH).</li>
+                            <li>Dirección de Infraestructura (DI).</li>
+                            <li>Coordinación Departamental de Supervisión Educativa (CDS).</li>
+                            <li>Supervisión de Apoyo Técnico Pedagógica (SATP).</li>
+                            <li>Supervisión de Control y Apoyo Administrativo (SCAA).</li>
+                            <li>Consejo Departamental de Educación (CDE)</li>
+                          </ul>
                     </div>
 
-                    <div class="ui segment tab" data-tab="asignacion/detalle">
-                      <p>Detalle</p>
-
-                    </div>
                     <div class="ui segment tab" data-tab="asignacion/producto">
                       <p>Producto</p>
-
+                        <ul>
+                          <li>Informe que contenga la cantidad de recursos en términos de secciones niveles/ modalidades y/o instituciones educativas habilitadas y de construcciones y/o adecuaciones asignadas por departamento y/o distrito. </li>
+                          <li>Sistematización de los requerimientos de recursos de los departamentos. </li>
+                          <li>Informe del proceso de implementación de la Fase III, identificando los logros, debilidades y desafíos. </li>
+                        </ul>
                     </div>
                     
 
@@ -164,7 +318,7 @@
                   <div class="four wide column">
                     <div class=" our wide column ui fluid vertical pointing  menu menu-evaluacion" >
                       <a class="active item" data-tab="evaluacion/descripcion">
-                        Descripcion            
+                        Descripción            
                       </a>
                       <a class="item" data-tab="evaluacion/objetivos">
                         Objetivos            
@@ -183,25 +337,52 @@
 
                   <div class="twelve wide column" >
 
-                    <div class="ui segment active tab" data-tab="evaluacion/descripcion"><p>Porque es un espacio de participación para que la comunidad pueda tomar decisiones responsables y asuma compromisos sobre la distribución de los recursos humanos, físicos y/o financieros, tales como: construcción, reparación o reposición de la infraestructura educativa, provisión del almuerzo escolar, la habilitación de un nivel, modalidad o institución educativa, basados en las necesidades de la realidad local, a fin de fortalecer la gestión del sistema educativo, elemento crucial para brindar un servicio educativo equitativo y de mejor calidad.</p>
+                    <div class="ui segment active tab" data-tab="evaluacion/descripcion"><p>La evaluación es un proceso que permite a los tomadores de decisiones identificar el grado de cumplimiento de los objetivos propuestos del programa o proyecto, los aspectos que lo hicieron posible, así como los factores que lo dificultaron. Su importancia radica en profundizar el análisis sobre las causas que afectan negativamente la implementación del proceso a fin de proponer alternativas de solución, en este sentido, debe centrarse en identificar y explicar las causas a fin de facilitar las recomendaciones que permitan mejorar lo que se está evaluando y no limitarse a una simple valoración.</p>
                     </div>
 
                     <div class="ui segment tab" data-tab="evaluacion/objetivos">
                       <p>Objetivos</p>
-
+<ul>
+<li>Evaluar en forma participativa el resultado de la microplanificación educativa a fin de realizar ajustes a la metodología implementada en cada una de las fases para el próximo ciclo.</li>
+</ul>
                     </div>
                     <div class="ui segment tab" data-tab="evaluacion/actores">
                         <p>Actores</p>
-
+                          <ul>
+                            <li>Direcciones Generales de Educación Inicial y Escolar Básica.</li>
+                            <li>Dirección General de Educación Media.</li>
+                            <li>Dirección General de Educación Permanente.</li>
+                            <li>Viceministerio de Educación Superior</li>
+                            <li>Dirección General de Gestión Social y Equidad Educativa</li>
+                            <li>Dirección General de Educación Indígena.</li>
+                            <li>Dirección General de Educación Inclusiva.</li>
+                            <li>Dirección General de Gestión del Talento Humano.</li>
+                            <li>Dirección General de Fortalecimiento del Proceso Educativo.</li>
+                            <li>Dirección General de Planificación Educativa.</li>
+                            <li>Dirección de Infraestructura</li>
+                            <li>Coordinación Departamental de Supervisión Educativa.</li>
+                            <li>Consejo Departamental de Educación.</li>
+                            <li>Supervisión de Apoyo Técnico Pedagógico.</li>
+                            <li>Supervisión de Control y Apoyo Administrativo</li>
+                            <li>Instituciones Educativas.</li>
+                          </ul>
                     </div>
 
                     <div class="ui segment tab" data-tab="evaluacion/detalle">
                       <p>Detalle</p>
+<p>La evaluación puede ser interna o externa; en el primer caso es realizada por los propios involucrados del programa, proyecto, etc. y en el segundo caso cuando es ejecutada por consultores externos. Los evaluadores externos pueden dar mayor objetividad a la evaluación atendiendo que no han participado de los logros o fracasos obtenidos, el inconveniente de este tipo de evaluación es que puede ser descontextualizado por estar muy alejado de la realidad donde se desarrollan las actividades.</p>
+<h4>Instrumentos de evaluación</h4>
+<p>Los instrumentos deben estar ajustados al tipo de información requerida para la evaluación, a los recursos (humanos, tecnológicos y financieros) disponibles, a la razón y a los destinatarios de la evaluación, así como al momento de la ejecución del programa o proyecto, etc. que se va a evaluar y al tiempo disponible.</p>
 
                     </div>
                     <div class="ui segment tab" data-tab="evaluacion/producto">
                       <p>Producto</p>
+<ul>
+<li>Informe de evaluación de la microplanificación de la oferta educativa.</li>
+<li>Ajuste de la metodología de microplanificación de la oferta educativa.</li>
 
+
+</ul>
                     </div>
                     
 
@@ -215,36 +396,62 @@
             <div class="ui fluid steps">
               <div class="active step" data-tab="diagnostico"> 
                       
-                <i class="info icon"></i>
-                <div class="content">
-                 
-                  <div class="title">Diagnostico</div>
-                  <div class="description">Febrero – Abril</div>
-                  
+                <div class="ui horizontal statistic">
+                  <div class="value">
+                    1
+                  </div>
+                  <div class="label">
+                    <div class="content">
+                  <div class="title">Diagnóstico </div>
+                  <div class="description">Febrero - Setiembre</div>
                 </div>
+                  </div>
+                </div>
+              
                
               </div>
               <div class="step" data-tab="especificacion">
-                <i class="info icon"></i>
-                <div class="content">
-                  <div class="title">Especificación</div>
+
+                 <div class="ui horizontal statistic">
+                  <div class="value">
+                    2
+                  </div>
+                  <div class="label">
+                    <div class="content">
+                  <div class="title">Especificación </div>
                   <div class="description">Abril - Setiembre</div>
                 </div>
+                  </div>
+                </div>                
               </div>
               <div class=" step" data-tab="asignacion">
-                <i class="info icon"></i>
-                <div class="content">
-                  <div class="title">Asignación</div>
+                <div class="ui horizontal statistic">
+                  <div class="value">
+                    3
+                  </div>
+                  <div class="label">
+                    <div class="content">
+                  <div class="title">Asignación </div>
                   <div class="description">Octubre – febrero</div>
-                  
                 </div>
+                  </div>
+                </div>  
+                
               </div>
               <div class=" step" data-tab="evaluacion">
-                <i class="info icon"></i>
-                <div class="content">
-                  <div class="title">Evaluación</div>
-                   <div class="description">Febrero</div>
+
+                <div class="ui horizontal statistic">
+                  <div class="value">
+                    4
+                  </div>
+                  <div class="label">
+                    <div class="content">
+                  <div class="title">Evaluación </div>
+                  <div class="description">Febrero</div>
                 </div>
+                  </div>
+                </div>  
+                
               </div>
             </div>
   

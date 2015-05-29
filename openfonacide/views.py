@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import hashlib, os
+import json
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
@@ -10,10 +10,10 @@ from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
 from django.template.loader import get_template
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404, JsonResponse
-from django.http import QueryDict
-from rest_framework.renderers import JSONRenderer
+from rest_framework.generics import ListAPIView, ListCreateAPIView
+from django.http import Http404, JsonResponse
 from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
@@ -43,6 +43,39 @@ class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
 class EstablecimientoViewSet(OpenFonacideViewSet):
     serializer_class = EstablecimientoSerializer
     queryset = Establecimiento.objects.all()
+
+
+class TemporalListView(ListCreateAPIView):
+    model = Temporal
+    serializer_class = TemporalSerializer
+    # pagination_class = PaginadorEstandard
+    queryset = Temporal.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        # NO ANDA!
+        data_list = request.data
+        for data in data_list:
+            try:
+                llamado = data['id_llamado']
+                institucion = data['codigo_institucion']
+                periodo = data['periodo']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+
+            try:
+                p = Planificacion.objects.get(id_llamado=llamado)
+                i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
+            except ObjectDoesNotExist as e:
+                return JsonResponse({"mensaje": e.message}, status=500)
+
+            i.planificaciones.add(p)
+            i.save()
+            a = Adjudicacion.objects.filter(id_llamado=llamado)
+            if len(a) is not 0:
+                i.adjudicaciones.add(a)
+                i.save()
+
+        return JsonResponse({"mensaje": "Creado existosamente"}, status=200)
 
 
 class DummyPrioridad(object):
@@ -143,9 +176,11 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
 
+
 class Recuperar(View):
     def get(self, request, *args, **kwargs):
         return render_to_response('index-nuevo.html', context_instance=RequestContext(request))
+
     def post(self, request, *args, **kwargs):
         method = request.POST.get('_method')
         _query = request.GET.copy()
@@ -196,7 +231,7 @@ class Recuperar(View):
                     "url": request.build_absolute_uri(reverse('recuperar_pass')) + '?token=' + token + '&email=' + email
                 }
                 mensaje = get_template('registration/mail.recuperar.html').render(Context(ctx))
-                to = [ email ]
+                to = [email]
                 mail = EmailMessage('Recuperar Contraseña',
                                     mensaje,
                                     to=to,
@@ -206,34 +241,8 @@ class Recuperar(View):
 
             _query['success'] = 'email_sent'
             _query['message'] = 'Se ha enviado un correo con las instrucciones!'
-            #redirect ?success=email_sent
+            # redirect ?success=email_sent
         return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
-
-
-# Deprecated
-# class ListaInstitucionesController(View):
-# def get(self, request, *args, **kwargs):
-# cantidad = request.GET.get('rows')
-# pagina = request.GET.get('page')
-# lista = Institucion.objects.all()
-# if cantidad is not None:
-# paginator = Paginator(lista, cantidad)
-#         else:
-#             paginator = Paginator(lista, 10)
-#         total = len(lista)
-#         if pagina is None:
-#             pagina = 1
-#         try:
-#             instituciones = paginator.page(pagina)
-#         except PageNotAnInteger:
-#             instituciones = paginator.page(1)
-#         except EmptyPage:
-#             instituciones = paginator.page(paginator.num_pages)
-#         lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-#         # result = lista_instituciones.data
-#         result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-#                   'rows': lista_instituciones.data}
-#         return JsonResponse(result, safe=False)
 
 
 class EstablecimientoController(View):
@@ -241,9 +250,11 @@ class EstablecimientoController(View):
         _md5 = request.GET.get('md5')
         if _md5:
             cursor = connection.cursor()
-            cursor.execute('select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
+            cursor.execute(
+                'select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
             result = cursor.fetchone()[0]
-            return JsonResponse({ "hash":result}, safe=False)
+            return JsonResponse({"hash": result})
+
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
@@ -306,7 +317,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'codigo':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.codigo_institucion = '" + escapelike(query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
+                        " WHERE inst.codigo_institucion = '" + escapelike(
+                            query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
                         [periodo]
                     )
                     institucion0 = dictfetch(cursor, cantidad, offset)
@@ -318,7 +330,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'nombre':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        " WHERE inst.nombre_institucion like '%%" + escapelike(
+                            query.upper()) + "%%' AND inst.periodo=%s",
                         [periodo]
                     )
                     institucion1 = dictfetch(cursor, cantidad, offset)
@@ -389,14 +402,14 @@ class PrioridadController(View):
 # class TotalPrioridadController(View):
 # def get(self, request, *args, **kwargs):
 #
-#         result = {
-#             "establecimietos": get_fonacide().data,
+# result = {
+# "establecimietos": get_fonacide().data,
 #
 #
 #
 #
-#         }
-#         return JSONResponse(result)
+# }
+# return JSONResponse(result)
 
 
 class ComentariosController(View):
@@ -404,9 +417,9 @@ class ComentariosController(View):
 
     # Not yet Implemented
     # def get(self, request, *args, **kwargs):
-    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    #     comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
-    #     return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
+    # codigo_establecimiento = kwargs.get('codigo_establecimiento')
+    # comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
+    # return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
     #
     # def post(self, request, *args, **kwargs):
     #     codigo_establecimiento = kwargs.get('codigo_establecimiento')

@@ -37,6 +37,7 @@ partial_patterns = patterns('',
     url(r'^search\.html$', PartialGroupView.as_view(template_name='search.html'), name='search.html'),
     url(r'^nav\.html$', PartialGroupView.as_view(template_name='nav.html'), name='nav.html'),
     url(r'^visualizaciones\.html$', PartialGroupView.as_view(template_name='visualizaciones.html'), name='visualizaciones.html'),
+    url(r'^match\.html$', PartialGroupView.as_view(template_name='match.html'), name='match.html'),
     url(r'^acercade\.html$', PartialGroupView.as_view(template_name='acercade.html'), name='acercade.html'),
     url(r'^datasets\.html$', PartialGroupView.as_view(template_name='datasets.html'), name='datasets.html'),
     url(r'^legal\.html$', PartialGroupView.as_view(template_name='legal.html'), name='legal.html'),
@@ -44,6 +45,10 @@ partial_patterns = patterns('',
     # ... more partials ...,
 )
 
+"""
+    XXX: Se puede mejorar el manejo de rutas, esto se hace para pasarle todas las rutas a router de
+    AngularJS, particularmente la tercera ruta.
+"""
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
@@ -51,7 +56,7 @@ urlpatterns = patterns('',
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
-    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal)?/?$', Index.as_view(), name='index'),
+    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
@@ -66,10 +71,10 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
     url(r'^filtros/$', filtros, name='filtros'),
     url(r'^agua$',   TemplateView.as_view(template_name='visualizaciones/agua.html'), name="agua"),
-     url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
-     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
-    url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion')
-
+    url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
+    url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
+    url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
+    url(r'^temporal/$', TemporalListView.as_view())
 )
 
 urlpatterns += [

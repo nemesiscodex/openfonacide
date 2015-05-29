@@ -83,6 +83,15 @@
 						}
 					}
 				),
+                "resumen": $resource(backEndUrl + '../_resumen/',{},
+					{
+						query: {
+							method: 'GET',
+							isArray: true,
+							cache: false
+						}
+					}
+				),
                 "ubicaciones": $resource(backEndUrl+ '../ubicacion.json',{},
                     {
                         get: {

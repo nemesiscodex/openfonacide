@@ -43,6 +43,7 @@ def generar_ubicacion(request):
         anterior[0] = row[0]
         anterior[1] = row[2]
         anterior[2] = row[4]
+    cursor.close()
     return JsonResponse(result, safe=False)
 
 def filtros(request):
@@ -93,6 +94,7 @@ def filtro_prioridad(tipo, rango, ubicacion):
     cursor.execute(query_prioridad(tipo, rango, ubicacion))
     rows = cursor.fetchall()
     rows = map(lambda x: x[0], rows)
+    cursor.close()
     if rows == {}:
         return []
     return rows
@@ -194,6 +196,7 @@ def filtro_ubicacion(ubicacion):
     cursor.execute(query)
     rows = cursor.fetchall()
     rows = map(lambda x: x[0], rows)
+    cursor.close()
     if rows == {}:
         return []
     return rows

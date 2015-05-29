@@ -53,26 +53,27 @@ class TemporalListView(ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         # NO ANDA!
-        data = json.loads(request.data)
-        try:
-            llamado = data['id_llamado']
-            institucion = data['codigo_institucion']
-            periodo = data['periodo']
-        except MultiValueDictKeyError as e:
-            return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+        data_list = request.data
+        for data in data_list:
+            try:
+                llamado = data['id_llamado']
+                institucion = data['codigo_institucion']
+                periodo = data['periodo']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
 
-        try:
-            p = Planificacion.objects.get(id_llamado=llamado)
-            i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
-        except ObjectDoesNotExist as e:
-            return JsonResponse({"mensaje": e.message}, status=500)
+            try:
+                p = Planificacion.objects.get(id_llamado=llamado)
+                i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
+            except ObjectDoesNotExist as e:
+                return JsonResponse({"mensaje": e.message}, status=500)
 
-        i.planificaciones.add(p)
-        i.save()
-        a = Adjudicacion.objects.filter(id_llamado=llamado)
-        if len(a) is not 0:
-            i.adjudicaciones.add(a)
+            i.planificaciones.add(p)
             i.save()
+            a = Adjudicacion.objects.filter(id_llamado=llamado)
+            if len(a) is not 0:
+                i.adjudicaciones.add(a)
+                i.save()
 
         return JsonResponse({"mensaje": "Creado existosamente"}, status=200)
 

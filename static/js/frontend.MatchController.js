@@ -8,17 +8,18 @@
 
             var controller = this;
             controller.guardar = function(){
+                data_list = new Array();
                 $('.checkbox input:checked').each(function (idx, el) {
                     console.log($(el).data('llamado') + '-' + $(el).data('institucion'));
-
-                    backEnd.temporal.save({ 'id_llamado' : $(el).data('llamado'),
+                    tmp_obj = { 'id_llamado' : $(el).data('llamado'),
                         'codigo_institucion' : $(el).data('institucion'),
                         'periodo' : $(el).data('periodo')
-                    }, function (data) {
-                        $scope.respuesta = data;
-                    });
-
-                })
+                    };
+                    data_list.push(tmp_obj);
+                });
+                backEnd.temporal.save(JSON.stringify(data_list), function (data) {
+                    $scope.respuesta = data;
+                });
 
             };
             DTDefaultOptions.setLanguage({sProcessing:     "Procesando...",

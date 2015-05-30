@@ -1,661 +1,721 @@
-    <style>
+<style>
 
     .tooltip {
-	display: block;
-	position: absolute;
-	border: 1px solid #D9D9D9;
-	font: 400 12px/12px Arial;
-	border-radius: 3px;
-	background: #fff;
-	top: -26px;
-	padding: 5px;
-	left: -9px;
-	text-align: center;
-	width: 50px;
-}
-.tooltip.left{
-  left: -14px;
-}
-.tooltip.right{
-  left: -4px;
-}
-.tooltip strong {
-	display: block;
-	padding: 2px;
-}
+        display: block;
+        position: absolute;
+        border: 1px solid #D9D9D9;
+        font: 400 12px/12px Arial;
+        border-radius: 3px;
+        background: #fff;
+        top: -26px;
+        padding: 5px;
+        left: -9px;
+        text-align: center;
+        width: 50px;
+    }
+
+    .tooltip.left {
+        left: -14px;
+    }
+
+    .tooltip.right {
+        left: -4px;
+    }
+
+    .tooltip strong {
+        display: block;
+        padding: 2px;
+    }
 
     /*Ver donde ubicar las reglas*/
-    .ui.loader::after{
-      border-color: rgba(0,0,0,.6) transparent transparent;
-      border-top-width: 0.4em;
-      border-bottom-width: 4.0em;
-    }
-    .ui.loader::before{
-      border-color: rgba(0,0,0,.2);
-      border-width: 0.4em;
-    }
-    .ui.loader h2{
-      color: #000;
+    .ui.loader::after {
+        border-color: rgba(0, 0, 0, .6) transparent transparent;
+        border-top-width: 0.4em;
+        border-bottom-width: 4.0em;
     }
 
+    .ui.loader::before {
+        border-color: rgba(0, 0, 0, .2);
+        border-width: 0.4em;
+    }
 
+    .ui.loader h2 {
+        color: #000;
+    }
 
     /*Se define en custom.css línea 81*/
     .sidebar .filtros {
-		padding-left: 0 !important;
-		margin: 20px 0;
-	}
-
+        padding-left: 0 !important;
+        margin: 20px 0;
+    }
 
     /*Se define en custom.css línea 70*/
     .sidebar .ui.checkbox label {
-		/*color: white !important; cambiamos el color de la letra*/
-		color: rgba(0, 0, 0, 0.8) !important;
-	}
+        /*color: white !important; cambiamos el color de la letra*/
+        color: rgba(0, 0, 0, 0.8) !important;
+    }
 
-	/*Se define en semantic.min.css línea 11*/
-	.ui.segment{
-		   margin: 5%;
-		   pargin: 5%;
-	}
-  .left.sidebar .ui.segment.attached{
-      width: 90%;
-      margin-left: 5% !important;
-      margin-right: 5% !important;
-  }
-  .institucion-tab.ng-move,
-  .institucion-tab.ng-leave{
-      display: none !important;
-  }
+    /*Se define en semantic.min.css línea 11*/
+    .ui.segment {
+        margin: 5%;
+        pargin: 5%;
+    }
 
-    </style>
+    .left.sidebar .ui.segment.attached {
+        width: 90%;
+        margin-left: 5% !important;
+        margin-right: 5% !important;
+    }
 
-    <div class="detalle ui verde1 right vertical overlay sidebar push uncover" style="z-index: 1002;height: 96%  !important;" du-scroll-container>
-        <div class="ui top attached tabular menu">
+    .institucion-tab.ng-move,
+    .institucion-tab.ng-leave {
+        display: none !important;
+    }
+
+</style>
+
+<div class="detalle ui verde1 right vertical overlay sidebar push uncover"
+     style="z-index: 1002;height: 96%  !important;" du-scroll-container>
+    <div class="ui top attached tabular menu">
 
 
-          <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}" establecimiento="{$ institucion.codigo_establecimiento $}" ng-click="showInfoPopUp(institucion.codigo_establecimiento,institucion.codigo_institucion)" ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
-            <label class="ui teal label" title="Codigo de institución"> {$ institucion.codigo_institucion $}</label> {$ institucion.nombre_institucion $}
-          </a>
+        <a class="item institucion-tab" ng-class="{active:institucion.codigo_institucion == $parent.institucion_actual}"
+           establecimiento="{$ institucion.codigo_establecimiento $}"
+           ng-click="showInfoPopUp(institucion.codigo_establecimiento,institucion.codigo_institucion)"
+           ng-repeat="institucion in infoData.instituciones" data-tab="inst-{$ institucion.codigo_institucion $}">
+            <label class="ui teal label" title="Codigo de institución"> {$ institucion.codigo_institucion $}</label> {$
+            institucion.nombre_institucion $}
+        </a>
+    </div>
+
+
+    <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px">
+        <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"
+             style="margin-left: 10px; margin-top:15px">2012
+        </div>
+
+        <div class="ui black basic button" ng-class="{active:periodo == 2015}" ng-click="periodo=2015"
+             style=" margin-top:15px">2015
+        </div>
+        <!--
+                 <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" > Más info</div></a>
+                <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
+
+                <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones</div>
+                 <div class=" ui button teal" ng-click="mostrarContraloria()" > Documentos de contraloría</div> -->
+
+        <div class="ui buttons">
+
+
+            <div class="ui button"><a style="color:rgba(0, 0, 0, 0.6);"
+                                      href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}"
+                                      target="_blank"> Más info</a></div>
+            <div class="ui button" href="#disqus_thread" du-smooth-scroll>Hacer comentarios</div>
+            <div class="ui button" ng-click="mostrarAdjudicaciones()">Adjudicaciones</div>
+            <div class="ui button" ng-click="mostrarContraloria()"> Documentos de contraloría</div>
         </div>
 
 
-
-        <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px">
-        <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"  style="margin-left: 10px; margin-top:15px">2012</div>
-
-        <div class="ui black basic button"  ng-class="{active:periodo == 2015}" ng-click="periodo=2015"  style=" margin-top:15px">2015</div>
-<!--
-         <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" > Más info</div></a>
-        <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
-
-        <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones</div>
-         <div class=" ui button teal" ng-click="mostrarContraloria()" > Documentos de contraloría</div> -->
-
-         <div class="ui buttons">
-
-
-  <div class="ui button"> <a style="color:rgba(0, 0, 0, 0.6);" href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" > Más info</a></div>
-  <div class="ui button" href="#disqus_thread" du-smooth-scroll >Hacer comentarios</div>
-  <div class="ui button" ng-click="mostrarAdjudicaciones()">Adjudicaciones</div>
-  <div class="ui button" ng-click="mostrarContraloria()" >  Documentos de contraloría</div>
-</div>
-
-
-
-            <div class="one columns row">
-                <div class="ui big launch basic right attached fixed button" onclick="$('.detalle').sidebar('toggle');$('#map').css('width', '100%');window.map.invalidateSize();"
-                         style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
-                      <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R</div>
+        <div class="one columns row">
+            <div class="ui big launch basic right attached fixed button"
+                 onclick="$('.detalle').sidebar('toggle');$('#map').css('width', '100%');window.map.invalidateSize();"
+                 style="padding-right: 10px;position: fixed;left:0;;top: 200px;z-index: 99;background-color: white !important;">
+                <div style="text-align: center; font-size: 0.6em; font-weight: bold;">C<br/>E<br/>R<br/>R<br/>A<br/>R
                 </div>
+            </div>
 
-                <div class="column">
-                <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;" ng-show="show_adjudicaciones">
+            <div class="column">
+                <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;"
+                     ng-show="show_adjudicaciones">
                     <h3>Adjudicaciones</h3>
+
                     <div class="sixteen wide column">
-                    <div class="ui  segment">
-                        <ul>
-                            <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>  <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Adquisición de Muebles para Escuelas - <span class="ui teal label">Gs. 60.000.000</span> <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
+                        <div class="ui  segment">
+                            <ul>
+                                <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
+                                    <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                       target="_blank"> ver estado </a></li>
+                                <li>Adquisición de Muebles para Escuelas - <span
+                                        class="ui teal label">Gs. 60.000.000</span> <a
+                                        href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                        target="_blank"> ver estado </a></li>
+                                <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a
+                                        href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                        target="_blank"> ver estado </a></li>
 
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
-                </div>
+            </div>
 
-                <div class="column">
-                <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;" ng-show="show_contraloria">
+            <div class="column">
+                <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;"
+                     ng-show="show_contraloria">
                     <h3>Documentos de Contraloría</h3>
+
                     <div class="sixteen wide column">
-                    <div class="ui  segment">
-                        <ul>
-                            <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>  <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Adquisición de Muebles para Escuelas - <span class="ui teal label">Gs. 60.000.000</span> <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
+                        <div class="ui  segment">
+                            <ul>
+                                <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
+                                    <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                       target="_blank"> ver estado </a></li>
+                                <li>Adquisición de Muebles para Escuelas - <span
+                                        class="ui teal label">Gs. 60.000.000</span> <a
+                                        href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                        target="_blank"> ver estado </a></li>
+                                <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a
+                                        href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
+                                        target="_blank"> ver estado </a></li>
 
-                        </ul>
-                    </div>
-                    </div>
-
-                </div>
-                </div>
-
-
-                <!-- AULAS BEGIN -->
-                <div class="column">
-                    <div class="ui tertiary inverted teal segment" style="margin: 0">
-                        <div class="ui top left attached teal label"><i class="student large icon">
-                            Aulas</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:{nombre_espacio:null})" ng-if="item.codigo_institucion==institucion_actual" style="margin:0">
-                            <div class="ui item">
-                                <div class="ui stackable grid">
-                                    <div class="two wide column center aligned"
-                                         style="float:left; /* padding-right: 0; */">
-                                        <div class="column center aligned" style="padding-bottom: 5px">
-                                            <h4>Prioridad
-                                            </h4>
-                                            <span class="ui white massive fluid circular label" style="
-                background-color: white;
-                border: solid 0.06em #BBB;
-                font-size:2.4rem;
-
-                width: 100%;
-        "><b>{$ item.numero_prioridad $}</b></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                        <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
-
-                                        <div class="description">
-                                            <b>Justificación:</b>  {$ item.justificacion | capitalize $}
-                                        </div>
-                                    </div>
-                                    <div class="four wide column left aligned">
-                                        <div class="ui horizontal statistic">
-
-                                            <div class="value">
-                                                {$ item.cantidad_requerida $}
-                                            </div>
-                                            <div class="label">
-                                                Cantidad requerida
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
-                                            <div class="value">
-                                                {$ item.numero_beneficiados $}
-                                            </div>
-                                            <div class="label">
-                                                Potenciales beneficiados
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="three wide column left aligned auto-height"
-{#                                         style="border-left: solid 0.1em #ddd;"#}
-                                            >
-                                        <div class="ui icon right pointing fluid basic dropdown button">
-                                            <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>&nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                            <div class="menu">
-                                                <!--<div class="header">-->
-                                                <!--Estados-->
-                                                <!--</div>-->
-                                                <!--<div class="ui left icon input">-->
-                                                <!--<i class="search icon"></i>-->
-                                                <!--<input type="text" name="search" placeholder="Search...">-->
-                                                <!--</div>-->
-                                                <div class="header">
-                                                    <i class="tags icon"></i>
-                                                    ESTADOS DE LA OBRA
-                                                </div>
-                                                <div class="item active">
-                                                    <div class="ui gray empty circular label"></div>
-                                                    Priorizado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui blue empty circular label"></div>
-                                                    Adjudicado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui yellow empty circular label"></div>
-                                                    En ejecucion
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui green empty circular label"></div>
-                                                    Realizada
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui red empty circular label"></div>
-                                                    Parada
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
-                                             style="margin-top: 10px"> Esta obra se realizo?
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            </ul>
                         </div>
-
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_aulas.length">Sin Requerimientos.</div>
                     </div>
+
                 </div>
-                <!-- AULAS END -->
-
-
-                <div class="column"><br></div>
-                <!-- SANITARIOS BEGIN -->
-                <div class="column">
-                    <div class="ui tertiary inverted teal segment" style="margin: 0">
-                        <div class="ui top left attached teal label"><i class="female large icon" style="margin-right: 0">|</i><i class="male large icon">
-                            Sanitarios</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{'$': periodo, '$':institucion_actual}:true)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
-                            <div class="ui item">
-                                <div class="ui stackable grid">
-                                    <div class="two wide column center aligned"
-                                         style="float:left; /* padding-right: 0; */">
-                                        <div class="column center aligned" style="padding-bottom: 5px">
-                                            <h4>Prioridad
-                                            </h4>
-                                            <span class="ui white massive fluid circular label" style="
-                background-color: white;
-                border: solid 0.06em #BBB;
-                font-size:2.4rem;
-
-                width: 100%;
-        "><b>{$ item.numero_prioridad $}</b></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                        <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
-
-                                        <div class="description">
-                                            <b>Justificación:</b> {$ item.justificacion | capitalize $}
-                                        </div>
-                                    </div>
-                                    <div class="four wide column left aligned">
-                                        <div class="ui horizontal statistic">
-
-                                            <div class="value">
-                                                {$ item.cantidad_requerida $}
-                                            </div>
-                                            <div class="label">
-                                                Cantidad requerida
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
-                                            <div class="value">
-                                                {$ item.numero_beneficiados $}
-                                            </div>
-                                            <div class="label">
-                                                Potenciales beneficiados
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="three wide column left aligned auto-height"
-{#                                         style="border-left: solid 0.1em #ddd;"#}
-                                            >
-                                        <div class="ui icon right pointing fluid basic dropdown button">
-                                            <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>&nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                            <div class="menu">
-                                                <!--<div class="header">-->
-                                                <!--Estados-->
-                                                <!--</div>-->
-                                                <!--<div class="ui left icon input">-->
-                                                <!--<i class="search icon"></i>-->
-                                                <!--<input type="text" name="search" placeholder="Search...">-->
-                                                <!--</div>-->
-                                                <div class="header">
-                                                    <i class="tags icon"></i>
-                                                    ESTADOS DE LA OBRA
-                                                </div>
-                                                <div class="item active">
-                                                    <div class="ui gray empty circular label"></div>
-                                                    Priorizado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui blue empty circular label"></div>
-                                                    Adjudicado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui yellow empty circular label"></div>
-                                                    En ejecucion
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui green empty circular label"></div>
-                                                    Realizada
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui red empty circular label"></div>
-                                                    Parada
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
-                                             style="margin-top: 10px"> Esta obra se realizo?
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_sanitarios.length">Sin Requerimientos.</div>
-                    </div>
-                </div>
-                <!-- SANITARIOS END -->
-
-
-                <div class="column"><br></div>
-
-                <!-- MOBILIARIOS BEGIN -->
-                <div class="column">
-                    <div class="ui tertiary inverted teal segment" style="margin: 0">
-                        <div class="ui top left attached teal label"><i class="columns large icon">
-                            Mobiliario</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{'$': periodo, '$':institucion_actual}:true)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
-                            <div class="ui item">
-                                <div class="ui stackable grid">
-                                    <div class="two wide column center aligned"
-                                         style="float:left; /* padding-right: 0; */">
-                                        <div class="column center aligned" style="padding-bottom: 5px">
-                                            <h4>Prioridad
-                                            </h4>
-                                            <span class="ui white massive fluid circular label" style="
-                background-color: white;
-                border: solid 0.06em #BBB;
-                font-size:2.4rem;
-
-                width: 100%;
-        "><b>{$ item.numero_prioridad $}</b></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                        <h4 class="header">{$ item.nombre_mobiliario | capitalize $}</h4>
-
-                                        <div class="description">
-                                          <b>Justificación:</b>   {$ item.justificacion | capitalize $}
-                                        </div>
-                                    </div>
-                                    <div class="four wide column left aligned">
-                                        <div class="ui horizontal statistic">
-
-                                            <div class="value">
-                                                {$ item.cantidad_requerida $}
-                                            </div>
-                                            <div class="label">
-                                                Cantidad requerida
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
-                                            <div class="value">
-                                                {$ item.numero_beneficiados $}
-                                            </div>
-                                            <div class="label">
-                                                Potenciales beneficiados
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="three wide column left aligned auto-height"
-{#                                         style="border-left: solid 0.1em #ddd;"#}
-                                            >
-                                        <div class="ui icon right pointing fluid basic dropdown button">
-                                            <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>&nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                            <div class="menu">
-                                                <!--<div class="header">-->
-                                                <!--Estados-->
-                                                <!--</div>-->
-                                                <!--<div class="ui left icon input">-->
-                                                <!--<i class="search icon"></i>-->
-                                                <!--<input type="text" name="search" placeholder="Search...">-->
-                                                <!--</div>-->
-                                                <div class="header">
-                                                    <i class="tags icon"></i>
-                                                    ESTADOS DE LA OBRA
-                                                </div>
-                                                <div class="item active">
-                                                    <div class="ui gray empty circular label"></div>
-                                                    Priorizado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui blue empty circular label"></div>
-                                                    Adjudicado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui yellow empty circular label"></div>
-                                                    En ejecucion
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui green empty circular label"></div>
-                                                    Realizada
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui red empty circular label"></div>
-                                                    Parada
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
-                                             style="margin-top: 10px"> Esta obra se realizo?
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_mobiliarios.length">Sin Requerimientos.</div>
-                    </div>
-                </div>
-                <!-- MOBILIARIOS END -->
-
-                <div class="column"><br></div>
-
-                <!-- OTROS BEGIN -->
-                <div class="column">
-                    <div class="ui tertiary inverted teal segment" style="margin: 0">
-                        <div class="ui top left attached teal label"><i class="lab large icon">
-                            Otros Espacios</i></div>
-                        <div class="ui teal segment" ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:es_otros)" ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
-                            <div class="ui item">
-                                <div class="ui stackable grid">
-                                    <div class="two wide column center aligned"
-                                         style="float:left; /* padding-right: 0; */">
-                                        <div class="column center aligned" style="padding-bottom: 5px">
-                                            <h4>Prioridad
-                                            </h4>
-                                            <span class="ui white massive fluid circular label" style="
-                background-color: white;
-                border: solid 0.06em #BBB;
-                font-size:2.4rem;
-
-                width: 100%;
-        "><b>{$ item.numero_prioridad $}</b></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                        <h4 class="header">{$ item.nombre_espacio | capitalize $} - {$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
-
-                                        <div class="description">
-                                           <b>Justificación:</b>  {$ item.justificacion | capitalize $}
-                                        </div>
-                                    </div>
-                                    <div class="four wide column left aligned">
-                                        <div class="ui horizontal statistic">
-
-                                            <div class="value">
-                                                {$ item.cantidad_requerida $}
-                                            </div>
-                                            <div class="label">
-                                                Cantidad requerida
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
-                                            <div class="value">
-                                                {$ item.numero_beneficiados $}
-                                            </div>
-                                            <div class="label">
-                                                Potenciales beneficiados
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="three wide column left aligned auto-height"
-{#                                         style="border-left: solid 0.1em #ddd;"#}
-                                            >
-                                        <div class="ui icon right pointing fluid basic dropdown button">
-                                            <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>&nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                            <div class="menu">
-                                                <!--<div class="header">-->
-                                                <!--Estados-->
-                                                <!--</div>-->
-                                                <!--<div class="ui left icon input">-->
-                                                <!--<i class="search icon"></i>-->
-                                                <!--<input type="text" name="search" placeholder="Search...">-->
-                                                <!--</div>-->
-                                                <div class="header">
-                                                    <i class="tags icon"></i>
-                                                    ESTADOS DE LA OBRA
-                                                </div>
-                                                <div class="item active">
-                                                    <div class="ui gray empty circular label"></div>
-                                                    Priorizado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui blue empty circular label"></div>
-                                                    Adjudicado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui yellow empty circular label"></div>
-                                                    En ejecucion
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui green empty circular label"></div>
-                                                    Realizada
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui red empty circular label"></div>
-                                                    Parada
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ui divider"></div>
-                                        <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
-                                             style="margin-top: 10px"> Esta obra se realizo?
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="ui center aligned header" style="margin: 0 !important;" ng-show="!prioridades_otros.length">Sin Requerimientos.</div>
-                    </div>
-                </div>
-                <!-- OTROS END -->
-
-                <div class="column"><br></div>
-
-
-
-                <div class="column"><div  id="disqus_thread"></div></div>
-
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = 'contralorfonacide';
-
-
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var prev = document.getElementById('disqus_stuff');
-        if(prev !== null){
-          DISQUS.reset({
-            reload: true
-          });
-          return;
-        }
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        dsq.id = 'disqus_stuff';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-
-
             </div>
 
 
+            <!-- AULAS BEGIN -->
+            <div class="column">
+                <div class="ui tertiary inverted teal segment" style="margin: 0">
+                    <div class="ui top left attached teal label"><i class="student large icon">
+                        Aulas</i></div>
+                    <div class="ui teal segment"
+                         ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:{nombre_espacio:null})"
+                         ng-if="item.codigo_institucion==institucion_actual" style="margin:0">
+                        <div class="ui item">
+                            <div class="ui stackable grid">
+                                <div class="two wide column center aligned"
+                                     style="float:left; /* padding-right: 0; */">
+                                    <div class="column center aligned" style="padding-bottom: 5px">
+                                        <h4>Prioridad
+                                        </h4>
+                                            <span class="ui white massive fluid circular label" style="
+                background-color: white;
+                border: solid 0.06em #BBB;
+                font-size:2.4rem;
+
+                width: 100%;
+        "><b>{$ item.numero_prioridad $}</b></span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="seven wide column left aligned content auto-height" style="
+                                        {#    border-left: solid 0.1em #ddd;#}
+                                        {#    border-right: solid 0.1em #ddd;#}
+                                        ">
+                                    <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+
+                                    <div class="description">
+                                        <b>Justificación:</b> {$ item.justificacion | capitalize $}
+                                    </div>
+                                </div>
+                                <div class="four wide column left aligned">
+                                    <div class="ui horizontal statistic">
+
+                                        <div class="value">
+                                            {$ item.cantidad_requerida $}
+                                        </div>
+                                        <div class="label">
+                                            Cantidad requerida
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
+                                        <div class="value">
+                                            {$ item.numero_beneficiados $}
+                                        </div>
+                                        <div class="label">
+                                            Potenciales beneficiados
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="three wide column left aligned auto-height"
+                                        {#                                         style="border-left: solid 0.1em #ddd;"#}
+                                        >
+                                    <div class="ui fluid buttons">
+                                        <div class="ui icon right pointing fluid basic dropdown button">
+                                            <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui basic empty circular label">&nbsp;</div>
+                                                 &nbsp;
+                                                 Priorizado
+                                             </div>
+                                         </span>
+
+                                            <div class="menu">
+                                                <!--<div class="header">-->
+                                                <!--Estados-->
+                                                <!--</div>-->
+                                                <!--<div class="ui left icon input">-->
+                                                <!--<i class="search icon"></i>-->
+                                                <!--<input type="text" name="search" placeholder="Search...">-->
+                                                <!--</div>-->
+                                                <div class="header">
+                                                    <i class="tags icon"></i>
+                                                    ESTADOS DE LA OBRA
+                                                </div>
+                                                <div class="item active">
+                                                    <div class="ui gray empty circular label"></div>
+                                                    Priorizado
+                                                </div>
+                                                <div class="item">
+                                                    <div class="ui blue empty circular label"></div>
+                                                    Adjudicado
+                                                </div>
+                                                <div class="item">
+                                                    <div class="ui yellow empty circular label"></div>
+                                                    En ejecucion
+                                                </div>
+                                                <div class="item">
+                                                    <div class="ui green empty circular label"></div>
+                                                    Realizada
+                                                </div>
+                                                <div class="item">
+                                                    <div class="ui red empty circular label"></div>
+                                                    Parada
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ui divider"></div>
+                                    <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
+                                         style="margin-top: 10px"> Esta obra se realizo?
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ui center aligned header" style="margin: 0 !important;"
+                         ng-show="!prioridades_aulas.length">Sin Requerimientos.
+                    </div>
+                </div>
+            </div>
+            <!-- AULAS END -->
+
+
+            <div class="column"><br></div>
+            <!-- SANITARIOS BEGIN -->
+            <div class="column">
+                <div class="ui tertiary inverted teal segment" style="margin: 0">
+                    <div class="ui top left attached teal label"><i class="female large icon"
+                                                                    style="margin-right: 0">|</i><i
+                            class="male large icon">
+                        Sanitarios</i></div>
+                    <div class="ui teal segment"
+                         ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{'$': periodo, '$':institucion_actual}:true)"
+                         ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
+                        <div class="ui item">
+                            <div class="ui stackable grid">
+                                <div class="two wide column center aligned"
+                                     style="float:left; /* padding-right: 0; */">
+                                    <div class="column center aligned" style="padding-bottom: 5px">
+                                        <h4>Prioridad
+                                        </h4>
+                                            <span class="ui white massive fluid circular label" style="
+                background-color: white;
+                border: solid 0.06em #BBB;
+                font-size:2.4rem;
+
+                width: 100%;
+        "><b>{$ item.numero_prioridad $}</b></span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="seven wide column left aligned content auto-height" style="
+                                        {#    border-left: solid 0.1em #ddd;#}
+                                        {#    border-right: solid 0.1em #ddd;#}
+                                        ">
+                                    <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+
+                                    <div class="description">
+                                        <b>Justificación:</b> {$ item.justificacion | capitalize $}
+                                    </div>
+                                </div>
+                                <div class="four wide column left aligned">
+                                    <div class="ui horizontal statistic">
+
+                                        <div class="value">
+                                            {$ item.cantidad_requerida $}
+                                        </div>
+                                        <div class="label">
+                                            Cantidad requerida
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
+                                        <div class="value">
+                                            {$ item.numero_beneficiados $}
+                                        </div>
+                                        <div class="label">
+                                            Potenciales beneficiados
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="three wide column left aligned auto-height"
+                                        {#                                         style="border-left: solid 0.1em #ddd;"#}
+                                        >
+                                    <div class="ui icon right pointing fluid basic dropdown button">
+                                        <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui basic empty circular label">&nbsp;</div>
+                                                 &nbsp;
+                                                 Priorizado
+                                             </div>
+                                         </span>
+
+                                        <div class="menu">
+                                            <!--<div class="header">-->
+                                            <!--Estados-->
+                                            <!--</div>-->
+                                            <!--<div class="ui left icon input">-->
+                                            <!--<i class="search icon"></i>-->
+                                            <!--<input type="text" name="search" placeholder="Search...">-->
+                                            <!--</div>-->
+                                            <div class="header">
+                                                <i class="tags icon"></i>
+                                                ESTADOS DE LA OBRA
+                                            </div>
+                                            <div class="item active">
+                                                <div class="ui gray empty circular label"></div>
+                                                Priorizado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui blue empty circular label"></div>
+                                                Adjudicado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui yellow empty circular label"></div>
+                                                En ejecucion
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui green empty circular label"></div>
+                                                Realizada
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui red empty circular label"></div>
+                                                Parada
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
+                                         style="margin-top: 10px"> Esta obra se realizo?
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ui center aligned header" style="margin: 0 !important;"
+                         ng-show="!prioridades_sanitarios.length">Sin Requerimientos.
+                    </div>
+                </div>
+            </div>
+            <!-- SANITARIOS END -->
+
+
+            <div class="column"><br></div>
+
+            <!-- MOBILIARIOS BEGIN -->
+            <div class="column">
+                <div class="ui tertiary inverted teal segment" style="margin: 0">
+                    <div class="ui top left attached teal label"><i class="columns large icon">
+                        Mobiliario</i></div>
+                    <div class="ui teal segment"
+                         ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{'$': periodo, '$':institucion_actual}:true)"
+                         ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
+                        <div class="ui item">
+                            <div class="ui stackable grid">
+                                <div class="two wide column center aligned"
+                                     style="float:left; /* padding-right: 0; */">
+                                    <div class="column center aligned" style="padding-bottom: 5px">
+                                        <h4>Prioridad
+                                        </h4>
+                                            <span class="ui white massive fluid circular label" style="
+                background-color: white;
+                border: solid 0.06em #BBB;
+                font-size:2.4rem;
+
+                width: 100%;
+        "><b>{$ item.numero_prioridad $}</b></span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="seven wide column left aligned content auto-height" style="
+                                        {#    border-left: solid 0.1em #ddd;#}
+                                        {#    border-right: solid 0.1em #ddd;#}
+                                        ">
+                                    <h4 class="header">{$ item.nombre_mobiliario | capitalize $}</h4>
+
+                                    <div class="description">
+                                        <b>Justificación:</b> {$ item.justificacion | capitalize $}
+                                    </div>
+                                </div>
+                                <div class="four wide column left aligned">
+                                    <div class="ui horizontal statistic">
+
+                                        <div class="value">
+                                            {$ item.cantidad_requerida $}
+                                        </div>
+                                        <div class="label">
+                                            Cantidad requerida
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
+                                        <div class="value">
+                                            {$ item.numero_beneficiados $}
+                                        </div>
+                                        <div class="label">
+                                            Potenciales beneficiados
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="three wide column left aligned auto-height"
+                                        {#                                         style="border-left: solid 0.1em #ddd;"#}
+                                        >
+                                    <div class="ui icon right pointing fluid basic dropdown button">
+                                        <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui basic empty circular label">&nbsp;</div>
+                                                 &nbsp;
+                                                 Priorizado
+                                             </div>
+                                         </span>
+
+                                        <div class="menu">
+                                            <!--<div class="header">-->
+                                            <!--Estados-->
+                                            <!--</div>-->
+                                            <!--<div class="ui left icon input">-->
+                                            <!--<i class="search icon"></i>-->
+                                            <!--<input type="text" name="search" placeholder="Search...">-->
+                                            <!--</div>-->
+                                            <div class="header">
+                                                <i class="tags icon"></i>
+                                                ESTADOS DE LA OBRA
+                                            </div>
+                                            <div class="item active">
+                                                <div class="ui gray empty circular label"></div>
+                                                Priorizado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui blue empty circular label"></div>
+                                                Adjudicado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui yellow empty circular label"></div>
+                                                En ejecucion
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui green empty circular label"></div>
+                                                Realizada
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui red empty circular label"></div>
+                                                Parada
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
+                                         style="margin-top: 10px"> Esta obra se realizo?
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ui center aligned header" style="margin: 0 !important;"
+                         ng-show="!prioridades_mobiliarios.length">Sin Requerimientos.
+                    </div>
+                </div>
+            </div>
+            <!-- MOBILIARIOS END -->
+
+            <div class="column"><br></div>
+
+            <!-- OTROS BEGIN -->
+            <div class="column">
+                <div class="ui tertiary inverted teal segment" style="margin: 0">
+                    <div class="ui top left attached teal label"><i class="lab large icon">
+                        Otros Espacios</i></div>
+                    <div class="ui teal segment"
+                         ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:es_otros)"
+                         ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
+                        <div class="ui item">
+                            <div class="ui stackable grid">
+                                <div class="two wide column center aligned"
+                                     style="float:left; /* padding-right: 0; */">
+                                    <div class="column center aligned" style="padding-bottom: 5px">
+                                        <h4>Prioridad
+                                        </h4>
+                                            <span class="ui white massive fluid circular label" style="
+                background-color: white;
+                border: solid 0.06em #BBB;
+                font-size:2.4rem;
+
+                width: 100%;
+        "><b>{$ item.numero_prioridad $}</b></span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="seven wide column left aligned content auto-height" style="
+                                        {#    border-left: solid 0.1em #ddd;#}
+                                        {#    border-right: solid 0.1em #ddd;#}
+                                        ">
+                                    <h4 class="header">{$ item.nombre_espacio | capitalize $} - {$
+                                        item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+
+                                    <div class="description">
+                                        <b>Justificación:</b> {$ item.justificacion | capitalize $}
+                                    </div>
+                                </div>
+                                <div class="four wide column left aligned">
+                                    <div class="ui horizontal statistic">
+
+                                        <div class="value">
+                                            {$ item.cantidad_requerida $}
+                                        </div>
+                                        <div class="label">
+                                            Cantidad requerida
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="ui horizontal statistic" style="margin-left: 0; margin-top: 5px">
+                                        <div class="value">
+                                            {$ item.numero_beneficiados $}
+                                        </div>
+                                        <div class="label">
+                                            Potenciales beneficiados
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="three wide column left aligned auto-height"
+                                        {#                                         style="border-left: solid 0.1em #ddd;"#}
+                                        >
+                                    <div class="ui icon right pointing fluid basic dropdown button">
+                                        <!--<i class="tags icon"></i>-->
+                                         <span class="text">
+
+                                             <div class="item active">
+                                                 <div class="ui basic empty circular label">&nbsp;</div>
+                                                 &nbsp;
+                                                 Priorizado
+                                             </div>
+                                         </span>
+
+                                        <div class="menu">
+                                            <!--<div class="header">-->
+                                            <!--Estados-->
+                                            <!--</div>-->
+                                            <!--<div class="ui left icon input">-->
+                                            <!--<i class="search icon"></i>-->
+                                            <!--<input type="text" name="search" placeholder="Search...">-->
+                                            <!--</div>-->
+                                            <div class="header">
+                                                <i class="tags icon"></i>
+                                                ESTADOS DE LA OBRA
+                                            </div>
+                                            <div class="item active">
+                                                <div class="ui gray empty circular label"></div>
+                                                Priorizado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui blue empty circular label"></div>
+                                                Adjudicado
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui yellow empty circular label"></div>
+                                                En ejecucion
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui green empty circular label"></div>
+                                                Realizada
+                                            </div>
+                                            <div class="item">
+                                                <div class="ui red empty circular label"></div>
+                                                Parada
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui divider"></div>
+                                    <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
+                                         style="margin-top: 10px"> Esta obra se realizo?
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="ui center aligned header" style="margin: 0 !important;"
+                         ng-show="!prioridades_otros.length">Sin Requerimientos.
+                    </div>
+                </div>
+            </div>
+            <!-- OTROS END -->
+
+            <div class="column"><br></div>
+
+
+            <div class="column">
+                <div id="disqus_thread"></div>
+            </div>
+
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'contralorfonacide';
+
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function () {
+                    var prev = document.getElementById('disqus_stuff');
+                    if (prev !== null) {
+                        DISQUS.reset({
+                            reload: true
+                        });
+                        return;
+                    }
+                    var dsq = document.createElement('script');
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    dsq.id = 'disqus_stuff';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+                powered by Disqus.</a></noscript>
+
 
         </div>
+
+
     </div>
+</div>
 
 <!--
 <div class="two column ">
@@ -674,86 +734,105 @@
      style="z-index: 1002; background: #f7f7f7;height: 96% !important;">
     <div class="ui big filter launch basic left attached fixed button"
          style="padding-left: 10px;position: relative; float: right; top: 200px;z-index: 99;background-color: white !important;">
-      <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
+        <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S
+        </div>
     </div>
-    <h2  class="header" style="margin-left: 5%; margin-top: 12px">Filtros
-        <button class="ui circular icon button teal right floated" data-content="Hello. This is a small popup" data-variation="small" ng-click="filtro()" style="margin-right: -5%">Actualizar <i class="refresh icon"></i></button>
+    <h2 class="header" style="margin-left: 5%; margin-top: 12px">Filtros
+        <button class="ui circular icon button teal right floated" data-content="Hello. This is a small popup"
+                data-variation="small" ng-click="filtro()" style="margin-right: -5%">Actualizar <i
+                class="refresh icon"></i></button>
     </h2>
-     <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
-
-     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-	<label class="ui teal label">Fonacide <i class="circular info icon link" data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver " data-variation="small"></i></label>
-     <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
-
-        <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()" type="checkbox" >
-        <label for="prioridad-check"></label>
-     </div>
-
-     <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
-     <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
-    <div class="item filtros">
-        <h4>Tipo de Requerimiento </h4>
-        <div class="ui two column grid">
-            <div class="column">
-                <div class="ui checkbox column">
-                    <input ng-model="prioridadesSeleccionadas.sanitarios" ng-change="activar_filtro()" id="prioridad-sanitarios" type="checkbox" name="fun">
-                    <label for="prioridad-sanitarios">Sanitarios</label>
-                </div>
-            </div>
-            <div class="column">
-                <div class="ui checkbox column">
-                    <input ng-model="prioridadesSeleccionadas.aulas" ng-change="activar_filtro()" id="prioridad-aulas" type="checkbox" name="fun">
-                    <label for="prioridad-aulas">Aulas</label>
-                </div>
-            </div>
-            <div class="column">
-                <div class="ui checkbox column">
-                    <input ng-model="prioridadesSeleccionadas.mobiliarios" ng-change="activar_filtro()" id="prioridad-mobiliarios" type="checkbox" name="fun">
-                    <label for="prioridad-mobiliarios">Mobiliario</label>
-                </div>
-            </div>
-            <div class="column">
-                <div class="ui checkbox column">
-                    <input ng-model="prioridadesSeleccionadas.otros" ng-change="activar_filtro()" id="prioridad-otros" type="checkbox" name="fun">
-                    <label for="prioridad-otros">Otros Espacios</label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-      <div class="item filtros">
-        <h4>Prioridad</h4>
-        <div class="content" style="padding: 20px">
-          <div class="range slider"> </div>
-          <input id="slider-upper" type="hidden" name="upper" />
-          <input id="slider-lower" type="hidden" name="lower" />
-        </div>
-
-      </div>
-
-
-     </div>
+    <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada"
+                      multiple="false"></filtro-ubicacion>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
-		<label class="ui teal label">Otros <i class="circular info icon link" data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría." data-variation="small"></i></label>
+        <label class="ui teal label">Fonacide <i class="circular info icon link"
+                                                 data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver "
+                                                 data-variation="small"></i></label>
+
+        <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
+
+            <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()"
+                   type="checkbox">
+            <label for="prioridad-check"></label>
+        </div>
+
+        <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
+        <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
+
+        <div class="item filtros">
+            <h4>Tipo de Requerimiento </h4>
+
+            <div class="ui two column grid">
+                <div class="column">
+                    <div class="ui checkbox column">
+                        <input ng-model="prioridadesSeleccionadas.sanitarios" ng-change="activar_filtro()"
+                               id="prioridad-sanitarios" type="checkbox" name="fun">
+                        <label for="prioridad-sanitarios">Sanitarios</label>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui checkbox column">
+                        <input ng-model="prioridadesSeleccionadas.aulas" ng-change="activar_filtro()"
+                               id="prioridad-aulas" type="checkbox" name="fun">
+                        <label for="prioridad-aulas">Aulas</label>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui checkbox column">
+                        <input ng-model="prioridadesSeleccionadas.mobiliarios" ng-change="activar_filtro()"
+                               id="prioridad-mobiliarios" type="checkbox" name="fun">
+                        <label for="prioridad-mobiliarios">Mobiliario</label>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="ui checkbox column">
+                        <input ng-model="prioridadesSeleccionadas.otros" ng-change="activar_filtro()"
+                               id="prioridad-otros" type="checkbox" name="fun">
+                        <label for="prioridad-otros">Otros Espacios</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item filtros">
+            <h4>Prioridad</h4>
+
+            <div class="content" style="padding: 20px">
+                <div class="range slider"></div>
+                <input id="slider-upper" type="hidden" name="upper"/>
+                <input id="slider-lower" type="hidden" name="lower"/>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
+        <label class="ui teal label">Otros <i class="circular info icon link"
+                                              data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría."
+                                              data-variation="small"></i></label>
+
         <div class="ui toggle checkbox" style="float: right;  opacity: 0.99;">
-          <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox" >
-          <label for="otros-check"></label>
+            <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox">
+            <label for="otros-check"></label>
         </div>
         <b ng-if="otrosSeleccionados.check" style="float: right">Activado&nbsp;&nbsp;</b>
         <b ng-if="!otrosSeleccionados.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
-		<div class="item filtros">
-			<div class="ui checkbox">
-				<input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()" name="fun">
-				<label>Instituciones <br/>Reportadas</label>
-			</div>
-		</div>
-		<div class="item filtros">
-			<div class="ui checkbox">
-				<input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()" name="fun">
-				<label>Instituciones con <br/> informe de contraloria</label>
-			</div>
-		</div>
+
+        <div class="item filtros">
+            <div class="ui checkbox">
+                <input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()" name="fun">
+                <label>Instituciones <br/>Reportadas</label>
+            </div>
+        </div>
+        <div class="item filtros">
+            <div class="ui checkbox">
+                <input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()" name="fun">
+                <label>Instituciones con <br/> informe de contraloria</label>
+            </div>
+        </div>
     </div>
 </div>
 <!-- <div class="ui dimmer" ng-class="{active: loading}" style="z-index:1001"> -->
@@ -761,97 +840,98 @@
 <!-- </div> -->
 <div id="menu-launch" class="ui big filter launch basic right attached fixed button"
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
-  <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
+    <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
 </div>
-<div class="pusher mapContainer" style="background-color: #00b5ad" onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
-  <div id="map" style="height: 96%">
-    <div class="ui indeterminate large text active loader map-loader">
-      <h2>Cargando</h2>
+<div class="pusher mapContainer" style="background-color: #00b5ad"
+     onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
+    <div id="map" style="height: 96%">
+        <div class="ui indeterminate large text active loader map-loader">
+            <h2>Cargando</h2>
+        </div>
     </div>
-  </div>
 </div>
 <script>
-  (function(){
+    (function () {
 
-    $('.circular.info')
-  .popup({
-    on: 'hover'
-  })
-;
+        $('.circular.info')
+                .popup({
+                    on: 'hover'
+                })
+        ;
 
 
-    $('.ui.dropdown').dropdown();
-    angular.element(".filter.launch").click(function(){
-      angular.element('.left.sidebar')
-      .sidebar({
-        context: angular.element('[ng-view]'),
-        dimPage: false,
-        closable: false
-      })
-      .sidebar('toggle');
-    });
+        $('.ui.dropdown').dropdown();
+        angular.element(".filter.launch").click(function () {
+            angular.element('.left.sidebar')
+                    .sidebar({
+                        context: angular.element('[ng-view]'),
+                        dimPage: false,
+                        closable: false
+                    })
+                    .sidebar('toggle');
+        });
 
-    $('#map').click(function(event){
-      event.stopPropagation();
-    });
+        $('#map').click(function (event) {
+            event.stopPropagation();
+        });
 
-    var rangeSlider = $('.range.slider').noUiSlider({
-      start: [0, 200],
-      step: 10,
-      snap: true,
-      connect: true,
-      range: {
-        min: 0,
-        '5%': 10,
-        '10%': 20,
-        '15%': 30,
-        '20%': 40,
-        '25%': 50,
-        '30%': 60,
-        '35%': 70,
-        '40%': 80,
-        '45%': 90,
-        '50%': 100,
-        '55%': 110,
-        '60%': 120,
-        '65%': 130,
-        '70%': 140,
-        '75%': 150,
-        '80%': 160,
-        '85%': 170,
-        '90%': 180,
-        '95%': 190,
-        max: 200
-      }
-    }, true).noUiSlider_pips({
-      mode: 'range',
-      filter: function(value){
-        return value % 100? (value % 50? 0 : 2 ): 1;
-      },
-      density: 3
-    });
-    rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function ( value ) {
+        var rangeSlider = $('.range.slider').noUiSlider({
+            start: [0, 200],
+            step: 10,
+            snap: true,
+            connect: true,
+            range: {
+                min: 0,
+                '5%': 10,
+                '10%': 20,
+                '15%': 30,
+                '20%': 40,
+                '25%': 50,
+                '30%': 60,
+                '35%': 70,
+                '40%': 80,
+                '45%': 90,
+                '50%': 100,
+                '55%': 110,
+                '60%': 120,
+                '65%': 130,
+                '70%': 140,
+                '75%': 150,
+                '80%': 160,
+                '85%': 170,
+                '90%': 180,
+                '95%': 190,
+                max: 200
+            }
+        }, true).noUiSlider_pips({
+            mode: 'range',
+            filter: function (value) {
+                return value % 100 ? (value % 50 ? 0 : 2 ) : 1;
+            },
+            density: 3
+        });
+        rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function (value) {
 
-      // The tooltip HTML is 'this', so additional
-      // markup can be inserted here.
-      $(this).html(
-        '<span>' + parseInt(value) + '</span>'
-      );
-    });
-    rangeSlider.Link('upper').to($('#slider-upper'));
-    rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function ( value ) {
+            // The tooltip HTML is 'this', so additional
+            // markup can be inserted here.
+            $(this).html(
+                    '<span>' + parseInt(value) + '</span>'
+            );
+        });
+        rangeSlider.Link('upper').to($('#slider-upper'));
+        rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function (value) {
 
-      // The tooltip HTML is 'this', so additional
-      // markup can be inserted here.
-      $(this).html(
-        '<span>' + parseInt(value) + '</span>'
-      );
-    });
-    rangeSlider.Link('lower').to($('#slider-lower'));
-    rangeSlider.on({
-        change: function(){
-          angular.element('#map').scope().activar_filtro();
-        }
-    });
-  })();
+            // The tooltip HTML is 'this', so additional
+            // markup can be inserted here.
+            $(this).html(
+                    '<span>' + parseInt(value) + '</span>'
+            );
+        });
+        rangeSlider.Link('lower').to($('#slider-lower'));
+        rangeSlider.on({
+            change: function () {
+                angular.element('#map').scope().activar_filtro();
+            }
+        });
+    })();
 </script>

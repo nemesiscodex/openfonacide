@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from openfonacide.filtros import filtros, generar_ubicacion
 from openfonacide.resumen import _resumen
+from openfonacide.infografiaDNCP import *
+
 from rest_framework import routers
 
 from openfonacide.views import *
@@ -72,6 +74,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
     url(r'^filtros/$', filtros, name='filtros'),
     url(r'^_resumen/$', _resumen, name='filtros'),
+    url(r'^infografiaDNCP/$', infografiaDNCP, name='infografiaDNCP'),
     url(r'^agua$',   TemplateView.as_view(template_name='visualizaciones/agua.html'), name="agua"),
     url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),

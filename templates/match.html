@@ -5,7 +5,7 @@
 </style>
 <div class="ui page grid">
     <div class="sixteen wide column" style="padding-top: 30px;padding-bottom: 30px;">
-        <table datatable="ng" dt-options="controller.dtOptions" class="ui compact celled definition table"
+        <table datatable="ng" dt-options="controller.dtOptions" dt-instance="controller.dtInstance" class="ui compact celled definition table"
                id="resultList">
             <thead class="full-width">
             <tr>
@@ -28,13 +28,13 @@
             </thead>
             <tbody>
             <div>
-                <tr ng-repeat=" t in resultados">
+                <tr ng-repeat=" t in resultados track by $index">
                     <td class="collapsing">
                         <div class="ui toggle match checkbox" style="float: right">
-                            <input id="confirmar_check_{$ t.codigo_institucion $}" data-periodo="{$ t.periodo $}"
+                            <input id="confirmar_check_{$ t.id $}" data-periodo="{$ t.periodo $}"
                                    data-institucion="{$ t.codigo_institucion $}" data-llamado="{$ t.id_llamado $}"
-                                   type="checkbox">
-                            <label for="confirmar_check_{$ t.codigo_institucion $}"></label>
+                                   data-indice="{$ $index $}" data-databaseid="{$ t.id $}" type="checkbox">
+                            <label for="confirmar_check_{$ t.id $}"></label>
                         </div>
                     </td>
                     <!-- <td>{$ t.periodo $}</td> -->

@@ -4,21 +4,27 @@
      */
     angular.module('frontEnd')
         .controller('MatchController', ['$scope', 'backEnd', 'DTOptionsBuilder', 'DTDefaultOptions','$timeout', function ($scope, backEnd, DTOptionsBuilder, DTDefaultOptions, $timeout) {
-            //WORK IN PROGRESS
 
             var controller = this;
             controller.guardar = function(){
-                data_list = new Array();
+                var data_list = new Array();
                 $('.checkbox input:checked').each(function (idx, el) {
-                    console.log($(el).data('llamado') + '-' + $(el).data('institucion'));
-                    tmp_obj = { 'id_llamado' : $(el).data('llamado'),
+                    //console.log($(el).data('llamado') + '-' + $(el).data('institucion'));
+                    var tmp_obj = { 'id_llamado' : $(el).data('llamado'),
                         'codigo_institucion' : $(el).data('institucion'),
-                        'periodo' : $(el).data('periodo')
+                        'periodo' : $(el).data('periodo'),
+                        'indice' : $(el).data('indice'),
+                        'id' : $(el).data('databaseid')
                     };
                     data_list.push(tmp_obj);
                 });
                 backEnd.temporal.save(JSON.stringify(data_list), function (data) {
-                    $scope.respuesta = data;
+                    var respuesta_list = data['resultado'];
+                    var resultados = $scope.resultados;
+                    for(var respuesta in respuesta_list){
+                        resultados.splice(respuesta_list[respuesta],1);
+                    }
+
                 });
 
             };
@@ -45,6 +51,7 @@
             $.fn.dataTableExt.oStdClasses.sFilterInput = 'ui basic input';
             $.fn.dataTableExt.oStdClasses.sLength = 'ui top attached white message sLength';
             $.fn.dataTableExt.oStdClasses.sFilter = 'ui bottom attached white message sFilter';
+            controller.dtInstance = {};
             controller.dtOptions = DTOptionsBuilder.newOptions()
                 .withOption('bProcessing','true')
                 .withOption('drawCallback', function(){

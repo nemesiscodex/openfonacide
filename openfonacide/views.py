@@ -25,7 +25,6 @@ from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
-
 """
 ViewSets for API
 """
@@ -54,6 +53,7 @@ class TemporalListView(ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         # NO ANDA!
         data_list = request.data
+        respuesta_list = list()
         for data in data_list:
             try:
                 llamado = data['id_llamado']
@@ -66,16 +66,21 @@ class TemporalListView(ListCreateAPIView):
                 p = Planificacion.objects.get(id_llamado=llamado)
                 i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
             except ObjectDoesNotExist as e:
+                # Teóricamente la planificación e institución dadas debe existir en la BD
+                # Probablemente es un error con los datasets
                 return JsonResponse({"mensaje": e.message}, status=500)
 
             i.planificaciones.add(p)
-            i.save()
-            a = Adjudicacion.objects.filter(id_llamado=llamado)
-            if len(a) is not 0:
-                i.adjudicaciones.add(a)
-                i.save()
 
-        return JsonResponse({"mensaje": "Creado existosamente"}, status=200)
+            set_a = Adjudicacion.objects.filter(id_llamado=llamado)
+            for a in set_a:
+                i.adjudicaciones.add(a)
+
+            i.save()
+            Temporal.objects.filter(id=data['id']).delete()
+            respuesta_list.append(data['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 
 
 class DummyPrioridad(object):
@@ -393,7 +398,6 @@ class PrioridadController(View):
                                   MobiliarioSerializer).data,
             "estados": get_Pr(codigo_establecimiento, ServicioBasico,
                               ServicioBasicoSerializer).data,
-
 
         }
         return JsonResponse(result, safe=False)

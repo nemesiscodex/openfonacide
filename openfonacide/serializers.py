@@ -292,6 +292,7 @@ class TemporalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Temporal
         fields = (
+            'id',
             'periodo',
             'nombre_departamento',
             'nombre_distrito',

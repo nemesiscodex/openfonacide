@@ -15,6 +15,7 @@
                         <i class="user icon"></i>{{ user.username | upper }}
                         <div class="menu">
                             <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
+                            <a href="/match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Match de Instituciones</a>
                         </div>
                     </div>
                     <a href="" class="item"  onclick="_logout()"><i class="sign out icon"></i>Cerrar Sesión</a>

@@ -76,7 +76,8 @@ urlpatterns = patterns('',
     url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
-    url(r'^temporal/$', TemporalListView.as_view())
+    url(r'^temporal/$', TemporalListView.as_view()),
+    url(r'^unlink/$', UnlinkAPIView.as_view())
 )
 
 urlpatterns += [

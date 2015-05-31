@@ -47,11 +47,9 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
 class TemporalListView(ListCreateAPIView):
     model = Temporal
     serializer_class = TemporalSerializer
-    # pagination_class = PaginadorEstandard
     queryset = Temporal.objects.all()
 
     def post(self, request, *args, **kwargs):
-        # NO ANDA!
         data_list = request.data
         respuesta_list = list()
         for data in data_list:
@@ -79,6 +77,36 @@ class TemporalListView(ListCreateAPIView):
             i.save()
             Temporal.objects.filter(id=data['id']).delete()
             respuesta_list.append(data['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
+
+
+class UnlinkAPIView(ListAPIView):
+    model = Institucion
+    serializer_class = InstitucionUnlinkSerializer
+    queryset = Institucion.objects.filter(planificaciones__isnull=False)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        respuesta_list = list()
+
+        for d in data:
+            try:
+                id_institucion = d['id']
+                id_planificacion = d['idp']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+
+            try:
+                i = Institucion.objects.get(id=id_institucion)
+                p = Planificacion.objects.get(id=id_planificacion)
+            except ObjectDoesNotExist as e:
+                return JsonResponse({"mensaje": e.message}, status=500)
+
+            i.planificaciones.remove(p)
+
+            i.save()
+            respuesta_list.append(d['indice'])
 
         return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 

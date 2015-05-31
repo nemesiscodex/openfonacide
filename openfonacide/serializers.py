@@ -304,3 +304,38 @@ class TemporalSerializer(serializers.ModelSerializer):
             'nombre_licitacion',
             'convocante'
         )
+
+
+class PlanificacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planificacion
+        fields = (
+            'id',
+            'anio',
+            'id_llamado',
+            'nombre_licitacion',
+            'convocante',
+            'categoria_id',
+            'categoria_codigo',
+            'categoria',
+        )
+
+
+class InstitucionUnlinkSerializer(serializers.ModelSerializer):
+    """
+        Este serializador solo se usa para facilitar el proceso de romper las relaciones entre
+        Instituciones y Planificaciones, UnlinkMatch
+    """
+    planificaciones = PlanificacionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Institucion
+        fields = (
+            'id',
+            'periodo',
+            'nombre_departamento',
+            'nombre_distrito',
+            'codigo_institucion',
+            'nombre_institucion',
+            'planificaciones'
+        )

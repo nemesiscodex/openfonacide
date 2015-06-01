@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from django.db import transaction
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
@@ -18,8 +20,10 @@ from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import permissions
+from datetime import datetime
 
 from django.contrib.auth.models import User
+from models import *
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
@@ -399,46 +403,101 @@ class PrioridadController(View):
         return JsonResponse(result, safe=False)
 
 
-# class TotalPrioridadController(View):
-# def get(self, request, *args, **kwargs):
-#
-# result = {
-# "establecimietos": get_fonacide().data,
-#
-#
-#
-#
-# }
-# return JSONResponse(result)
+@login_required()
+@transaction.atomic
+def estado_de_obra(request):
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método inválido.'}, status=405)
+
+    estado = request.POST.get('estado')
+    clase_prioridad = request.POST.get('clase_prioridad')
+    codigo_prioridad = request.POST.get('codigo_prioridad')
+    verificado = request.POST.get('verificado')
+
+    permisos = request.user.get_all_permissions()
+    permiso_verificar = 'openfonacide.verificar_estado' in permisos
+    permiso_cambiar = 'openfonacide.cambiar_estado' in permisos
+
+    if not permiso_cambiar and not permiso_verificar:
+        return JsonResponse({'error': 'No tiene permisos para realizar esta accion'}, status=403)
+
+    if not estado or not clase_prioridad or not codigo_prioridad:
+        return JsonResponse({'error': 'Datos insuficientes'}, status=400)
+
+    documento = request.FILES.get('archivo')
+
+    prioridad = None
+
+    if clase_prioridad == 'Aulas' or clase_prioridad == 'Otros Espacios':
+        prioridad = Espacio.objects.get(id=codigo_prioridad)
+    if clase_prioridad == 'Mobiliarios':
+        prioridad = Mobiliario.objects.get(id=codigo_prioridad)
+    if clase_prioridad == 'Sanitarios':
+        prioridad = Sanitario.objects.get(id=codigo_prioridad)
+
+    if prioridad is None:
+        return JsonResponse({'error': 'No existe prioridad.'}, status=404)
+
+    current_user = request.user
+
+    fecha_actual = datetime.now()
+
+    # Si se realizo un cambio de estado
+    cambio_estado = prioridad.estado_de_obra != estado
+
+    cambio_verificacion = verificado is not None
+
+    if cambio_estado and permiso_cambiar:
+        fecha_modificacion = fecha_actual
+        cambiado_por = current_user
+    else:
+        fecha_modificacion = prioridad.fecha_modificacion
+        cambiado_por = prioridad.cambiado_por
+        estado = prioridad.estado_de_obra
+
+    if cambio_verificacion and permiso_verificar:
+        fecha_verificacion = fecha_actual
+        verificado_por = current_user
+    else:
+        fecha_verificacion = prioridad.fecha_verificacion
+        verificado_por = prioridad.verificado_por
 
 
-class ComentariosController(View):
-    pass
+    if verificado_por and permiso_verificar and not cambio_estado:
+        verificado_por_id = verificado_por.id
+        verificado_por_email = verificado_por.email
+    else:
+        verificado_por_id = None
+        verificado_por_email = None
+        fecha_verificacion = None
+        verificado_por = None
 
-    # Not yet Implemented
-    # def get(self, request, *args, **kwargs):
-    # codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    # comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
-    # return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    #
-    #     captcha = json.loads(request.POST.get('captcha'))
-    #
-    #     # captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
-    #     #                                  data=urllib.urlencode({
-    #     #                                      "secret": "secret",
-    #     #                                      "response": captcha
-    #     #                                  })).read()
-    #
-    #     # analize captcha result
-    #
-    #     comentario = Comentarios()
-    #     comentario.codigo_establecimiento_id = codigo_establecimiento
-    #     comentario.autor = request.POST.get('autor')
-    #     comentario.email = request.POST.get('email')
-    #     comentario.texto = request.POST.get('texto')
-    #     comentario.fecha = datetime.datetime.now()
-    #     comentario.save()
-    #     return JSONResponse({"success": True});
+    if cambiado_por and permiso_verificar:
+        cambiado_por_id = cambiado_por.id
+        cambiado_por_email = cambiado_por.email
+    else:
+        cambiado_por_id = None
+        cambiado_por_email = None
+
+    historial = HistorialEstado(prioridad=codigo_prioridad, clase=clase_prioridad, fecha=fecha_actual,
+                    estado_de_obra=estado, fecha_modificacion=fecha_modificacion,
+                    cambiado_por_id=cambiado_por_id, cambiado_por_email=cambiado_por_email,
+                    verificado_por_id=verificado_por_id, verificado_por_email=verificado_por_email,
+                    documento=documento)
+    historial.save()
+
+    if historial.documento:
+        documento_url = historial.documento.url
+    else:
+        documento_url = prioridad.documento
+
+    prioridad.estado_de_obra = estado
+    prioridad.fecha_modificacion = fecha_modificacion
+    prioridad.cambiado_por = cambiado_por
+    prioridad.fecha_verificacion = fecha_verificacion
+    prioridad.verificado_por = verificado_por
+    prioridad.documento = documento_url
+    prioridad.save()
+
+    return JsonResponse('Exito!', safe=False, status=200)

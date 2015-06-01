@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from openfonacide.filtros import filtros, generar_ubicacion
 from openfonacide.resumen import _resumen
 from openfonacide.infografiaDNCP import *
@@ -63,7 +65,6 @@ urlpatterns = patterns('',
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
-    url(r'^comentarios/(?P<codigo_establecimiento>\w+)/?', ComentariosController.as_view(), name='comentarios'),
     url(r'^((?!admin).)*/?establecimiento/(?P<codigo_establecimiento>\w*)/?$', EstablecimientoController.as_view(), name='establecimiento'),
     url(r'^((?!admin).)*/?institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     # url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
@@ -79,12 +80,13 @@ urlpatterns = patterns('',
     url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
-    url(r'^temporal/$', TemporalListView.as_view())
+    url(r'^temporal/$', TemporalListView.as_view()),
+    url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra')
 )
 
 urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')

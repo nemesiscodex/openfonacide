@@ -687,7 +687,18 @@
     <h2  class="header" style="margin-left: 5%; margin-top: 12px">Filtros
         <button class="ui circular icon button teal right floated" data-content="Hello. This is a small popup" data-variation="small" ng-click="filtro()" style="margin-right: -5%">Actualizar <i class="refresh icon"></i></button>
     </h2>
-     <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
+     <div class="ui segment">
+<p> <b>1.</b> Seleccioná la ubicación, tipo de prioridad u otros filtros. <br>
+<b>2.</b> Hacé click en activado/desactivado <br>
+<b>3.</b> Hacé click en el botón actualizar
+
+
+ </p>
+<p></p>
+<p></p>
+  
+
+</div>
 
      <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 	<label class="ui teal label">Fonacide <i class="circular info icon link" data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver " data-variation="small"></i></label>
@@ -741,6 +752,8 @@
 
 
      </div>
+
+     <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
 		<label class="ui teal label">Otros <i class="circular info icon link" data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría." data-variation="small"></i></label>

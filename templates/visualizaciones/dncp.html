@@ -196,12 +196,8 @@ Para ver los datos simplemente haz click en la pregunta:</p>
 
             <section><div class="prueba"></div> </section>
 
-            <section>  <div id="main1" style="height:400px"></div></section>
-            <section>  <div id="main2" style="height:400px"></div></section>
-            <section>  <div id="main3" style="height:400px"></div></section>
-            <section>  <div id="main4" style="height:400px"></div></section>
-            <section>  <div id="main5" style="height:400px"></div></section>            
-
+            <section>  <div id="main1" style="height:600px;padding-top:80px;"></div></section>
+          
         </div>
 
 
@@ -210,10 +206,7 @@ Para ver los datos simplemente haz click en la pregunta:</p>
        
       <!-- Example row of columns -->
    
-      <footer>
-        <p>&copy; Company 2015</p>
-      </footer>
-  
+     
       
         <script src="{% static 'js/dncp/vendor/jquery-1.11.2.min.js' %}"></script>
         <script src="{% static 'js/dncp/vendor/bootstrap.min.js' %}"></script>
@@ -246,14 +239,66 @@ Para ver los datos simplemente haz click en la pregunta:</p>
                console.log(resumen);
 
 
-
+                respuesta = {};
+                cantidades = [];
+                nombres= [];
               
 
 
                $.getJSON("/infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
-                    $(".prueba").html(JSON.stringify(result));
+                    
 
                     console.log(JSON.stringify(result));
+                    respuesta = result;
+
+                    if (respuesta.cantidad_adjudicaciones) {
+                        console.log("cantidad_adjudicaciones");
+
+                        
+                        for (var i in respuesta.cantidad_adjudicaciones) {
+
+                            
+
+                            cantidades[i] = respuesta.cantidad_adjudicaciones[i].cantidad;
+
+                            nombres[i] = respuesta.cantidad_adjudicaciones[i].convocante.replace("Municipalidad de", "").replace("Gobierno Departamental de ","");
+                         
+                        }
+
+                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                    }
+
+                    if (respuesta.monto_adjudicaciones) {
+
+                        console.log("monto_adjudicaciones");
+
+                         for (var i in respuesta.monto_adjudicaciones) {
+
+                            
+
+                            cantidades[i] = respuesta.monto_adjudicaciones[i].monto_total;
+
+                            nombres[i] = respuesta.monto_adjudicaciones[i].convocante.replace("Municipalidad de", "").replace("Gobierno Departamental de ","");
+                         
+                        }
+
+                        grafica2( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                    }
+
+                     if (respuesta.categoria) {
+                        console.log("categoria");
+
+                        grafica3( respuesta.categoria , anio, opcion);
+                    }
+
+                     if (respuesta.procedimiento) {
+                        console.log("procedimiento");
+                          
+
+                        grafica4(respuesta.procedimiento,  anio, opcion );
+
+
+                    }
                 });
 
 

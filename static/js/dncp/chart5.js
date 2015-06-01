@@ -15,7 +15,7 @@
             ],
             function (ec) {
                 // Initialize after dom ready
-                var myChart = ec.init(document.getElementById('main2')); 
+                var myChart = ec.init(document.getElementById('main5')); 
                 
                 option = {
     timeline:{

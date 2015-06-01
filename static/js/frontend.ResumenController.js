@@ -457,6 +457,8 @@
           if($scope.estadoCheck){
             resumen.estado = $scope.estadosSelected;
           }
+
+          console.log(resumen);
           backEnd.resumen.get({params: resumen}, function(data){
               $scope.data = data;
 

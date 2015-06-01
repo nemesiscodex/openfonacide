@@ -237,55 +237,49 @@
                                 <div class="three wide column left aligned auto-height"
                                         {#                                         style="border-left: solid 0.1em #ddd;"#}
                                         >
-                                    <div class="ui fluid buttons">
-                                        <div class="ui icon right pointing fluid basic dropdown button">
-                                            <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>
-                                                 &nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                            <div class="menu">
-                                                <!--<div class="header">-->
-                                                <!--Estados-->
-                                                <!--</div>-->
-                                                <!--<div class="ui left icon input">-->
-                                                <!--<i class="search icon"></i>-->
-                                                <!--<input type="text" name="search" placeholder="Search...">-->
-                                                <!--</div>-->
-                                                <div class="header">
-                                                    <i class="tags icon"></i>
-                                                    ESTADOS DE LA OBRA
-                                                </div>
-                                                <div class="item active">
-                                                    <div class="ui gray empty circular label"></div>
-                                                    Priorizado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui blue empty circular label"></div>
-                                                    Adjudicado
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui yellow empty circular label"></div>
-                                                    En ejecucion
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui green empty circular label"></div>
-                                                    Realizada
-                                                </div>
-                                                <div class="item">
-                                                    <div class="ui red empty circular label"></div>
-                                                    Parada
-                                                </div>
+                                    <div class="ui fluid basic buttons">
+                                        <div class="ui icon basic fluid button with-popup"
+                                             {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
+                                             ng-click="modificarEstado(item,'Aulas')"{% endif %}>
+                                                <i class="ui empty circular label"
+                                                         ng-class="{basic: item.estado_de_obra==='priorizado',
+                                                         orange: item.estado_de_obra==='planificado',
+                                                          blue: item.estado_de_obra==='adjudicado',
+                                                          green: item.estado_de_obra==='terminado'}">&nbsp;</i>
+                                                    &nbsp;
+                                                    {$ item.estado_de_obra | capitalize $}
+                                        </div>
+                                        <div class="ui special popup" ng-if="item.cambiado_por">
+                                            Modificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.cambiado_por_user.username $}</b>.
+                                        </div>
+                                        <div class="ui 2 fluid buttons">
+                                            <a class="ui basic icon button with-popup">
+                                                <i class="warning circle red icon" ng-hide="item.verificado_por"></i>
+                                                <i class="check circle green icon" ng-show="item.verificado_por"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="!item.verificado_por && item.cambiado_por">
+                                                Este estado aún no ha sido verificado.
+                                            </div>
+                                            <div class="ui special popup" ng-if="!item.verificado_por && !item.cambiado_por">
+                                                El estado es priorizado.
+                                            </div>
+                                            <div class="ui special popup" ng-if="item.verificado_por">
+                                                Verificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.verificado_por_user.username $}</b>.
+                                            </div>
+                                            <a class="ui basic icon button with-popup" target="_blank" ng-href="{$ item.documento $}" >
+                                                <i class="warning circle red icon" ng-hide="item.documento"></i>
+                                                <i class="file green icon" ng-show="item.documento"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="item.documento">
+                                                1 archivo adjunto.
+                                            </div>
+                                            <div class="ui special popup" ng-if="!item.documento">
+                                                Sin archivos adjuntos.
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="ui divider"></div>
+{#                                    <div class="ui divider" style="margin: 5px"></div>#}
                                     <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
                                          style="margin-top: 10px"> Esta obra se realizo?
                                     </div>
@@ -366,52 +360,47 @@
                                 <div class="three wide column left aligned auto-height"
                                         {#                                         style="border-left: solid 0.1em #ddd;"#}
                                         >
-                                    <div class="ui icon right pointing fluid basic dropdown button">
-                                        <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>
-                                                 &nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                        <div class="menu">
-                                            <!--<div class="header">-->
-                                            <!--Estados-->
-                                            <!--</div>-->
-                                            <!--<div class="ui left icon input">-->
-                                            <!--<i class="search icon"></i>-->
-                                            <!--<input type="text" name="search" placeholder="Search...">-->
-                                            <!--</div>-->
-                                            <div class="header">
-                                                <i class="tags icon"></i>
-                                                ESTADOS DE LA OBRA
+                                    <div class="ui fluid basic buttons">
+                                        <div class="ui icon basic fluid button with-popup"
+                                             {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
+                                             ng-click="modificarEstado(item,'Sanitarios')"{% endif %}>
+                                                <i class="ui empty circular label"
+                                                         ng-class="{basic: item.estado_de_obra==='priorizado',
+                                                         orange: item.estado_de_obra==='planificado',
+                                                          blue: item.estado_de_obra==='adjudicado',
+                                                          green: item.estado_de_obra==='terminado'}">&nbsp;</i>
+                                                    &nbsp;
+                                                    {$ item.estado_de_obra | capitalize $}
+                                        </div>
+                                        <div class="ui special popup" ng-if="item.cambiado_por">
+                                            Modificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.cambiado_por_user.username $}</b>.
+                                        </div>
+                                        <div class="ui 2 fluid buttons">
+                                            <a class="ui basic icon button with-popup">
+                                                <i class="warning circle red icon" ng-hide="item.verificado_por"></i>
+                                                <i class="check circle green icon" ng-show="item.verificado_por"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="!item.verificado_por && item.cambiado_por">
+                                                Este estado aún no ha sido verificado.
                                             </div>
-                                            <div class="item active">
-                                                <div class="ui gray empty circular label"></div>
-                                                Priorizado
+                                            <div class="ui special popup" ng-if="!item.verificado_por && !item.cambiado_por">
+                                                El estado es priorizado.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui blue empty circular label"></div>
-                                                Adjudicado
+                                            <div class="ui special popup" ng-if="item.verificado_por">
+                                                Verificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.verificado_por_user.username $}</b>.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui yellow empty circular label"></div>
-                                                En ejecucion
+                                            <a class="ui basic icon button with-popup" target="_blank" ng-href="{$ item.documento $}" >
+                                                <i class="warning circle red icon" ng-hide="item.documento"></i>
+                                                <i class="file green icon" ng-show="item.documento"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="item.documento">
+                                                1 archivo adjunto.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui green empty circular label"></div>
-                                                Realizada
-                                            </div>
-                                            <div class="item">
-                                                <div class="ui red empty circular label"></div>
-                                                Parada
+                                            <div class="ui special popup" ng-if="!item.documento">
+                                                Sin archivos adjuntos.
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="ui divider"></div>
                                     <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
                                          style="margin-top: 10px"> Esta obra se realizo?
                                     </div>
@@ -491,52 +480,47 @@
                                 <div class="three wide column left aligned auto-height"
                                         {#                                         style="border-left: solid 0.1em #ddd;"#}
                                         >
-                                    <div class="ui icon right pointing fluid basic dropdown button">
-                                        <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>
-                                                 &nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                        <div class="menu">
-                                            <!--<div class="header">-->
-                                            <!--Estados-->
-                                            <!--</div>-->
-                                            <!--<div class="ui left icon input">-->
-                                            <!--<i class="search icon"></i>-->
-                                            <!--<input type="text" name="search" placeholder="Search...">-->
-                                            <!--</div>-->
-                                            <div class="header">
-                                                <i class="tags icon"></i>
-                                                ESTADOS DE LA OBRA
+                                    <div class="ui fluid basic buttons">
+                                        <div class="ui icon basic fluid button with-popup"
+                                             {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
+                                             ng-click="modificarEstado(item,'Mobiliarios')"{% endif %}>
+                                                <i class="ui empty circular label"
+                                                         ng-class="{basic: item.estado_de_obra==='priorizado',
+                                                         orange: item.estado_de_obra==='planificado',
+                                                          blue: item.estado_de_obra==='adjudicado',
+                                                          green: item.estado_de_obra==='terminado'}">&nbsp;</i>
+                                                    &nbsp;
+                                                    {$ item.estado_de_obra | capitalize $}
+                                        </div>
+                                        <div class="ui special popup" ng-if="item.cambiado_por">
+                                            Modificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.cambiado_por_user.username $}</b>.
+                                        </div>
+                                        <div class="ui 2 fluid buttons">
+                                            <a class="ui basic icon button with-popup">
+                                                <i class="warning circle red icon" ng-hide="item.verificado_por"></i>
+                                                <i class="check circle green icon" ng-show="item.verificado_por"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="!item.verificado_por && item.cambiado_por">
+                                                Este estado aún no ha sido verificado.
                                             </div>
-                                            <div class="item active">
-                                                <div class="ui gray empty circular label"></div>
-                                                Priorizado
+                                            <div class="ui special popup" ng-if="!item.verificado_por && !item.cambiado_por">
+                                                El estado es priorizado.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui blue empty circular label"></div>
-                                                Adjudicado
+                                            <div class="ui special popup" ng-if="item.verificado_por">
+                                                Verificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.verificado_por_user.username $}</b>.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui yellow empty circular label"></div>
-                                                En ejecucion
+                                            <a class="ui basic icon button with-popup" target="_blank" ng-href="{$ item.documento $}" >
+                                                <i class="warning circle red icon" ng-hide="item.documento"></i>
+                                                <i class="file green icon" ng-show="item.documento"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="item.documento">
+                                                1 archivo adjunto.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui green empty circular label"></div>
-                                                Realizada
-                                            </div>
-                                            <div class="item">
-                                                <div class="ui red empty circular label"></div>
-                                                Parada
+                                            <div class="ui special popup" ng-if="!item.documento">
+                                                Sin archivos adjuntos.
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="ui divider"></div>
                                     <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
                                          style="margin-top: 10px"> Esta obra se realizo?
                                     </div>
@@ -616,52 +600,47 @@
                                 <div class="three wide column left aligned auto-height"
                                         {#                                         style="border-left: solid 0.1em #ddd;"#}
                                         >
-                                    <div class="ui icon right pointing fluid basic dropdown button">
-                                        <!--<i class="tags icon"></i>-->
-                                         <span class="text">
-
-                                             <div class="item active">
-                                                 <div class="ui basic empty circular label">&nbsp;</div>
-                                                 &nbsp;
-                                                 Priorizado
-                                             </div>
-                                         </span>
-
-                                        <div class="menu">
-                                            <!--<div class="header">-->
-                                            <!--Estados-->
-                                            <!--</div>-->
-                                            <!--<div class="ui left icon input">-->
-                                            <!--<i class="search icon"></i>-->
-                                            <!--<input type="text" name="search" placeholder="Search...">-->
-                                            <!--</div>-->
-                                            <div class="header">
-                                                <i class="tags icon"></i>
-                                                ESTADOS DE LA OBRA
+                                    <div class="ui fluid basic buttons">
+                                        <div class="ui icon basic fluid button with-popup"
+                                             {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
+                                             ng-click="modificarEstado(item,'Otros Espacios')"{% endif %}>
+                                                <i class="ui empty circular label"
+                                                         ng-class="{basic: item.estado_de_obra==='priorizado',
+                                                         orange: item.estado_de_obra==='planificado',
+                                                          blue: item.estado_de_obra==='adjudicado',
+                                                          green: item.estado_de_obra==='terminado'}">&nbsp;</i>
+                                                    &nbsp;
+                                                    {$ item.estado_de_obra | capitalize $}
+                                        </div>
+                                        <div class="ui special popup" ng-if="item.cambiado_por">
+                                            Modificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.cambiado_por_user.username $}</b>.
+                                        </div>
+                                        <div class="ui 2 fluid buttons">
+                                            <a class="ui basic icon button with-popup">
+                                                <i class="warning circle red icon" ng-hide="item.verificado_por"></i>
+                                                <i class="check circle green icon" ng-show="item.verificado_por"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="!item.verificado_por && item.cambiado_por">
+                                                Este estado aún no ha sido verificado.
                                             </div>
-                                            <div class="item active">
-                                                <div class="ui gray empty circular label"></div>
-                                                Priorizado
+                                            <div class="ui special popup" ng-if="!item.verificado_por && !item.cambiado_por">
+                                                El estado es priorizado.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui blue empty circular label"></div>
-                                                Adjudicado
+                                            <div class="ui special popup" ng-if="item.verificado_por">
+                                                Verificado el <b>{$ item.fecha_modificacion | date:'dd/MM/yyyy @ h:mma' $}</b> por el usuario <b>{$ item.verificado_por_user.username $}</b>.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui yellow empty circular label"></div>
-                                                En ejecucion
+                                            <a class="ui basic icon button with-popup" target="_blank" ng-href="{$ item.documento $}" >
+                                                <i class="warning circle red icon" ng-hide="item.documento"></i>
+                                                <i class="file green icon" ng-show="item.documento"></i>
+                                            </a>
+                                            <div class="ui special popup" ng-if="item.documento">
+                                                1 archivo adjunto.
                                             </div>
-                                            <div class="item">
-                                                <div class="ui green empty circular label"></div>
-                                                Realizada
-                                            </div>
-                                            <div class="item">
-                                                <div class="ui red empty circular label"></div>
-                                                Parada
+                                            <div class="ui special popup" ng-if="!item.documento">
+                                                Sin archivos adjuntos.
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="ui divider"></div>
                                     <div class="fluid ui button teal" onclick="$('.denuncia.modal').modal('show');"
                                          style="margin-top: 10px"> Esta obra se realizo?
                                     </div>

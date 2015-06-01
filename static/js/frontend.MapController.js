@@ -62,6 +62,14 @@
     .controller('MapController', ['$scope', 'backEnd', '$filter',
       '$routeParams', '$rootScope', '$timeout', '$location',
       function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
+          $scope.modificarEstado = function(prioridad, tipo){
+              if(typeof (window.modificarEstado) === 'function'){
+                  var institucion = $scope.infoData.instituciones.filter(function(obj){
+                      return obj.codigo_institucion == $scope.institucion_actual;
+                  });
+                  window.modificarEstado(prioridad, tipo, institucion[0]);
+              }
+          };
         loading(false);
         $scope.es_otros = function(obj){
             if(typeof obj == 'object'){
@@ -487,6 +495,11 @@
             id: id
           }, function(value) {
             $scope.prioridades = value;
+              $timeout(function(){
+                  $scope.$digest();
+                  $scope.$apply();
+                  $('.with-popup').popup({inline: true});
+              },500,false);
           });
 
 

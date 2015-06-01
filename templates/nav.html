@@ -11,12 +11,15 @@
 
             <div class="right menu">
             {% if user.is_authenticated %}
-                    <div class="ui dropdown item">
-                        <i class="user icon"></i>{{ user.username | upper }}
-                        <div class="menu">
-                            <div class="item" onclick="$('.archivos.contraloria.modal.step0').modal('show')"><i class="file icon"></i>Subir archivo</div>
-                        </div>
-                    </div>
+                <div class="item">
+                    <i class="user icon"></i>{{ user.username | upper }}
+                </div>
+{#                    <div class="ui dropdown item">#}
+{#                        <i class="user icon"></i>{{ user.username | upper }}#}
+{#                        <div class="menu">#}
+{#                            <div class="item" onclick="$('.archivos.contraloria.modal').modal('show')"><i class="file icon"></i>Subir archivo</div>#}
+{#                        </div>#}
+{#                    </div>#}
                     <a href="" class="item"  onclick="_logout()"><i class="sign out icon"></i>Cerrar Sesión</a>
             {% else %}
                 <a href="" class="item"  onclick="$('.login.modal').modal('show')"><i class="sign in icon"></i>Iniciar Sesión</a>

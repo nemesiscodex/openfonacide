@@ -68,7 +68,21 @@
 
 
          <footer-info></footer-info>
+    <script>
+        // Uppercase every first letter of a word
+        jQuery.fn.ucwords = function() {
+          return this.each(function(){
+            var val = $(this).text().toLowerCase(), newVal = '';
+            val = val.split(' ');
 
+            for(var c=0; c < val.length; c++) {
+              newVal += val[c].substring(0,1).toUpperCase() + val[c].substring(1,val[c].length) + (c+1==val.length ? '' : ' ');
+            }
+            $(this).text(newVal);
+          });
+        }
+
+    </script>
     </body>
 
 </html>

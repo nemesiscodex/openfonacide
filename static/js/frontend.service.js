@@ -6,7 +6,7 @@
 		.service('backEnd', ['$resource', function($resource) {
 			var backEndUrl = '';
 			return {
-				"establecimiento": $resource(backEndUrl + '../establecimiento/:id', {
+				"establecimiento": $resource('establecimiento/:id', {
 					id: "@id"
 				}, {
 					query: {
@@ -20,7 +20,7 @@
 						cache: true
 					}
 				}),
-				"prioridades": $resource(backEndUrl + '../prioridades/:id', {
+				"prioridades": $resource('prioridades/:id', {
 					id: "@id"
 				}, {
 					query: {
@@ -34,7 +34,8 @@
 						cache: false
 					}
 				}),
-				"establecimiento_short": $resource(backEndUrl + '../establecimiento/:id', {
+				//"establecimiento_short": $resource('establecimiento/:id', {
+				"establecimiento_short": $resource('establecimiento/:id', {
 					id: "@id",
 					short: 'true'
 				}, {
@@ -44,7 +45,7 @@
 						cache: false
 					}
 				}),
-				"institucion": $resource(backEndUrl + '../institucion/:id', {
+				"institucion": $resource('institucion/:id', {
 					id: "@id"
 				}, {
 					query: {
@@ -53,7 +54,7 @@
 						cache: true
 					}
 				}),
-				"comentarios": $resource(backEndUrl + '../comentarios/:id', {
+				"comentarios": $resource('comentarios/:id', {
 					id: "@id"
 				}, {
 					get: {
@@ -74,7 +75,7 @@
 						}
 					}
 				}),
-				"filtros": $resource(backEndUrl + '../filtros/',{},
+				"filtros": $resource('filtros/',{},
 					{
 						query: {
 							method: 'GET',
@@ -83,7 +84,7 @@
 						}
 					}
 				),
-                "resumen": $resource(backEndUrl + '../_resumen/',{},
+                "resumen": $resource('_resumen/',{},
 					{
 						query: {
 							method: 'GET',
@@ -92,7 +93,7 @@
 						}
 					}
 				),
-                "ubicaciones": $resource(backEndUrl+ '../ubicacion.json',{},
+                "ubicaciones": $resource('ubicacion.json',{},
                     {
                         get: {
                             method: 'GET',
@@ -101,7 +102,7 @@
                         }
                     }
                 ),
-				"temporal": $resource(backEndUrl + '../temporal/',{},{
+				"temporal": $resource('temporal/',{},{
 				    get: {
 				        method: 'GET',
 				        isArray: true,

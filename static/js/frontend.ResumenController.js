@@ -268,7 +268,7 @@
       .controller('ResumenController', ['$scope', '$timeout', 'backEnd', function($scope, $timeout, backEnd){
         require.config({
             paths: {
-                echarts: '/static/echarts'
+                echarts: 'static/echarts'
             }
         });
         require(

@@ -117,6 +117,8 @@
 
                     <div class="sixteen wide column">
                         <div class="ui  segment">
+
+                            <h4>No hay adjudicaciones</h4>
                             <ul>
                               <!--  <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
@@ -143,6 +145,7 @@
 
                     <div class="sixteen wide column">
                         <div class="ui  segment">
+                             <h4>No hay documentos</h4>
                             <ul>
                                 <!-- <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
@@ -561,8 +564,8 @@
                                         {#    border-left: solid 0.1em #ddd;#}
                                         {#    border-right: solid 0.1em #ddd;#}
                                         ">
-                                    <h4 class="header">{$ item.nombre_espacio | capitalize $} - {$
-                                        item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+                                    <h3 class="header">{$ item.nombre_espacio | capitalize $} - {$
+                                        item.tipo_requerimiento_infraestructura | capitalize $}</h3>
 
                                     <div class="description">
                                         <b>Justificación:</b> {$ item.justificacion | capitalize $}
@@ -730,7 +733,7 @@
                                                  data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver "
                                                  data-variation="small"></i></label>
 
-        <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
+        <div class="ui  checkbox" style="float: right; opacity: 0.99">
 
             <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()"
                    type="checkbox">
@@ -797,7 +800,7 @@
                                               data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría."
                                               data-variation="small"></i></label>
 
-        <div class="ui toggle checkbox" style="float: right;  opacity: 0.99;">
+        <div class="ui  checkbox" style="float: right;  opacity: 0.99;">
             <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox">
             <label for="otros-check"></label>
         </div>

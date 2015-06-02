@@ -66,6 +66,11 @@
                     color: white;
                 }
 
+
+          img.cc{
+              width: 30%;
+          }
+
         
         </style>
        
@@ -182,7 +187,20 @@ Para ver los datos simplemente haz click en la pregunta:</p>
 </div>
 
 
+
+
 </div> 
+
+<div class="row" style="padding:10px">
+
+    <a href="https://www.contrataciones.gov.py/datos/data" style="color:white;">Datos Proveídos por el DNCP</a>
+
+    <p>Créditos:
+<a href="" style="color:white;">Licencia Creative Commons CC-BY-SA</a></p>
+<img src="{% static 'images/cc.png' %}" class="cc">
+
+
+</div>
 
 
 
@@ -252,7 +270,7 @@ Para ver los datos simplemente haz click en la pregunta:</p>
 
         })
 
-
+});
 
             $(".preguntar").click(function () {
 
@@ -280,10 +298,10 @@ Para ver los datos simplemente haz click en la pregunta:</p>
                     
 
                  //   console.log(JSON.stringify(result));
-                  //  respuesta = result;
+                    respuesta = result;
 
                     if (respuesta.cantidad_adjudicaciones) {
-                       // console.log("cantidad_adjudicaciones");
+                        console.log("cantidad_adjudicaciones");
 
                         
                         for (var i in respuesta.cantidad_adjudicaciones) {
@@ -336,7 +354,7 @@ Para ver los datos simplemente haz click en la pregunta:</p>
 
 
                         });
-});
+
 
         </script>
        

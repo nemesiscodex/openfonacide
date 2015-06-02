@@ -1,5 +1,4 @@
 <style>
-
     .tooltip {
         display: block;
         position: absolute;
@@ -13,65 +12,53 @@
         text-align: center;
         width: 50px;
     }
-
     .tooltip.left {
         left: -14px;
     }
-
     .tooltip.right {
         left: -4px;
     }
-
     .tooltip strong {
         display: block;
         padding: 2px;
     }
-
     /*Ver donde ubicar las reglas*/
     .ui.loader::after {
         border-color: rgba(0, 0, 0, .6) transparent transparent;
         border-top-width: 0.4em;
         border-bottom-width: 4.0em;
     }
-
     .ui.loader::before {
         border-color: rgba(0, 0, 0, .2);
         border-width: 0.4em;
     }
-
     .ui.loader h2 {
         color: #000;
     }
-
     /*Se define en custom.css línea 81*/
     .sidebar .filtros {
         padding-left: 0 !important;
         margin: 20px 0;
     }
-
     /*Se define en custom.css línea 70*/
     .sidebar .ui.checkbox label {
         /*color: white !important; cambiamos el color de la letra*/
         color: rgba(0, 0, 0, 0.8) !important;
     }
-
     /*Se define en semantic.min.css línea 11*/
     .ui.segment {
         margin: 5%;
         pargin: 5%;
     }
-
     .left.sidebar .ui.segment.attached {
         width: 90%;
         margin-left: 5% !important;
         margin-right: 5% !important;
     }
-
     .institucion-tab.ng-move,
     .institucion-tab.ng-leave {
         display: none !important;
     }
-
 </style>
 
 <div class="detalle ui verde1 right vertical overlay sidebar push uncover"
@@ -100,7 +87,6 @@
         <!--
                  <a href="http://datos.mec.gov.py/doc/instituciones/{$ institucion_actual $}" target="_blank" ><div class=" ui button teal" > Más info</div></a>
                 <div class=" ui button teal"  href="#disqus_thread" du-smooth-scroll>  Hacer comentarios</div>
-
                 <div class=" ui button teal" ng-click="mostrarAdjudicaciones()" > Adjudicaciones</div>
                  <div class=" ui button teal" ng-click="mostrarContraloria()" > Documentos de contraloría</div> -->
 
@@ -130,18 +116,9 @@
                     <h3>Adjudicaciones</h3>
 
                     <div class="sixteen wide column">
-                    <div class="ui  segment">
-                        <h4>Sin Adjudicaciones</h4>
-                        <ul>
-                            <!-- <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>  <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Adquisición de Muebles para Escuelas - <span class="ui teal label">Gs. 60.000.000</span> <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li> -->
-
-
-                    <div class="sixteen wide column">
                         <div class="ui  segment">
                             <ul>
-                                <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
+                              <!--  <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
                                        target="_blank"> ver estado </a></li>
                                 <li>Adquisición de Muebles para Escuelas - <span
@@ -150,7 +127,7 @@
                                         target="_blank"> ver estado </a></li>
                                 <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a
                                         href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
-                                        target="_blank"> ver estado </a></li>
+                                        target="_blank"> ver estado </a></li> -->
 
                             </ul>
                         </div>
@@ -165,18 +142,9 @@
                     <h3>Documentos de Contraloría</h3>
 
                     <div class="sixteen wide column">
-                    <div class="ui  segment">
-                        <h4>Sin Documentos</h4>
-                        <ul>
-                           <!-- <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>  <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Adquisición de Muebles para Escuelas - <span class="ui teal label">Gs. 60.000.000</span> <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>
-                            <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219" target="_blank"> ver estado </a></li>-->
-
-
-                    <div class="sixteen wide column">
                         <div class="ui  segment">
                             <ul>
-                                <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
+                                <!-- <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
                                        target="_blank"> ver estado </a></li>
                                 <li>Adquisición de Muebles para Escuelas - <span
@@ -185,7 +153,7 @@
                                         target="_blank"> ver estado </a></li>
                                 <li>Construcción Modulo para la Escuela de Danzas - <span class="ui teal label">Gs. 60.000.000</span><a
                                         href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
-                                        target="_blank"> ver estado </a></li>
+                                        target="_blank"> ver estado </a></li> -->
 
                             </ul>
                         </div>
@@ -211,32 +179,26 @@
                                         <h4>Prioridad
                                         </h4>
                                             <span class="ui white massive fluid circular label" style="
-                                                        background-color: white;
-                                                        border: solid 0.06em #BBB;
-                                                        font-size:2.4rem;
-
-                                                        width: 100%;"><b>{$ item.numero_prioridad $}</b></span>
+                background-color: white;
+                border: solid 0.06em #BBB;
+                font-size:2.4rem;
+                width: 100%;
+        "><b>{$ item.numero_prioridad $}</b></span>
 
                                     </div>
 
-
-                                    <div class="seven wide column left aligned content auto-height" style="                          {#    border-left: solid 0.1em #ddd;#}
-                                                                        {#    border-right: solid 0.1em #ddd;#}
-                                                                        ">
-                                        
-
-                                        <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'NUEVO'">Construcción de Aulas</h3>
-
-                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'REPARACION'">Reparación de Aulas</h3>
-
                                 </div>
-
 
                                 <div class="seven wide column left aligned content auto-height" style="
                                         {#    border-left: solid 0.1em #ddd;#}
                                         {#    border-right: solid 0.1em #ddd;#}
                                         ">
-                                    <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+                                     <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'NUEVO'">Construcción de Aulas</h3>
+
+                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'REPARACION'">Reparación de Aulas</h3>
+
+                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'ADECUACION'">Reparación de Aulas</h3>
+
 
                                     <div class="description">
                                         <b>Justificación:</b> {$ item.justificacion | capitalize $}
@@ -347,31 +309,22 @@
                 background-color: white;
                 border: solid 0.06em #BBB;
                 font-size:2.4rem;
-
                 width: 100%;
         "><b>{$ item.numero_prioridad $}</b></span>
 
                                     </div>
 
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'NUEVO'">Construcción de Sanitarios</h3>
-
-                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'REPARACION'">Reparación de Sanitarios</h3>
-
-                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'ADECUACION'">Adecuación de Sanitarios</h3>
-
                                 </div>
-
 
                                 <div class="seven wide column left aligned content auto-height" style="
                                         {#    border-left: solid 0.1em #ddd;#}
                                         {#    border-right: solid 0.1em #ddd;#}
                                         ">
-                                    <h4 class="header">{$ item.tipo_requerimiento_infraestructura | capitalize $}</h4>
+                                    <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'NUEVO'">Construcción de Sanitarios</h3>
+
+                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'REPARACION'">Reparación de Sanitarios</h3>
+
+                                         <h3 class="header" ng-if="item.tipo_requerimiento_infraestructura == 'ADECUACION'">Adecuacion de Sanitarios</h3>
 
                                     <div class="description">
                                         <b>Justificación:</b> {$ item.justificacion | capitalize $}
@@ -479,21 +432,12 @@
                 background-color: white;
                 border: solid 0.06em #BBB;
                 font-size:2.4rem;
-
                 width: 100%;
         "><b>{$ item.numero_prioridad $}</b></span>
 
                                     </div>
 
-
-                                    <div class="seven wide column left aligned content auto-height" style="
-{#    border-left: solid 0.1em #ddd;#}
-{#    border-right: solid 0.1em #ddd;#}
-">
-                                        <h3 class="header">{$ item.nombre_mobiliario | capitalize $}</h3>
-
                                 </div>
-
 
                                 <div class="seven wide column left aligned content auto-height" style="
                                         {#    border-left: solid 0.1em #ddd;#}
@@ -606,7 +550,6 @@
                 background-color: white;
                 border: solid 0.06em #BBB;
                 font-size:2.4rem;
-
                 width: 100%;
         "><b>{$ item.numero_prioridad $}</b></span>
 
@@ -715,8 +658,6 @@
             <script type="text/javascript">
                 /* * * CONFIGURATION VARIABLES * * */
                 var disqus_shortname = 'contralorfonacide';
-
-
                 /* * * DON'T EDIT BELOW THIS LINE * * */
                 (function () {
                     var prev = document.getElementById('disqus_stuff');
@@ -769,26 +710,13 @@
                 data-variation="small" ng-click="filtro()" style="margin-right: -5%">Actualizar <i
                 class="refresh icon"></i></button>
     </h2>
-<<<<<<< HEAD
-     <div class="ui segment">
-<p> <b>1.</b> Seleccioná la ubicación, tipo de prioridad u otros filtros. <br>
-<b>2.</b> Hacé click en activado/desactivado <br>
-<b>3.</b> Hacé click en el botón actualizar
-
-
- </p>
-<p></p>
-<p></p>
-  
-
-</div>
-
+    <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada"
+                      multiple="false"></filtro-ubicacion>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
         <label class="ui teal label">Fonacide <i class="circular info icon link"
                                                  data-content="Seleccioná uno o más tipos de requerimientos y el rango de prioridad que quieras ver "
                                                  data-variation="small"></i></label>
-
 
         <div class="ui toggle checkbox" style="float: right; opacity: 0.99">
 
@@ -849,8 +777,6 @@
 
     </div>
 
-     <filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada" multiple="false"></filtro-ubicacion>
-
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
         <label class="ui teal label">Otros <i class="circular info icon link"
                                               data-content="Seleccioná para ver las instituciones que fueron reportadas y/o las que cuentan con informe de contraloría."
@@ -894,14 +820,11 @@
 </div>
 <script>
     (function () {
-
         $('.circular.info')
                 .popup({
                     on: 'hover'
                 })
         ;
-
-
         $('.ui.dropdown').dropdown();
         angular.element(".filter.launch").click(function () {
             angular.element('.left.sidebar')
@@ -912,11 +835,9 @@
                     })
                     .sidebar('toggle');
         });
-
         $('#map').click(function (event) {
             event.stopPropagation();
         });
-
         var rangeSlider = $('.range.slider').noUiSlider({
             start: [0, 200],
             step: 10,
@@ -953,7 +874,6 @@
             density: 3
         });
         rangeSlider.Link('upper').to('-inline-<div class="tooltip right"></div>', function (value) {
-
             // The tooltip HTML is 'this', so additional
             // markup can be inserted here.
             $(this).html(
@@ -962,7 +882,6 @@
         });
         rangeSlider.Link('upper').to($('#slider-upper'));
         rangeSlider.Link('lower').to('-inline-<div class="tooltip left"></div>', function (value) {
-
             // The tooltip HTML is 'this', so additional
             // markup can be inserted here.
             $(this).html(
@@ -976,4 +895,3 @@
             }
         });
     })();
-</script>

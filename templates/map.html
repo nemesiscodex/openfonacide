@@ -828,6 +828,16 @@
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
     <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
 </div>
+
+<div id="explicacion-mapa" g-init="ocultar_explicacion= true"ng-show="ocultar_explicacion" class="ui big filter  basic right attached fixed button"
+     style="padding-right: 15px;position: fixed;width: 20%;z-index: 99;background-color: white !important;bottom: 140px; ">
+    <a class="ui right white corner label"  ng-click="ocultar_explicacion()">
+        <i class="delete icon" ></i>
+      </a>
+    <div style="text-align: left; font-size: 0.8em; font-weight: normal;">En este mapa podés encontrar el detalle de los requerimientos de infraestructura de las escuelas priorizadas por FONACIDE.</div>
+</div>
+
+
 <div class="pusher mapContainer" style="background-color: #00b5ad"
      onClick="$('#map').css('width', '100%'); window.map.invalidateSize();">
     <div id="map" style="height: 96%">

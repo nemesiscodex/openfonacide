@@ -65,7 +65,7 @@ class TemporalListView(ListCreateAPIView):
                 return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
 
             try:
-                p = Planificacion.objects.get(id_llamado=llamado)
+                p = Planificacion.objects.get(id_llamado=llamado, anio=periodo)
                 i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
             except ObjectDoesNotExist as e:
                 # Teóricamente la planificación e institución dadas debe existir en la BD

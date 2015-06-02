@@ -171,9 +171,23 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
 
 
 class EspacioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Espacio
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -193,14 +207,36 @@ class EspacioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por",
+            "verificado_por_user",
+            "documento"
         )
 
 
 class SanitarioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Sanitario
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -221,14 +257,34 @@ class SanitarioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por_user",
+            "documento"
         )
 
 
 class MobiliarioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Mobiliario
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -246,7 +302,15 @@ class MobiliarioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por",
+            "verificado_por_user",
+            "documento"
         )
 
 

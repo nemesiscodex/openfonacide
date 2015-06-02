@@ -1,21 +1,10 @@
 <!-- INICIO UBICACION -->
 
-<div class="ui segment">
-<p> <b>1.</b> Seleccioná la ubicación, tipo de prioridad u otros filtros. <br>
-<b>2.</b> Hacé click en activado/desactivado <br>
-<b>3.</b> Hacé click en el botón actualizar
 
-
- </p>
-<p></p>
-<p></p>
-  
-
-</div>
 <div id="ubicacion" class="ui segment labels teal top attached">
   <div class="ui teal label">Ubicación <i class="circular info icon link" data-content="Seleccioná el Departamento / Distrito / Barrio y activá la opción." data-variation="small"></i>
   </div>
-  <div class="ui toggle checkbox" style="float: right;  opacity: 0.99">
+  <div class="ui fitted checkbox" style="float: right;  opacity: 0.99">
     <input id="ubicacion-check" ng-model="ctrl.selected.check" ng-change="ctrl.callback()" type="checkbox" name="public">
     <label for="ubicacion-check"></label>
   </div>

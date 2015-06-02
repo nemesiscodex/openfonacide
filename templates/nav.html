@@ -8,6 +8,15 @@
             <a href="informacion" class="item"  ng-class="{active: $location.path().match('/?informacion.*') != null}"><i class="info circle icon"></i> Información</a>
             <a href="graficos" class="item" ng-class="{active: $location.path().match('/?graficos.*') != null}"><i class="bar chart icon"></i> Gráficos</a>
             <a href="resumen" class="item" ng-class="{active: $location.path().match('/?resumen.*') != null}"><i class="table icon"></i> Resumen</a>
+			{% if user.is_authenticated %}
+			<div class="ui dropdown item">
+				<i class="wizard icon"></i>Match
+				<div class="menu">
+                	<a href="match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Match de Instituciones</a>
+                	{#<a href="unmatch" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Match de Instituciones</a> #}
+				</div>
+			</div>
+			{% endif %}
 
             <div class="right menu">
             {% if user.is_authenticated %}

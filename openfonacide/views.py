@@ -29,7 +29,6 @@ from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
 
-
 """
 ViewSets for API
 """
@@ -52,12 +51,11 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
 class TemporalListView(ListCreateAPIView):
     model = Temporal
     serializer_class = TemporalSerializer
-    # pagination_class = PaginadorEstandard
     queryset = Temporal.objects.all()
 
     def post(self, request, *args, **kwargs):
-        # NO ANDA!
         data_list = request.data
+        respuesta_list = list()
         for data in data_list:
             try:
                 llamado = data['id_llamado']
@@ -67,19 +65,54 @@ class TemporalListView(ListCreateAPIView):
                 return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
 
             try:
-                p = Planificacion.objects.get(id_llamado=llamado)
+                p = Planificacion.objects.get(id_llamado=llamado, anio=periodo)
                 i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
             except ObjectDoesNotExist as e:
+                # Teóricamente la planificación e institución dadas debe existir en la BD
+                # Probablemente es un error con los datasets
                 return JsonResponse({"mensaje": e.message}, status=500)
 
             i.planificaciones.add(p)
-            i.save()
-            a = Adjudicacion.objects.filter(id_llamado=llamado)
-            if len(a) is not 0:
-                i.adjudicaciones.add(a)
-                i.save()
 
-        return JsonResponse({"mensaje": "Creado existosamente"}, status=200)
+            set_a = Adjudicacion.objects.filter(id_llamado=llamado)
+            for a in set_a:
+                i.adjudicaciones.add(a)
+
+            i.save()
+            Temporal.objects.filter(id=data['id']).delete()
+            respuesta_list.append(data['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
+
+
+class UnlinkAPIView(ListAPIView):
+    model = Institucion
+    serializer_class = InstitucionUnlinkSerializer
+    queryset = Institucion.objects.filter(planificaciones__isnull=False)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        respuesta_list = list()
+
+        for d in data:
+            try:
+                id_institucion = d['id']
+                id_planificacion = d['idp']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+
+            try:
+                i = Institucion.objects.get(id=id_institucion)
+                p = Planificacion.objects.get(id=id_planificacion)
+            except ObjectDoesNotExist as e:
+                return JsonResponse({"mensaje": e.message}, status=500)
+
+            i.planificaciones.remove(p)
+
+            i.save()
+            respuesta_list.append(d['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 
 
 class DummyPrioridad(object):
@@ -397,7 +430,6 @@ class PrioridadController(View):
                                   MobiliarioSerializer).data,
             "estados": get_Pr(codigo_establecimiento, ServicioBasico,
                               ServicioBasicoSerializer).data,
-
 
         }
         return JsonResponse(result, safe=False)

@@ -102,7 +102,7 @@
                         }
                     }
                 ),
-				"temporal": $resource('temporal/:id',{},{
+				"temporal": $resource('temporal/',{},{
 				    get: {
 				        method: 'GET',
 				        isArray: true,
@@ -111,6 +111,7 @@
 				    save: {
 						// Especificar
 				        method: 'POST',
+						cache: false,
 				        headers: {
 							//'Content-Type': 'application/x-www-form-urlencoded'
 							'Content-Type': 'application/json'

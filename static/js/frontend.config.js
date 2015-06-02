@@ -10,6 +10,10 @@
 			$interpolateProvider.startSymbol('{$');
 			$interpolateProvider.endSymbol('$}');
 		})
+		.config(['$resourceProvider', function($resourceProvider) {
+			// Don't strip trailing slashes from calculated URLs
+			$resourceProvider.defaults.stripTrailingSlashes = false;
+		}])
 		//Rutas
 		.config(['$routeProvider', '$locationProvider',
 			function($routeProvider, $locationProvider) {

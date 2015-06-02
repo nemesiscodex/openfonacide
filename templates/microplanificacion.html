@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <style type="text/css">
 
 .contenido-explicacion {
@@ -92,7 +93,7 @@
        <div class="four column centered row" style="margin-top:20px;">
                   <div class="column"></div>
                   <div class="column">
-                    <a href="/static/manual-microplanificacion.pdf" target="_blank">
+                    <a href="{% static 'manual-microplanificacion.pdf' %}" target="_blank">
                     <div class="big ui button right floated">
                       <i class="download icon"></i>Descargar el manual de Planificacion
                     </div>

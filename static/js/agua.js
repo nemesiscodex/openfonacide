@@ -167,7 +167,7 @@ packages: [
                              
              require('echarts/util/mapData/params').params.PRY = {
             getGeoJson: function (callback) {
-                $.getJSON('/static/js/geoJson/py-dptos.json', callback);
+                $.getJSON('static/js/geoJson/py-dptos.json', callback);
             }
         };         
               

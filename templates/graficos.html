@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <h1 class="ui header center aligned">Infografías</h1>
 
 
@@ -8,7 +9,7 @@
         <a class="header" href="mobiliarios" target="_blank">Mobiliarios</a>
       </div>
       <div class="image">
-        <img src="/static/images/mobiliarios.png">
+        <img src="{% static 'images/mobiliarios.png' %}">
       </div>
       <div class="content">
        Dentro de infraestructura se pueden pedir entre otras cosas, las necesidades de Mobiliarios. Sobre este  requerimiento trata esta infografía.
@@ -29,7 +30,7 @@
         <a class="header" href="agua" target="_blank">Abstecimieno de Agua</a>
       </div>
       <div class="image">
-        <img src="/static/images/agua.png">
+        <img src="{% static 'images/agua.png' %}">
       </div>
       <div class="content">
        La fuente de abastecimiento de agua en las escuelas priorizadas para recibir los fondos de FONACIDE es muy variada.
@@ -48,7 +49,7 @@
         <a class="header" href="dncp" target="_blank">Llamados de FONACIDE en el DNCP</a>
       </div>
       <div class="image">
-        <img src="/static/images/dncp.png">
+        <img src="{% static 'images/dncp.png' %}">
       </div>
       <div class="content">
            En esta infografía podrás responder algunas de las preguntas más comunes en torno a las contrataciones referentes a FONACIDE.

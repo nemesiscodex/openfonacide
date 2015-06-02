@@ -19,7 +19,7 @@ from django.http import Http404, JsonResponse
 from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
-from rest_framework import permissions
+from rest_framework import permissions, authentication
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -52,6 +52,8 @@ class TemporalListView(ListCreateAPIView):
     model = Temporal
     serializer_class = TemporalSerializer
     queryset = Temporal.objects.all()
+
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         data_list = request.data
@@ -89,6 +91,7 @@ class UnlinkAPIView(ListAPIView):
     model = Institucion
     serializer_class = InstitucionUnlinkSerializer
     queryset = Institucion.objects.filter(planificaciones__isnull=False)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         data = request.data
@@ -438,7 +441,6 @@ class PrioridadController(View):
 @login_required()
 @transaction.atomic
 def estado_de_obra(request):
-
     if request.method != 'POST':
         return JsonResponse({'error': 'Método inválido.'}, status=405)
 
@@ -495,7 +497,6 @@ def estado_de_obra(request):
         fecha_verificacion = prioridad.fecha_verificacion
         verificado_por = prioridad.verificado_por
 
-
     if verificado_por and permiso_verificar and not cambio_estado:
         verificado_por_id = verificado_por.id
         verificado_por_email = verificado_por.email
@@ -513,10 +514,10 @@ def estado_de_obra(request):
         cambiado_por_email = None
 
     historial = HistorialEstado(prioridad=codigo_prioridad, clase=clase_prioridad, fecha=fecha_actual,
-                    estado_de_obra=estado, fecha_modificacion=fecha_modificacion,
-                    cambiado_por_id=cambiado_por_id, cambiado_por_email=cambiado_por_email,
-                    verificado_por_id=verificado_por_id, verificado_por_email=verificado_por_email,
-                    documento=documento)
+                                estado_de_obra=estado, fecha_modificacion=fecha_modificacion,
+                                cambiado_por_id=cambiado_por_id, cambiado_por_email=cambiado_por_email,
+                                verificado_por_id=verificado_por_id, verificado_por_email=verificado_por_email,
+                                documento=documento)
     historial.save()
 
     if historial.documento:

@@ -155,8 +155,8 @@ class Matcher(object):
             ciudad_regex = re.compile('.*MUNICIPALIDAD.*' + i.nombre_distrito, re.IGNORECASE)
             departamento_regex = re.compile('.*DEPARTAMENTAL.*' + i.nombre_departamento, re.IGNORECASE)
             planes_candidatos_list = (plan for plan in planes if
-                                      anio_regex.search(plan['anio']) and ciudad_regex.search(
-                                          plan['convocante']) or departamento_regex.search(plan['convocante']))
+                                      anio_regex.search(plan['anio']) and (ciudad_regex.search(
+                                          plan['convocante']) or departamento_regex.search(plan['convocante'])))
 
             for j in planes_candidatos_list:
                 ti = self.normalizar_string(i.nombre_institucion)
@@ -167,7 +167,8 @@ class Matcher(object):
                 if heuristicas(ti, tj):
                     existente = self.temporal_manager.filter(anio=i.periodo, codigo_institucion=i.codigo_institucion,
                                                              id_llamado=j['id_llamado'])
-                    if len(existente) == 0:
+
+                    if len(existente) == 0 and i.periodo == j['anio']:
                         self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
                                                      nombre_distrito=i.nombre_distrito,
                                                      codigo_institucion=i.codigo_institucion,

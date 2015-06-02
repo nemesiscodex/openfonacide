@@ -1,3 +1,5 @@
+   function grafica1( cantidades, nombres, anio, opcion) {
+
     // configure for module loader
         require.config({
             paths: {
@@ -14,23 +16,21 @@
                 // Initialize after dom ready
                 var myChart = ec.init(document.getElementById('main1')); 
                 
-   option = {
+                option = {
+    title : {
+        text: opcion + ' con mayor cantidad  de Adjudicaciones en el año '  + anio ,
+        subtext: anio 
+    },
     tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 
-            type : 'shadow'        // On hover stack: 'line' | 'shadow'
-        }
+        trigger: 'axis'
     },
-    legend: {
-        data:['Contratacion Directa', 'licitacion publica','concuso de ofertas','ASu','Lic 2']
-    },
+   
     toolbox: {
         show : true,
-         orient : 'vertical',
         feature : {
-            mark : {show: true},
-            dataView : {show: true, readOnly: false},
-            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+            mark : {show: false},
+            dataView : {show: false, readOnly: false},
+            magicType: {show: false, type: ['line', 'bar']},
             restore : {show: true},
             saveAsImage : {show: true}
         }
@@ -38,56 +38,51 @@
     calculable : true,
     xAxis : [
         {
-            type : 'value'
+            type : 'value',
+            boundaryGap : [0, 0.09]
         }
     ],
     yAxis : [
         {
             type : 'category',
-            data : ['Asuncion','San Lorenzo','Capiata','Caazapa','Limpio','Ciudad del Este','Encarnacion']
-        }
+            data : nombres,
+            position: "left",
+             axisLabel : {
+                show:true,
+                interval: 'auto',    // {number}
+                rotate: 0,
+                margin: -10,
+                interval:0,
+                clickable: true,
+                formatter: '{value}',    // Template formatter!
+                textStyle: {
+                    color: 'black',
+                    align: 'left',
+                    
+                    fontSize: 14,
+                    fontStyle: 'normal',
+                    
+                }
+            }
+            
+        },
+
     ],
     series : [
         {
-            name:'Contratacion Directa',
+            name:'Cantidad Total de Adjudicaciones',
             type:'bar',
-            stack: 'true',
-            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-            data:[320, 302, 301, 334, 390, 330, 320]
+            data: cantidades
         },
-        {
-            name:'licitacion publica',
-            type:'bar',
-            stack: 'true',
-            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-            data:[120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-            name:'concuso de ofertas',
-            type:'bar',
-            stack: 'true',
-            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-            data:[220, 182, 191, 234, 290, 330, 310]
-        },
-        {
-            name:'ASu',
-            type:'bar',
-            stack: 'true',
-            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-            data:[150, 212, 201, 154, 190, 330, 410]
-        },
-        {
-            name:'Lic 2',
-            type:'bar',
-            stack: 'true',
-            itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
-            data:[820, 832, 901, 934, 1290, 1330, 1320]
-        }
+        
     ]
 };
-                                     
+                                                     
         
                 // Load data into the ECharts instance 
                 myChart.setOption(option); 
             }
         );
+
+
+}

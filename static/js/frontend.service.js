@@ -26,12 +26,12 @@
 					query: {
 						method: 'GET',
 						isArray: true,
-						cache: true
+						cache: false
 					},
 					get: {
 						method: 'GET',
 						isArray: false,
-						cache: true
+						cache: false
 					}
 				}),
 				//"establecimiento_short": $resource('establecimiento/:id', {

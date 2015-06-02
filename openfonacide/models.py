@@ -5,6 +5,11 @@ Modelo de datos utilizado en OpenFonacide
 """
 
 from django.db import models
+from django.contrib.auth.models import User
+from time import time
+
+def get_upload_file_name(instance, filename):
+    return "%s_%s" % (str(time()).replace('.', '_'), filename)
 
 
 class Establecimiento(models.Model):
@@ -163,6 +168,12 @@ class Espacio(models.Model):
     justificacion = models.CharField(max_length=2048, null=True)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
+    estado_de_obra = models.CharField(max_length=32, default='Priorizado')
+    fecha_modificacion = models.DateTimeField(null=True)
+    cambiado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    fecha_verificacion = models.DateTimeField(null=True)
+    verificado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    documento = models.CharField(max_length=256, null=True)
 
 
 class Sanitario(models.Model):
@@ -187,6 +198,12 @@ class Sanitario(models.Model):
     justificacion = models.CharField(max_length=900, null=True)
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
+    estado_de_obra = models.CharField(max_length=32, default='Priorizado')
+    fecha_modificacion = models.DateTimeField(null=True)
+    cambiado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    fecha_verificacion = models.DateTimeField(null=True)
+    verificado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    documento = models.CharField(max_length=256, null=True)
 
 
 class Mobiliario(models.Model):
@@ -209,6 +226,32 @@ class Mobiliario(models.Model):
     # Tener especial consideracion, puede no existir en la fuente
     uri_establecimiento = models.CharField(max_length=256, null=True)
     uri_institucion = models.CharField(max_length=256, null=True)
+    estado_de_obra = models.CharField(max_length=32, default='Priorizado')
+    fecha_modificacion = models.DateTimeField(null=True)
+    cambiado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    fecha_verificacion = models.DateTimeField(null=True)
+    verificado_por = models.ForeignKey(to=User, null=True, related_name='+')
+    documento = models.CharField(max_length=256, null=True)
+
+
+class HistorialEstado(models.Model):
+    prioridad = models.IntegerField(db_index=True)
+    clase = models.CharField(max_length=50, db_index=True)
+    fecha = models.DateTimeField()
+    estado_de_obra = models.CharField(max_length=32)
+    fecha_modificacion = models.DateTimeField(null=True, db_index=True)
+    cambiado_por_id = models.IntegerField(null=True)
+    cambiado_por_email = models.CharField(max_length=256, null=True)
+    fecha_verificacion = models.DateTimeField(null=True)
+    verificado_por_id = models.IntegerField(null=True)
+    verificado_por_email = models.CharField(max_length=256, null=True)
+    documento = models.FileField(upload_to=get_upload_file_name, null=True)
+
+    class Meta:
+        permissions = (
+            ("verificar_estado", "Puede Verificar el estado de obras"),
+            ("cambiar_estado", "Puede Cambiar el estado de obras"),
+        )
 
 
 # Servicios Básicos de los establecimientos según fonacide

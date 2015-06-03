@@ -383,12 +383,6 @@
 
         //ocultar explicacion
 
-        $scope.ocultar_explicacion = function(){
-
-          $scope.ocultar_explicacion = false;
-
-
-        }
 
          $scope.mostrarAdjudicaciones = function() {
             $scope.show_contraloria = false;

@@ -60,7 +60,16 @@
         display: none !important;
     }
 </style>
+<div id="explicacion-mapa" ng-init="ocultar_explicacion = false" ng-hide="ocultar_explicacion" class="ui big filter  basic right attached fixed button"
+     style="padding-right: 15px;position: fixed;width: 250px;z-index: 99;background-color: white !important;bottom: 50px; ">
+    <a class="ui right white corner label"  ng-click="ocultar_explicacion = true">
+        <i class="close icon" ></i>
+      </a>
+    <div style="text-align: left; font-size: 0.8em; font-weight: normal;">En este mapa podés encontrar el detalle de los requerimientos de infraestructura de las escuelas priorizadas por FONACIDE. <br>
+        <b>Podés comenzar haciendo click en "FILTROS"</b>
 
+    </div>
+</div>
 <div class="detalle ui verde1 right vertical overlay sidebar push uncover"
      style="z-index: 1002;height: 96%  !important;" du-scroll-container>
     <div class="ui top attached tabular menu">
@@ -809,13 +818,13 @@
 
         <div class="item filtros">
             <div class="ui checkbox">
-                <input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()" name="fun">
+                <input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()">
                 <label>Instituciones <br/>Reportadas</label>
             </div>
         </div>
         <div class="item filtros">
             <div class="ui checkbox">
-                <input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()" name="fun">
+                <input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()">
                 <label>Instituciones con <br/> informe de contraloria</label>
             </div>
         </div>
@@ -827,17 +836,6 @@
 <div id="menu-launch" class="ui big filter launch basic right attached fixed button"
      style="padding-right: 10px;position: fixed;top: 200px;z-index: 99;background-color: white !important;">
     <div style="text-align: center; font-size: 0.6em; font-weight: bold;">F<br/>I<br/>L<br/>T<br/>R<br/>O<br/>S</div>
-</div>
-
-<div id="explicacion-mapa" g-init="ocultar_explicacion= true"ng-show="ocultar_explicacion" class="ui big filter  basic right attached fixed button"
-     style="padding-right: 15px;position: fixed;width: 250px;z-index: 99;background-color: white !important;bottom: 10px; ">
-    <a class="ui right white corner label"  ng-click="ocultar_explicacion()">
-        <i class="delete icon" ></i>
-      </a>
-    <div style="text-align: left; font-size: 0.8em; font-weight: normal;">En este mapa podés encontrar el detalle de los requerimientos de infraestructura de las escuelas priorizadas por FONACIDE. <br>
-        <b>Podés comenzar haciendo click en "FILTROS"</b>
-    
-    </div>
 </div>
 
 

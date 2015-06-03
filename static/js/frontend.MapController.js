@@ -500,6 +500,9 @@
 
             });
           });
+            backEnd.institucionapi.get({ id: id}, function(value){
+                $scope.institucionapi = value;
+            });
           backEnd.prioridades.get({
             id: id
           }, function(value) {

@@ -13,10 +13,13 @@ from openfonacide.views import *
 
 admin.autodiscover()
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'establecimiento', EstablecimientoViewSet)
-router.register(r'institucion', InstitucionViewSet)
-router.register(r'prioridad', PrioridadAPIView, base_name="prioridad")
+router = routers.DefaultRouter(trailing_slash=True)
+router.register(r'establecimientos', EstablecimientoViewSet)
+router.register(r'instituciones', InstitucionViewSet)
+router.register(r'espacios', EspacioViewSet)
+router.register(r'mobiliarios', MobiliarioViewSet)
+router.register(r'sanitarios', SanitarioViewSet)
+router.register(r'serviciosbasicos', ServicioBasicoViewSet)
 
 partial_patterns = patterns('',
     url(r'^registration/login\.html$', PartialGroupView.as_view(template_name='registration/login.html'), name='registration/login.html'),
@@ -50,6 +53,11 @@ partial_patterns = patterns('',
     # ... more partials ...,
 )
 
+private_api = patterns('',
+    url(r'^temporal/$', TemporalListView.as_view()),
+    url(r'^unlink/$', UnlinkAPIView.as_view()),
+)
+
 """
     XXX: Se puede mejorar el manejo de rutas, esto se hace para pasarle todas las rutas a router de
     AngularJS, particularmente la tercera ruta.
@@ -59,6 +67,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
     url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
@@ -69,9 +79,6 @@ urlpatterns = patterns('',
     url(r'^((?!admin).)*/?institucion/(?P<codigo_establecimiento>\w*)/?$', InstitucionController.as_view(), name='institucion'),
     # url(r'^listaInstituciones',ListaInstitucionesController.as_view(), name='listaInstituciones'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/v1/', include(router.urls)),
-    url(r'^api/v1/prioridad/$', PrioridadAPIView.as_view()),
-    url(r'^api/v1/prioridad/(?P<codigo_establecimiento>\w+)/$', PrioridadAPIViewDetail.as_view()),
     url(r'^logout/$', 'django.contrib.auth.views.logout',  {'next_page': 'index'}, name='logout'),
     url(r'^filtros/$', filtros, name='filtros'),
     url(r'^_resumen/$', _resumen, name='filtros'),
@@ -80,8 +87,7 @@ urlpatterns = patterns('',
     url(r'^mobiliarios$',   TemplateView.as_view(template_name='visualizaciones/mobiliarios.html'), name="mobiliarios"),
     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
-    url(r'^temporal/$', TemporalListView.as_view()),
-    url(r'^unlink/$', UnlinkAPIView.as_view()),
+    url(r'', include(private_api, namespace="private_api")),
     url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra')
 )
 

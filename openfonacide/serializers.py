@@ -56,7 +56,45 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
         return "0"
 
 
+class PlanificacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planificacion
+        fields = (
+            'id',
+            'anio',
+            'id_llamado',
+            'nombre_licitacion',
+            'convocante',
+            'categoria_id',
+            'categoria_codigo',
+            'categoria',
+            'fecha_estimada',
+            'moneda',
+            'estado',
+        )
+
+
+class AdjudicacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adjudicacion
+        fields = (
+            'id',
+            'id_llamado',
+            'nombre_licitacion',
+            'categoria_id',
+            'categoria',
+            'estado',
+            'monto_total_adjudicado',
+            'monto_periodo',
+            'moneda',
+            'fecha_publicacion',
+        )
+
+
 class InstitucionSerializer(serializers.ModelSerializer):
+    planificaciones = PlanificacionSerializer(many=True, read_only=True)
+    adjudicaciones = AdjudicacionSerializer(many=True, read_only=True)
+
     class Meta:
         model = Institucion
         fields = (
@@ -75,6 +113,8 @@ class InstitucionSerializer(serializers.ModelSerializer):
             'anho_cod_geo',
             'uri_establecimiento',
             'uri_institucion',
+            'planificaciones',
+            'adjudicaciones'
         )
 
 
@@ -138,16 +178,6 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
             return 'f'
         else:
             return 't'
-
-
-'''
-DEPRECATED
-class PrioridadesSerializer(serializers.Serializer):
-    construccion_aulas = serializers.SerializerMethodField('get_construccion_aulas')
-
-    class Meta:
-        fields = ('construccion_aulas',)
-'''
 
 
 def get_P(establecimiento, prioridadClass, serializerClass):
@@ -367,21 +397,6 @@ class TemporalSerializer(serializers.ModelSerializer):
             'id_llamado',
             'nombre_licitacion',
             'convocante'
-        )
-
-
-class PlanificacionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Planificacion
-        fields = (
-            'id',
-            'anio',
-            'id_llamado',
-            'nombre_licitacion',
-            'convocante',
-            'categoria_id',
-            'categoria_codigo',
-            'categoria',
         )
 
 

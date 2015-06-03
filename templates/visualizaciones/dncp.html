@@ -303,7 +303,7 @@ piden más ?
               
 
 
-               $.getJSON("/infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
+               $.getJSON($('base').attr('href') + "infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
                     
 
                  //   console.log(JSON.stringify(result));

@@ -192,6 +192,8 @@
             $scope.infoData.instituciones = [];
             //
             $scope.institucion_actual = undefined;
+            $scope.planificaciones_actual = undefined;
+            $scope.adjudicaciones_actual = undefined;
             //
             $scope.periodo = 2015;
             backEnd.establecimiento_short.get({md5:true}, function(data){
@@ -389,8 +391,13 @@
 
 
         }
+          $scope.formatoDinero = function(x) {
+              var n = parseInt(x);
+              var parts = n.toString().split(".");
+              return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (parts[1] ? "." + parts[1] : "");
+          };
 
-         $scope.mostrarAdjudicaciones = function() {
+          $scope.mostrarAdjudicaciones = function() {
             $scope.show_contraloria = false;
             $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
           };
@@ -430,6 +437,8 @@
           $scope.infoData.instituciones = [];
           //
           $scope.institucion_actual = undefined;
+          $scope.planificaciones_actual = undefined;
+          $scope.adjudicaciones_actual = undefined;
           //
           $scope.periodo = 2015;
           var establecimiento_nuevo = {};
@@ -458,9 +467,18 @@
                       return el.codigo_institucion;
                     })) >= 0){
                 $scope.institucion_actual = idInstitucion;
+                  var t = $scope.infoData.instituciones;
+                  for(var i in t){
+                      if(t[i].codigo_institucion === idInstitucion){
+                          $scope.planificaciones_actual = t[i].planificaciones;
+                          $scope.adjudicaciones_actual = t[i].adjudicaciones;
+                      }
+                  }
               }else{
                 $scope.institucion_actual = instituciones_nuevas[
                   0].codigo_institucion;
+                  $scope.planificaciones_actual = instituciones_nuevas[0].planificaciones;
+                  $scope.adjudicaciones_actual = instituciones_nuevas[0].adjudicaciones;
               }
               $timeout(function(){
                 $scope.map.invalidateSize();
@@ -499,9 +517,6 @@
 
             });
           });
-            backEnd.institucionapi.get({ id: id}, function(value){
-                $scope.institucionapi = value;
-            });
           backEnd.prioridades.get({
             id: id
           }, function(value) {

@@ -1,3 +1,5 @@
+
+
 <style type="text/css">
 
 .label .content{
@@ -63,7 +65,7 @@ color: teal;
                   <div class="twelve wide column" >
 
                     <div class="ui segment active tab" data-tab="diagnostico/descripcion">
-                      <img src="/static/images/diagnostico.png" class="ui image medium  left floated ">
+                      <img src="" class="ui image medium  left floated diagnostico-foto ">
                       <div class="ui large header">Descripción</div>
                       <p>El diagnóstico es un proceso de análisis fundamental para el desarrollo de una planificación eficiente y efectiva, el mismo brinda una visión acabada de la situación educativa actual, además permite identificar y dimensionar los factores que afectan al sistema educativo, con el propósito de incorporar acciones que permitan el logro de los resultados propuestos.</p>
                     </div>
@@ -159,7 +161,8 @@ color: teal;
 
                     <div class="ui segment active tab" data-tab="especificacion/descripcion">
                       <div class="ui large header">Descripción</div>
-                       <img src="/static/images/especificacion.png" class="ui image medium  left floated ">
+
+                       <img src="" class="ui image medium  left floated especificacion-foto">
                       <p>En esta etapa se identifican los requerimientos en términos de secciones, institución educativa, de recursos humanos (cargos directivos u otros cargos), de infraestructura física y almuerzo escolar, así como de los potenciales recursos a reasignar, teniendo en cuenta los criterios, procedimientos, normativas vigentes y el PEI.</p>
                     </div>
 
@@ -288,7 +291,7 @@ Informe del proceso de implementación de la Fase II, identificando los logros, 
 
                     <div class="ui segment active tab" data-tab="asignacion/descripcion">
                       <div class="ui large header">Descripción</div>
-                       <img src="/static/images/asignacion.png" class="ui image medium  right floated ">
+                       <img src="/static/images/asignacion.png" class="ui image medium  right floated asignacion-foto">
                       <p>En esta etapa se asignan los recursos financieros para el funcionamiento de las secciones, nivel/modalidad y/o apertura de una institución educativa para el año lectivo escolar, previo análisis de los requerimientos a nivel nacional, departamental y asignación de cupos departamentales conforme a la disponibilidad presupuestaria. </p>
 
                     <p>En lo que respecta a infraestructura, equipamiento y almuerzo escolar serán financiados con fondos del FONACIDE y administrados por los gobiernos municipales y departamentales, según establece los Art. 37 y 38 del Decreto 10504/13. </p>
@@ -362,7 +365,7 @@ Asimismo, se realiza, la reasignación de los recursos humanos, asignación de c
 
                     <div class="ui segment active tab" data-tab="evaluacion/descripcion">
                       <div class="ui large header">Descripción</div>
-                       <img src="/static/images/evaluacion.png" class="ui image medium  right floated ">
+                       <img src="/static/images/evaluacion.png" class="ui image medium  right floated evaluacion-foto">
                       <p>La evaluación es un proceso que permite a los tomadores de decisiones identificar el grado de cumplimiento de los objetivos propuestos del programa o proyecto, los aspectos que lo hicieron posible, así como los factores que lo dificultaron. Su importancia radica en profundizar el análisis sobre las causas que afectan negativamente la implementación del proceso a fin de proponer alternativas de solución, en este sentido, debe centrarse en identificar y explicar las causas a fin de facilitar las recomendaciones que permitan mejorar lo que se está evaluando y no limitarse a una simple valoración.</p>
                     </div>
 
@@ -507,6 +510,13 @@ $('.menu-evaluacion .item').tab();
 
 $('.menu-especificacion .item').tab();
 
+
+
+$('.diagnostico-foto').attr('src',$('base').attr('href') + "static/images/diagnostico.png");
+
+$('.especificacion-foto').attr('src',$('base').attr('href') + "static/images/especificacion.png");
+$('.asignacion-foto').attr('src',$('base').attr('href') + "static/images/asignacion.png");
+$('.evaluacion-foto').attr('src',$('base').attr('href') + "static/images/asignacion.png");
 
 
 

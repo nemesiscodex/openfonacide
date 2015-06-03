@@ -93,12 +93,12 @@
 
         </div>
 
-       <div class="four column centered row" style="margin-top:20px;">
+       <div class="four column centered row" style="margin-top:20px;overflow: hidden;">
                   <div class="column"></div>
                   <div class="column">
                     <a href="{% static 'manual-microplanificacion.pdf' %}" target="_blank">
                     <div class="big ui button right floated">
-                      <i class="download icon"></i>Descargar el manual de Planificacion
+                      <i class="download icon"></i>Descargar el manual de Planificación
                     </div>
                     </a>
                  </div>
@@ -114,6 +114,8 @@
 <script type="text/javascript">
 
 $('.menu-micro .button').tab();
+
+$('.foto-especificacion').attr('src',$('base').attr('href') + "static/images/especificacion.png");
 
 
 </script>

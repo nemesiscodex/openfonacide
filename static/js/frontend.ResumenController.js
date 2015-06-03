@@ -268,6 +268,7 @@
       .controller('ResumenController', ['$scope', '$timeout', 'backEnd', function($scope, $timeout, backEnd){
         $scope.loading = false;
         $scope.sin_datos = true;
+        $scope.ubicacionCheck = true;
         require.config({
             paths: {
                 echarts: 'static/echarts'

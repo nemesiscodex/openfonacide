@@ -69,9 +69,7 @@
                 };
             }
             $scope.$watch('ctrl.selected.check', function(value){
-                if($scope.activado !== undefined){
-                    $scope.activado = value;
-                }
+                $scope.activado = value;
             });
             $scope.seleccionados = [];
             $control.cambioDepartamento = function () {

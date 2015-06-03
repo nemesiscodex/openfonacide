@@ -1,9 +1,9 @@
 <div class="ui doubling padded grid">
 
   <!-- INICIO FILTROS -->
-  <div class="three wide widescreen five wide computer eigth wide table sixteen wide mobile column white" style="box-shadow: 2px 2px 10px #BBB;">
+  <div class="three wide widescreen five wide computer eigth wide table sixteen wide mobile column white" style="min-height: 96%;box-shadow: 2px 2px 10px #BBB;">
     <h2 class="header">Filtros
-        <div class="circular ui icon button teal right floated" ng-click="actualizarResumen()"><i class="refresh icon"></i></div>
+        <div class="circular ui icon button teal right floated" ng-click="actualizarResumen()">Actualizar <i class="refresh icon"></i></div>
     </h2>
 
     <!-- INICIO AÑO -->
@@ -15,50 +15,54 @@
     </div>
     <!-- FIN AÑO -->
 
-    <!-- INICIO UBICACION -->
-    <div id="ubicacion" class="ui labels top attached segment teal">
-      <div class="ui teal label">Ubicación
-      </div>
-      <div class="ui toggle checkbox" style="float: right;">
-        <input id="ubicacion-check" ng-model="ubicacionCheck" type="checkbox" name="public">
-        <label for="ubicacion-check"></label>
-      </div>
-      <div id="ubicacion-departamento" class="item filtros dropdown" style="margin-bottom: 5px">
-          <select ng-model="departamentoSelected" class="ui fluid search dropdown">
-              <option value="">Departamento</option>
-              <option value="{$ ubicacion.id $}" ng-repeat="ubicacion in ubicaciones">{$ ubicacion.nombre $}</option>
-          </select>
-      </div>
-      <div id="ubicacion-distrito" class="item filtros dropdown" style="margin-bottom: 5px">
-          <select ng-model="distritoSelected" class="ui fluid search dropdown">
-              <option value="">Distrito</option>
-              <option value="{$ distrito.id $}" ng-repeat="distrito in distritos">{$ distrito.nombre $}</option>
-          </select>
-      </div>
-      <div id="ubicacion-barrio" class="item filtros dropdown" style="margin-bottom: 5px">
-          <select ng-model="barrioSelected" class="ui fluid search dropdown">
-              <option value="">Barrio/Localidad</option>
-              <option  value="{$ barrio.id $}" ng-repeat="barrio in barrios">{$ barrio.nombre $}</option>
-          </select>
-      </div>
-      <button class="ui basic button" ng-click="agregarUbicacion()"><i class="plus circle icon"></i>Agregar</button>
-      <button class="ui basic button" ng-click="limpiarUbicacion()"><i class="erase icon "></i>Limpiar</button>
-    </div>
-    <!-- MEDIO UBICACION -->
-
-    <div id="ubicacion-labels" class="ui bottom attached segment">
-      <button title="Borrar todo" ng-click="borrarUbicaciones()" class="ui circular icon basic button red" style="float:right"><i class="trash outline icon "></i></button>
-
-    </div>
-    <!-- FIN UBICACION -->
+      <filtro-ubicacion callback="activar_filtro" activado="ubicacionCheck" seleccionados="ubicacionesSeleccionadas"
+                      multiple="true"></filtro-ubicacion>
+{#    <!-- INICIO UBICACION -->#}
+{#    <div id="ubicacion" class="ui labels top attached segment teal">#}
+{#      <div class="ui teal label">Ubicación#}
+{#      </div>#}
+{#      <div class="ui toggle checkbox" style="float: right;">#}
+{#        <input id="ubicacion-check" ng-model="ubicacionCheck" type="checkbox" name="public">#}
+{#        <label for="ubicacion-check"></label>#}
+{#      </div>#}
+{#      <div id="ubicacion-departamento" class="item filtros dropdown" style="margin-bottom: 5px">#}
+{#          <select ng-model="departamentoSelected" class="ui fluid search dropdown">#}
+{#              <option value="">Departamento</option>#}
+{#              <option value="{$ ubicacion.id $}" ng-repeat="ubicacion in ubicaciones">{$ ubicacion.nombre $}</option>#}
+{#          </select>#}
+{#      </div>#}
+{#      <div id="ubicacion-distrito" class="item filtros dropdown" style="margin-bottom: 5px">#}
+{#          <select ng-model="distritoSelected" class="ui fluid search dropdown">#}
+{#              <option value="">Distrito</option>#}
+{#              <option value="{$ distrito.id $}" ng-repeat="distrito in distritos">{$ distrito.nombre $}</option>#}
+{#          </select>#}
+{#      </div>#}
+{#      <div id="ubicacion-barrio" class="item filtros dropdown" style="margin-bottom: 5px">#}
+{#          <select ng-model="barrioSelected" class="ui fluid search dropdown">#}
+{#              <option value="">Barrio/Localidad</option>#}
+{#              <option  value="{$ barrio.id $}" ng-repeat="barrio in barrios">{$ barrio.nombre $}</option>#}
+{#          </select>#}
+{#      </div>#}
+{#      <button class="ui basic button" ng-click="agregarUbicacion()"><i class="plus circle icon"></i>Agregar</button>#}
+{#      <button class="ui basic button" ng-click="limpiarUbicacion()"><i class="erase icon "></i>Limpiar</button>#}
+{#    </div>#}
+{#    <!-- MEDIO UBICACION -->#}
+{##}
+{#    <div id="ubicacion-labels" class="ui bottom attached segment">#}
+{#      <button title="Borrar todo" ng-click="borrarUbicaciones()" class="ui circular icon basic button red" style="float:right"><i class="trash outline icon "></i></button>#}
+{##}
+{#    </div>#}
+{#    <!-- FIN UBICACION -->#}
 
     <!-- INICIO PRIORIDAD -->
     <div class="ui labels segment teal">
       <div class="ui teal label">Tipo de prioridad</div>
-      <div class="ui toggle checkbox" style="float: right;">
+      <div class="ui checkbox" style="float: right;">
         <input id="prioridad-check" ng-model="prioridadCheck" type="checkbox" name="public">
         <label for="prioridad-check"></label>
       </div>
+      <b ng-if="prioridadCheck" style="float: right">Activado&nbsp;&nbsp;</b>
+      <b ng-if="!prioridadCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
       <div class="ui two column grid">
           <div class="column">
               <div class="ui checkbox column">
@@ -91,10 +95,12 @@
     <!-- INICIO DNCP -->
     <div class="ui labels segment teal">
       <div class="ui teal label">Datos del DNCP</div>
-      <div class="ui toggle checkbox" style="float: right;">
+      <div class="ui checkbox" style="float: right;">
         <input id="dncp-check" ng-model="dncpCheck" type="checkbox" name="public">
         <label for="dncp-check"></label>
       </div>
+      <b ng-if="dncpCheck" style="float: right">Activado&nbsp;&nbsp;</b>
+      <b ng-if="!dncpCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
       <div class="row">
         <div class="ui checkbox column">
             <input ng-model="dncpSeleccionadas.adjudicados" id="dncp-adjudicados" type="checkbox" name="fun">
@@ -114,11 +120,12 @@
     <!-- INICIO ESTADO DE OBRAS -->
     <div class="ui labels segment teal">
       <div class="ui teal label">Estado de obras</div>
-
-      <div class="ui toggle checkbox" style="float: right;">
+      <div class="ui checkbox" style="float: right;">
         <input id="estado-check" ng-model="estadoCheck" type="checkbox" name="public">
         <label for="estado-check"></label>
       </div>
+      <b ng-if="estadoCheck" ng-click="estadoCheck = false" style="float: right">Activado&nbsp;&nbsp;</b>
+      <b ng-if="!estadoCheck" ng-click="estadoCheck = !estadoCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
       <div class="item filtros dropdown" style="margin-bottom: 5px">
           <select ng-model="estadosSelected" class="ui fluid dropdown">
               <option value="">Estado</option>
@@ -132,7 +139,7 @@
   <!-- FIN FILTROS -->
 
   <!-- INICIO RESUMEN -->
-  <div class="thirteen wide widescreen eleven wide computer eigth wide table sixteen wide mobile column">
+  <div class="thirteen wide widescreen eleven wide computer eigth wide table sixteen wide mobile column " style="min-height: 96%">
     <div class="ui segments">
 
       <div class="ui  segment" style="">
@@ -143,7 +150,7 @@
         <div class="content">
 
           <div class="ui segment">
-            <h5 class="ui header" style="margin:0">En los departamentos
+            <h4 class="ui header" style="margin:0">En los departamentos
               <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Asuncion</span>,
               <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Central</span>,
               <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Concepcion</span>, distritos
@@ -152,7 +159,7 @@
               barrios/localidades
               <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Alto Parana ➜ Presidente Franco">San Antonio</span>
               <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Canindeyu ➜ Saltos del Guaira">Jardin del Norte</span>,
-            </h5>
+            </h4>
 
             <h4 class="ui header" style="margin:0">Hubo <span class="ui large basic teal label " style="padding: 5px; margin: 0">{$ data.elegibles $}</span> instituciones elegibles por fonacide
             priorizadas por <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Sanitarios</span>,
@@ -188,26 +195,23 @@
       </div>
 
     </div>
+    <div class="ui active inverted dimmer no-anim" style="background: white" ng-if="sin_datos">
+        <h2 class="ui icon header" style="position: absolute;top:50%; left: 50%;-webkit-transform: translateX(-50%)translateY(-50%);
+  -ms-transform: translateX(-50%)translateY(-50%);
+  transform: translateX(-50%)translateY(-50%);">
+        <i class="refresh icon"></i>
+        Haz click en actualizar!
+        </h2>
+    </div>
+    <div class="ui active inverted dimmer" style="background: rgba(256,256,256, 0.40);" ng-show="loading">
+        <div class="ui large text loader">Cargando</div>
+    </div>
 
 
 
 
+    </div>
 
-
-    </div> 
-
-
-{#    <div class="ui segment">Monto total adjudicado</div>#}
-{##}
-{#    <div class="ui segment"> <h4>Estados de las obras</h4>#}
-{##}
-{#      <div class="ui grid">#}
-{##}
-{#        <div class="ui six wide column">Culminada</div>#}
-{#        <div class="ui four wide column">Priorizada</div>#}
-{#        <div class="ui six wide column">Adjudicada</div>#}
-{#      </div>#}
-{#    </div>#}
 
 
   </div>

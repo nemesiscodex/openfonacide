@@ -255,10 +255,12 @@ piden más ?
             respuesta = {};
              cantidades = [];
                 nombres= [];
+
+                url = {% static '' %};
     
 
 
-        $.getJSON("/infografiaDNCP/", {filtro:"cantidad_adjudicaciones", opcion:"Municipalidades", anio:"2014"}   ,  function(result){
+        $.getJSON( "infografiaDNCP/", {filtro:"cantidad_adjudicaciones", opcion:"Municipalidades", anio:"2014"}   ,  function(result){
 
              respuesta = result;
 
@@ -272,7 +274,7 @@ piden más ?
                          
                         }
 
-                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), "2014", "Municipalidades");
+                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), "2014", "Municipalidades", url);
 
 
 
@@ -300,10 +302,20 @@ piden más ?
                 respuesta = {};
                 cantidades = [];
                 nombres= [];
+
+                if (window.location.pathname.split( '/' )[1] != "dncp"){
+                     url = window.location.pathname.split( '/' )[1] ;
+
+                }
+
+                else {
+                    url = "/"
+                }
+               
               
 
 
-               $.getJSON($('base').attr('href') + "infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
+               $.getJSON( "infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
                     
 
                  //   console.log(JSON.stringify(result));
@@ -323,7 +335,7 @@ piden más ?
                          
                         }
 
-                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion,url);
                     }
 
                     if (respuesta.monto_adjudicaciones) {
@@ -340,20 +352,20 @@ piden más ?
                          
                         }
 
-                        grafica2( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                        grafica2( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion,url);
                     }
 
                      if (respuesta.categoria) {
                         console.log("categoria");
 
-                        grafica3( respuesta.categoria , anio, opcion);
+                        grafica3( respuesta.categoria , anio, opcion,url);
                     }
 
                      if (respuesta.procedimiento) {
                         console.log("procedimiento");
                           
 
-                        grafica4(respuesta.procedimiento,  anio, opcion );
+                        grafica4(respuesta.procedimiento,  anio, opcion,url );
 
 
                     }

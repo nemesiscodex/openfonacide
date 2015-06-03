@@ -47,15 +47,15 @@
     nuevaDirectiva('filtroUbicacion', 'filtro-ubicacion.html', {
         scope: {
             multiple: "=",
-            seleccionados: "=",
-            seleccionado: "=",
+            seleccionados: "=?",
+            seleccionado: "=?",
+            activado: "=?",
             callback: '='
         },
         link: function (scope, element, attrs, ctrl) {
             ctrl.multiple = scope.multiple;
             ctrl.selected = scope.seleccionado;
-            ctrl.callback = (typeof (scope.callback) == 'function') ? scope.callback : function () {
-            };
+            ctrl.callback = (typeof (scope.callback) == 'function') ? scope.callback : function () {/* no-op */};
         },
         controllerAs: 'ctrl',
         controller: ['backEnd', '$scope', '$timeout', function (backEnd, $scope, $timeout) {
@@ -68,9 +68,15 @@
                     check: false
                 };
             }
-            $control.ubicacionesSeleccionadas = [];
+            $scope.$watch('ctrl.selected.check', function(value){
+                if($scope.activado !== undefined){
+                    $scope.activado = value;
+                }
+            });
+            $scope.seleccionados = [];
             $control.cambioDepartamento = function () {
                 $control.distritos = [];
+                $control.barrios = [];
                 $control.selected.distrito = "";
                 $control.selected.barrio = "";
                 for (i in $control.ubicaciones) {
@@ -121,7 +127,7 @@
                 }
                 var flecha = " &#x279c; ";
                 var seleccion = "";
-                if ($control.ubicacionesSeleccionadas
+                if ($scope.seleccionados
                         .filter(function (obj) {
                             return obj[0] == $control.selected.departamento
                                 && obj[1] == $control.selected.distrito
@@ -129,7 +135,7 @@
                         }).length > 0) {
                     return;
                 }
-                $control.ubicacionesSeleccionadas.push(
+                $scope.seleccionados.push(
                     [$control.selected.departamento, $control.selected.distrito, $control.selected.barrio]
                 );
                 var depObj, disObj, barObj;
@@ -182,14 +188,16 @@
                         $('<i class="delete icon"></i>')
                             .click(function () {
                                 var label = $(this).parent();
-                                $control.ubicacionesSeleccionadas = $control.ubicacionesSeleccionadas
+                                $scope.seleccionados = $scope.seleccionados
                                     .filter(function (obj) {
-                                        return !(obj[0] == $control.selected.departamento
-                                        && obj[1] == $control.selected.distrito
-                                        && obj[2] == $control.selected.barrio);
+                                        return !(obj[0] == label.data('dep')
+                                        && obj[1] == label.data('dis')
+                                        && obj[2] == label.data('bar'));
                                     });
                                 label.remove();
-                                $scope.$digest();
+                                $timeout(function(){
+                                    $scope.$apply();
+                                },0,false);
                             })
                     )
                 );
@@ -200,7 +208,7 @@
                 }, 0, false);
             };
             $control.borrarUbicaciones = function () {
-                $control.ubicacionesSeleccionadas = [];
+                $scope.seleccionados = [];
                 $timeout(function () {
                     $('#ubicacion-labels .ui.label').remove();
                     $scope.$digest();

@@ -1,29 +1,35 @@
 # -*- coding: utf-8 -*-
 
+import json
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
+from django.db import transaction
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from django.template import RequestContext, Context
 from django.template.loader import get_template
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404
-from rest_framework.decorators import list_route, detail_route
-from rest_framework.renderers import JSONRenderer
-from rest_framework import viewsets, filters
+from rest_framework.decorators import detail_route
+from rest_framework import filters
+from rest_framework.generics import ListAPIView, ListCreateAPIView
+from django.http import Http404, JsonResponse
+from rest_framework import viewsets
 from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import permissions
+from datetime import datetime
 
 from django.contrib.auth.models import User
+from models import *
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
 from openfonacide import jsonh as JSONH
-
 
 """
 ViewSets for API
@@ -64,6 +70,73 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
             print request.GET['format']
             return Response(JSONH.pack(p_ser.data))
         return Response(p_ser.data)
+
+
+class TemporalListView(ListCreateAPIView):
+    model = Temporal
+    serializer_class = TemporalSerializer
+    queryset = Temporal.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        data_list = request.data
+        respuesta_list = list()
+        for data in data_list:
+            try:
+                llamado = data['id_llamado']
+                institucion = data['codigo_institucion']
+                periodo = data['periodo']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+
+            try:
+                p = Planificacion.objects.get(id_llamado=llamado, anio=periodo)
+                i = Institucion.objects.get(codigo_institucion=institucion, periodo=periodo)
+            except ObjectDoesNotExist as e:
+                # Teóricamente la planificación e institución dadas debe existir en la BD
+                # Probablemente es un error con los datasets
+                return JsonResponse({"mensaje": e.message}, status=500)
+
+            i.planificaciones.add(p)
+
+            set_a = Adjudicacion.objects.filter(id_llamado=llamado)
+            for a in set_a:
+                i.adjudicaciones.add(a)
+
+            i.save()
+            Temporal.objects.filter(id=data['id']).delete()
+            respuesta_list.append(data['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
+
+
+class UnlinkAPIView(ListAPIView):
+    model = Institucion
+    serializer_class = InstitucionUnlinkSerializer
+    queryset = Institucion.objects.filter(planificaciones__isnull=False)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        respuesta_list = list()
+
+        for d in data:
+            try:
+                id_institucion = d['id']
+                id_planificacion = d['idp']
+            except MultiValueDictKeyError as e:
+                return JsonResponse({"mensaje": "Faltan parámetros : " + e.message, "look": request.data}, status=500)
+
+            try:
+                i = Institucion.objects.get(id=id_institucion)
+                p = Planificacion.objects.get(id=id_planificacion)
+            except ObjectDoesNotExist as e:
+                return JsonResponse({"mensaje": e.message}, status=500)
+
+            i.planificaciones.remove(p)
+
+            i.save()
+            respuesta_list.append(d['indice'])
+
+        return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 
 
 class InstitucionViewSet(OpenFonacideViewSet):
@@ -154,7 +227,6 @@ class PrioridadAPIViewDetail(viewsets.views.APIView):
 
     def get(self, request, codigo_establecimiento, format=None):
         prioridad = self.get_object(codigo_establecimiento)
-        print(prioridad)
         serializer = PrioridadSerializer(prioridad)
         if format == "jsonh":
             return Response(JSONH.pack(serializer.data))
@@ -184,10 +256,10 @@ class PrioridadAPIView(viewsets.views.APIView):
         prioridad_serializada = PrioridadSerializer(self.get_queryset())
 
         if format == "json":
-            return JSONResponse(prioridad_serializada.data)
+            return JsonResponse(prioridad_serializada.data, safe=False)
 
         if format == "jsonh":
-            return JSONResponse(JSONH.pack(prioridad_serializada.data))
+            return JsonResponse(JSONH.pack(prioridad_serializada.data), safe=False)
 
         return Response(prioridad_serializada.data)
 
@@ -201,17 +273,6 @@ class PartialGroupView(TemplateView):
         context = super(PartialGroupView, self).get_context_data(**kwargs)
         # update the context
         return context
-
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
 
 class Index(View):
@@ -287,34 +348,16 @@ class Recuperar(View):
         return redirect(reverse('recuperar_pass') + '?' + _query.urlencode())
 
 
-# Deprecated
-# class ListaInstitucionesController(View):
-# def get(self, request, *args, **kwargs):
-# cantidad = request.GET.get('rows')
-# pagina = request.GET.get('page')
-# lista = Institucion.objects.all()
-# if cantidad is not None:
-# paginator = Paginator(lista, cantidad)
-# else:
-# paginator = Paginator(lista, 10)
-# total = len(lista)
-# if pagina is None:
-# pagina = 1
-# try:
-# instituciones = paginator.page(pagina)
-#         except PageNotAnInteger:
-#             instituciones = paginator.page(1)
-#         except EmptyPage:
-#             instituciones = paginator.page(paginator.num_pages)
-#         lista_instituciones = ListaInstitucionesSerializer(instituciones, many=True)
-#         # result = lista_instituciones.data
-#         result = {'total': str(paginator.num_pages), 'page': pagina, 'records': str(total),
-#                   'rows': lista_instituciones.data}
-#         return JSONResponse(result)
-
-
 class EstablecimientoController(View):
     def get(self, request, *args, **kwargs):
+        _md5 = request.GET.get('md5')
+        if _md5:
+            cursor = connection.cursor()
+            cursor.execute(
+                'select md5(CAST((array_agg(es.* order by es.id)) AS text)) from openfonacide_establecimiento es')
+            result = cursor.fetchone()[0]
+            return JsonResponse({"hash": result})
+
         codigo_establecimiento = kwargs.get('codigo_establecimiento')
         short = request.GET.get('short')
         query = request.GET.get('q')
@@ -331,18 +374,18 @@ class EstablecimientoController(View):
                         Establecimiento.objects.filter(nombre__icontains=query, anio=anio) |
                         Establecimiento.objects.filter(direccion__icontains=query, anio=anio), many=True)
                     establecimiento = {"results": establecimiento.data}
-                    return JSONResponse(establecimiento)
+                    return JsonResponse(establecimiento, safe=False)
                 else:
                     establecimiento = EstablecimientoSerializerShort(Establecimiento.objects.filter(anio=anio),
                                                                      many=True)
-                    return JSONResponse(JSONH.pack(establecimiento.data))
+                    return JsonResponse(JSONH.pack(establecimiento.data), safe=False)
         else:
             if codigo_establecimiento:
                 establecimiento = EstablecimientoSerializer(
                     Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento, anio=anio))
             else:
                 establecimiento = EstablecimientoSerializer(Establecimiento.objects.filter(anio=anio), many=True)
-        return JSONResponse(establecimiento.data)
+        return JsonResponse(establecimiento.data, safe=False)
 
 
 class InstitucionController(View):
@@ -366,6 +409,7 @@ class InstitucionController(View):
                 instituciones = {
                     "results": {},
                     "query": query,
+                    "tipo": tipo,
                     "periodo": periodo,
                     "base_url": reverse('index')
                 }
@@ -376,7 +420,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'codigo':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.codigo_institucion = '" + escapelike(query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
+                        " WHERE inst.codigo_institucion = '" + escapelike(
+                            query.upper()) + "' AND inst.periodo=%s order by inst.codigo_institucion",
                         [periodo]
                     )
                     institucion0 = dictfetch(cursor, cantidad, offset)
@@ -388,7 +433,8 @@ class InstitucionController(View):
                 if tipo is None or tipo == 'nombre':
                     cursor.execute(
                         base_query +
-                        " WHERE inst.nombre_institucion like '%%" + escapelike(query.upper()) + "%%' AND inst.periodo=%s",
+                        " WHERE inst.nombre_institucion like '%%" + escapelike(
+                            query.upper()) + "%%' AND inst.periodo=%s",
                         [periodo]
                     )
                     institucion1 = dictfetch(cursor, cantidad, offset)
@@ -433,10 +479,10 @@ class InstitucionController(View):
                         "name": "Barrio/Localidad",
                         "results": institucion4
                     }
-                return JSONResponse(instituciones)
+                return JsonResponse(instituciones, safe=False)
             else:
                 institucion = InstitucionSerializer(Institucion.objects.all(), many=True)
-        return JSONResponse(institucion.data)
+        return JsonResponse(institucion.data, safe=False)
 
 
 class PrioridadController(View):
@@ -451,51 +497,103 @@ class PrioridadController(View):
             "estados": get_Pr(codigo_establecimiento, ServicioBasico,
                               ServicioBasicoSerializer).data,
 
-
         }
-        return JSONResponse(result)
+        return JsonResponse(result, safe=False)
 
 
-# class TotalPrioridadController(View):
-# def get(self, request, *args, **kwargs):
-#
-#         result = {
-#             "establecimietos": get_fonacide().data,
-#
-#
-#
-#
-#         }
-#         return JSONResponse(result)
+@login_required()
+@transaction.atomic
+def estado_de_obra(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método inválido.'}, status=405)
 
+    estado = request.POST.get('estado')
+    clase_prioridad = request.POST.get('clase_prioridad')
+    codigo_prioridad = request.POST.get('codigo_prioridad')
+    verificado = request.POST.get('verificado')
 
-class ComentariosController(View):
-    pass
+    permisos = request.user.get_all_permissions()
+    permiso_verificar = 'openfonacide.verificar_estado' in permisos
+    permiso_cambiar = 'openfonacide.cambiar_estado' in permisos
 
-    # Not yet Implemented
-    # def get(self, request, *args, **kwargs):
-    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    #     comentarios = Comentarios.objects.filter(codigo_establecimiento=codigo_establecimiento).order_by('fecha')
-    #     return JSONResponse(ComentariosSerializer(comentarios, many=True).data)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     codigo_establecimiento = kwargs.get('codigo_establecimiento')
-    #
-    #     captcha = json.loads(request.POST.get('captcha'))
-    #
-    #     # captcha_result = urllib2.urlopen("https://www.google.com/recaptcha/api/siteverify",
-    #     #                                  data=urllib.urlencode({
-    #     #                                      "secret": "secret",
-    #     #                                      "response": captcha
-    #     #                                  })).read()
-    #
-    #     # analize captcha result
-    #
-    #     comentario = Comentarios()
-    #     comentario.codigo_establecimiento_id = codigo_establecimiento
-    #     comentario.autor = request.POST.get('autor')
-    #     comentario.email = request.POST.get('email')
-    #     comentario.texto = request.POST.get('texto')
-    #     comentario.fecha = datetime.datetime.now()
-    #     comentario.save()
-    #     return JSONResponse({"success": True});
+    if not permiso_cambiar and not permiso_verificar:
+        return JsonResponse({'error': 'No tiene permisos para realizar esta accion'}, status=403)
+
+    if not estado or not clase_prioridad or not codigo_prioridad:
+        return JsonResponse({'error': 'Datos insuficientes'}, status=400)
+
+    documento = request.FILES.get('archivo')
+
+    prioridad = None
+
+    if clase_prioridad == 'Aulas' or clase_prioridad == 'Otros Espacios':
+        prioridad = Espacio.objects.get(id=codigo_prioridad)
+    if clase_prioridad == 'Mobiliarios':
+        prioridad = Mobiliario.objects.get(id=codigo_prioridad)
+    if clase_prioridad == 'Sanitarios':
+        prioridad = Sanitario.objects.get(id=codigo_prioridad)
+
+    if prioridad is None:
+        return JsonResponse({'error': 'No existe prioridad.'}, status=404)
+
+    current_user = request.user
+
+    fecha_actual = datetime.now()
+
+    # Si se realizo un cambio de estado
+    cambio_estado = prioridad.estado_de_obra != estado
+
+    cambio_verificacion = verificado is not None
+
+    if cambio_estado and permiso_cambiar:
+        fecha_modificacion = fecha_actual
+        cambiado_por = current_user
+    else:
+        fecha_modificacion = prioridad.fecha_modificacion
+        cambiado_por = prioridad.cambiado_por
+        estado = prioridad.estado_de_obra
+
+    if cambio_verificacion and permiso_verificar:
+        fecha_verificacion = fecha_actual
+        verificado_por = current_user
+    else:
+        fecha_verificacion = prioridad.fecha_verificacion
+        verificado_por = prioridad.verificado_por
+
+    if verificado_por and permiso_verificar and not cambio_estado:
+        verificado_por_id = verificado_por.id
+        verificado_por_email = verificado_por.email
+    else:
+        verificado_por_id = None
+        verificado_por_email = None
+        fecha_verificacion = None
+        verificado_por = None
+
+    if cambiado_por and permiso_verificar:
+        cambiado_por_id = cambiado_por.id
+        cambiado_por_email = cambiado_por.email
+    else:
+        cambiado_por_id = None
+        cambiado_por_email = None
+
+    historial = HistorialEstado(prioridad=codigo_prioridad, clase=clase_prioridad, fecha=fecha_actual,
+                                estado_de_obra=estado, fecha_modificacion=fecha_modificacion,
+                                cambiado_por_id=cambiado_por_id, cambiado_por_email=cambiado_por_email,
+                                verificado_por_id=verificado_por_id, verificado_por_email=verificado_por_email,
+                                documento=documento)
+    historial.save()
+
+    if historial.documento:
+        documento_url = historial.documento.url
+    else:
+        documento_url = prioridad.documento
+
+    prioridad.estado_de_obra = estado
+    prioridad.fecha_modificacion = fecha_modificacion
+    prioridad.cambiado_por = cambiado_por
+    prioridad.fecha_verificacion = fecha_verificacion
+    prioridad.verificado_por = verificado_por
+    prioridad.documento = documento_url
+    prioridad.save()
+
+    return JsonResponse('Exito!', safe=False, status=200)

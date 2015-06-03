@@ -1,7 +1,8 @@
 db.sqlite3
 *.pyc
-.idea/
+/.idea/*
 .project
 .pydevproject
 vpython27
 contralor/
+*.iml

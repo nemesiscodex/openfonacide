@@ -56,7 +56,45 @@ class EstablecimientoSerializer(serializers.ModelSerializer):
         return "0"
 
 
+class PlanificacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planificacion
+        fields = (
+            'id',
+            'anio',
+            'id_llamado',
+            'nombre_licitacion',
+            'convocante',
+            'categoria_id',
+            'categoria_codigo',
+            'categoria',
+            'fecha_estimada',
+            'moneda',
+            'estado',
+        )
+
+
+class AdjudicacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Adjudicacion
+        fields = (
+            'id',
+            'id_llamado',
+            'nombre_licitacion',
+            'categoria_id',
+            'categoria',
+            'estado',
+            'monto_total_adjudicado',
+            'monto_periodo',
+            'moneda',
+            'fecha_publicacion',
+        )
+
+
 class InstitucionSerializer(serializers.ModelSerializer):
+    planificaciones = PlanificacionSerializer(many=True, read_only=True)
+    adjudicaciones = AdjudicacionSerializer(many=True, read_only=True)
+
     class Meta:
         model = Institucion
         fields = (
@@ -75,13 +113,15 @@ class InstitucionSerializer(serializers.ModelSerializer):
             'anho_cod_geo',
             'uri_establecimiento',
             'uri_institucion',
+            'planificaciones',
+            'adjudicaciones'
         )
 
 
 # Deprecated
 # class ListaInstitucionesSerializer(serializers.ModelSerializer):
 # class Meta:
-#         model = Institucion
+# model = Institucion
 #         fields = ('codigo_establecimiento',
 #                   'codigo_institucion',
 #                   'nombre_institucion',
@@ -140,13 +180,6 @@ class EstablecimientoSerializerShort(serializers.ModelSerializer):
             return 't'
 
 
-class PrioridadesSerializer(serializers.Serializer):
-    construccion_aulas = serializers.SerializerMethodField('get_construccion_aulas')
-
-    class Meta:
-        fields = ('construccion_aulas',)
-
-
 def get_P(establecimiento, prioridadClass, serializerClass):
     if not establecimiento:
         return serializerClass(prioridadClass.objects.all(), many=True)
@@ -168,9 +201,23 @@ def get_Pr(establecimiento, prioridadClass, serializerClass):
 
 
 class EspacioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Espacio
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -190,14 +237,36 @@ class EspacioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por",
+            "verificado_por_user",
+            "documento"
         )
 
 
 class SanitarioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Sanitario
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -218,14 +287,34 @@ class SanitarioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por_user",
+            "documento"
         )
 
 
 class MobiliarioSerializer(serializers.ModelSerializer):
+    verificado_por_user = serializers.SerializerMethodField()
+    cambiado_por_user = serializers.SerializerMethodField()
+
+    def get_verificado_por_user(self, obj):
+        if not obj.verificado_por:
+            return None
+        return {'id': obj.verificado_por.id, 'username': obj.verificado_por.username}
+
+    def get_cambiado_por_user(self, obj):
+        if not obj.cambiado_por:
+            return None
+        return {'id': obj.cambiado_por.id, 'username': obj.cambiado_por.username}
+
     class Meta:
         model = Mobiliario
         fields = (
+            "id",
             "periodo",
             "codigo_departamento",
             "nombre_departamento",
@@ -243,7 +332,15 @@ class MobiliarioSerializer(serializers.ModelSerializer):
             "numero_beneficiados",
             "justificacion",
             "uri_establecimiento",
-            "uri_institucion"
+            "uri_institucion",
+            "estado_de_obra",
+            "fecha_modificacion",
+            "cambiado_por",
+            "cambiado_por_user",
+            "fecha_verificacion",
+            "verificado_por",
+            "verificado_por_user",
+            "documento"
         )
 
 
@@ -273,7 +370,6 @@ class ServicioBasicoSerializer(serializers.ModelSerializer):
 
 
 class PrioridadSerializer(serializers.Serializer):
-
     espacio = EspacioSerializer(read_only=True, many=True)
     sanitario = SanitarioSerializer(read_only=True, many=True)
     mobiliario = MobiliarioSerializer(read_only=True, many=True)
@@ -284,3 +380,41 @@ class PrioridadSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         pass
+
+
+class TemporalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Temporal
+        fields = (
+            'id',
+            'periodo',
+            'nombre_departamento',
+            'nombre_distrito',
+            'codigo_institucion',
+            'nombre_institucion',
+            'id_planificacion',
+            'anio',
+            'id_llamado',
+            'nombre_licitacion',
+            'convocante'
+        )
+
+
+class InstitucionUnlinkSerializer(serializers.ModelSerializer):
+    """
+        Este serializador solo se usa para facilitar el proceso de romper las relaciones entre
+        Instituciones y Planificaciones, UnlinkMatch
+    """
+    planificaciones = PlanificacionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Institucion
+        fields = (
+            'id',
+            'periodo',
+            'nombre_departamento',
+            'nombre_distrito',
+            'codigo_institucion',
+            'nombre_institucion',
+            'planificaciones'
+        )

@@ -1,17 +1,111 @@
-<div class="ui archivos contraloria step0 modal">
+{% load staticfiles %}
+<div class="ui archivos contraloria large modal">
     <i class="close icon"></i>
 
     <div class="header">
-        Subir archivo
+        <i class="file icon"></i>Estado de la obra
     </div>
     <div class="content">
-        <div class="image">
-            <i class="file icon"></i>
-        </div>
+{#        <div class="image">#}
+{#            <i class="file icon"></i>#}
+{#        </div>#}
         <div class="description">
-            <div class="ui segment" style="border: dotted">
-                <div class="" style="height: 100px">Arrastre su archivo aqui.</div>
-            </div>
+            <form action="{% url 'estado_de_obra' %}" name="estado_de_obra" method="post" enctype="multipart/form-data">
+                <input id="p_codigo_establecimiento" type="hidden">
+                <input id="p_codigo_institucion" type="hidden">
+                <div class="ui grid">
+                    <div class="two columns row">
+                        <div class="column">
+                            <table class="ui definition table" id="tabla-descripcion">
+                                <tbody>
+                                <tr>
+                                    <td>Institución</td>
+                                    <td id="p_nombre_institucion"></td>
+                                </tr>
+                                <tr>
+                                    <td>Código</td>
+                                    <td id="p_codigo_institucion_text"></td>
+                                </tr>
+                                <tr>
+                                    <td>Prioridad</td>
+                                    <td id="p_clase"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tipo</td>
+                                    <td id="p_tipo_requerimiento"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cantidad</td>
+                                    <td id="p_cantidad_requerida"></td>
+                                </tr>
+                                <tr>
+                                    <td>Orden</td>
+                                    <td id="p_numero_prioridad"></td>
+                                </tr>
+                                <tr>
+                                    <td>Periodo</td>
+                                    <td id="p_periodo"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="column">
+                            <div id="p_estado" class="ui icon downward basic fluid dropdown button"
+                                 style="opacity: 1 !important; box-shadow: 0 0 0 1px rgba(39,41,43,.15)inset !important;">
+                                <input type="hidden" name="estado" value="priorizado">
+                                <!--<i class="tags icon"></i>-->
+                                <div class="text">
+
+                                    <div class="item active">
+                                        <div class="ui basic empty circular label">&nbsp;</div>
+                                        &nbsp;
+                                        Priorizado
+                                    </div>
+                                </div>
+
+                                <div class="menu">
+                                    <div class="header">
+                                        <i class="tags icon"></i>
+                                        ESTADOS DE LA OBRA
+                                    </div>
+                                    <div class="item active" data-value="priorizado">
+                                        <div class="ui gray empty circular label"></div>
+                                        Priorizado
+                                    </div>
+                                    <div class="item" data-value="planificado">
+                                        <div class="ui orange empty circular label"></div>
+                                        Planificado
+                                    </div>
+                                    <div class="item" data-value="adjudicado">
+                                        <div class="ui blue
+                                                     empty circular label"></div>
+                                        Adjudicado
+                                    </div>
+                                    <div class="item" data-value="terminado">
+                                        <div class="ui green empty circular label"></div>
+                                        Terminado
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <input id="p_archivo" type="file" class="ui input file" name="archivo">
+                            <br>
+                            <br>
+                            <div class="ui checkbox">
+                                <input id="p_verificado" type="checkbox" name="verificado">
+                                <label for="p_verificado">He verificado que el estado de esta prioridad es correcta.</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <input id="p_clase_prioridad" type="hidden" name="clase_prioridad">
+                <input id="p_codigo_prioridad" type="hidden" name="codigo_prioridad">
+
+
+                {% csrf_token %}
+            </form>
         </div>
     </div>
     <div class="actions">
@@ -20,94 +114,9 @@
                 <i class="remove icon"></i>
                 Cancelar
             </div>
-            <div class="ui green basic next button"
-                 onclick="event.preventDefault();$('.archivos.contraloria.modal.step1').modal('show')">
-                <i class="right arrow icon"></i>
-                Siguiente
-            </div>
-        </div>
-    </div>
-</div>
-<div class="ui archivos contraloria step1 modal">
-    <i class="close icon"></i>
-
-    <div class="header">
-        Detalle del documento
-    </div>
-    <div class="content">
-        <form class="ui form">
-            <div class="two fields">
-                <div class="field">
-
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Nombre</label>
-                            <input type="text" name="name" placeholder="Nombre">
-                        </div>
-                        <div class="field">
-                            <label>Fecha</label>
-                            <input type="date" name="date" placeholder="Fecha">
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="field">
-                    <label>Distrito</label>
-
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="gender">
-
-                        <div class="default text">Distrito</div>
-                        <i class="dropdown icon"></i>
-
-                        <div class="menu">
-                            <div class="item" data-value="d1">Distrito 1</div>
-                            <div class="item" data-value="d2">Distrito 2</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </form>
-        <div class="ui top attached segment">
-            <p>
-
-            <div class="ui label">
-                Colegio Iturbe
-                <i class="delete icon"></i>
-            </div>
-            <div class="ui label">
-                Escuela nro 1234
-                <i class="delete icon"></i>
-            </div>
-            <div class="ui label">
-                Escuela nro 1235
-                <i class="delete icon"></i>
-            </div>
-
-            </p>
-        </div>
-        <div class="ui bottom attached menu">
-            <div class="ui upward dropdown item">
-                <i class="university icon"></i>
-
-                <div class="menu">
-                    <div class="item">
-                        (Sin datos..)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="two fluid ui  buttons">
-            <div class="ui red basic button">
-                <i class="remove icon"></i>
-                Cancelar
-            </div>
-            <div class="ui green basic button">
-                <i class="right arrow icon"></i>
+            <div id="boton" class="ui green basic next button"
+                 onclick="$(estado_de_obra).submit()">
+                <i class="save icon"></i>
                 Guardar
             </div>
         </div>
@@ -115,14 +124,69 @@
 </div>
 
 <script>
-    $(function () {
-        $('.dropdown').dropdown();
-        $('.archivos.contraloria.modal.step0').modal({
-            allowMultiple: true
+
+    $(estado_de_obra).submit(function (e) {
+        $.ajax({
+            url: '{% url 'estado_de_obra' %}',
+            type: 'POST',
+            data: new FormData(this),
+            processData: false,
+            contentType: false
+        }).success(function(){
+            angular.element('#ng-view').scope().showInfoPopUp($('#p_codigo_establecimiento').val(),
+                    $('#p_codigo_institucion').val());
+            $('.archivos.contraloria.modal').modal('hide');
+        }).error(function(data){
+            if(data.error){
+                alert(data.error);
+            }else{
+                alert('Ha ocurrido un error.');
+            }
         });
-        $('.archivos.contraloria.modal.step1')
-                .modal('attach events', '.archivos.contraloria.modal.step0 .next.button')
-        ;
-    })
+        e.preventDefault();
+    });
+
+    function modificarEstado(prioridad, clase, intitucion){
+        var $estado = $('#p_estado');
+        $('#p_nombre_institucion').html(intitucion.nombre_institucion);
+        $('#p_codigo_institucion_text').html(intitucion.codigo_institucion);
+        $('#p_codigo_institucion').val(intitucion.codigo_institucion);
+        $('#p_codigo_establecimiento').val(intitucion.codigo_establecimiento);
+        $('#p_clase').html(clase);
+        var tipo_requerimiento = '';
+        if(prioridad.nombre_espacio){
+            tipo_requerimiento += prioridad.nombre_espacio;
+        }
+        if(prioridad.nombre_mobiliario){
+            tipo_requerimiento += prioridad.nombre_mobiliario;
+        }
+        if(prioridad.tipo_requerimiento_infraestructura){
+            if(tipo_requerimiento.length > 0){
+                tipo_requerimiento += ' - ';
+            }
+            tipo_requerimiento += prioridad.tipo_requerimiento_infraestructura;
+        }
+        $('#p_tipo_requerimiento').html(tipo_requerimiento);
+        $('#p_cantidad_requerida').html(prioridad.cantidad_requerida);
+        $('#p_numero_prioridad').html(prioridad.numero_prioridad);
+        $('#p_periodo').html(prioridad.periodo);
+        $estado.dropdown('set selected', prioridad.estado_de_obra.toLowerCase());
+        $('#p_clase_prioridad').val(clase);
+        $('#p_codigo_prioridad').val(prioridad.id);
+        {% if 'openfonacide.verificar_estado' not in user.get_all_permissions %}
+            var $verificado = $('#p_verificado');
+            $verificado.parent().hide();
+            $verificado.attr('checked', false);
+        {% endif %}
+        {% if 'openfonacide.cambiar_estado' not in user.get_all_permissions %}
+            $estado.addClass('disabled');
+        {% endif %}
+        var $td = $('#tabla-descripcion').find('td');
+        $td.ucwords();
+
+        $('.archivos.contraloria.modal').modal('show');
+    }
 
 </script>
+
+

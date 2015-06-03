@@ -1,31 +1,127 @@
 (function() {
 
+  function loading(value){
+      if(value){
+          $('.map-loader').addClass('active');
+      }else{
+          $('.map-loader').removeClass('active');
+      }
+  }
+
+  function intersect_safe(a, b){
+   var ai = bi= 0;
+   var result = [];
+
+   while( ai < a.length && bi < b.length ){
+      if      (a[ai] < b[bi] ){ ai++; }
+      else if (a[ai] > b[bi] ){ bi++; }
+      else /* they're equal */
+      {
+        result.push(ai);
+        ai++;
+        bi++;
+      }
+   }
+
+   return result;
+  }
+
+  String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  function even_string(obj){
+      var keys = [];
+      var obj_str = "";
+      for(var attr in obj){
+          keys.push(attr);
+      }
+      keys.sort();
+      for(var i = 0; i < keys.length; i++){
+          obj_str += keys[i] + '&' +
+          ((typeof(obj[keys[i]]) === 'object')? even_string(obj[keys[i]]): JSON.stringify(obj[keys[i]]));
+      }
+      return obj_str;
+  }
+
+  function gen_hash(obj){
+    return "hash" + even_string(obj).hashCode();
+  }
+
   /**
    * Controlador del mapa
    */
   angular.module('frontEnd')
     .controller('MapController', ['$scope', 'backEnd', '$filter',
-      '$routeParams', '$rootScope', '$timeout',
-      function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout) {
+      '$routeParams', '$rootScope', '$timeout', '$location',
+      function($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
+          $scope.modificarEstado = function(prioridad, tipo){
+              if(typeof (window.modificarEstado) === 'function'){
+                  var institucion = $scope.infoData.instituciones.filter(function(obj){
+                      return obj.codigo_institucion == $scope.institucion_actual;
+                  });
+                  window.modificarEstado(prioridad, tipo, institucion[0]);
+              }
+          };
+        loading(false);
+        $scope.es_otros = function(obj){
+            if(typeof obj == 'object'){
+                return obj.nombre_espacio != undefined && obj.nombre_espacio != null;
+            }
+            return false;
+        };
+        $scope.activar_filtro = function(){
+          $('.refresh').parent().transition('jiggle');
+          $('.ui.toggle.checkbox').each(function(idx, el){
+              var $el = $(el);
+              if($el.find(':checkbox').length > 0 && !$el.find(':checkbox')[0].checked){
+                  $timeout(function(){
+                      $(el).transition('flash');
+                  });
+              }
+          });
+        };
+
+        var sidebarInicialized = false;
+        $scope.ubicacionSeleccionada = {};
+        $scope.prioridadesSeleccionadas = {
+          sanitarios: true,
+          aulas: true,
+          mobiliarios: true,
+          otros: true
+        };
         $scope.scrollTo = function (id) {
           $location.hash(id);
           $anchorScroll();
         };
         $scope.create = function (){
-
           if(window.mapLoaded){
             $scope.inicializar();
             $timeout(function(){
               angular.element('.mapContainer').html(window.mapElement);
+              $('#map').css('width', '100%');
+              window.map.invalidateSize();
             });
             $scope.map = window.map;
             return;
           }
           window.mapLoaded = true;
 
-          var map = L.map('map')
+          var map = L.map('map', {
+              minZoom: 7,
+              maxBounds: [
+                [-28.078, -64.313],
+                [-19.068, -51.657]
+              ]
+          })
             .setView([-25.308, -57.6], 13);
-
           /* Open Street Map */
           //Mapnik
           var osmMapnikLayer = L.tileLayer(
@@ -82,14 +178,14 @@
             window.mapElement = angular.element('#map')[0];
           });
           $scope.inicializar();
-        }
+        };
         //inizializar
         $scope.inicializar = function() {
-						$scope.last = {};
+			$scope.last = {};
             //
             $scope.modalTitle = "";
             //
-            $scope.loading = true;
+            loading(true);
             //{verified}
             $scope.infoData = {};
             //
@@ -98,35 +194,148 @@
             $scope.institucion_actual = undefined;
             //
             $scope.periodo = 2015;
+            backEnd.establecimiento_short.get({md5:true}, function(data){
+              var md5hashnew = data.hash;
+              var md5hashold = '';
+              var needReload = false;
+              if(Storage !== 'undefined'){
+                md5hashold = localStorage.getItem('establecimientoHash');
+                needReload = md5hashold !== md5hashnew;
+                if(needReload){
+                    localStorage.clear();
+                }
+                window.mapData = localStorage.getItem('mapData');
+                if(window.mapData != undefined)
+                  window.mapData = JSONH.unpack(JSON.parse(window.mapData));
+              }else{
+                needReload = true;
+              }
+              if(window.mapData && !needReload){
+                  $scope.mapData = window.mapData;
+                  if(window.markers == undefined)
+                    $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
 
-            if(window.mapData){
-              $scope.mapData = window.mapData;
-              $scope.loading = false;
-            }else
-              backEnd.establecimiento_short.query({}, function(data,
-                headers) {
+              }else{
+                backEnd.establecimiento_short.query({}, function(data) {
 
-                $scope.mapData = JSONH.unpack(data);
-                window.mapData = $scope.mapData;
-                $scope.actualizar();
-              });
-            if ($routeParams.establecimiento)
+                  $scope.mapData = JSONH.unpack(data);
+                  window.mapData = $scope.mapData;
+                  if(Storage !== 'undefined'){
+                    localStorage.setItem('mapData', JSON.stringify(data));
+                    localStorage.setItem('establecimientoHash',md5hashnew);
+                  }
+                  $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                });
+              }
+
+            });
+
+            if ($routeParams.establecimiento){
               $scope.showInfoPopUp($routeParams.establecimiento,
                 $routeParams.institucion);
+            }
+
+          };
+
+        /**
+        * { hash: data}
+        */
+        $scope.filtros = {};
+        if(Storage !== 'undefined'){
+            $scope.filtros = JSON.parse(localStorage.getItem('filtros'));
+            if($scope.filtros == null){
+                $scope.filtros = {};
+            }
+        }
+        $scope.filtroArray = [];
+        var actualizarFiltroArray = function(){
+          $scope.filtroArray = undefined;
+          var filtro;
+          for(index in $scope.filtros){
+            filtro = $scope.filtros[index];
+            if(filtro.activo){
+              if($scope.filtroArray == undefined){
+                $scope.filtroArray = filtro.data;
+                continue;
+              }
+              intersect_safe($scope.filtroArray, filtro.data)
+            }
           }
+          if($scope.filtroArray == undefined){
+            $scope.filtroArray = [];
+
+          }
+          window.filtroArray = $scope.filtroArray;
+          window.filtros = $scope.filtros;
+        };
+        var originalFilterFunction = function(obj){
+          if($scope.filtroArray.length > 0)
+            return $scope.filtroArray.indexOf(obj.id) != -1;
+          return obj;
+        };
+
+        $scope.filtro = function(){
+
+            loading(true);
+            var params = {};
+            if($scope.ubicacionSeleccionada.check){
+                params.ubicacion = $scope.ubicacionSeleccionada;
+            }
+            if($scope.prioridadesSeleccionadas.check){
+
+                params.prioridades = $scope.prioridadesSeleccionadas;
+                params.prioridades.rango = [$('#slider-lower').val(), $('#slider-upper').val()];
+            }
+            if(JSON.stringify(params) != '{}'){
+                var _filtro = $scope.filtros[gen_hash(params)];
+                if(_filtro){
+                    $timeout(function(){
+                        $scope.filtroArray = _filtro;
+                        if($scope.filtroArray.length > 0){
+                          $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                        }else{
+                          alert('No se produjeron resultados para el filtro.');
+                          loading(false);
+                        }
+                    }, 10);
+
+                }else{
+                    backEnd.filtros.query(params, function(data){
+                      $scope.filtroArray = data;
+                      $scope.filtros[gen_hash(params)] = data;
+                      if(Storage !== 'undefined'){
+                        localStorage.setItem('filtros', JSON.stringify($scope.filtros));
+                      }
+                      if($scope.filtroArray.length > 0){
+                        $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+                      }else{
+                        alert('No se produjeron resultados para el filtro.');
+                        loading(false);
+                      }
+                    });
+                }
+
+            }else{
+                $scope.filtroArray = [];
+                $scope.actualizar(function(array){return array.filter(originalFilterFunction)});
+            }
+        };
           //actualizar/filtrar
         $scope.actualizar = function(filterFunction) {
           var point;
           var marker;
           var data = {};
-          if (typeof(filterFunction) === 'function')
+          if (typeof(filterFunction) === 'function'){
             data = filterFunction($scope.mapData);
-          else
+          }else{
             data = $scope.mapData;
-
-          if ($scope.markers)
+          }
+          if ($scope.markers){
             $scope.map.removeLayer($scope.markers);
-
+          }
+          if (window.markers){
+            $scope.map.removeLayer(window.markers);
+          }
           $scope.markers = new L.MarkerClusterGroup({
 
             iconCreateFunction: function(cluster) {
@@ -152,9 +361,10 @@
                 icon: grayMarker
               });
               marker.bindPopup("<h4>" + point.name +
-                '</h4><a class="circular ui teal icon button" href="/map?establecimiento=' +
+                '</h4><a class="circular ui teal icon button" onclick="angular.element(this).scope().showInfoPopUp(' +
+                // '</h4><a class="circular ui teal icon button" href="/map?establecimiento=' +
                 point.id +
-                '" ><i class="plus outline icon"></i> Detalles</a><hr>' +
+                ');" ><i class="plus outline icon"></i> Detalles</a><hr>' +
                 point.dir
               );
               markers.addLayer(marker);
@@ -163,8 +373,8 @@
 
           $scope.map.addLayer(markers);
 
-
-          $scope.loading = false;
+          window.markers = markers;
+          loading(false);
 
         };
         //mostrar detalle
@@ -173,7 +383,15 @@
         //mostrar adjudicaciones
 
          $scope.mostrarAdjudicaciones = function() {
+            $scope.show_contraloria = false;
             $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
+          };
+
+        //mostrar Documentos de contraloria
+
+         $scope.mostrarContraloria = function() {
+           $scope.show_adjudicaciones = false;
+            $scope.show_contraloria = !$scope.show_contraloria;
           };
 
         //filtrar
@@ -182,14 +400,22 @@
 
         //TODO: refactor
         $scope.showInfoPopUp = function(id, idInstitucion) {
+        //   $('#map').css('width', '100%');
           $scope.establecimiento = id;
-          if(!idInstitucion)
-            idInstitucion = '';
-          if($scope.last.codigo_establecimiento === id
-                && $scope.last.codigo_institucion === idInstitucion){
-            return;
+          if(!$location.$$search.establecimiento){
+              sidebarInicialized = false;
           }
-          $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion}
+
+          $location.search('establecimiento',id);
+          $location.search('institucion',idInstitucion);
+          if(!idInstitucion){
+            idInstitucion = '';
+          }
+        //   if($scope.last.codigo_establecimiento === id
+        //         && $scope.last.codigo_institucion === idInstitucion){
+        //     return;
+        //   }
+          $scope.last = {"codigo_establecimiento":id, "codigo_institucion":idInstitucion};
           //{verified}
           $scope.infoData = {};
           //
@@ -202,20 +428,16 @@
           var instituciones_nuevas = [];
           backEnd.establecimiento.get({
             id: id
-          }, function(value, headers) {
+          }, function(value) {
             establecimiento_nuevo = value;
             var lat = parseFloat(establecimiento_nuevo.latitud);
             var lon = parseFloat(establecimiento_nuevo.longitud);
 
-            if(isNaN(lat) || isNaN(lon)){
-              alert('No se puede localizar el establecimiento.')
-            }else{
-              $scope.map.setView([lat, lon], 16)
-            }
+
 
             backEnd.institucion.query({
               id: id
-            }, function(value, headers) {
+            }, function(value) {
               instituciones_nuevas = value;
               // $scope.infoData.instituciones = value;
 
@@ -225,36 +447,70 @@
               if ($.inArray(idInstitucion, $scope.infoData.instituciones
                   .map(
                     function(el) {
-                      return el.codigo_institucion
-                    })) >= 0)
+                      return el.codigo_institucion;
+                    })) >= 0){
                 $scope.institucion_actual = idInstitucion;
-              else
+              }else{
                 $scope.institucion_actual = instituciones_nuevas[
                   0].codigo_institucion;
+              }
               $timeout(function(){
+                $scope.map.invalidateSize();
                 $scope.$digest();
-                angular.element('.right.sidebar')
-                .sidebar({
-                  context: angular.element('[ng-view]'),
-                  dimPage: false,
-                  closable: false
-                })
-  							.sidebar('show');
+                var $sidebar = angular.element('.right.sidebar')
 
-              })
+                if(!sidebarInicialized){
+                    $sidebar.sidebar({
+                      context: angular.element('[ng-view]'),
+                      dimPage: false,
+                      closable: false,
+                      onVisible: function(){
+
+
+                      }
+                    });
+                    sidebarInicialized = true;
+                }
+                $sidebar.sidebar('show');
+                $('.left.sidebar.visible').sidebar('hide');
+                $timeout(function(){
+                    if(isNaN(lat) || isNaN(lon) || lat == 0.0 || lon == 0.0){
+                      alert('No se puede localizar el establecimiento.');
+                    }else{
+                      if($('#map')[0].style.width !== '35%'){
+                        $('#map').css('width', '35%');
+                        $scope.map.invalidateSize();
+                      }
+                      $scope.map.setView([lat, lon], 17);
+                    }
+                },0);
+                $('.right.sidebar .ui.dropdown').dropdown();
+
+              });
 
 
             });
           });
+            backEnd.institucionapi.get({ id: id}, function(value){
+                $scope.institucionapi = value;
+            });
           backEnd.prioridades.get({
             id: id
-          }, function(value, headers) {
+          }, function(value) {
             $scope.prioridades = value;
+              $timeout(function(){
+                  $scope.$digest();
+                  $scope.$apply();
+                  $('.with-popup').popup({inline: true});
+              },500,false);
           });
+
+
 
 
         };
         $scope.create();
+
 
       }
     ]);

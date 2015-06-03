@@ -87,9 +87,8 @@ body.pushable {
 padding-left: 35px !important;
 }
 .sidebar .filtros.dropdown {
-    margin: 30px 0px;
+    /*margin: 30px 0px;*/
    text-align: left !important;
-padding-left: 35px !important;
 }
 .sidebar .dropdownn {
     padding-bottom: 0px !important;
@@ -117,6 +116,11 @@ color: rgba(0,0,0,.8);
 
 div.ui.requerimiento.stackable.grid.segment {
 background: whitesmoke;
+}
+
+
+.requerimiento p {
+text-align: left;
 }
 
 
@@ -151,6 +155,9 @@ footer {
     .detalle.sidebar{
         width: 65% !important;
     }
+    .filtro.sidebar{
+        width: 355px !important;
+    }
 }
 
 /* mobile */
@@ -165,11 +172,15 @@ footer {
     .detalle.sidebar{
         width: 65% !important;
     }
+
+    .filtro.sidebar{
+        width: 355px !important;
+    }
 }
 
 
 .verde1 {
-    background: #90c695 !important;
+    background: #00b5ad !important;
 }
 
 .verde2 {
@@ -195,8 +206,10 @@ footer {
 }
 .highlight{
     background: #ffff00;
-}.highlight.blue, .label .highlight{
+}
+.highlight.blue, .label .highlight{
     background: #4E4C89;
+}
 
 
 .leaflet-top, .leaflet-bottom {

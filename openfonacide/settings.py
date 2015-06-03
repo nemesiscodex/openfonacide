@@ -26,12 +26,12 @@ DEBUG = DEBUG or 'DEBUG' in os.environ
 if ON_PAAS and DEBUG:
     print("*** Warning - Debug mode is on ***")
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 if ON_PAAS:
     ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS'], socket.gethostname()]
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -48,6 +48,10 @@ INSTALLED_APPS = (
     'rest_framework_swagger',
     'openfonacide'
 )
+
+SWAGGER_SETTINGS = {
+    "exclude_namespaces": ["private_api"],
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASES': (
@@ -159,3 +163,10 @@ STATICFILES_DIRS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if ON_PAAS:
+    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR', ''), 'media')
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'wsgi', 'files')
+
+MEDIA_URL = '/media/'

@@ -1,0 +1,337 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>Abastecimiento de Agua</title>
+  
+     <script src="{% static 'js/d3.v3.min.js' %}"></script>
+    <script src="{% static 'js/liquidFillGauge.js' %}"></script>
+       <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+      <link href="{% static 'semantic.min.css' %}" rel="stylesheet">
+       <script src="{% static 'semantic.min.js' %}"></script>
+       <script src="{% static 'js/echarts.js' %}"></script>
+        <script src="{% static 'js/abastecimiento.json' %}"></script>
+        <script src="{% static 'js/agua.js' %}"></script>
+      
+      
+
+    <style>
+
+          body {
+          background-color: #E9E9E9;
+          color: grey;
+          }
+          .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+
+
+          .burbuja{
+            background: url('{% static 'images/gota2.png' %}');
+          background-repeat: no-repeat;
+          background-position: center;
+
+
+          background-position-y: 15px;
+          height: 500px;
+                  }
+
+          .burbuja img {
+          position: absolute;
+          left: 154px;
+          width: 248px;
+          top: 5px;
+          z-index: -1;
+          }
+
+          svg#fillgauge1 {
+          margin-top: 99px;
+
+          /* padding-top: 100px; */
+          }
+
+
+          img.cc{
+              width: 30%;
+          }
+
+          .sidebar-right {
+              width: 20%;
+              height: 300px;
+              float: left;
+
+          }
+
+
+          .sidebar-left {
+              width: 20%;
+              height: 300px;
+              float: right;
+
+          }
+
+
+
+    </style>
+</head>
+<body>
+
+    <h3 class="ui block header">
+      <a href="/">Contralor FONACIDE</a>
+  
+</h3>
+
+
+<div class="ui page grid">
+
+
+<div class="four wide column">
+
+
+
+<h1 class="ui header">Abastecimiento de Agua</h1>
+
+    <p>¿De dónde proviene el liquido vital para las escuelas de nuestro país?</p>
+    <p>La fuente de abastecimiento de agua en las escuelas priorizadas para recibir los fondos de FONACIDE es muy variada. Hacé click en cada uno de los tipos de abastecimiento para saber cuántas escuelas lo utilizan y entrá al mapa para ver en qué departamento las escuelas indicaron ese tipo de abastecimiento de agua.</p>
+    
+
+    <a href="http://datos.mec.gov.py/data/servicios_basicos">Datos Proveídos por el MEC</a>
+
+    <p>Créditos:
+<a href="">Licencia Creative Commons CC-BY-SA</a></p>
+<img src="{% static 'images/cc.png' %}" class="cc">
+
+</div>
+<div class="eight wide column burbuja">
+      <svg id="fillgauge1" width="100%" height="250"></svg>
+
+
+      <div class="ui segment">
+            <div class="ui segment">
+              <h3 class="ui right floated header">
+              <span class="cantidad_tipo_abastecimiento"></span> instituciones poseen abastecimiento de agua de tipo
+              <span class="tipo_abastecimiento"></span>
+              </h3>
+            </div>
+
+
+           <!-- <div class="ui descripcion_tipo_abastecimiento"> es una Aguaterias que proveen agua potable en todo el territorio del Paraguay</div> -->
+             
+            <div class="ui centered grid"><div class="ui teal button center btn-mapa" style="margin-bottom:10px; margin-top:10px;">Ver Mapa de Calor</div>
+
+
+            </div> 
+       
+      </div>
+</div>
+
+
+
+<div class="four wide column">
+
+    <h3>Tipo de Abastecimiento</h3>
+   
+
+    <div class="ui form">
+    <div class="grouped  fields">
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit" checked="checked">
+          <label>PRIVADO</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>SENASA</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>POZO ARTESIANO</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>ESSAP</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>POZO</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>POZO COMUNITARIO</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>JUNTA DE SANEAMIENTO</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>N/R</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>OTROS</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>ALJIBE</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>RIO / ARROYO / NACIENTE</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>NO</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>TAJAMAR / LAGUNA / ESTERO</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>COMUNITARIO</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>PROVISION DEL VECINO</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>MUNICIPAL</label>
+        </div>
+      </div>
+       <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="fruit">
+          <label>ITAIPU / EBY</label>
+        </div>
+      </div>
+
+
+    </div>
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="ui modal modal-mapa">
+  <i class="close icon"></i>
+  
+  <div class="content">
+      <div id="main-map" style="height:400px"></div>
+  </div>
+  
+</div>
+
+
+
+
+
+<script language="JavaScript">
+$( document ).ready(function() {
+
+  
+    
+
+  $('.ui.checkbox').checkbox();
+
+
+// TRAIGO EL ARCHIVO JSON E INICIALIZO LAS VARIABLES
+
+  $.getJSON( "{% static 'js/abastecimiento.json' %}", function( data ) {
+
+          abastecimiento = data;
+          total_instituciones = 0;
+
+          for (i = 0; i < abastecimiento.length; i++) {  //loop through the array
+            total_instituciones += abastecimiento[i].cantidad;  //Do the math!
+          }
+
+          calcular_abastecimiento();
+
+          
+        
+});
+
+
+  //AL HACER CLICK TRAIGO LA INFORMACION DEL TIPO DE ABASTECIMIENTO
+   
+
+    $('.ui.checkbox').click(function(resultado){     
+       
+      calcular_abastecimiento();
+
+
+
+    })
+
+    
+
+///AL HACER CLICK TRAIGO EL MAPA 
+
+$('.btn-mapa').click(function(){  
+
+          tipo_abastecimiento =  $( "input:checked" ).next().html();
+          console.log(tipo_abastecimiento);
+
+         resultado =  $.grep( abastecimiento , function( n, i ) {
+            return n.abastecimiento_agua===tipo_abastecimiento;
+          });
+
+
+         mapa(resultado, tipo_abastecimiento);});
+
+   
+
+
+   
+
+
+     
+});
+ 
+</script>
+
+
+
+
+
+
+
+</body></html>

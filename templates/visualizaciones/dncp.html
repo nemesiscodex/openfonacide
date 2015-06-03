@@ -1,0 +1,372 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+         <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+       
+
+        <script src="{% static 'js/dncp/vendor/modernizr-2.8.3.min.js' %}"></script>
+        <style>
+            body {
+                                padding-bottom: 20px;
+                               
+            }
+
+
+            .lateral {
+                 padding-top: 20px;
+                background-color: #00b5ad !important;
+            }
+
+            .radiob {
+                                width: 49%;
+                min-height: 150px;
+                padding: 10px;
+                            }
+
+                            .radiob label {
+                background: white;
+                padding: 4px;
+                min-height: 119px;
+                border-radius: 4px;
+                }
+
+                .form-control {
+                display: block;
+                width: 100%;
+                height: 34px;
+                padding: 6px 12px;
+                font-size: 11px;
+                line-height: 1.42857143;
+                color: #555;
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                }
+
+                .lateral h1 {
+                    color: white;
+                }
+
+                .lateral p{
+                    color: white;
+                }
+
+
+          img.cc{
+              width: 30%;
+          }
+
+          div.col-xs-12.selectContainer {
+padding: 0px;
+}
+
+        
+        </style>
+    </head>
+    <body>
+
+
+
+
+
+
+
+       
+
+
+
+    <div class="col-md-4 lateral">
+         <h1>Preguntale al Contralor</h1>
+         <h4>DNCP y FONACIDE</h4>
+        <p>A través de la DNCP pasan todas las contrataciones públicas de Paraguay, incluidas las planificadas y financiadas con recursos del Fondo Nacional de Inversión Pública y Desarrollo.</p>
+
+        <p>En esta infografía podrás responder algunas de las preguntas más comunes en torno a las contrataciones referentes a FONACIDE.
+
+</p>
+
+<p>*Los datos visualizados en esta infografía incluyen no solamente lo relacionado con el MEC y con la educación.</p>
+<p>Para ver los datos simplemente haz click en la pregunta:</p>
+<div class="row">
+
+
+<div class="col-md-12">
+<div class="col-xs-6 selectContainer anio" style="padding-left:0px;">
+            <select class="form-control" name="size">
+                <option value="Municipalidades">2014</option>
+                <option value="Gobernaciones">2015</option>               
+                
+            </select>
+        </div>
+
+
+</div>
+
+
+<div class="radiob col-xs-6">
+  <label> <input type="radio" class="rg" name="optradio" value="cantidad_adjudicaciones"> ¿Cuáles son las<br>
+    <div class="form-group">
+      
+        <div class="col-xs-12 selectContainer">
+            <select class="form-control" name="size">
+                <option value="Municipalidades">Municipalidades</option>
+                <option value="Gobernaciones">Gobernaciones</option>
+                <option value="Instituciones">Instituciones</option>
+                
+            </select>
+        </div>
+    </div>
+    con mayor cantidad de adjudicaciones?
+
+</label>
+</div>
+<div class="radiob  col-xs-6">
+  <label><input type="radio" class="rg" name="optradio" value="monto_adjudicaciones">¿Cuáles son las<br>
+
+     <div class="col-xs-12 selectContainer">
+            <select class="form-control" name="size">
+                <option value="Municipalidades">Municipalidades</option>
+                <option value="Gobernaciones">Gobernaciones</option>
+                <option value="Instituciones">Instituciones</option>
+                
+            </select>
+        </div>
+
+
+
+
+    con mayor monto adjudicado?</label>
+</div>
+<div class="radiob  col-xs-6 ">
+  <label><input type="radio" class="rg" name="optradio" value="categoria" >¿Cuáles son las categorias que las <br>
+
+ <div class="col-xs-12 selectContainer">
+            <select class="form-control" name="size">
+                <option value="Municipalidades">Municipalidades</option>
+                <option value="Gobernaciones">Gobernaciones</option>
+                <option value="Instituciones">Instituciones</option>
+                
+            </select>
+        </div>
+
+
+   piden más ?</label>
+</div>
+<div class="radiob  col-xs-6 ">
+  <label><input type="radio" class="rg" name="optradio" value="procedimiento"> 
+   ¿Cuáles son los tipo de procedimiento piden las<br>
+        <div class="col-xs-12 selectContainer">
+            <select class="form-control" name="size">
+                <option value="Municipalidades">Municipalidades</option>
+                <option value="Gobernaciones">Gobernaciones</option>
+                <option value="Instituciones">Instituciones</option>
+                
+            </select>
+        </div>
+piden más ?
+
+    </label>
+</div>
+
+</div>
+
+
+
+
+<div class="row">
+<div class="col-md-10 ">
+
+<div  class="btn btn-default btn-lg col-md-6 preguntar">
+ Preguntar
+</div>
+</div>
+
+
+
+
+</div> 
+
+<div class="row" style="padding:10px">
+
+    <a href="https://www.contrataciones.gov.py/datos/data" style="color:white;">Datos Proveídos por el DNCP</a>
+
+    <p>Créditos:
+<a href="" style="color:white;">Licencia Creative Commons CC-BY-SA</a></p>
+<img src="{% static 'images/cc.png' %}" class="cc">
+
+
+</div>
+
+
+
+
+   
+
+        </div>
+
+
+         <div class="col-md-8">
+
+            <section><div class="prueba"></div> </section>
+
+            <section>  <div id="main1" style="height:600px;padding-top:80px;"></div></section>
+          
+        </div>
+
+
+
+     
+       
+      <!-- Example row of columns -->
+   
+     
+      
+        <script src="{% static 'js/dncp/vendor/jquery-1.11.2.min.js' %}"></script>
+        <script src="{% static 'js/dncp/vendor/bootstrap.min.js' %}"></script>
+       
+        <script src="{% static 'js/dncp/plugins.js' %}"></script>
+        <script src="{% static 'js/dncp/main.js' %}"></script>
+        <script src="{% static 'js/echarts.js' %}"></script>       
+        <script src="{% static 'js/dncp/chart1.js' %}"></script>
+        <script src="{% static 'js/dncp/chart2.js' %}"></script>
+        <script src="{% static 'js/dncp/chart3.js' %}"></script>
+        <script src="{% static 'js/dncp/chart4.js' %}"></script>
+        <script src="{% static 'js/dncp/chart5.js' %}"></script>
+
+
+        <script type="text/javascript">
+
+        $( document ).ready(function() {
+
+            respuesta = {};
+             cantidades = [];
+                nombres= [];
+    
+
+
+        $.getJSON("/infografiaDNCP/", {filtro:"cantidad_adjudicaciones", opcion:"Municipalidades", anio:"2014"}   ,  function(result){
+
+             respuesta = result;
+
+             for (var i in respuesta.cantidad_adjudicaciones) {
+
+                            
+
+                            cantidades[i] = respuesta.cantidad_adjudicaciones[i].cantidad;
+
+                            nombres[i] = respuesta.cantidad_adjudicaciones[i].convocante.replace("Municipalidad de", "").replace("Gobierno Departamental de ","");
+                         
+                        }
+
+                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), "2014", "Municipalidades");
+
+
+
+
+        })
+
+});
+
+            $(".preguntar").click(function () {
+
+      
+                filtro = $("input:checked").val();
+               opcion= $("input:checked").next().next().find("option:selected").html();
+
+               anio = $('.anio').find("option:selected").html();
+
+               var resumen = {}
+
+               resumen.filtro = filtro;
+               resumen.opcion = opcion;
+
+               console.log(resumen);
+
+
+                respuesta = {};
+                cantidades = [];
+                nombres= [];
+              
+
+
+               $.getJSON("/infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
+                    
+
+                 //   console.log(JSON.stringify(result));
+                    respuesta = result;
+
+                    if (respuesta.cantidad_adjudicaciones) {
+                        console.log("cantidad_adjudicaciones");
+
+                        
+                        for (var i in respuesta.cantidad_adjudicaciones) {
+
+                            
+
+                            cantidades[i] = respuesta.cantidad_adjudicaciones[i].cantidad;
+
+                            nombres[i] = respuesta.cantidad_adjudicaciones[i].convocante.replace("Municipalidad de", "").replace("Gobierno Departamental de ","");
+                         
+                        }
+
+                        grafica1( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                    }
+
+                    if (respuesta.monto_adjudicaciones) {
+
+                        console.log("monto_adjudicaciones");
+
+                         for (var i in respuesta.monto_adjudicaciones) {
+
+                            
+
+                            cantidades[i] = respuesta.monto_adjudicaciones[i].monto_total;
+
+                            nombres[i] = respuesta.monto_adjudicaciones[i].convocante.replace("Municipalidad de", "").replace("Gobierno Departamental de ","");
+                         
+                        }
+
+                        grafica2( cantidades.slice( 0, 10 ) , nombres.slice( 0, 10 ), anio, opcion);
+                    }
+
+                     if (respuesta.categoria) {
+                        console.log("categoria");
+
+                        grafica3( respuesta.categoria , anio, opcion);
+                    }
+
+                     if (respuesta.procedimiento) {
+                        console.log("procedimiento");
+                          
+
+                        grafica4(respuesta.procedimiento,  anio, opcion );
+
+
+                    }
+                });
+
+
+
+
+                        });
+
+
+        </script>
+       
+      
+    </body>
+</html>

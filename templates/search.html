@@ -3,17 +3,19 @@
 
 
           <div class="ui icon input fluid">
-            <div class="ui dropdown teal label">
+            <div class="ui dropdown busqueda teal label">
                 <div class="text">Buscar</div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
                     <div class="item">Todos</div>
-                  <div class="item">Id institución</div>
-                  <div class="item">Id establecimiento</div>
-                  <div class="item">Nombre Institucion</div>
+                  <div class="item">Código de institución</div>
+                  <div class="item">Nombre de institución</div>
+                  <div class="item">Dirección</div>
+                  <div class="item">Distrito</div>
+                  <div class="item">Barrio</div>
                 </div>
               </div>
-      <input class="prompt" type="text" placeholder="Buscar Instituciones">
+      <input class="prompt" type="text" placeholder="Institución">
       <i class="search icon"></i>
     </div>
 
@@ -30,7 +32,9 @@
         $('.results').addClass('hidden');
       }
     });
-    var message = function(message, type) {
+
+    function configurar_busqueda(url, minCharacters, tipo){
+        var message = function(message, type) {
                         var
                                 html = ''
                                 ;
@@ -41,7 +45,7 @@
                             // message type
                             if (type == 'empty') {
                                 html += ''
-                                + '<div class="header">No Results</div class="header">'
+                                + '<div class="header">Sin resultados.</div class="header">'
                                 + '<div class="description">' + message + '</div class="description">'
                                 ;
                             }
@@ -52,17 +56,18 @@
                         }
                         return html;
                     };
-    $('.ui.category.search')
+        $('.ui.category.search')
             .search({
                 apiSettings: {
-                    url: 'institucion/?q={query}&cantidad=5'
+                    url: url
                 },
-                minCharacters: 4,
-                cache: true,
+                minCharacters: minCharacters,
+                cache: false,
                 templates: {
                     message: message,
                     standard: function (response) {
                         var query = response.query.toUpperCase();
+                        var tipo = response.tipo;
                         var total_resultdos = 0;
                         var query_replace = '<span class="highlight">'+query+'</span>';
                         var html = '',
@@ -119,7 +124,7 @@
                             if(total_resultdos === 0)
                                 return message("Su busqueda no produjo resultados.", 'empty result');
                             response.action = {
-                                url: 'results/?q='+query,
+                                url: 'results/?q='+query + '&type=' +tipo,
                                 text: 'Mostrar todos los resultados'
                             };
                             if (response.action) {
@@ -136,22 +141,49 @@
             })
             .keypress(function(event){
               if (event.which == 13) {
-                window.location.href = 'results/?q='+$(this).find('input').val();
+                window.location.href = 'results/?q='+$(this).find('input').val()+'&type='+tipo;
               }
             })
     ;
+    }
+    configurar_busqueda('institucion/?q={query}&cantidad=5', 4, '');
 
 
 
-    $('.dropdown')
+    $('.dropdown.busqueda')
   .dropdown({
     // you can use any ui transition
     transition: 'drop',
 
     action: function(value, text) {
       // custom action
-
-       $(".prompt").attr("placeholder", 'Buscar por ' + text  );
+        var placeholder = '';
+        if(text == 'todos'){
+            placeholder = 'Institución';
+        }else{
+            placeholder = 'Por ' + text
+        }
+        switch (text){
+            case 'todos':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5', 4, '');
+                break;
+            case 'código de institución':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5&tipo=codigo', 1, 'codigo');
+                break;
+            case 'nombre de institución':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5&tipo=nombre', 4, 'nombre');
+                break;
+            case 'dirección':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5&tipo=direccion', 4, 'direccion');
+                break;
+            case 'distrito':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5&tipo=distrito', 4, 'distrito');
+                break;
+            case 'barrio':
+                    configurar_busqueda('institucion/?q={query}&cantidad=5&tipo=barrio', 4, 'barrio');
+                break;
+        }
+       $(".prompt").attr("placeholder", placeholder  );
     }
 
   })

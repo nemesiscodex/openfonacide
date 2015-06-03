@@ -1,305 +1,215 @@
-<div class="ui grid stackable" style="padding-bottom: 100px; margin:0">
+<div class="ui doubling padded grid">
 
-<div class="four wide column segment">
+  <!-- INICIO FILTROS -->
+  <div class="three wide widescreen five wide computer eigth wide table sixteen wide mobile column white" style="box-shadow: 2px 2px 10px #BBB;">
+    <h2 class="header">Filtros
+        <div class="circular ui icon button teal right floated" ng-click="actualizarResumen()"><i class="refresh icon"></i></div>
+    </h2>
 
+    <!-- INICIO AÑO -->
+    <div id="anio" class="item filtros dropdown" style="margin-bottom: 5px">
+        <select ng-model="anioSelected" class="ui fluid search dropdown">
+            <option value="">Año</option>
+            <option value="{$ anio $}" ng-repeat="anio in anios">{$ anio $}</option>
+        </select>
+    </div>
+    <!-- FIN AÑO -->
 
-    <div class="ui fluid form segment">
-        <h2 class="dividing header">Filtros</h2>
+    <!-- INICIO UBICACION -->
+    <div id="ubicacion" class="ui labels top attached segment teal">
+      <div class="ui teal label">Ubicación
+      </div>
+      <div class="ui toggle checkbox" style="float: right;">
+        <input id="ubicacion-check" ng-model="ubicacionCheck" type="checkbox" name="public">
+        <label for="ubicacion-check"></label>
+      </div>
+      <div id="ubicacion-departamento" class="item filtros dropdown" style="margin-bottom: 5px">
+          <select ng-model="departamentoSelected" class="ui fluid search dropdown">
+              <option value="">Departamento</option>
+              <option value="{$ ubicacion.id $}" ng-repeat="ubicacion in ubicaciones">{$ ubicacion.nombre $}</option>
+          </select>
+      </div>
+      <div id="ubicacion-distrito" class="item filtros dropdown" style="margin-bottom: 5px">
+          <select ng-model="distritoSelected" class="ui fluid search dropdown">
+              <option value="">Distrito</option>
+              <option value="{$ distrito.id $}" ng-repeat="distrito in distritos">{$ distrito.nombre $}</option>
+          </select>
+      </div>
+      <div id="ubicacion-barrio" class="item filtros dropdown" style="margin-bottom: 5px">
+          <select ng-model="barrioSelected" class="ui fluid search dropdown">
+              <option value="">Barrio/Localidad</option>
+              <option  value="{$ barrio.id $}" ng-repeat="barrio in barrios">{$ barrio.nombre $}</option>
+          </select>
+      </div>
+      <button class="ui basic button" ng-click="agregarUbicacion()"><i class="plus circle icon"></i>Agregar</button>
+      <button class="ui basic button" ng-click="limpiarUbicacion()"><i class="erase icon "></i>Limpiar</button>
+    </div>
+    <!-- MEDIO UBICACION -->
 
-        <div class="one field">
-            <div class="field small">
-                <label>Año</label>
-                <select class="ui dropdown">
-                    <option value="">Año</option>
-                    <option value="1">2012</option>
-                    <option value="0">2013</option>
-                    <option value="2">2014</option>
-                    <option value="3">2015</option>
+    <div id="ubicacion-labels" class="ui bottom attached segment">
+      <button title="Borrar todo" ng-click="borrarUbicaciones()" class="ui circular icon basic button red" style="float:right"><i class="trash outline icon "></i></button>
 
-                </select>
-            </div>
+    </div>
+    <!-- FIN UBICACION -->
 
-            <div class="ui right labeled left icon input">
-                <i class="tags icon"></i>
-                <input type="text" placeholder="escribe el departamento">
+    <!-- INICIO PRIORIDAD -->
+    <div class="ui labels segment teal">
+      <div class="ui teal label">Tipo de prioridad</div>
+      <div class="ui toggle checkbox" style="float: right;">
+        <input id="prioridad-check" ng-model="prioridadCheck" type="checkbox" name="public">
+        <label for="prioridad-check"></label>
+      </div>
+      <div class="ui two column grid">
+          <div class="column">
+              <div class="ui checkbox column">
+                  <input ng-model="prioridadesSeleccionadas.sanitarios" id="prioridad-sanitarios" type="checkbox" name="fun">
+                  <label for="prioridad-sanitarios">Sanitarios</label>
+              </div>
+          </div>
+          <div class="column">
+              <div class="ui checkbox column">
+                  <input ng-model="prioridadesSeleccionadas.aulas" id="prioridad-aulas" type="checkbox" name="fun">
+                  <label for="prioridad-aulas">Aulas</label>
+              </div>
+          </div>
+          <div class="column">
+              <div class="ui checkbox column">
+                  <input ng-model="prioridadesSeleccionadas.mobiliarios" id="prioridad-mobiliarios" type="checkbox" name="fun">
+                  <label for="prioridad-mobiliarios">Mobiliario</label>
+              </div>
+          </div>
+          <div class="column">
+              <div class="ui checkbox column">
+                  <input ng-model="prioridadesSeleccionadas.otros" id="prioridad-otros" type="checkbox" name="fun">
+                  <label for="prioridad-otros">Otros Espacios</label>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- FIN PRIORIDAD -->
 
-                <div class="ui tag label">
-                    Departamento
-                </div>
-            </div>
-            <div class="ui right labeled left icon input">
-                <i class="tags icon"></i>
-                <input type="text" placeholder="escribe la ciudad">
-
-                <div class="ui tag label">
-                    Ciudad
-                </div>
-            </div>
-            <div class="ui right labeled left icon input">
-                <i class="tags icon"></i>
-                <input type="text" placeholder="escribe el barrio/localidad">
-
-                <div class="ui tag label">
-                    Barrio
-                </div>
-            </div>
-
-            <div class="ui segment blue labels">
-                <a class="ui label">
-                    CENTRAL <i class="icon close"></i>
-                </a>
-
-                <div class="ui segment red labels">
-                    <a class="ui label">
-                        Capiata <i class="icon close"></i>
-                    </a>
-                    <a class="ui label">
-                        San Lorenzo <i class="icon close"></i>
-                    </a>
-
-                    <div class="ui segment green labels">
-                        <a class="ui label green">
-                            Sajonia <i class="icon close"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+    <!-- INICIO DNCP -->
+    <div class="ui labels segment teal">
+      <div class="ui teal label">Datos del DNCP</div>
+      <div class="ui toggle checkbox" style="float: right;">
+        <input id="dncp-check" ng-model="dncpCheck" type="checkbox" name="public">
+        <label for="dncp-check"></label>
+      </div>
+      <div class="row">
+        <div class="ui checkbox column">
+            <input ng-model="dncpSeleccionadas.adjudicados" id="dncp-adjudicados" type="checkbox" name="fun">
+            <label for="dncp-adjudicados">Adjudicados</label>
         </div>
-
-
-        <div class="item ">
-            <h4>Tipo de Prioridad</h4>
-
-            <div class="ui grid">
-                <div class="inline field">
-                    <div class="ui checkbox ">
-                        <input type="checkbox" name="fun">
-                        <label>Sanitarios</label>
-                    </div>
-                    <div class="ui checkbox ">
-                        <input type="checkbox" name="fun">
-                        <label>Aulas</label>
-                    </div>
-                </div>
-                <div class="two column ">
-                    <div class="ui checkbox ">
-                        <input type="checkbox" name="fun">
-                        <label>Mobiliario</label>
-                    </div>
-                    <div class="ui checkbox ">
-                        <input type="checkbox" name="fun">
-                        <label>Otros Espacios</label>
-                    </div>
-                </div>
-            </div>
-            <div class="ui grid">
-                <h4>Datos</h4>
-                <div class="inline field">
-                    <div class="ui checkbox">
-                        <input type="checkbox">
-                        <label>Adjudicados</label>
-                    </div>
-                </div>
-                <div class="inline field">
-                    <div class="ui checkbox">
-                        <input type="checkbox">
-                        <label>Informe Conraloria</label>
-                    </div>
-                </div>
-
-            </div>
-            <div class="ui grid">
-
-                <div class="grouped fields">
-
-                    <h4 class="dividing header"> Estado de las Obras</h4>
-
-                    <div class="field">
-                        <div class="ui radio checkbox checked">
-                            <input type="radio" name="fruit" checked="">
-                            <label>En Construccion</label>
-                        </div>
-                    </div>
-                     <div class="field">
-                        <div class="ui radio checkbox">
-                            <input type="radio" name="fruit">
-                            <label>Todas</label>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui radio checkbox">
-                            <input type="radio" name="fruit">
-                            <label>Obra Detenida</label>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui radio checkbox">
-                            <input type="radio" name="fruit">
-                            <label>Obra Culminada</label>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui radio checkbox">
-                            <input type="radio" name="fruit">
-                            <label>En Licitacion</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+      </div>
+      <br>
+      <div class="row">
+        <div class="ui checkbox column">
+            <input ng-model="dncpSeleccionadas.informes" id="dncp-informe" type="checkbox" name="fun">
+            <label for="dncp-informe">Con informe de la contraloria</label>
         </div>
+      </div>
+    </div>
+    <!-- FIN DNCP -->
 
+    <!-- INICIO ESTADO DE OBRAS -->
+    <div class="ui labels segment teal">
+      <div class="ui teal label">Estado de obras</div>
+
+      <div class="ui toggle checkbox" style="float: right;">
+        <input id="estado-check" ng-model="estadoCheck" type="checkbox" name="public">
+        <label for="estado-check"></label>
+      </div>
+      <div class="item filtros dropdown" style="margin-bottom: 5px">
+          <select ng-model="estadosSelected" class="ui fluid dropdown">
+              <option value="">Estado</option>
+              <option value="1">Adjudicado</option>
+          </select>
+      </div>
+    </div>
+    <!-- FIN ESTADO DE OBRAS -->
+
+  </div>
+  <!-- FIN FILTROS -->
+
+  <!-- INICIO RESUMEN -->
+  <div class="thirteen wide widescreen eleven wide computer eigth wide table sixteen wide mobile column">
+    <div class="ui segments">
+
+      <div class="ui  segment" style="">
+          <br>
+          <br>
+          <br>
+        <div class="ui top attached massive teal label center aligned">Resumen {$ data.periodo $}</div>
+        <div class="content">
+
+          <div class="ui segment">
+            <h5 class="ui header" style="margin:0">En los departamentos
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Asuncion</span>,
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Central</span>,
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Concepcion</span>, distritos
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Alto Parana">Ciudad del Este</span>,
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Ñeembucu">Alberdi</span>,
+              barrios/localidades
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Alto Parana ➜ Presidente Franco">San Antonio</span>
+              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Canindeyu ➜ Saltos del Guaira">Jardin del Norte</span>,
+            </h5>
+
+            <h4 class="ui header" style="margin:0">Hubo <span class="ui large basic teal label " style="padding: 5px; margin: 0">{$ data.elegibles $}</span> instituciones elegibles por fonacide
+            priorizadas por <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Sanitarios</span>,
+                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Aulas</span>,
+                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Otros espacios</span>,
+                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Mobiliarios</span>
+            </h4>
+
+
+           </div>
+        </div>
+          <div class="ui segment">
+{#        <div class="content">#}
+{#          <h2 class="header center aligned"></h2>#}
+          <div class="ui two columns centered grid">
+{#            <div class=" row">#}
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer eight wide large screen eight wide widescreen column">
+                    <div class="chart-item ui horizontal segment" id="chart-sanitarios"></div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer eight wide large screen eight wide widescreen column">
+                    <div class="chart-item ui horizontal segment" id="chart-aulas"></div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer eight wide large screen eight wide widescreen column">
+                    <div class="chart-item ui horizontal segment" id="chart-otros"></div>
+                </div>
+                <div class="sixteen wide mobile sixteen wide tablet sixteen wide computer eight wide large screen eight wide widescreen column">
+                    <div class="chart-item ui horizontal segment" id="chart-mobiliarios"></div>
+                </div>
+{#            </div>#}
+          </div>
+        </div>
+{#      </div>#}
+      </div>
 
     </div>
 
 
+
+
+
+
+    </div> 
+
+
+{#    <div class="ui segment">Monto total adjudicado</div>#}
+{##}
+{#    <div class="ui segment"> <h4>Estados de las obras</h4>#}
+{##}
+{#      <div class="ui grid">#}
+{##}
+{#        <div class="ui six wide column">Culminada</div>#}
+{#        <div class="ui four wide column">Priorizada</div>#}
+{#        <div class="ui six wide column">Adjudicada</div>#}
+{#      </div>#}
+{#    </div>#}
+
+
+  </div>
+  <!-- FIN RESUMEN -->
 </div>
-<div class="twelve wide column">
-
-    <h1> Resumen de Fonacide</h1>
-
-    <div class="ui  segment">
-          <p> En el año <a class="ui green label">2013</a> </p>
-
-        <p>en el departamento <a class="ui blue label">CENTRAL</a>, distrito/s de <a class="ui orange label">San Lorenzo</a><a class="ui orange label">Capiata</a></p>
-
-        <p>Hubo <a class="ui red label">25.147</a> instituciones elegibles por FONACIDE</p>
-
-        <p>Un total de <a class="ui teal label">102.582</a> instituciones elegibles de todo el país</p>
-
-    </div>
-
-
-
-
-
-    <div class="ui two cards">
-        <div class="card">
-            <div class="content">
-                <div class="header">Aulas</div>
-
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Construccion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Reparacion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="content">
-                <div class="header">Sanitarios</div>
-                <div class="description">
-
-                </div>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Construccion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Reparacion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="content">
-                <div class="header">Otros Espacios</div>
-                <div class="description">
-
-                </div>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Construccion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                     Reparacion
-                    </span>
-                    <span class="right floated star">
-                      250
-                    </span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="content">
-                <div class="header">Mobiliarios</div>
-                <div class="description">
-
-                </div>
-            </div>
-            <div class="extra content">
-                    <span class="left floated like">
-                      Cantidad
-                    </span>
-                    <span class="right floated star">
-                     30
-                    </span>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="ui grid one column">
-
-        <div class="column">
-                    <h3>Monto Adjudicado TOTAL: 250.000.000 Gs</h3>
-
-            <h3>Estado de las obras</h3>
-            <a class="ui black label">25</a> En construccion
-            <a class="ui yellow label">30</a> Obra Detenida
-            <a class="ui green label">10</a> Obras Concluidas
-                </div>
-
-        <div class="column">Descargar Resumen: <a href=""> <i class="file pdf outline icon"></i>PDF</a> <a href=""><i class="file outline icon"></i>CSV</a></div>
-
-
-   </div>
-
-
-
-        </div>
-
-
-
-</div>
-
-<script>
-
-
-    $(document).ready(function () {
-        $('.dropdown').dropdown();
-    });
-
-    $('.ui.checkbox')
-            .checkbox()
-    ;
-
-    $('.ui.radio.checkbox')
-            .checkbox()
-    ;
-</script>

@@ -119,14 +119,6 @@
                             }
                         }
                     }
-                ),
-                "institucionapi": $resource('api/v1/institucion/:id', {id: "@id"},
-                    {
-                        get: {
-                            method: 'GET',
-                            cache: false
-                        }
-                    }
                 )
             }
         }]);

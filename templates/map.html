@@ -125,10 +125,15 @@
                     <h3>Adjudicaciones</h3>
 
                     <div class="sixteen wide column">
-                        <div class="ui  segment">
+                        <div class="ui segment">
 
-                            <h4>No hay adjudicaciones</h4>
+                                <h4 ng-if="adjudicaciones_actual.length == 0 && planificaciones_actual == 0">No hay adjudicaciones</h4>
                             <ul>
+                                <li ng-repeat=" p in planificaciones_actual">{$ p.nombre_licitacion $} - Fue planificada
+                                    para realizarse en la fecha estimada <i>{$ p.fecha_estimada $}</i>.
+                                    <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado={$ p.id_llamado $}"
+                                       target="_blank"> Ver estado </a>
+                                </li>
                               <!--  <li>Construccion de Baños en el Colegio Nacional- <span class="ui teal label">Gs. 60.000.000</span>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
                                        target="_blank"> ver estado </a></li>
@@ -140,6 +145,14 @@
                                         href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado=272219"
                                         target="_blank"> ver estado </a></li> -->
 
+                            </ul>
+                            <ul>
+                                <li ng-repeat=" a in adjudicaciones_actual">{$ a.nombre_licitacion $} - Fue adjudicada
+                                    por un monto de {$ a.moneda $} <span class="ui teal label">{$ formatoDinero(a.monto_total_adjudicado) $}</span>
+                                    <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado={$ a.id_llamado $}"
+                                       target="_blank"> Ver estado </a>
+                                    <!-- en la fecha <i>{$ a.fecha_publicacion $}</i>. -->
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -727,15 +740,15 @@
  <p> <b>1.</b> Seleccioná la ubicación, tipo de prioridad u otros filtros. <br>
  <b>2.</b> Hacé click en activado/desactivado <br>
  <b>3.</b> Hacé click en el botón actualizar
- 
- 
+
+
   </p>
  <p></p>
  <p></p>
-   
- 
+
+
  </div>
-  
+
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
         <label class="ui teal label">Fonacide <i class="circular info icon link"

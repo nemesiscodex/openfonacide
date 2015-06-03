@@ -382,6 +382,15 @@
 
         //mostrar adjudicaciones
 
+        //ocultar explicacion
+
+        $scope.ocultar_explicacion = function(){
+
+          $scope.ocultar_explicacion = false;
+
+
+        }
+
          $scope.mostrarAdjudicaciones = function() {
             $scope.show_contraloria = false;
             $scope.show_adjudicaciones = !$scope.show_adjudicaciones;
@@ -491,6 +500,9 @@
 
             });
           });
+            backEnd.institucionapi.get({ id: id}, function(value){
+                $scope.institucionapi = value;
+            });
           backEnd.prioridades.get({
             id: id
           }, function(value) {

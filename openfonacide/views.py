@@ -14,6 +14,8 @@ from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View, TemplateView
+from rest_framework.decorators import detail_route
+from rest_framework import filters
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 from django.http import Http404, JsonResponse
 from rest_framework import viewsets
@@ -41,11 +43,33 @@ class PaginadorEstandard(pagination.LimitOffsetPagination):
 class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = PaginadorEstandard
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 class EstablecimientoViewSet(OpenFonacideViewSet):
+    """
+    Este `Endpoint` muestra los establecimientos escolares del MEC
+    y permite filtrar los resultados por los campos
+    *codigo_establecimiento*, *anio*, y *uri*
+
+    Nota: el parámetro *anio* se refiere al año se utilizó este nombre
+    para evitar problemas de codificación
+
+    """
     serializer_class = EstablecimientoSerializer
     queryset = Establecimiento.objects.all()
+    filter_fields = ('codigo_establecimiento', 'anio', 'uri', 'nombre_departamento', 'nombre_distrito')
+    lookup_field = 'codigo_establecimiento'
+
+    @detail_route(methods=['get'], url_path='prioridad')
+    def prioridad(self, request, codigo_establecimiento=None):
+        prioridad_view = PrioridadAPIViewDetail()
+        prioridad = prioridad_view.get_object(codigo_establecimiento=codigo_establecimiento)
+        p_ser = PrioridadSerializer(prioridad)
+        if request.GET.get('format') is 'jsonh':
+            print request.GET['format']
+            return Response(JSONH.pack(p_ser.data))
+        return Response(p_ser.data)
 
 
 class TemporalListView(ListCreateAPIView):
@@ -118,6 +142,47 @@ class UnlinkAPIView(ListAPIView):
         return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 
 
+class InstitucionViewSet(OpenFonacideViewSet):
+    serializer_class = InstitucionSerializer
+    queryset = Institucion.objects.all()
+    filter_fields = (
+        'codigo_institucion', 'codigo_establecimiento', 'periodo', 'uri_institucion', 'nombre_departamento',
+        'nombre_distrito'
+    )
+    lookup_field = 'codigo_institucion'
+
+
+class EspacioViewSet(OpenFonacideViewSet):
+    serializer_class = EspacioSerializer
+    queryset = Espacio.objects.all()
+    filter_fields = (
+        'periodo', 'codigo_establecimiento', 'codigo_institucion', 'nombre_espacio',
+        'tipo_requerimiento_infraestructura'
+    )
+    lookup_field = 'codigo_establecimiento'
+
+
+class SanitarioViewSet(OpenFonacideViewSet):
+    serializer_class = SanitarioSerializer
+    queryset = Sanitario.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion', 'tipo_requerimiento_infraestructura')
+    lookup_field = 'codigo_establecimiento'
+
+
+class MobiliarioViewSet(OpenFonacideViewSet):
+    serializer_class = MobiliarioSerializer
+    queryset = Mobiliario.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion')
+    lookup_field = 'codigo_establecimiento'
+
+
+class ServicioBasicoViewSet(OpenFonacideViewSet):
+    serializer_class = ServicioBasicoSerializer
+    queryset = ServicioBasico.objects.all()
+    filter_fields = ('periodo', 'codigo_establecimiento')
+    lookup_field = 'codigo_establecimiento'
+
+
 class DummyPrioridad(object):
     espacio = None
     mobiliario = None
@@ -135,20 +200,26 @@ class PrioridadAPIViewDetail(viewsets.views.APIView):
     def get_object(self, codigo_establecimiento):
         prioridad = DummyPrioridad()
         not_found = 0
+
         try:
-            prioridad.espacio = Espacio.objects.get(codigo_establecimiento=codigo_establecimiento)
+            Establecimiento.objects.get(codigo_establecimiento=codigo_establecimiento)
+        except Establecimiento.DoesNotExist:
+            return Http404
+
+        try:
+            prioridad.espacio = Espacio.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Espacio.DoesNotExist:
             not_found += 1
         try:
-            prioridad.mobiliario = Mobiliario.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.mobiliario = Mobiliario.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Mobiliario.DoesNotExist:
             not_found += 1
         try:
-            prioridad.sanitario = Sanitario.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.sanitario = Sanitario.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except Sanitario.DoesNotExist:
             not_found += 1
         try:
-            prioridad.servicio = ServicioBasico.objects.get(codigo_establecimiento=codigo_establecimiento)
+            prioridad.servicio = ServicioBasico.objects.filter(codigo_establecimiento=codigo_establecimiento)
         except ServicioBasico.DoesNotExist:
             not_found += 1
 
@@ -194,11 +265,6 @@ class PrioridadAPIView(viewsets.views.APIView):
             return JsonResponse(JSONH.pack(prioridad_serializada.data), safe=False)
 
         return Response(prioridad_serializada.data)
-
-
-class InstitucionViewSet(OpenFonacideViewSet):
-    serializer_class = InstitucionSerializer
-    queryset = Institucion.objects.all()
 
 
 class PartialGroupView(TemplateView):

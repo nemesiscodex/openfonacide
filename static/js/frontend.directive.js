@@ -47,15 +47,15 @@
     nuevaDirectiva('filtroUbicacion', 'filtro-ubicacion.html', {
         scope: {
             multiple: "=",
-            seleccionados: "=",
-            seleccionado: "=",
+            seleccionados: "=?",
+            seleccionado: "=?",
+            activado: "=?",
             callback: '='
         },
         link: function (scope, element, attrs, ctrl) {
             ctrl.multiple = scope.multiple;
             ctrl.selected = scope.seleccionado;
-            ctrl.callback = (typeof (scope.callback) == 'function') ? scope.callback : function () {
-            };
+            ctrl.callback = (typeof (scope.callback) == 'function') ? scope.callback : function () {/* no-op */};
         },
         controllerAs: 'ctrl',
         controller: ['backEnd', '$scope', '$timeout', function (backEnd, $scope, $timeout) {
@@ -68,9 +68,13 @@
                     check: false
                 };
             }
-            $control.ubicacionesSeleccionadas = [];
+            $scope.$watch('ctrl.selected.check', function(value){
+                $scope.activado = value;
+            });
+            $scope.seleccionados = [];
             $control.cambioDepartamento = function () {
                 $control.distritos = [];
+                $control.barrios = [];
                 $control.selected.distrito = "";
                 $control.selected.barrio = "";
                 for (i in $control.ubicaciones) {
@@ -115,13 +119,84 @@
 
             };
             cargarUbicacion();
+            $scope.obtenerTextoUbicacion = function(selected, excluirPadres, incluirHojaNoRaiz, separador){
+                if(separador == undefined){
+                    separador = " &#x279c; ";
+                }
+                var seleccion = "";
+                if (excluirPadres == undefined){
+                    excluirPadres = false;
+                }
+                if (incluirHojaNoRaiz == undefined){
+                    incluirHojaNoRaiz = true;
+                }
+                var depObj, disObj, barObj;
+
+                depObj = $control.ubicaciones
+                    .filter(function (obj) {
+                        return obj.id == selected[0];
+                    });
+                if(!excluirPadres || (!selected[1])){
+                    seleccion += depObj
+                        .map(function (obj) {
+                            return obj.nombre;
+                        })
+                        .reduce(function (a, b) {
+                            return a + b;
+                        });
+                }
+
+                depObj = depObj[0];
+                if (selected[1]) {
+                    disObj = depObj.distritos
+                        .filter(function (obj) {
+                            return obj.id == selected[1];
+                        });
+
+                    if((!excluirPadres || (!selected[2])) && (incluirHojaNoRaiz || !!selected[2])){
+                        if(seleccion != ''){
+                            seleccion += separador;
+                        }
+                        seleccion += disObj
+                                .map(function (obj) {
+                                    return obj.nombre;
+                                })
+                                .reduce(function (a, b) {
+                                    return a + b;
+                                });
+                    }
+                    disObj = disObj[0];
+                }
+                if (selected[2]) {
+                    barObj = disObj.barrios
+                        .filter(function (obj) {
+                            return obj.id == selected[2];
+                        });
+
+
+                    if(incluirHojaNoRaiz){
+                        if(seleccion != ''){
+                            seleccion += separador;
+                        }
+                        seleccion += barObj
+                            .map(function (obj) {
+                                return obj.nombre;
+                            })
+                            .reduce(function (a, b) {
+                                return a + b;
+                            });
+                    }
+                    barObj = barObj[0];
+                }
+                return seleccion;
+
+            };
             $control.agregarUbicacion = function () {
+                var selected = [];
                 if (!$control.selected.departamento) {
                     return;
                 }
-                var flecha = " &#x279c; ";
-                var seleccion = "";
-                if ($control.ubicacionesSeleccionadas
+                if ($scope.seleccionados
                         .filter(function (obj) {
                             return obj[0] == $control.selected.departamento
                                 && obj[1] == $control.selected.distrito
@@ -129,67 +204,26 @@
                         }).length > 0) {
                     return;
                 }
-                $control.ubicacionesSeleccionadas.push(
-                    [$control.selected.departamento, $control.selected.distrito, $control.selected.barrio]
-                );
-                var depObj, disObj, barObj;
+                selected = [$control.selected.departamento, $control.selected.distrito, $control.selected.barrio];
+                $scope.seleccionados.push(selected);
 
-                depObj = $control.ubicaciones
-                    .filter(function (obj) {
-                        return obj.id == $control.selected.departamento;
-                    });
-                seleccion += depObj
-                    .map(function (obj) {
-                        return obj.nombre;
-                    })
-                    .reduce(function (a, b) {
-                        return a + b;
-                    });
-
-                depObj = depObj[0];
-                if ($control.selected.distrito) {
-                    disObj = depObj.distritos
-                        .filter(function (obj) {
-                            return obj.id == $control.selected.distrito;
-                        });
-                    seleccion += flecha + disObj
-                            .map(function (obj) {
-                                return obj.nombre;
-                            })
-                            .reduce(function (a, b) {
-                                return a + b;
-                            });
-                    disObj = disObj[0];
-                }
-                if ($control.selected.barrio) {
-                    barObj = disObj.barrios
-                        .filter(function (obj) {
-                            return obj.id == $control.selected.barrio;
-                        });
-                    seleccion += flecha + barObj
-                            .map(function (obj) {
-                                return obj.nombre;
-                            })
-                            .reduce(function (a, b) {
-                                return a + b;
-                            });
-                    barObj = barObj[0];
-                }
                 $('#ubicacion-labels').append(
                     $('<div class="ui label" style="margin-bottom: 5px" data-dep="' + $control.selected.departamento + '" data-dis="' + $control.selected.distrito + '" data-bar="' + $control.selected.barrio + '"></div>')
-                        .html(seleccion)
+                        .html($scope.obtenerTextoUbicacion(selected))
                         .append(
                         $('<i class="delete icon"></i>')
                             .click(function () {
                                 var label = $(this).parent();
-                                $control.ubicacionesSeleccionadas = $control.ubicacionesSeleccionadas
+                                $scope.seleccionados = $scope.seleccionados
                                     .filter(function (obj) {
-                                        return !(obj[0] == $control.selected.departamento
-                                        && obj[1] == $control.selected.distrito
-                                        && obj[2] == $control.selected.barrio);
+                                        return !(obj[0] == label.data('dep')
+                                        && obj[1] == label.data('dis')
+                                        && obj[2] == label.data('bar'));
                                     });
                                 label.remove();
-                                $scope.$digest();
+                                $timeout(function(){
+                                    $scope.$apply();
+                                },0,false);
                             })
                     )
                 );
@@ -200,7 +234,7 @@
                 }, 0, false);
             };
             $control.borrarUbicaciones = function () {
-                $control.ubicacionesSeleccionadas = [];
+                $scope.seleccionados = [];
                 $timeout(function () {
                     $('#ubicacion-labels .ui.label').remove();
                     $scope.$digest();

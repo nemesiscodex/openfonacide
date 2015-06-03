@@ -7,7 +7,8 @@
 <div class="ui stackable  page" style="margin-bottom: 150px; margin-top: 70px">
   <div class="column">
             
-    <div class="ui segment" style="margin: 0px 10%;min-height: 460px;">
+    <div class="ui segment piled" style="margin: 0px 10%;min-height: 460px;">
+     <a href="informacion"> <div class="ui top left attached label"><i class="arrow left icon"></i> Atrás</div></a>
          <h1 class="ui center aligned  header">
           
             FONACIDE
@@ -17,14 +18,14 @@
 <div class="ui stackable grid">
     <div class="ui four wide  column">
         <div class="ui fluid vertical pointing menu menu-fonacide">
-          <a class="active teal item" data-tab="que-es">
+          <a class="active teal item" data-tab="que-es" href="#que-es">
             ¿Qué es?
             
           </a>
           <a class="item" data-tab="normativas">
             Normativas            
           </a>
-          <a class="item" data-tab="destino-de-recursos">
+          <a class="item" data-tab="destino-de-recursos" >
             
             Destino de Recursos
             
@@ -92,7 +93,7 @@
 
             <div class="ui segment  tab"  data-tab="destino-de-recursos" >
         
-
+<img src="/static/images/torta-fonacide.png" class="ui image">
 
 <p>El Fondo Nacional de Inversión Pública y Desarrollo (FONACIDE) y el Fondo para la Excelencia de la Educación y la Investigación está destinado exclusivamente al financiamiento de proyectos de inversión pública y de desarrollo.</p>
 
@@ -127,7 +128,7 @@
 
 
 
-<img src="/static/images/chart.png" class="ui image">
+
 
 
 
@@ -212,8 +213,12 @@ http://www.hacienda.gov.py/fonacide/archivos/documentos/Dto9966-12.pdf">Decreto 
 </div>
 
 
+
 <script type="text/javascript">
-$('.menu-fonacide .item').tab();
+$('.menu-fonacide .item').tab(
+
+   
+  );
 
 </script>
 

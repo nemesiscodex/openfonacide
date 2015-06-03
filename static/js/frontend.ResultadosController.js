@@ -64,7 +64,7 @@
                   $(el).html($(el).html().replace(queryUp, '<span class="highlight">'+queryUp+'</span>'));
                 });
                 $scope.$apply();
-              },20);
+              },500);
             $loader.removeClass('active');
           })
         })

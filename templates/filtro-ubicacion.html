@@ -1,6 +1,5 @@
 <!-- INICIO UBICACION -->
 
-
 <div id="ubicacion" class="ui segment labels teal top attached">
   <div class="ui teal label">Ubicación <i class="circular info icon link" data-content="Seleccioná el Departamento / Distrito / Barrio y activá la opción." data-variation="small"></i>
   </div>
@@ -30,12 +29,13 @@
   </div>
   <button class="ui basic button" ng-click="ctrl.agregarUbicacion()" ng-if="ctrl.multiple"><i class="plus circle icon"></i>Agregar</button>
   <button class="ui basic button" ng-click="ctrl.limpiarUbicacion()"><i class="erase icon "></i>Limpiar</button>
+    <button title="Borrar todo" ng-click="ctrl.borrarUbicaciones()" class="ui circular icon basic button red no-anim" style="float:right" ng-if="seleccionados.length > 0"><i class="trash outline icon "></i></button>
+
 </div>
 <!-- MEDIO UBICACION -->
 
 <div id="ubicacion-labels" class="ui bottom attached segment" ng-if="ctrl.multiple">
-  <button title="Borrar todo" ng-click="ctrl.borrarUbicaciones()" class="ui circular icon basic button red" style="float:right"><i class="trash outline icon "></i></button>
-
+  <div class="ui info message no-anim" ng-if="seleccionados.length == 0 && ctrl.selected.check"><i class="ui info circle icon"></i> No ha seleccionado ubicaciones.</div>
 </div>
 <!-- FIN UBICACION -->
 <script type="text/javascript">

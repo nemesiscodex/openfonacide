@@ -334,6 +334,33 @@
               var charts = [];
               var chart = undefined, options= undefined;
 
+              //Texto Inicial
+              $scope.rDepartamentos = [];
+              $scope.rDistritos = [];
+              $scope.rDistritosParent = [];
+              $scope.rBarrios = [];
+              $scope.rBarriosParent = [];
+              var obtenerUbicacion = angular.element('#ubicacion').scope().obtenerTextoUbicacion;
+              if($scope.data.ubicaciones && typeof (obtenerUbicacion) == 'function'){
+                  var ubicaciones = $scope.data.ubicaciones;
+                  $scope.rDepartamentos = ubicaciones
+                      .filter(function(obj){return !!obj[0] && !obj[1] && !obj[2]})
+                      .map(function(obj){return obtenerUbicacion(obj, true, true);});
+                  $scope.rDistritos = ubicaciones
+                      .filter(function(obj){return !!obj[0] && !!obj[1] && !obj[2]})
+                      .map(function(obj){return obtenerUbicacion(obj, true, true);});
+                  $scope.rDistritosParent = ubicaciones
+                      .filter(function(obj){return !!obj[0] && !!obj[1] && !obj[2]})
+                      .map(function(obj){return obtenerUbicacion(obj, false, false, ' ➜ ');});
+                  $scope.rBarrios = ubicaciones
+                      .filter(function(obj){return !!obj[0] && !!obj[1] && !!obj[2]})
+                      .map(function(obj){return obtenerUbicacion(obj, true, true);});
+                  $scope.rBarriosParent = ubicaciones
+                      .filter(function(obj){return !!obj[0] && !!obj[1] && !!obj[2]})
+                      .map(function(obj){return obtenerUbicacion(obj, false, false, ' ➜ ');});
+              }
+
+              //Graficos
               //tipo requerimiento
               var tipoRequerimiento = {};
               if(data.tipo_requerimiento){
@@ -416,6 +443,12 @@
                     }
                 }
               });
+              $timeout(function(){
+                  $scope.$apply();
+                  $('.dep-label').popup({
+                    on: 'hover'
+                  });
+              },0, false);
           });
 
         };

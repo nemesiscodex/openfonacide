@@ -150,22 +150,28 @@
         <div class="content">
 
           <div class="ui segment">
-            <h4 class="ui header" style="margin:0">En los departamentos
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Asuncion</span>,
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Central</span>,
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Concepcion</span>, distritos
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Alto Parana">Ciudad del Este</span>,
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Ñeembucu">Alberdi</span>,
-              barrios/localidades
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Alto Parana ➜ Presidente Franco">San Antonio</span>
-              <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0" title="Canindeyu ➜ Saltos del Guaira">Jardin del Norte</span>,
+            <h4 class="ui header no-anim" style="margin:0" ng-if="data.ubicaciones.length > 0">En los
+                <span ng-if="rDepartamentos.length > 0" class="no-anim">departamentos de
+                    <span class="ui large basic teal label dep-label" ng-repeat="dep in rDepartamentos" style="padding: 5px; margin: 0 3px 5px 0">{$ dep $}</span>
+                </span>
+                <span ng-if="rDistritos.length" class="no-anim">distritos de
+                    <span class="ui large basic teal label dep-label" ng-repeat="dis in rDistritos" data-content="{$ rDistritosParent[$index] $}" style="padding: 5px; margin: 0 3px 5px 0">{$ dis $}</span>
+                </span>
+                <span ng-if="rBarrios.length" class="no-anim">barrios
+                    <span class="ui large basic teal label dep-label" ng-repeat="bar in rBarrios" data-content="{$ rBarriosParent[$index] $}" style="padding: 5px; margin: 0 3px 5px 0">{$ bar $}</span>
+                </span>
+
             </h4>
+           <h4 class="ui header " style="margin:0" ng-if="data.ubicaciones.length == 0 || !data.ubicaciones">
+               En todo el territorio del Paraguay
+           </h4>
 
             <h4 class="ui header" style="margin:0">Hubo <span class="ui large basic teal label " style="padding: 5px; margin: 0">{$ data.elegibles $}</span> instituciones elegibles por fonacide
-            priorizadas por <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Sanitarios</span>,
-                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Aulas</span>,
-                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Otros espacios</span>,
-                <span class="ui large basic teal label" style="padding: 5px; margin: 0 0 5px 0">Mobiliarios</span>
+            priorizadas por
+                <span ng-if="data.prioridades.sanitarios" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Sanitarios</span>
+                <span ng-if="data.prioridades.aulas" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Aulas</span>
+                <span ng-if="data.prioridades.otros" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Otros espacios</span>
+                <span ng-if="data.prioridades.mobiliarios" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Mobiliarios</span>
             </h4>
 
 

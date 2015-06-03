@@ -361,10 +361,9 @@
                 icon: grayMarker
               });
               marker.bindPopup("<h4>" + point.name +
-                '</h4><a class="circular ui teal icon button" onclick="angular.element(this).scope().showInfoPopUp(' +
-                // '</h4><a class="circular ui teal icon button" href="/map?establecimiento=' +
+                '</h4><a class="circular ui teal icon button" onclick="angular.element(this).scope().showInfoPopUp(\'' +
                 point.id +
-                ');" ><i class="plus outline icon"></i> Detalles</a><hr>' +
+                '\');" ><i class="plus outline icon"></i> Detalles</a><hr>' +
                 point.dir
               );
               markers.addLayer(marker);

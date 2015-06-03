@@ -222,3 +222,10 @@ pointer-events: none;
 .footer-info {
     margin: 0% !important;
 }
+
+
+/* 'ng-anim' Para evitar la animacion de ng-show, ng-hide, ng-if */
+.no-anim.ng-move,
+.no-anim.ng-leave {
+    display: none !important;
+}

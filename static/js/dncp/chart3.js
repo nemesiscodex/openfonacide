@@ -28,7 +28,7 @@
 }
 
 
-   function grafica3( datos, anio, opcion) {
+   function grafica3( datos, anio, opcion,url) {
 
 
     changeData1(datos);
@@ -38,7 +38,7 @@
     // configure for module loader
         require.config({
             paths: {
-                echarts: '/static/js/build/dist'
+                echarts: url + 'static/js/build/dist'
             }
         });
 

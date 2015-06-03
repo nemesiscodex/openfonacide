@@ -1,9 +1,9 @@
-   function grafica1( cantidades, nombres, anio, opcion) {
+   function grafica1( cantidades, nombres, anio, opcion,url) {
 
     // configure for module loader
         require.config({
             paths: {
-                echarts: '/static/js/build/dist'
+                echarts: url+ 'static/js/build/dist'
             }
         });
 

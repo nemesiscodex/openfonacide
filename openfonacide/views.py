@@ -26,6 +26,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from models import *
+from openfonacide.forms import ReporteForm
 
 from openfonacide.utils import dictfetch, escapelike
 from openfonacide.serializers import *
@@ -601,6 +602,16 @@ def estado_de_obra(request):
 
     return JsonResponse('Exito!', safe=False, status=200)
 
+def reportar(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método inválido.'}, status=405)
+    form = ReporteForm(request.POST)
+    if form.is_valid():
+        reporte = form.save(commit=False)
+        reporte.fecha = datetime.now()
+        reporte.save()
+        return JsonResponse({'mensaje': 'Exito.'}, status=200)
+    return JsonResponse({'error': 'Datos inválidos'}, status=400)
 
 @login_required()
 @transaction.atomic

@@ -66,6 +66,14 @@
         .controller('MapController', ['$scope', 'backEnd', '$filter',
             '$routeParams', '$rootScope', '$timeout', '$location',
             function ($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
+                $scope.reportar = function(prioridad, tipo) {
+                    if (typeof (window.reportar) === 'function') {
+                        var institucion = $scope.infoData.instituciones.filter(function (obj) {
+                            return obj.codigo_institucion == $scope.institucion_actual;
+                        });
+                        window.reportar(prioridad, tipo, institucion[0]);
+                    }
+                };
                 $scope.modificarEstado = function (prioridad, tipo) {
                     if (typeof (window.modificarEstado) === 'function') {
                         var institucion = $scope.infoData.instituciones.filter(function (obj) {
@@ -332,7 +340,9 @@
                         } else {
                             backEnd.filtros.query(params, function (data) {
                                 $scope.filtroArray = data;
-                                $scope.filtros[gen_hash(params)] = data;
+                                // Estos filtros no deberian cachearse
+                                if(!$scope.otrosSeleccionados.check)
+                                    $scope.filtros[gen_hash(params)] = data;
                                 if (Storage !== 'undefined') {
                                     localStorage.setItem('filtros', JSON.stringify($scope.filtros));
                                 }

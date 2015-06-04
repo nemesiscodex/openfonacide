@@ -1,0 +1,122 @@
+{% load staticfiles %}
+<div class="ui agregar adjudicacion large modal">
+    <i class="close icon"></i>
+
+    <div class="header">
+        <i class="linkify icon"></i>Añadir Adjudicación
+    </div>
+    <div class="content">
+        <div class="description">
+            <form action="{% url 'agregar_adjudicacion' %}" name="agregar_adjudicacion" method="post" enctype="multipart/form-data">
+                <input id="p_codigo_institucion_adj" type="hidden" name="codigo_institucion">
+                <input id="p_codigo_establecimiento_adj" type="hidden" name="codigo_establecimiento">
+                <input id="p_periodo_adj" type="hidden" name="periodo">
+                <div class="ui grid">
+                    <div class="two columns row">
+                        <div class="column">
+                            <table class="ui definition table" id="tabla-descripcion">
+                                <tbody>
+                                <tr>
+                                    <td>Institución</td>
+                                    <td id="p_nombre_institucion_text"></td>
+                                </tr>
+                                <tr>
+                                    <td>Código</td>
+                                    <td id="p_codigo_inst"></td>
+                                </tr>
+                                <tr>
+                                    <td>Distrito</td>
+                                    <td id="p_distrito"></td>
+                                </tr>
+                                <tr>
+                                    <td>Departamento</td>
+                                    <td id="p_departamento"></td>
+                                </tr>
+                                <tr>
+                                    <td>Periodo</td>
+                                    <td id="p_periodo_txt"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="column">
+                            <br>
+                            <!-- <input id="p_archivo" type="file" class="ui input file" name="archivo"> -->
+                            <div class="ui grid">
+                                <div class="eight wide column">Ingrese el ID de llamado</div>
+                                <div class="eight wide column ui input">
+                                    <input id="p_id_llamado" type="text" name="id_llamado">
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="two fluid ui  buttons">
+            <div class="ui red basic button">
+                <i class="remove icon"></i>
+                Cancelar
+            </div>
+            <div id="boton" class="ui green basic next button"
+                 onclick="$(agregar_adjudicacion).submit()">
+                <i class="linkify icon"></i>
+                Agregar
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(agregar_adjudicacion).submit(function (e) {
+        $.ajax({
+            url: '{% url 'agregar_adjudicacion' %}',
+            type: 'POST',
+            data: new FormData(this),
+            processData: false,
+            contentType: false
+        }).success(function(){
+            angular.element('#ng-view').scope().showInfoPopUp($('#p_codigo_establecimiento_adj').val(),
+                    $('#p_codigo_institucion_adj').val());
+            $('#p_id_llamado').val('');
+            $('.agregar.adjudicacion.modal').modal('hide');
+        }).error(function(data){
+            if(data.error){
+                alert(data.error);
+            }else{
+                alert('Ha ocurrido un error.');
+            }
+        });
+        e.preventDefault();
+    });
+
+    function agregarAdjudicacion(institucion){
+        $('#p_nombre_institucion_text').html(institucion.nombre_institucion);
+        $('#p_distrito').html(institucion.nombre_distrito);
+        $('#p_departamento').html(institucion.nombre_departamento);
+        $('#p_periodo_txt').html(institucion.periodo);
+        $('#p_codigo_establecimiento_text').html(institucion.codigo_establecimiento);
+
+        $('#p_codigo_establecimiento_adj').val(institucion.codigo_establecimiento);
+        $('#p_codigo_institucion_adj').val(institucion.codigo_institucion);
+        $('#p_periodo_adj').val(institucion.periodo);
+
+        $('#p_codigo_inst').html(institucion.codigo_institucion);
+
+        var $td = $('#tabla-descripcion').find('td');
+        $td.ucwords();
+
+
+        $('.agregar.adjudicacion.modal').modal('show');
+    }
+
+</script>
+
+

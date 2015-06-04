@@ -72,7 +72,7 @@ urlpatterns = patterns('',
     url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
-    url(r'^(map/(?P<establecimiento>\d*)/?(?P<institucion>\d*)/?|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
+    url(r'^(map|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
@@ -90,6 +90,7 @@ urlpatterns = patterns('',
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
     url(r'', include(private_api, namespace="private_api")),
     url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra'),
+    url(r'^reportar/?$', reportar, name='reportar'),
     url(r'^agregar_adjudicacion/?$', agregar_adjudicacion, name='agregar_adjudicacion')
 )
 

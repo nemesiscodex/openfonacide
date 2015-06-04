@@ -829,17 +829,43 @@
         <b ng-if="otrosSeleccionados.check" style="float: right">Activado&nbsp;&nbsp;</b>
         <b ng-if="!otrosSeleccionados.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
 
+
+
         <div class="item filtros">
             <div class="ui checkbox">
-                <input type="checkbox" ng-model="otrosSeleccionados.reportados" ng-change="activar_filtro()">
-                <label>Instituciones <br/>Reportadas</label>
+                <input id="reportados" type="checkbox" ng-model="otrosSeleccionados.reportadas" ng-change="activar_filtro()">
+                <label for="reportados">Instituciones Reportadas</label>
             </div>
         </div>
+{#        <div class="item filtros">#}
+{#            <div class="ui checkbox">#}
+{#                <input id="adjudicaciones" type="checkbox" ng-model="otrosSeleccionados.adjudicaciones" ng-change="activar_filtro()">#}
+{#                <label for="adjudicaciones">Instituciones con Adjudicaciones</label>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="item filtros">#}
+{#            <div class="ui checkbox">#}
+{#                <input id="planificaciones" type="checkbox" ng-model="otrosSeleccionados.planificaciones" ng-change="activar_filtro()">#}
+{#                <label for="planificaciones">Instituciones con Planificaciones</label>#}
+{#            </div>#}
+{#        </div>#}
         <div class="item filtros">
             <div class="ui checkbox">
-                <input type="checkbox" ng-model="otrosSeleccionados.informes" ng-change="activar_filtro()">
-                <label>Instituciones con <br/> informe de contraloria</label>
+                <input id="planificaciones" type="checkbox" ng-model="otrosSeleccionados.documentos" ng-change="activar_filtro()">
+                <label for="planificaciones">Instituciones con Documentos de la Contraloría</label>
             </div>
+        </div>
+
+        <div class="item filtros dropdown" style="margin-bottom: 5px">
+            <label for="estado_de_obras">Estado de obras</label>
+            <select id="estado_de_obras" ng-model="otrosSeleccionados.estado" class="ui fluid upward dropdown">
+              <option value="">Estado</option>
+              <option value="todos">Todos</option>
+              <option value="priorizado">Priorizado</option>
+              <option value="planificado">Planificado</option>
+              <option value="adjudicado">Adjudicado</option>
+              <option value="terminado">Terminado</option>
+            </select>
         </div>
     </div>
 </div>

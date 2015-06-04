@@ -83,18 +83,10 @@ console.log(datos);
     require.config({
 
       paths: {
-                echarts: 'static/js/build/dist'
+                echarts: 'static/echarts'
             },
 
-packages: [
-        {
-            name: 'echarts',
-            location: './src',
-            main: 'echarts'
-        }
-    
-       
-    ]
+
                     
                 });
 
@@ -106,8 +98,9 @@ packages: [
 
         require(
             [
-                'echarts',
-                'echarts/chart/map' // require the specific chart type
+                 'echarts',
+                'echarts/chart/map',   // load-on-demand, don't forget the Magic switch type.
+              
             ],
             function (ec) {
                 // Initialize after dom ready

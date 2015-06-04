@@ -3,14 +3,14 @@
     // configure for module loader
         require.config({
             paths: {
-                echarts: url+ 'static/js/build/dist'
+                echarts: url + 'static/echarts'
             }
         });
 
         require(
             [
                 'echarts',
-                'echarts/chart/bar' // require the specific chart type
+                'echarts/chart/map' // require the specific chart type
             ],
             function (ec) {
                 // Initialize after dom ready

@@ -256,8 +256,15 @@ piden más ?
              cantidades = [];
                 nombres= [];
 
-                url = {% static '' %};
-    
+           if (window.location.pathname.split( '/' )[1] != "dncp"){
+                     url = window.location.pathname.split( '/' )[1] ;
+
+                }
+
+                else {
+                    url = "/"
+                }
+               
 
 
         $.getJSON( "infografiaDNCP/", {filtro:"cantidad_adjudicaciones", opcion:"Municipalidades", anio:"2014"}   ,  function(result){
@@ -303,15 +310,7 @@ piden más ?
                 cantidades = [];
                 nombres= [];
 
-                if (window.location.pathname.split( '/' )[1] != "dncp"){
-                     url = window.location.pathname.split( '/' )[1] ;
-
-                }
-
-                else {
-                    url = "/"
-                }
-               
+             
               
 
 

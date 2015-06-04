@@ -3,7 +3,7 @@
     // configure for module loader
         require.config({
             paths: {
-                echarts: url +'static/js/build/dist'
+                echarts: url +'static/echarts'
             }
         });
 

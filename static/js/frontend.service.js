@@ -51,7 +51,7 @@
                     query: {
                         method: 'GET',
                         isArray: true,
-                        cache: true
+                        cache: false
                     }
                 }),
                 "comentarios": $resource('comentarios/:id', {

@@ -114,12 +114,10 @@ Hace click en los iconos y descubrí qué mobiliarios son los que más piden las
 					 		var detalles = $.grep( mobiliariosDetalle, function( n, i ) {
 											  return n.alias===item.alias;
 											});
-					 		//console.log(detalles);
 					 		 detallesHTML.push('<tr><th>Departamento</th> <th>Nombre del Mobiliario</th><th>Cantidad Requerida</th>    <th>Numero de beneficiados</th>  </tr>');
 
 					 		 $.each(detalles, function(i, itemDetalle) { 
 
-					 		 		 //console.log(itemDetalle);
 					 		 		
 					 		 		 detallesHTML.push('<tr><td> '+ 
 					 		 		 	itemDetalle.nombre_departamento + '</td><td>' + itemDetalle.nombre_mobiliario + '</td><td>' + itemDetalle.cantidad_requerida + '</td><td>' + itemDetalle.numero_beneficiados + '</td></tr>');

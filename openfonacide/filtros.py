@@ -48,7 +48,16 @@ def generar_ubicacion(request):
 
 def filtros(request):
     prioridades = request.GET.get('prioridades')
+
     ubicacion = request.GET.get('ubicacion')
+    reportadas = request.GET.get('reportadas')
+    documentos = request.GET.get('documentos')
+    # adjudicaciones = request.GET.get('adjudicaciones')
+    # planificaciones = request.GET.get('planificaciones')
+    estado = request.GET.get('estado')
+    if documentos or estado and estado.lower() in ('priorizado', 'planificado', 'adjudicado', 'terminado'):
+        if not prioridades:
+            prioridades = json.dumps({'mobiliarios': True, 'sanitarios': True, 'aulas': True, 'otros': True})
     if prioridades:
         prioridades = json.loads(prioridades)
         tipo = []
@@ -58,9 +67,9 @@ def filtros(request):
         else:
             ubicacion = {}
         for key in prioridades:
-            if prioridades.get(key) == True:
+            if prioridades.get(key):
                 tipo.append(key)
-        return JsonResponse(filtro_prioridad(tipo, rango, ubicacion), safe=False)
+        return JsonResponse(filtro_prioridad(tipo, rango, ubicacion, estado, documentos), safe=False)
     else:
         if ubicacion:
             ubicacion = json.loads(ubicacion)
@@ -69,7 +78,8 @@ def filtros(request):
         return JsonResponse(filtro_ubicacion(ubicacion), safe=False)
 
 def get_rango(rango):
-    if len(rango) != 2:
+
+    if not rango or len(rango) != 2:
         return [0, 200]
     try:
         rango0 = int(float(rango[0]))
@@ -89,9 +99,9 @@ def get_rango(rango):
     return ret
 
 
-def filtro_prioridad(tipo, rango, ubicacion):
+def filtro_prioridad(tipo, rango, ubicacion, estado, documentos):
     cursor = connection.cursor()
-    cursor.execute(query_prioridad(tipo, rango, ubicacion))
+    cursor.execute(query_prioridad(tipo, rango, ubicacion, estado, documentos))
     rows = cursor.fetchall()
     rows = map(lambda x: x[0], rows)
     cursor.close()
@@ -100,9 +110,17 @@ def filtro_prioridad(tipo, rango, ubicacion):
     return rows
 
 
-def query_prioridad(tipo, rango, ubicacion):
+def query_prioridad(tipo, rango, ubicacion, estado, documentos):
     begin_query = ('SELECT DISTINCT codigo_establecimiento FROM (')
     union = False
+
+    query_estado = ''
+    if estado and estado.lower() in ('priorizado', 'planificado', 'adjudicado', 'terminado'):
+        query_estado = " AND lower(estado_de_obra) = '%s' " % estado
+
+    query_documentos = ''
+    if documentos:
+        query_documentos = ' AND documento IS NOT NULL '
 
     query_ubicacion = ''
     dep_id = ubicacion.get('departamento')
@@ -127,6 +145,8 @@ def query_prioridad(tipo, rango, ubicacion):
                 'ON es.codigo_establecimiento = p_mob.codigo_establecimiento '
                 'WHERE p_mob.numero_prioridad >= '+ str(rango[0]) +
                 ' AND p_mob.numero_prioridad <= ' + str(rango[1]))
+        begin_query += query_documentos
+        begin_query += query_estado
         begin_query += query_ubicacion
         union = True
     if tipo == 'sanitarios' or 'sanitarios' in tipo:
@@ -138,6 +158,8 @@ def query_prioridad(tipo, rango, ubicacion):
                 'ON es.codigo_establecimiento = p_san.codigo_establecimiento '
                 'WHERE p_san.numero_prioridad >= '+ str(rango[0]) +
                 ' AND p_san.numero_prioridad <= ' + str(rango[1]))
+        begin_query += query_documentos
+        begin_query += query_estado
         begin_query += query_ubicacion
         union = True
     if tipo == 'aulas' or 'aulas' in tipo:
@@ -150,6 +172,8 @@ def query_prioridad(tipo, rango, ubicacion):
                 ' where p_au.nombre_espacio is null '
                 ' and p_au.numero_prioridad >= ' + str(rango[0]) +
                 ' and p_au.numero_prioridad <= ' + str(rango[1]))
+        begin_query += query_documentos
+        begin_query += query_estado
         begin_query += query_ubicacion
         union = True
     if tipo == 'otros' or 'otros' in tipo:
@@ -162,6 +186,8 @@ def query_prioridad(tipo, rango, ubicacion):
                 ' where p_es.nombre_espacio is not null '
                 ' and p_es.numero_prioridad >= ' + str(rango[0]) +
                 ' and p_es.numero_prioridad <= ' + str(rango[1]))
+        begin_query += query_documentos
+        begin_query += query_estado
         begin_query += query_ubicacion
         union = True
     begin_query += ") other "

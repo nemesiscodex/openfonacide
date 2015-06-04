@@ -103,17 +103,19 @@
       <b ng-if="!dncpCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
       <div class="row">
         <div class="ui checkbox column">
-            <input ng-model="dncpSeleccionadas.adjudicados" id="dncp-adjudicados" type="checkbox" name="fun">
-            <label for="dncp-adjudicados">Adjudicados</label>
+            <input ng-model="dncpSeleccionadas.planificaciones" id="dncp-planificados" type="checkbox" name="fun">
+            <label for="dncp-adjudicados">Planificaciones</label>
         </div>
       </div>
       <br>
       <div class="row">
         <div class="ui checkbox column">
-            <input ng-model="dncpSeleccionadas.informes" id="dncp-informe" type="checkbox" name="fun">
-            <label for="dncp-informe">Con informe de la contraloria</label>
+            <input ng-model="dncpSeleccionadas.adjudicaciones" id="dncp-adjudicados" type="checkbox" name="fun">
+            <label for="dncp-adjudicados">Adjudicaciones</label>
         </div>
       </div>
+      <br>
+
     </div>
     <!-- FIN DNCP -->
 
@@ -126,10 +128,22 @@
       </div>
       <b ng-if="estadoCheck" ng-click="estadoCheck = false" style="float: right">Activado&nbsp;&nbsp;</b>
       <b ng-if="!estadoCheck" ng-click="estadoCheck = !estadoCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
+{#        <div class="row">#}
+        <div class="ui item filtros checkbox">
+            <input ng-model="dncpSeleccionadas.informes" id="dncp-informe" type="checkbox" name="fun">
+            <label for="dncp-informe">Con informe de la contraloria</label>
+        </div>
+{#      </div>#}
+        <br>
+        <br>
       <div class="item filtros dropdown" style="margin-bottom: 5px">
           <select ng-model="estadosSelected" class="ui fluid dropdown">
               <option value="">Estado</option>
-              <option value="1">Adjudicado</option>
+              <option value="todos">Todos</option>
+              <option value="priorizado">Priorizado</option>
+              <option value="planificado">Planificado</option>
+              <option value="adjudicado">Adjudicado</option>
+              <option value="terminado">Terminado</option>
           </select>
       </div>
     </div>

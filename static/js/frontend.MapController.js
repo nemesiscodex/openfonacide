@@ -103,6 +103,7 @@
 
                 var sidebarInicialized = false;
                 $scope.ubicacionSeleccionada = {};
+                $scope.otrosSeleccionados = {};
                 $scope.prioridadesSeleccionadas = {
                     sanitarios: true,
                     aulas: true,
@@ -293,9 +294,18 @@
                 };
 
                 $scope.filtro = function () {
-
                     loading(true);
                     var params = {};
+
+                    if ($scope.otrosSeleccionados.check){
+                        var otros = $scope.otrosSeleccionados;
+                        params.reportadas = otros.reportadas;
+                        //params.adjudicaciones = otros.adjudicaciones;
+                        //params.planificaciones = otros.planificaciones;
+                        params.documentos = otros.documentos;
+                        params.estado = otros.estado;
+                    }
+
                     if ($scope.ubicacionSeleccionada.check) {
                         params.ubicacion = $scope.ubicacionSeleccionada;
                     }

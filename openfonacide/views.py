@@ -600,3 +600,47 @@ def estado_de_obra(request):
     prioridad.save()
 
     return JsonResponse('Exito!', safe=False, status=200)
+
+
+@login_required()
+@transaction.atomic
+def agregar_adjudicacion(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método inválido.'}, status=405)
+
+    codigo_institucion = request.POST.get('codigo_institucion')
+    id_llamado = request.POST.get('id_llamado')
+    periodo = request.POST.get('periodo')
+
+    permisos = request.user.get_all_permissions()
+    permiso_verificar = 'openfonacide.verificar_estado' in permisos
+    permiso_cambiar = 'openfonacide.cambiar_estado' in permisos
+
+    if not permiso_cambiar and not permiso_verificar:
+        return JsonResponse({'error': 'No tiene permisos para realizar esta accion'}, status=403)
+
+    if not id_llamado or not codigo_institucion or not periodo:
+        return JsonResponse({'error': 'Datos insuficientes'}, status=400)
+
+    try:
+        i = Institucion.objects.get(codigo_institucion=codigo_institucion, periodo=periodo)
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'No existe la institución'}, status=400)
+
+    a = None
+    try:
+        p = Planificacion.objects.get(id_llamado=id_llamado, anio=periodo)
+        a = Adjudicacion.objects.get(id_llamado=id_llamado)
+    except ObjectDoesNotExist:
+        pass
+
+    i.planificaciones.add(p)
+    if a is not None:
+        i.adjudicaciones.add(a)
+
+    try:
+        Temporal.objects.get(codigo_institucion=codigo_institucion, periodo=periodo, id_llamado=id_llamado).delete()
+    except:
+        pass
+
+    return JsonResponse({'mensaje': 'Éxito'}, status=200)

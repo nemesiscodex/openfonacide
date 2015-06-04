@@ -74,6 +74,14 @@
                         window.modificarEstado(prioridad, tipo, institucion[0]);
                     }
                 };
+                $scope.agregarAdjudicacion = function () {
+                    if (typeof (window.agregarAdjudicacion) === 'function') {
+                        var institucion = $scope.infoData.instituciones.filter(function (obj) {
+                            return obj.codigo_institucion == $scope.institucion_actual;
+                        });
+                        window.agregarAdjudicacion(institucion[0]);
+                    }
+                };
                 loading(false);
                 $scope.es_otros = function (obj) {
                     if (typeof obj == 'object') {

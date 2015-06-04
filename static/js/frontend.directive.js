@@ -35,6 +35,7 @@
     nuevaDirectiva('loginModal', 'login.html');
     nuevaDirectiva('denunciaModal', 'denuncia.html');
     nuevaDirectiva('archivosContraloria', 'archivos-contraloria.html');
+    nuevaDirectiva('agregarAdjudicacion', 'agregar-adjudicacion.html');
     nuevaDirectiva('institucionList', 'institucion-list.html');
     nuevaDirectiva('visualizaciones', 'visualizaciones.html');
     nuevaDirectiva('microplanificacion', 'microplanificacion.html');

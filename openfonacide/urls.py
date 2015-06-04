@@ -39,6 +39,7 @@ partial_patterns = patterns('',
     url(r'^login\.html$', PartialGroupView.as_view(template_name='login.html'), name='login.html'),
     url(r'^denuncia\.html$', PartialGroupView.as_view(template_name='denuncia.html'), name='denuncia.html'),
     url(r'^archivos-contraloria\.html$', PartialGroupView.as_view(template_name='archivos-contraloria.html'), name='archivos-contraloria.html'),
+    url(r'^agregar-adjudicacion\.html$', PartialGroupView.as_view(template_name='agregar-adjudicacion.html'), name='agregar-adjudicacion.html'),
     url(r'^api\.html$', PartialGroupView.as_view(template_name='api.html'), name='api.html'),
     url(r'^institucion-list\.html$', PartialGroupView.as_view(template_name='institucion-list.html'), name='institucion-list.html'),
     url(r'^home\.html$', PartialGroupView.as_view(template_name='home.html'), name='home.html'),
@@ -88,7 +89,8 @@ urlpatterns = patterns('',
     url(r'^dncp$',   TemplateView.as_view(template_name='visualizaciones/dncp.html'), name="dncp"),
     url(r'^ubicacion\.json$', generar_ubicacion, name='generar_ubicacion'),
     url(r'', include(private_api, namespace="private_api")),
-    url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra')
+    url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra'),
+    url(r'^agregar_adjudicacion/?$', agregar_adjudicacion, name='agregar_adjudicacion')
 )
 
 urlpatterns += [

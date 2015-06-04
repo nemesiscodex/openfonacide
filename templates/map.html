@@ -122,7 +122,18 @@
             <div class="column">
                 <div class="ui requerimiento stackable grid segment" style="padding-top: 10px;"
                      ng-show="show_adjudicaciones">
-                    <h3>Adjudicaciones</h3>
+                    <div class="ui stackable grid">
+                        <div class="eight wide column left aligned">
+                            <h3>Adjudicaciones</h3>
+                        </div>
+                        <div class="four wide column"/>
+                        <div class="four wide column right aligned">
+                            <div class="fluid ui button teal"
+                                    {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
+                                 ng-click="agregarAdjudicacion()" {% endif %}> Agregar Adjudicacion
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="sixteen wide column">
                         <div class="ui segment">

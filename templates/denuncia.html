@@ -10,56 +10,69 @@
 
     <div class="header">
         <i class="warning circle red icon"></i>
-        Reporte
+        Reportar
     </div>
     <div class="content">
-        <p style="float: right">3 de marzo de 2015</p>
+        <form name="r_reportar"  class="ui form ">
+            {% csrf_token %}
 
-        <p></p>
+            <input type="hidden" id="r_id_prioridad" name="id_prioridad">
+            <input type="hidden" id="r_tipo_prioridad" name="tipo">
+            <input type="hidden" id="r_periodo_prioridad" name="periodo">
+            <input type="hidden" id="r_codigo_establecimiento" name="codigo_establecimiento">
+            <input type="hidden" id="r_codigo_institucion" name="codigo_institucion">
+            <input type="hidden" id="r_nombre_institucion" name="nombre_institucion">
+            <div class="two fields">
+                <div class="field">
+                    <label>Nombre</label>
+                    <input placeholder="Nombre" name="nombre" type="text">
+                </div>
 
-        <p>Señores MEC:</p>
-
-        Yo,
-
-        <div class="ui fluid input"><input type="text" placeholder="Nombre completo"></div>
-        de CI
-        <div class="ui fluid input"><input type="text" placeholder="Cedula de Identidad"></div>
-        con fecha de nacimiento
-        <div class="ui fluid input"><input type="date" placeholder="Fecha de nacimiento"></div>
-        quiero
-        reportar que
-        <div class="ui small fluid selection dropdown">
-            <div class="default text">Tipo de denuncia</div>
-
-            <div class="menu">
-                <div class="item" data-value="1">las obras no se completaron</div>
-                <div class="item" data-value="0">las obras se completaron de mala manera</div>
+                <div class="field">
+                    <label>Apellido</label>
+                    <input placeholder="Apellido" name="apellido" type="text">
+                </div>
             </div>
-        </div>
-        en la institucion
+            <div class="two fields">
+                <div class="field">
+                    <label>Cédula de Identidad</label>
+                    <input placeholder="CI" type="text" name="cedula">
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input placeholder="Email" type="email" name="email">
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Teléfono</label>
+                    <input placeholder="Teléfono" type="text" name="telefono">
+                </div>
+                <div class="field">
+                    <label>Motivo</label>
+                    <select class="ui dropdown" name="motivo">
+                        <option value="">Motivo</option>
+                        <option value="0">Las obras no se realizaron.</option>
+                        <option value="1">Las obras no se realizaron en forma.</option>
+                    </select>
+                </div>
 
-        <div class="ui fluid input"><input type="text" disabled value="Escuela Nro 1234"></div>
-        <br>
-
-        <div class="ui labeled green icon button">
-            <i class="plus circle icon"></i>
-            Agregar imagen
-        </div>
-        <br>
-        <br>
-
-        <div class="ui checkbox">
-            <input type="checkbox" name="fun">
-            <label>Acepto ....</label>
-        </div>
+            </div>
+            <div class="field">
+                <label>Observación</label>
+                <textarea name="observacion"></textarea>
+            </div>
+            <div class="ui error message"></div>
+        </form>
     </div>
     <div class="actions">
         <div class="two fluid ui  buttons">
-            <div class="ui red basic  button">
+            <div class="ui red basic close button">
                 <i class="remove icon"></i>
                 Cancelar
             </div>
-            <div class="ui green basic  button">
+            <div class="ui green basic button"
+                    onclick="$(r_reportar).submit();">
                 <i class="checkmark icon"></i>
                 Enviar
             </div>
@@ -67,6 +80,115 @@
     </div>
 </div>
 <script>
+    var $reportarForm = $(r_reportar);
+    var $denunciaModal = $('.denuncia.modal');
+    $reportarForm.submit(function(e){
+        $reportarForm.form('validate_form').find('.error').removeClass('hidden');
+        e.preventDefault();
+    });
+    $reportarForm.form({
+        nombre: {
+            identifier: 'nombre',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor introduzca su <strong>Nombre</strong>'
+                }
+            ]
+        },
+        apellido: {
+            identifier: 'apellido',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor introduzca su <strong>Apellido</strong>'
+                }
+            ]
+        },
+        cedula: {
+            identifier: 'cedula',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor introduzca su <strong>Cédula de Identidad</strong>'
+                }
+            ]
+        },
+        email: {
+            identifier: 'email',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor introduzca un <strong>Email</strong> para poder contactar con usted'
+                },
+                {
+                    type: 'email',
+                    prompt: 'El formato del <strong>Email</strong> no es válido'
+                }
+            ]
+        },
+        telefono: {
+            identifier: 'telefono',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor introduzca un <strong>Teléfono</strong> para poder contactar con usted'
+                }
+            ]
+        },
+        motivo: {
+            identifier: 'motivo',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor seleccione un <strong>Motivo</strong>'
+                }
+            ]
+        },
+        observacion: {
+            identifier: 'observacion',
+            rules: [
+                {
+                    type: 'empty',
+                    prompt: 'Por favor agregue una <strong>Observacion</strong> del hecho que está reportando'
+                }
+            ]
+        }
+    }, {
+        onSuccess: function(){
+            console.log('EXITO!!');
+            $.ajax({
+                url: '{% url 'reportar' %}',
+                type: 'POST',
+                data: new FormData(r_reportar),
+                processData: false,
+                contentType: false
+            }).success(function(){
+                $denunciaModal.modal('hide');
+            }).error(function(data){
+                $reportarForm.form('add errors', ['Ocurrio un error al enviar el Reporte, Intente nuevamente más tarde'])
+                        .find('.error').addClass('visible');
+            })
+        }
+    });
+
+    $denunciaModal.modal({
+        selector: {
+            close: '.close',
+            deny: '.actions .negative, .actions .deny, .actions .cancel'
+        }
+    });
+    function reportar(prioridad, tipo, institutcion) {
+        $reportarForm.form('reset').form('clear').find('.error').removeClass('visible').addClass('hidden');
+        $('#r_id_prioridad').val(prioridad.id);
+        $('#r_tipo_prioridad').val(tipo);
+        $('#r_periodo_prioridad').val(prioridad.periodo);
+        $('#r_codigo_establecimiento').val(institutcion.codigo_establecimiento);
+        $('#r_codigo_institucion').val(institutcion.codigo_institucion);
+        $('#r_nombre_institucion').val(institutcion.nombre_institucion);
+        $denunciaModal.modal('show');
+    }
+
     $(function () {
         $('.ui.dropdown').dropdown();
         $('.ui.checkbox').checkbox();

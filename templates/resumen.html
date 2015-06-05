@@ -104,7 +104,7 @@
       <div class="row">
         <div class="ui checkbox column">
             <input ng-model="dncpSeleccionadas.planificaciones" id="dncp-planificados" type="checkbox" name="fun">
-            <label for="dncp-adjudicados">Planificaciones</label>
+            <label for="dncp-planificados">Planificaciones</label>
         </div>
       </div>
       <br>
@@ -130,14 +130,14 @@
       <b ng-if="!estadoCheck" ng-click="estadoCheck = !estadoCheck" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
 {#        <div class="row">#}
         <div class="ui item filtros checkbox">
-            <input ng-model="dncpSeleccionadas.informes" id="dncp-informe" type="checkbox" name="fun">
+            <input ng-model="estadosSeleccionados.informes" id="dncp-informe" type="checkbox" name="fun">
             <label for="dncp-informe">Con informe de la contraloria</label>
         </div>
 {#      </div>#}
         <br>
         <br>
       <div class="item filtros dropdown" style="margin-bottom: 5px">
-          <select ng-model="estadosSelected" class="ui fluid dropdown">
+          <select ng-model="estadosSeleccionados.estado" class="ui fluid dropdown">
               <option value="">Estado</option>
               <option value="todos">Todos</option>
               <option value="priorizado">Priorizado</option>
@@ -180,13 +180,27 @@
                En todo el territorio del Paraguay
            </h4>
 
-            <h4 class="ui header" style="margin:0">Hubo <span class="ui large basic teal label " style="padding: 5px; margin: 0">{$ data.elegibles $}</span> instituciones elegibles por fonacide
+            <h4 class="ui header" style="margin:0">Hubieron <span class="ui large basic teal label " style="padding: 5px; margin: 0">{$ data.elegibles $}</span> instituciones elegibles por fonacide
             priorizadas por
                 <span ng-if="data.prioridades.sanitarios" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Sanitarios</span>
                 <span ng-if="data.prioridades.aulas" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Aulas</span>
                 <span ng-if="data.prioridades.otros" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Otros espacios</span>
                 <span ng-if="data.prioridades.mobiliarios" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Mobiliarios</span>
+                <span ng-if="data.dncp.planificaciones || data.dncp.adjudicaciones" class="no-anim"> con
+                    <span ng-if="data.dncp.planificaciones" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Planificaciones</span>
+                    <span ng-if="data.dncp.planificaciones && data.dncp.adjudicaciones" class="no-anim"> y </span>
+                    <span ng-if="data.dncp.adjudicaciones" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Adjudicaciones</span>
+                    del DNCP
+                </span>
+                <span ng-if="data.estados.estado || data.estados.informes" class="no-anim">
+                    cuyos estados de obra
+                    <span ng-if="data.estados.estado" class="no-anim"> son </span>
+                    <span ng-if="data.estados.estado" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">{$ data.estados.estado | capitalize $}</span>
+                    <span ng-if="data.estados.estado && data.estados.informes" class="no-anim"> y </span>
+                    <span ng-if="data.estados.informes" class="ui large basic teal label no-anim" style="padding: 5px; margin: 0 3px 5px 0">Cuentan con informes de la Contraloría</span>
+                </span>
             </h4>
+
 
 
            </div>

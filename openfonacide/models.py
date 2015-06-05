@@ -302,3 +302,22 @@ class Temporal(models.Model):
 
     class Meta:
         verbose_name_plural = "temporales"
+
+
+#Instituciones reportadas
+class Reportes(models.Model):
+    id_prioridad = models.IntegerField()
+    tipo = models.CharField(max_length=128)
+    codigo_establecimiento = models.CharField(max_length=256)
+    codigo_institucion = models.CharField(max_length=256)
+    nombre_institucion = models.CharField(max_length=256)
+    periodo = models.CharField(max_length=16)
+    fecha = models.DateTimeField()
+    cedula = models.CharField(max_length=16)
+    nombre = models.CharField(max_length=256)
+    apellido = models.CharField(max_length=256)
+    email = models.CharField(max_length=256)
+    telefono = models.CharField(max_length=256)
+    motivo = models.IntegerField()
+    observacion = models.TextField()
+

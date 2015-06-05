@@ -287,6 +287,10 @@
         $scope.filterObject = {};
         $scope.data = {};
         $scope.departamentoSelected = '';
+        $scope.estadosSeleccionados = {
+            estado: '',
+            informes: false
+        };
         $scope.prioridadesSeleccionadas = {
           sanitarios: false,
           aulas: false,
@@ -294,8 +298,8 @@
           otros: false
         };
         $scope.dncpSeleccionadas = {
-          adjudicados: false,
-          informes: false
+          planificaciones: false,
+          adjudicaciones: false
         };
 
         $scope.ubicacionesSeleccionadas = [];
@@ -321,7 +325,7 @@
             resumen.dncp = $scope.dncpSeleccionadas;
           }
           if($scope.estadoCheck){
-            resumen.estado = $scope.estadosSelected;
+            resumen.estado = $scope.estadosSeleccionados;
           }
 
           backEnd.resumen.get({params: resumen}, function(data){

@@ -10,7 +10,7 @@
         require(
             [
                 'echarts',
-                'echarts/chart/map' // require the specific chart type
+                'echarts/chart/bar' // require the specific chart type
             ],
             function (ec) {
                 // Initialize after dom ready

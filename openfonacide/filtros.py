@@ -51,7 +51,15 @@ def filtros(request):
 
     ubicacion = request.GET.get('ubicacion')
     reportadas = request.GET.get('reportadas')
+    if reportadas == 'true':
+        reportadas = True
+    else:
+        reportadas = None
     documentos = request.GET.get('documentos')
+    if documentos == 'true':
+        documentos = True
+    else:
+        documentos = None
     # adjudicaciones = request.GET.get('adjudicaciones')
     # planificaciones = request.GET.get('planificaciones')
     estado = request.GET.get('estado')

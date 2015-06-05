@@ -301,7 +301,6 @@
         $('.btn-mapa').click(function () {
 
             tipo_abastecimiento = $("input:checked").next().html();
-            console.log(tipo_abastecimiento);
 
             resultado = $.grep(abastecimiento, function (n, i) {
                 return n.abastecimiento_agua === tipo_abastecimiento;

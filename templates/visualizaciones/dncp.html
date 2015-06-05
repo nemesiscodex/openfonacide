@@ -303,7 +303,6 @@ piden más ?
                resumen.filtro = filtro;
                resumen.opcion = opcion;
 
-               console.log(resumen);
 
 
                 respuesta = {};
@@ -317,11 +316,9 @@ piden más ?
                $.getJSON( "infografiaDNCP/", {filtro:filtro, opcion:opcion, anio:anio}   ,  function(result){
                     
 
-                 //   console.log(JSON.stringify(result));
                     respuesta = result;
 
                     if (respuesta.cantidad_adjudicaciones) {
-                        console.log("cantidad_adjudicaciones");
 
                         
                         for (var i in respuesta.cantidad_adjudicaciones) {
@@ -339,7 +336,6 @@ piden más ?
 
                     if (respuesta.monto_adjudicaciones) {
 
-                        console.log("monto_adjudicaciones");
 
                          for (var i in respuesta.monto_adjudicaciones) {
 
@@ -355,13 +351,11 @@ piden más ?
                     }
 
                      if (respuesta.categoria) {
-                        console.log("categoria");
 
                         grafica3( respuesta.categoria , anio, opcion,url);
                     }
 
                      if (respuesta.procedimiento) {
-                        console.log("procedimiento");
                           
 
                         grafica4(respuesta.procedimiento,  anio, opcion,url );

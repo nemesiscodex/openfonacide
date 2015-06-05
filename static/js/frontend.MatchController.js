@@ -9,7 +9,6 @@
             controller.guardar = function(){
                 var data_list = new Array();
                 $('.checkbox input:checked').each(function (idx, el) {
-                    //console.log($(el).data('llamado') + '-' + $(el).data('institucion'));
                     var tmp_obj = { 'id_llamado' : $(el).data('llamado'),
                         'codigo_institucion' : $(el).data('institucion'),
                         'periodo' : $(el).data('periodo'),

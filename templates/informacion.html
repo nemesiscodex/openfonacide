@@ -4,6 +4,22 @@
     <div class="ui two cards stackable" style="padding: 0px 20%;">
   <div class="card ">
 
+      <div class="dimmable image">
+      <div class="ui inverted dimmer">
+        <div class="content">
+          <div class="center">
+             <a href="fonacide"> 
+            <div class="ui  button">Ver Más</div>
+            </a>
+          </div>
+        </div>
+      </div>
+     <img class="fonacide" src="/static/images/torta-fonacide.png">
+    </div>
+
+
+  
+
     <div class="content">
       <div class="header"><a href="fonacide">FONACIDE</a></div>
       <div class="meta"></div>
@@ -21,6 +37,20 @@
 
   </div>
   <div class="card ">
+     <div class="dimmable image">
+      <div class="ui inverted dimmer">
+        <div class="content">
+          <div class="center">
+             <a href="microplanificacion"> 
+            <div class="ui  button">Ver Más</div>
+            </a>
+          </div>
+        </div>
+      </div>
+     <img class="microplanificacion" src="/images/avatar/large/stevie.jpg">
+    </div>
+
+
     <div class="content">
       <div class="header"><a href="microplanificacion">MICROPLANIFICACIÓN</a></div>
       <div class="meta"></div>
@@ -43,3 +73,14 @@
 
 </div>
 
+<script type="text/javascript">
+
+
+$('.fonacide').attr('src',$('base').attr('href') + "static/images/torta-fonacide.png");
+$('.microplanificacion').attr('src',$('base').attr('href') + "static/images/proceso-micro.png");
+
+
+$('.card .image').dimmer({
+  on: 'hover'
+});
+</script>

@@ -29,6 +29,11 @@
             <tbody>
             <div>
                 <tr ng-repeat=" t in resultados track by $index">
+                        <div if-ng="cargando" id="match_loader">
+                            <div class="ui indeterminate active large text loader " style="padding-top: 250px;">
+                                <h1>Cargando datos</h1>
+                            </div>
+                        </div>
                     <td class="collapsing">
                         <div class="ui toggle match checkbox" style="float: right">
                             <input id="confirmar_check_{$ t.id $}" data-periodo="{$ t.periodo $}"

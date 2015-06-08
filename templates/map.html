@@ -129,10 +129,12 @@
                         <div class="four wide column"/>
                         <div class="four wide column right aligned">
                             <!-- verificar el permiso para agregar información de fonacide -->
+                            {% if user.is_authenticated %}
                             <div class="fluid ui button teal"
                                     {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
                                  ng-click="agregarAdjudicacion()" {% endif %}> Agregar Adjudicacion
                             </div>
+                        {% endif %}
                         </div>
                     </div>
 

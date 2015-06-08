@@ -178,7 +178,11 @@
         }
     });
     function reportar(prioridad, tipo, institutcion) {
+        var $csrf = $reportarForm.find('[name=csrfmiddlewaretoken]');
+        var csrf = $csrf.val();
+
         $reportarForm.form('reset').form('clear').find('.error').removeClass('visible').addClass('hidden');
+        $csrf.val(csrf);
         $('#r_id_prioridad').val(prioridad.id);
         $('#r_tipo_prioridad').val(tipo);
         $('#r_periodo_prioridad').val(prioridad.periodo);

@@ -8,6 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # openshift is our PAAS for now.
 ON_PAAS = 'OPENSHIFT_REPO_DIR' in os.environ
+ON_MEC = 'MEC_REPO_DIR' in os.environ
 
 
 # Quick-start development settings - unsuitable for production
@@ -15,8 +16,9 @@ ON_PAAS = 'OPENSHIFT_REPO_DIR' in os.environ
 
 if ON_PAAS:
     SECRET_KEY = os.environ['OPENSHIFT_SECRET_TOKEN']
+elif ON_MEC:
+    SECRET_KEY = os.environ['MEC_SECRET_TOKEN']
 else:
-    # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = ')_7av^!cy(wfx=k#3*7x+(=j^fzv+ot^1@sh9s9t=8$bu@r(z$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -26,10 +28,15 @@ DEBUG = DEBUG or 'DEBUG' in os.environ
 if ON_PAAS and DEBUG:
     print("*** Warning - Debug mode is on ***")
 
+if ON_MEC:
+    DEBUG = False
+
 TEMPLATE_DEBUG = False
 
 if ON_PAAS:
     ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS'], socket.gethostname()]
+elif ON_MEC:
+    ALLOWED_HOSTS = [os.environ['MEC_APP_DNS'], socket.gethostname()]
 else:
     ALLOWED_HOSTS = ['localhost']
 
@@ -107,6 +114,19 @@ if ON_PAAS:
         }
 
 
+elif ON_MEC:
+    # Postgres es obligatorio en el MEC
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['MEC_APP_NAME'],
+            'USER': os.environ['MEC_POSTGRESQL_DB_USERNAME'],
+            'PASSWORD': os.environ['MEC_POSTGRESQL_DB_PASSWORD'],
+            'HOST': os.environ['MEC_POSTGRESQL_DB_HOST'],
+            'PORT': os.environ['MEC_POSTGRESQL_DB_PORT'],
+        }
+    }
+
 else:
     # stock django
     DATABASES = {
@@ -170,3 +190,8 @@ else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'wsgi', 'files')
 
 MEDIA_URL = '/media/'
+
+# Ajustes especiales para el caso de un servidor detrás de un ReverseProxy
+if ON_MEC:
+    STATIC_URL ='/contralorfonacide/static/'
+    MEDIA_URL='media/'

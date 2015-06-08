@@ -128,6 +128,7 @@
                         </div>
                         <div class="four wide column"/>
                         <div class="four wide column right aligned">
+                            <!-- verificar el permiso para agregar información de fonacide -->
                             <div class="fluid ui button teal"
                                     {% if 'openfonacide.verificar_estado' in user.get_all_permissions or 'openfonacide.cambiar_estado' in user.get_all_permissions %}
                                  ng-click="agregarAdjudicacion()" {% endif %}> Agregar Adjudicacion
@@ -141,7 +142,7 @@
                                 <h4 ng-if="adjudicaciones_actual.length == 0 && planificaciones_actual == 0">No hay adjudicaciones</h4>
                             <ul>
                                 <li ng-repeat=" p in planificaciones_actual">{$ p.nombre_licitacion $} - Fue planificada
-                                    para realizarse en la fecha estimada <i>{$ p.fecha_estimada $}</i>.
+                                    para realizarse en la fecha estimada <i>{$ p.fecha_estimada $}</i>. Categoría: <i>{$ p.categoria $}</i>.
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado={$ p.id_llamado $}"
                                        target="_blank"> Ver estado </a>
                                 </li>
@@ -159,7 +160,7 @@
                             </ul>
                             <ul>
                                 <li ng-repeat=" a in adjudicaciones_actual">{$ a.nombre_licitacion $} - Fue adjudicada
-                                    por un monto de {$ a.moneda $} <span class="ui teal label">{$ formatoDinero(a.monto_total_adjudicado) $}</span>
+                                    por un monto de {$ a.moneda $} <span class="ui teal label">{$ formatoDinero(a.monto_total_adjudicado) $}</span>. Categoría: <i>{$ a.categoria $}</i>
                                     <a href="https://www.contrataciones.gov.py/datos/visualizaciones/etapas-licitacion-emb?id_llamado={$ a.id_llamado $}"
                                        target="_blank"> Ver estado </a>
                                     <!-- en la fecha <i>{$ a.fecha_publicacion $}</i>. -->

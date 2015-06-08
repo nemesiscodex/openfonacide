@@ -66,7 +66,7 @@
         .controller('MapController', ['$scope', 'backEnd', '$filter',
             '$routeParams', '$rootScope', '$timeout', '$location',
             function ($scope, backEnd, $filter, $routeParams, $rootScope, $timeout, $location) {
-                $scope.reportar = function(prioridad, tipo) {
+                $scope.reportar = function (prioridad, tipo) {
                     if (typeof (window.reportar) === 'function') {
                         var institucion = $scope.infoData.instituciones.filter(function (obj) {
                             return obj.codigo_institucion == $scope.institucion_actual;
@@ -305,7 +305,7 @@
                     loading(true);
                     var params = {};
 
-                    if ($scope.otrosSeleccionados.check){
+                    if ($scope.otrosSeleccionados.check) {
                         var otros = $scope.otrosSeleccionados;
                         params.reportadas = otros.reportadas;
                         //params.adjudicaciones = otros.adjudicaciones;
@@ -341,7 +341,7 @@
                             backEnd.filtros.query(params, function (data) {
                                 $scope.filtroArray = data;
                                 // Estos filtros no deberian cachearse
-                                if(!$scope.otrosSeleccionados.check)
+                                if (!$scope.otrosSeleccionados.check)
                                     $scope.filtros[gen_hash(params)] = data;
                                 if (Storage !== 'undefined') {
                                     localStorage.setItem('filtros', JSON.stringify($scope.filtros));
@@ -480,6 +480,25 @@
                     $scope.periodo = 2015;
                     var establecimiento_nuevo = {};
                     var instituciones_nuevas = [];
+
+                    // Establecer Planificaciones y Adjudicaciones solo si son necesarias
+                    var setInfoDNCP = function (planificaciones, adjudicaciones) {
+                        var planificacion_actuales = new Array();
+                        // No se guarda una planificación que cuyo id_llamado ya exista en alguna adjudicación
+                        for (var p in planificaciones) {
+                            if ($.inArray(planificaciones[p].id_llamado, adjudicaciones.map(
+                                    function (el) {
+                                        return el.id_llamado;
+                                    }
+                                )) < 0) {
+                                planificacion_actuales.push(planificaciones[p]);
+                            }
+                        }
+
+                        $scope.planificaciones_actual = planificacion_actuales;
+                        $scope.adjudicaciones_actual = adjudicaciones;
+                    }
+
                     backEnd.establecimiento.get({
                         id: id
                     }, function (value) {
@@ -506,15 +525,17 @@
                                 var t = $scope.infoData.instituciones;
                                 for (var i in t) {
                                     if (t[i].codigo_institucion === idInstitucion) {
-                                        $scope.planificaciones_actual = t[i].planificaciones;
-                                        $scope.adjudicaciones_actual = t[i].adjudicaciones;
+                                        setInfoDNCP(t[i].planificaciones, t[i].adjudicaciones);
+                                        //$scope.planificaciones_actual = t[i].planificaciones;
+                                        //$scope.adjudicaciones_actual = t[i].adjudicaciones;
                                     }
                                 }
                             } else {
                                 $scope.institucion_actual = instituciones_nuevas[
                                     0].codigo_institucion;
-                                $scope.planificaciones_actual = instituciones_nuevas[0].planificaciones;
-                                $scope.adjudicaciones_actual = instituciones_nuevas[0].adjudicaciones;
+                                //$scope.planificaciones_actual = instituciones_nuevas[0].planificaciones;
+                                //$scope.adjudicaciones_actual = instituciones_nuevas[0].adjudicaciones;
+                                setInfoDNCP(instituciones_nuevas[0].planficaciones, instituciones_nuevas[0].adjudicaciones);
                             }
                             $timeout(function () {
                                 $scope.map.invalidateSize();

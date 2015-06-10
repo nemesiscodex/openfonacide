@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+      <style>
+          td{
+              border: 1px solid #d0d0d0;
+              padding: 5px;
+          }
+      </style>
+</head>
+  <body>
+
+<h3>Nuevo Reporte sobre una Prioridad:</h3>
+
+Url: <a href="{{ url_view_action }}">ContralorFonacide</a>
+
+<h4>Datos de la Prioridad</h4>
+<table style="border: 1px solid #d0d0d0; border-radius: .25rem; color: rgba(0,0,0,.8); width: 100%;">
+    <tbody>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Institución</strong></td>
+            <td>{{ institucion.nombre_institucion | title }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Código</strong></td>
+            <td>{{ institucion.codigo_institucion }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Prioridad</strong></td>
+            <td>{{ tipo | title }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Tipo</strong></td>
+            {% if prioridad.nombre_mobiliario %}
+            <td>{{ prioridad.nombre_mobiliario | title }}</td>
+            {% elif prioridad.nombre_espacio %}
+            <td>{{ prioridad.nombre_espacio | title }} - {{ prioridad.tipo_requerimiento_infraestructura | title }}</td>
+            {% else %}
+            <td>{{ prioridad.tipo_requerimiento_infraestructura | title}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Cantidad</strong></td>
+            <td>{{ prioridad.cantidad_requerida }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Orden</strong></td>
+            <td>{{ prioridad.numero_prioridad }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Periodo</strong></td>
+            <td>{{ prioridad.periodo }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Estado</strong></td>
+            <td>{{ prioridad.estado_de_obra | title }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Informe</strong></td>
+            {% if prioridad.documento %}
+            <td>{{ base_url }}{{ prioridad.documento }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Verificado</strong></td>
+            {% if prioridad.verificado_por %}
+            <td>{{ verificado_por }}</td>
+            {% else %}
+            <td>No</td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<h4>Datos de el Reporte</h4>
+<table  style="border: 1px solid #d0d0d0; border-radius: .25rem; color: rgba(0,0,0,.8); width: 100%;">
+    <tbody>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Nombre</strong></td>
+            <td>{{ reporte.nombre }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Apellido</strong></td>
+            <td>{{ reporte.apellido }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>CI</strong></td>
+            <td>{{ reporte.cedula }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Email</strong></td>
+            <td>{{ reporte.email }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Tel&eacute;fono</strong></td>
+            <td>{{ reporte.telefono }}</td>
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Motivo</strong></td>
+            {% if reporte.motivo == 0 %}
+                <td>Las obras no se realizaron.</td>
+            {% elif reporte.motivo == 1 %}
+                <td>Las obras no se realizaron en forma.</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td style="background: rgba(0,0,0,.03);"><strong>Observaci&oacute;n</strong></td>
+            <td>{{ reporte.observacion }}</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

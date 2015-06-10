@@ -567,7 +567,7 @@
                                         $scope.map.setView([lat, lon], 17);
                                     }
                                 }, 0);
-                                $('.right.sidebar .ui.dropdown').dropdown();
+                                //$('.right.sidebar .ui.dropdown').dropdown();
 
                             });
 

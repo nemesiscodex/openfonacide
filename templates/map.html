@@ -10,29 +10,29 @@
         padding: 5px;
         left: -9px;
         text-align: center;
-        width: 50px;
+        width: 35px;
     }
     .tooltip.left {
         left: -14px;
     }
     .tooltip.right {
-        left: -4px;
+        left: 10px;
     }
     .tooltip strong {
         display: block;
         padding: 2px;
     }
     /*Ver donde ubicar las reglas*/
-    .ui.loader::after {
+    .ui.loader.map-loader::after {
         border-color: rgba(0, 0, 0, .6) transparent transparent;
         border-top-width: 0.4em;
         border-bottom-width: 4.0em;
     }
-    .ui.loader::before {
+    .ui.loader.map-loader::before {
         border-color: rgba(0, 0, 0, .2);
         border-width: 0.4em;
     }
-    .ui.loader h2 {
+    .ui.loader.map-loader h2 {
         color: #000;
     }
     /*Se define en custom.css línea 81*/
@@ -771,13 +771,13 @@
 
         <div class="ui  checkbox" style="float: right; opacity: 0.99">
 
-            <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-change="activar_filtro()"
+            <input id="prioridad-check" ng-model="prioridadesSeleccionadas.check" ng-checked="prioridadesSeleccionadas.check" ng-change="activar_filtro()"
                    type="checkbox">
             <label for="prioridad-check"></label>
         </div>
 
-        <b ng-if="prioridadesSeleccionadas.check" style="float: right;">Activado&nbsp;&nbsp;</b>
-        <b ng-if="!prioridadesSeleccionadas.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
+        <b ng-if="prioridadesSeleccionadas.check" ng-click="prioridadesSeleccionadas.check = false; activar_filtro()" style="float: right;">Activado&nbsp;&nbsp;</b>
+        <b ng-if="!prioridadesSeleccionadas.check" ng-click="prioridadesSeleccionadas.check = true; activar_filtro()" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
 
         <div class="item filtros">
             <h4>Tipo de Requerimiento </h4>
@@ -837,11 +837,11 @@
                                               data-variation="small"></i></label>
 
         <div class="ui  checkbox" style="float: right;  opacity: 0.99;">
-            <input id="otros-check" ng-model="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox">
+            <input id="otros-check" ng-model="otrosSeleccionados.check" ng-checked="otrosSeleccionados.check" ng-change="activar_filtro()" type="checkbox">
             <label for="otros-check"></label>
         </div>
-        <b ng-if="otrosSeleccionados.check" style="float: right">Activado&nbsp;&nbsp;</b>
-        <b ng-if="!otrosSeleccionados.check" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
+        <b ng-if="otrosSeleccionados.check" ng-click="otrosSeleccionados.check = false; activar_filtro()" style="float: right">Activado&nbsp;&nbsp;</b>
+        <b ng-if="!otrosSeleccionados.check" ng-click="otrosSeleccionados.check = true; activar_filtro()" style="float: right; opacity: 0.5">Desactivado&nbsp;&nbsp;</b>
 
 
 
@@ -870,7 +870,7 @@
             </div>
         </div>
 
-        <div class="item filtros dropdown" style="margin-bottom: 5px">
+        <div class="item filtros" style="margin-bottom: 5px">
             <label for="estado_de_obras">Estado de obras</label>
             <select id="estado_de_obras" ng-model="otrosSeleccionados.estado" class="ui fluid upward dropdown">
               <option value="">Estado</option>
@@ -907,7 +907,7 @@
                     on: 'hover'
                 })
         ;
-        $('.ui.dropdown').dropdown();
+{#        $('.ui.dropdown').dropdown();#}
         angular.element(".filter.launch").click(function () {
             angular.element('.left.sidebar')
                     .sidebar({

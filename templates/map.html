@@ -23,16 +23,16 @@
         padding: 2px;
     }
     /*Ver donde ubicar las reglas*/
-    .ui.loader::after {
+    .ui.loader.map-loader::after {
         border-color: rgba(0, 0, 0, .6) transparent transparent;
         border-top-width: 0.4em;
         border-bottom-width: 4.0em;
     }
-    .ui.loader::before {
+    .ui.loader.map-loader::before {
         border-color: rgba(0, 0, 0, .2);
         border-width: 0.4em;
     }
-    .ui.loader h2 {
+    .ui.loader.map-loader h2 {
         color: #000;
     }
     /*Se define en custom.css línea 81*/
@@ -905,7 +905,7 @@
                     on: 'hover'
                 })
         ;
-        $('.ui.dropdown').dropdown();
+{#        $('.ui.dropdown').dropdown();#}
         angular.element(".filter.launch").click(function () {
             angular.element('.left.sidebar')
                     .sidebar({

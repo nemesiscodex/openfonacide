@@ -21,7 +21,13 @@
             inputClass: '@'
         },
         link: function (scope, element, attrs) {
-            $(element).find('.input,.label').addClass(scope.inputClass);
+            var size = (scope.inputClass === 'massive')? '140px' : '100px';
+            var $input = $(element).find('.icon.input');
+            var $dropdown = $(element).find('.dropdown.busqueda');
+            $dropdown.addClass(scope.inputClass);
+            $input.addClass(scope.inputClass);
+            console.log($dropdown.css('height'));
+            $input.css('width', 'calc(100% - ' + size + ')');
         }
     });
     nuevaDirectiva('resultElement', 'result-element.html', {
@@ -114,7 +120,7 @@
 
                     $timeout(function () {
                         // $('.ui.checkbox').checkbox();
-                        $('.dropdown').dropdown();
+                        $('#ubicacion').find('.ui.dropdown').dropdown();
                     }, 300, false);
                 });
 

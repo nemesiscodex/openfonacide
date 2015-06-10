@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import json
+import openfonacide.settings as settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.urlresolvers import reverse
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connection
 from django.db import transaction
@@ -342,7 +343,7 @@ class Recuperar(View):
                 mail = EmailMessage('Recuperar Contraseña',
                                     mensaje,
                                     to=to,
-                                    from_email='openfonacide@ceamso.com.py')
+                                    from_email=settings.EMAIL_HOST_USER)
                 mail.content_type = 'html'
                 mail.send()
 
@@ -610,6 +611,45 @@ def reportar(request):
         reporte = form.save(commit=False)
         reporte.fecha = datetime.now()
         reporte.save()
+
+        notificaciones = NotificacionesReportes.objects.all()
+
+        emails = map(lambda obj: obj.email, notificaciones)
+
+        if emails is not None and len(emails) > 0:
+
+            institucion = Institucion.objects.filter(codigo_institucion=reporte.codigo_institucion)[:1].get()
+            establecimiento = Establecimiento.objects.filter(codigo_establecimiento=institucion.codigo_establecimiento)[:1].get()
+
+            if reporte.tipo == 'aulas' or reporte.tipo == 'otros':
+                prioridad = Espacio.objects.get(id=reporte.id_prioridad)
+            elif reporte.tipo == 'mobiliarios':
+                prioridad = Mobiliario.objects.get(id=reporte.id_prioridad)
+
+            elif reporte.tipo == 'sanitarios':
+                prioridad = Sanitario.objects.get(id=reporte.id_prioridad)
+            else:
+                prioridad = None
+
+            ctx = {
+                "tipo": reporte.tipo,
+                "reporte": reporte,
+                "institucion": institucion,
+                "establecimiento": establecimiento,
+                "prioridad": prioridad,
+                "base_url": request.build_absolute_uri(reverse('index'))[:-1],
+                "url_view_action": (request.build_absolute_uri(reverse('index')) + 'map/?establecimiento=' +
+                                    reporte.codigo_establecimiento + '&institucion=' + reporte.codigo_institucion)
+            }
+            mensaje = get_template('registration/mail.nuevoreporte.html').render(Context(ctx))
+            to = emails
+            mail = EmailMultiAlternatives(settings.EMAIL_SUBJECT_PREFIX + 'Reporte institucion: ' + reporte.codigo_institucion,
+                                mensaje,
+                                bcc=to,
+                                from_email=settings.EMAIL_HOST_USER)
+            mail.attach_alternative(mensaje, "text/html")
+            mail.send()
+
         return JsonResponse({'mensaje': 'Exito.'}, status=200)
     return JsonResponse({'error': 'Datos inválidos'}, status=400)
 

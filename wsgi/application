@@ -1,5 +1,7 @@
 #!/usr/bin/python
+from django.core.handlers.wsgi import WSGIHandler
 import os, sys
+import django
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'openfonacide.settings'
 
@@ -15,6 +17,27 @@ try:
 except KeyError:
     pass
 
-from django.core.wsgi import get_wsgi_application
+#from django.core.wsgi import get_wsgi_application
 
-application = get_wsgi_application()
+#_application = get_wsgi_application()
+
+
+class WSGIEnvironment(WSGIHandler):
+    def __call__(self, environ, start_response):
+        for key in environ:
+            if key.startswith('MEC_'):
+                os.environ[key] = environ[key]
+        django.setup()
+        return super(WSGIEnvironment, self).__call__(environ, start_response)
+
+
+application = WSGIEnvironment()
+
+
+#def application(environ, start_response):
+#    # pass the WSGI environment variables on through to os.environ
+#    for key in environ:
+#        if key.startswith('MEC_'):
+#            os.environ[key] = environ[key]
+#
+#    return _application(environ, start_response)

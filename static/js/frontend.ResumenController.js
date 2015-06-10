@@ -268,6 +268,12 @@
       .controller('ResumenController', ['$scope', '$timeout', 'backEnd', function($scope, $timeout, backEnd){
         $scope.loading = false;
         $scope.sin_datos = true;
+        $scope.checkFiltros = {
+            ubicacionCheck: false,
+            prioridadCheck: false,
+            dncpCheck: false,
+            estadoCheck: false
+        };
         $scope.ubicacionCheck = true;
         require.config({
             paths: {
@@ -284,6 +290,10 @@
             ], function(ec){
                 echarts = ec;
             });
+
+        $scope.activar_filtro = function () {
+            $('#actualizar-resumen').transition('jiggle');
+        };
         $scope.filterObject = {};
         $scope.data = {};
         $scope.departamentoSelected = '';
@@ -315,16 +325,16 @@
           $scope.sin_datos = false;
           var resumen = {};
           resumen.anios = $scope.anioSelected;
-          if($scope.ubicacionCheck){
+          if($scope.checkFiltros.ubicacionCheck){
             resumen.ubicaciones = $scope.ubicacionesSeleccionadas;
           }
-          if($scope.prioridadCheck){
+          if($scope.checkFiltros.prioridadCheck){
             resumen.prioridades = $scope.prioridadesSeleccionadas;
           }
-          if($scope.dncpCheck){
+          if($scope.checkFiltros.dncpCheck){
             resumen.dncp = $scope.dncpSeleccionadas;
           }
-          if($scope.estadoCheck){
+          if($scope.checkFiltros.estadoCheck){
             resumen.estado = $scope.estadosSeleccionados;
           }
 

@@ -182,7 +182,20 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if ON_MEC:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = os.environ.get('MEC_EMAIL_HOST')
+    EMAIL_PORT = os.environ.get('MEC_EMAIL_PORT')
+    EMAIL_HOST_USER = os.environ.get('MEC_EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('MEC_EMAIL_HOST_PASSWORD')
+    EMAIL_SUBJECT_PREFIX = '[ContralorFonacide] '
+    EMAIL_USE_SSL = False
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_SUBJECT_PREFIX = '[ContralorFonacide] '
+    EMAIL_HOST_USER = 'openfonacide@gmail.com'
 
 if ON_PAAS:
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR', ''), 'media')

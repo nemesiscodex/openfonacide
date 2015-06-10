@@ -304,7 +304,7 @@ class Temporal(models.Model):
         verbose_name_plural = "temporales"
 
 
-#Instituciones reportadas
+# Instituciones reportadas
 class Reportes(models.Model):
     id_prioridad = models.IntegerField()
     tipo = models.CharField(max_length=128)
@@ -321,3 +321,32 @@ class Reportes(models.Model):
     motivo = models.IntegerField()
     observacion = models.TextField()
 
+
+class Notificaciones(models.Model):
+    email = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        abstract = True
+
+class NotificacionesReportes(Notificaciones):
+
+    class Meta:
+        verbose_name = 'Notificacion de Reporte'
+        verbose_name_plural = 'Notificaciones de Reporte'
+
+
+class NotificacionesCambioDeEstado(Notificaciones):
+
+    class Meta:
+        verbose_name = 'Notificacion de Cambio de estado'
+        verbose_name_plural = 'Notificaciones de Cambio de estado'
+
+
+class NotificacionesVerificacion(Notificaciones):
+
+    class Meta:
+        verbose_name = 'Notificacion de Verificación'
+        verbose_name_plural = 'Notificaciones de Verificación'

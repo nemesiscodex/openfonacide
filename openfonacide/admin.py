@@ -4,6 +4,38 @@ from import_export.admin import ImportExportModelAdmin
 
 from openfonacide.models import *
 
+@admin.register(NotificacionesReportes)
+class NotificacionesReportesAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("Notificaciones", {
+            'fields': ('email',),
+            'description': "A este correo se enviar&aacute;n notificaciones por cada <strong>Reporte</strong> de la "
+                           "ciudadan&iacute;a sobre las prioridades."
+        }),
+    )
+
+# AUN NO IMPLEMENTADO
+# @admin.register(NotificacionesCambioDeEstado)
+# class NotificacionesCambioDeEstadoAdmin(admin.ModelAdmin):
+#     fieldsets = (
+#         ("Notificaciones", {
+#             'fields': ('email',),
+#             'description': "A este correo se enviar&aacute;n notificaciones por cada <strong>Cambio de Estado</strong> "
+#                            "en las obras."
+#         }),
+#     )
+#
+#
+# @admin.register(NotificacionesVerificacion)
+# class NotificacionesVerificacionAdmin(admin.ModelAdmin):
+#     fieldsets = (
+#         ("Notificaciones", {
+#             'fields': ('email',),
+#             'description': "A este correo se enviar&aacute;n notificaciones por cada "
+#                            "<strong>Verificaci&oacute;n</strong> hecha sobre el Estado de una obra."
+#         }),
+#     )
+
 
 class AdjudicacionResource(resources.ModelResource):
     class Meta:

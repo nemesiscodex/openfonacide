@@ -10,9 +10,14 @@
 
     <div class="header">
         <i class="warning circle red icon"></i>
+
         Reportar
     </div>
     <div class="content">
+        <div class="ui inverted dimmer">
+            <div class="ui large text loader map-loader denuncia">
+           <h3>&nbsp;&nbsp;Enviando..</h3></div>
+        </div>
         <form name="r_reportar"  class="ui form ">
             {% csrf_token %}
 
@@ -156,6 +161,8 @@
         }
     }, {
         onSuccess: function(){
+            var $loader = $('.map-loader.denuncia').parent();
+            $loader.addClass('active');
             $.ajax({
                 url: '{% url 'reportar' %}',
                 type: 'POST',
@@ -164,9 +171,11 @@
                 contentType: false
             }).success(function(){
                 $denunciaModal.modal('hide');
+                $loader.removeClass('active');
             }).error(function(data){
                 $reportarForm.form('add errors', ['Ocurrio un error al enviar el Reporte, Intente nuevamente más tarde'])
                         .find('.error').addClass('visible');
+                $loader.removeClass('active');
             })
         }
     });

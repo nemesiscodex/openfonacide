@@ -51,6 +51,11 @@
 						templateUrl: 'partials/match.html',
 						controllerAs: 'controller'
 					})
+					.when('/linkbreak/', {
+						controller: 'UnMatchController',
+						templateUrl: 'partials/linkbreak.html',
+						controllerAs: 'controller'
+					})
 					.when('/microplanificacion/', {
 						controller: 'FonacideController',
 						templateUrl: 'partials/microplanificacion.html'

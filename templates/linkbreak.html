@@ -3,10 +3,15 @@
         font-weight: bold;
     }
 </style>
+<div align="center">
+    <h1>UnMatch de Instituciones</h1>
+    <h3>Seleccione los registros cuyas relaciones quiera romper, y haga click en Eliminar Relación</h3>
+</div>
 <div class="ui page grid">
     <div class="sixteen wide column" style="padding-top: 30px;padding-bottom: 30px;">
-        <table datatable="ng" dt-options="controller.dtOptions" dt-instance="controller.dtInstance" class="ui compact celled definition table"
-               id="resultList">
+        <table datatable="ng" dt-options="controller.dtOptions" dt-instance="controller.dtInstance"
+               class="ui compact celled definition table"
+               id="unmatchResultList">
             <thead class="full-width">
             <tr>
                 <th>
@@ -29,17 +34,18 @@
             <tbody>
             <div>
                 <tr ng-repeat=" t in resultados track by $index">
-                        <div if-ng="cargando" id="match_loader">
-                            <div class="ui indeterminate active large text loader " style="padding-top: 250px;">
-                                <h1>Cargando datos</h1>
-                            </div>
+                    <div if-ng="cargando" id="unmatch_loader">
+                        <div class="ui indeterminate active large text loader " style="padding-top: 250px;">
+                            <h1>Cargando datos</h1>
                         </div>
+                    </div>
                     <td class="collapsing">
-                        <div class="ui toggle match checkbox" style="float: right">
-                            <input id="confirmar_check_{$ t.id $}" data-periodo="{$ t.periodo $}"
+                        <div class="ui toggle unmatch checkbox" style="float: right">
+                            <input id="confirmar_check_{$ t.id $}_{$ t.idp $}" data-periodo="{$ t.periodo $}"
                                    data-institucion="{$ t.codigo_institucion $}" data-llamado="{$ t.id_llamado $}"
-                                   data-indice="{$ $index $}" data-databaseid="{$ t.id $}" type="checkbox">
-                            <label for="confirmar_check_{$ t.id $}"></label>
+                                   data-indice="{$ $index $}" data-databaseid="{$ t.id $}"
+                                   data-databaseidp="{$ t.idp $}" type="checkbox">
+                            <label for="confirmar_check_{$ t.id $}_{$ t.idp $}"></label>
                         </div>
                     </td>
                     <!-- <td>{$ t.periodo $}</td> -->

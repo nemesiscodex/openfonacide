@@ -1,9 +1,9 @@
 (function () {
     /**
-     * Controlador de Match Difuso
+     * Controlador de UnMatch, rompe la relación entre Institucion y Planificación/Adjudicación
      */
     angular.module('frontEnd')
-        .controller('MatchController', ['$scope', 'backEnd', 'DTOptionsBuilder', 'DTDefaultOptions', '$timeout', function ($scope, backEnd, DTOptionsBuilder, DTDefaultOptions, $timeout) {
+        .controller('UnMatchController', ['$scope', 'backEnd', 'DTOptionsBuilder', 'DTDefaultOptions', '$timeout', function ($scope, backEnd, DTOptionsBuilder, DTDefaultOptions, $timeout) {
 
             var controller = this;
             controller.guardar = function () {
@@ -14,13 +14,14 @@
                         'codigo_institucion': $(el).data('institucion'),
                         'periodo': $(el).data('periodo'),
                         'indice': $(el).data('indice'),
-                        'id': $(el).data('databaseid')
+                        'id': $(el).data('databaseid'),
+                        'idp': $(el).data('databaseidp')
                     };
                     data_list.push(tmp_obj);
                 });
-                $('#each_match_controller').addClass('active');
-                $('#each_match_controller').show();
-                backEnd.temporal.save(JSON.stringify(data_list), function (data) {
+                $('#each_unmatch_controller').addClass('active');
+                $('#each_unmatch_controller').show();
+                backEnd.unlink.save(JSON.stringify(data_list), function (data) {
                     var respuesta_list = data['resultado'];
                     var resultados = $scope.resultados;
                     for (var respuesta in respuesta_list) {
@@ -28,8 +29,8 @@
                     }
 
                 }).$promise.finally(function () {
-                        $('#each_match_controller').removeClass('active');
-                        $('#each_match_controller').hide();
+                        $('#each_unmatch_controller').removeClass('active');
+                        $('#each_unmatch_controller').hide();
                     });
 
             };
@@ -62,22 +63,22 @@
             controller.dtOptions = DTOptionsBuilder.newOptions()
                 .withOption('bProcessing', 'true')
                 .withOption('drawCallback', function () {
-                    var save_button = $('<button>Guardar</button>')
+                    var save_button = $('<button>Eliminar Relación</button>')
                         .addClass('ui teal tiny button right floated save-button')
                         .css('margin-top', '-5px');
-                    var each_match_loader = $('<div id="each_match_loader" class="ui text loader mini">Espere...</div>');
+                    var each_unmatch_loader = $('<div id="each_unmatch_loader" class="ui text loader mini">Espere...</div>');
 
                     if ($('.sLength .save-button').length == 0) {
-                        $('.sLength').append(each_match_loader);
+                        $('.sLength').append(each_unmatch_loader);
                         $('.sLength').append(save_button);
                     }
                     if ($('.sInfo .save-button').length == 0) {
-                        $('.sLength').append(each_match_loader);
+                        $('.sLength').append(each_unmatch_loader);
                         $('.sInfo').append(save_button.clone());
                     }
                     $('.save-button').click(controller.guardar);
                     $('#toggle').click(function () {
-                        $('.match.checkbox:visible').checkbox('toggle');
+                        $('.unmatch.checkbox:visible').checkbox('toggle');
                     });
                 });
             /*
@@ -113,15 +114,43 @@
              }
              ]
              });*/
-            backEnd.temporal.get({}, function (data) {
-                $scope.cargando = true;
-                $('#match_loader').show();
+            var makeJoinListArray = function (instituciones) {
 
-                $scope.resultados = data;
+                var res = new Array();
+
+                for (var i in instituciones) {
+                    var planificaciones = instituciones[i].planificaciones
+                    for (var p in planificaciones) {
+                        var el = {};
+                        for (var parameter in instituciones[i]) {
+                            if (parameter != "planificaciones") {
+                                el[parameter] = instituciones[i][parameter];
+                            }
+                        }
+                        for (var parameter in planificaciones[p]) {
+                            if (parameter == "id") {
+                                el["idp"] = planificaciones[p][parameter];
+                            } else {
+                                el[parameter] = planificaciones[p][parameter];
+                            }
+                        }
+                        res.push(el);
+                    }
+                }
+                return res;
+
+            };
+            backEnd.unlink.get({}, function (data) {
+                $scope.cargando = true;
+                $('#unmatch_loader').show();
+
+                $scope.resultados = makeJoinListArray(data);
+
+                //$scope.resultados = data;
 
             }).$promise.finally(function () {
                     $scope.cargando = false;
-                    $('#match_loader').hide();
+                    $('#unmatch_loader').hide();
                 });
         }]);
 

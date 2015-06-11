@@ -110,11 +110,25 @@
                             cache: true
                         },
                         save: {
-                            // Especificar
                             method: 'POST',
                             cache: false,
                             headers: {
                                 //'Content-Type': 'application/x-www-form-urlencoded'
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    }
+                ),
+                "unlink": $resource('unlink/', {},
+                    {
+                        get: {
+                            method: 'GET',
+                            isArray: true,
+                            cache: true
+                        },
+                        save: {
+                            method: 'POST',
+                            headers:{
                                 'Content-Type': 'application/json'
                             }
                         }

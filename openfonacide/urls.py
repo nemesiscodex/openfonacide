@@ -47,6 +47,7 @@ partial_patterns = patterns('',
     url(r'^nav\.html$', PartialGroupView.as_view(template_name='nav.html'), name='nav.html'),
     url(r'^visualizaciones\.html$', PartialGroupView.as_view(template_name='visualizaciones.html'), name='visualizaciones.html'),
     url(r'^match\.html$', PartialGroupView.as_view(template_name='match.html'), name='match.html'),
+    url(r'^linkbreak\.html$', PartialGroupView.as_view(template_name='linkbreak.html'), name='linkbreak.html'),
     url(r'^acercade\.html$', PartialGroupView.as_view(template_name='acercade.html'), name='acercade.html'),
     url(r'^datasets\.html$', PartialGroupView.as_view(template_name='datasets.html'), name='datasets.html'),
     url(r'^legal\.html$', PartialGroupView.as_view(template_name='legal.html'), name='legal.html'),
@@ -72,7 +73,7 @@ urlpatterns = patterns('',
     url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
-    url(r'^(map|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match)?/?$', Index.as_view(), name='index'),
+    url(r'^(map|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match|linkbreak)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
@@ -94,9 +95,11 @@ urlpatterns = patterns('',
     url(r'^agregar_adjudicacion/?$', agregar_adjudicacion, name='agregar_adjudicacion')
 )
 
-urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns += [
+#    url(r'^api-auth/', include('rest_framework.urls',
+#                               namespace='rest_framework')),
+#] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # handler404 = PartialGroupView.as_view(template_name='home.html')

@@ -49,6 +49,7 @@
     nuevaDirectiva('informacion', 'informacion.html');
     nuevaDirectiva('home', 'home.html');
     nuevaDirectiva('siteNav', 'nav.html');
+    nuevaDirectiva('linkbreak', 'linkbreak.html');
     nuevaDirectiva('match', 'match.html');
 
     nuevaDirectiva('filtroUbicacion', 'filtro-ubicacion.html', {

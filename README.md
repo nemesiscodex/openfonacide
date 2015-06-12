@@ -42,18 +42,18 @@ En Desarrollo con el apoyo del Programa de Democracia y Gobernabilidad (USAID-CE
 5. Instala y configura postgres
 
     ```bash
-    $ sudo apt-get install postgresql postgresql-contrib # Instalamos postgres
-    $ sudo -i -u postgres # Entramos como usuario postgres
-    $ createuser -P --interactive fonacide # Creamos un usuario(rol). Obs: en password pon "12345" 
-    $ createdb openfonacide -O fonacide # Creamos la base de datos openfonacide para el usuario fonacide
-    $ exit # volvemos atras
+    sudo apt-get install postgresql postgresql-contrib # Instalamos postgres
+    sudo -i -u postgres # Entramos como usuario postgres
+    createuser -P --interactive fonacide # Creamos un usuario(rol). Obs: en password pon "12345" 
+    createdb openfonacide -O fonacide # Creamos la base de datos openfonacide para el usuario fonacide
+    exit # volvemos atras
     ```
 
 6. Sincronizamos la base de datos e iniciamos el servidor
 
     ```bash
-    $ python manage.py syncdb # Crea las tablas necesarias
-    $ python manage.py runserver # Inicia el servidor en http://localhost:8000/
+    python manage.py syncdb # Crea las tablas necesarias
+    python manage.py runserver # Inicia el servidor en http://localhost:8000/
     ```
 
 #### Screenshots

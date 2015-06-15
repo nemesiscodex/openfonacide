@@ -6,7 +6,7 @@
             config = {};
         app.directive(nombre, function () {
             return $.extend({
-                restrict: 'E',
+                restrict: 'A',
                 templateUrl: 'partials/' + template
             }, config);
         });
@@ -40,20 +40,12 @@
         }
     });
     nuevaDirectiva('footerInfo', 'footer.html');
-    nuevaDirectiva('api', 'api.html');
     nuevaDirectiva('loginModal', 'login.html');
     nuevaDirectiva('denunciaModal', 'denuncia.html');
     nuevaDirectiva('archivosContraloria', 'archivos-contraloria.html');
     nuevaDirectiva('agregarAdjudicacion', 'agregar-adjudicacion.html');
-    nuevaDirectiva('institucionList', 'institucion-list.html');
-    nuevaDirectiva('visualizaciones', 'visualizaciones.html');
-    nuevaDirectiva('microplanificacion', 'microplanificacion.html');
-    nuevaDirectiva('microplanificacion-proceso', 'microplanificacion-proceso.html');
     nuevaDirectiva('informacion', 'informacion.html');
-    nuevaDirectiva('home', 'home.html');
     nuevaDirectiva('siteNav', 'nav.html');
-    nuevaDirectiva('linkbreak', 'linkbreak.html');
-    nuevaDirectiva('match', 'match.html');
 
     nuevaDirectiva('filtroUbicacion', 'filtro-ubicacion.html', {
         scope: {

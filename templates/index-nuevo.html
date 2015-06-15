@@ -21,18 +21,23 @@
 
     </head>
 
-    <body ng-app="frontEnd"  ng-controller="PageController">
+    <body id="ng-app" ng-app="frontEnd"  ng-controller="PageController">
+        <!--[if IE]>
+            <div class="ui visible warning message">
+                Esta página se ve mejor con la nueva versión de <a href="https://www.google.es/chrome/">Google Chrome</a>!
+            </div>
+        <![endif]-->
         <!-- Your site -->
-        <site-nav ng-show="$location.path() != '/'"></site-nav>
+        <div site-nav ng-show="$location.path() != '/'"></div>
         {% if form.errors %}
         <span ng-init="errors = true"></span>
         {% endif %}
 
-        <div id="ng-view" ng-view >{% url 'index' %}</div>
-        <archivos-contraloria></archivos-contraloria>
-        <agregar-adjudicacion></agregar-adjudicacion>
-        <login-modal></login-modal>
-        <denuncia-modal></denuncia-modal>
+        <div id="ng-view" ng-view ></div>
+        <div archivos-contraloria></div>
+        <div agregar-adjudicacion></div>
+        <div login-modal></div>
+        <div denuncia-modal></div>
         <!-- Your site ends -->
 
         <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -70,7 +75,7 @@
 
 
 
-         <footer-info></footer-info>
+         <div footer-info></div>
     <script>
         // Uppercase every first letter of a word
         jQuery.fn.ucwords = function() {

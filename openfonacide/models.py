@@ -356,6 +356,9 @@ class Importacion(models.Model):
     url = models.CharField(max_length=1024, null=False)
     md5_url = models.CharField(max_length=1024, null=False)
     activo = models.BooleanField(default=False)
+    tipo = models.CharField(max_length=254,
+                            choices=((u'adjudicacion', u"adjudicacion"), (u'planificacion', u"planificacion"),),
+                            null=False)
 
     class Meta:
         verbose_name = "Importación"
@@ -365,6 +368,7 @@ class Importacion(models.Model):
 class RegistroImportacion(models.Model):
     ultimo = models.BooleanField(default=False)
     ultimo_md5 = models.CharField(max_length=1024, null=True)
+    fecha = models.DateTimeField()
     importacion = models.ForeignKey(Importacion)
 
     class Meta:

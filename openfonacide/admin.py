@@ -36,6 +36,14 @@ class NotificacionesReportesAdmin(admin.ModelAdmin):
 #         }),
 #     )
 
+class ImportacionResource(resources.ModelResource):
+    class Meta:
+        model = Importacion
+
+@admin.register(Importacion)
+class ImportacionAdmin(ImportExportModelAdmin):
+    resource_class = ImportacionResource
+    pass
 
 class AdjudicacionResource(resources.ModelResource):
     class Meta:

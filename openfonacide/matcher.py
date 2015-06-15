@@ -1,4 +1,6 @@
 # encoding: utf-8
+from django.db import transaction
+
 __author__ = 'synchro'
 
 """
@@ -137,13 +139,13 @@ class Matcher(object):
         normalizada = re.sub('\s+PARA ', ' ', normalizada)
         normalizada = re.sub('\s+Y ', ' ', normalizada)
 
-
         # Eliminar espacios repetidos
         normalizada = re.sub('\s+', ' ', normalizada)
         normalizada = normalizada.strip()
 
         return normalizada
 
+    @transaction.atomic
     def do_match(self):
         inst = self.institucion_manager.all()
         planes = self.planificacion_manager.filter(etiquetas__icontains="fonacide")
@@ -170,7 +172,6 @@ class Matcher(object):
 
                     if len(existente) == 0 and i.periodo == j['anio'] and not confirmado(institucion=i,
                                                                                          id_llamado=j['id_llamado']):
-                        # TODO: Verificar que no exista una institucion con dicha planificación confirmada
 
                         self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
                                                      nombre_distrito=i.nombre_distrito,

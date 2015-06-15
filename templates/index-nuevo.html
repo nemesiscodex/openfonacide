@@ -40,7 +40,12 @@
         <div denuncia-modal></div>
         <!-- Your site ends -->
 
+        <!--[if IE]>
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+        <![endif]-->
+        <![if !IE]>
         <script src="{% static 'js/jquery.min.js' %}"></script>
+        <![endif]>
         <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
         <script src="{% static 'jquery.nouislider.all.min.js' %}"></script>
 

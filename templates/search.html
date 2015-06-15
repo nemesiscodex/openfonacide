@@ -1,27 +1,50 @@
+<div class="ui category labeled search">
+    <div class="ui left labeled fluid input">
+        <div class="ui dropdown teal busqueda label">
+            <div class="text">
+                <i class="search icon" style="margin-right: 5px"></i>
+                <i class="dropdown icon" style="margin: 0"></i>
+            </div>
 
-<div class="ui category labeled search fluid" style="font-size:14px">
 
-    <div class="ui floating dropdown button teal busqueda" style="padding-left: 10px;padding-right: 10px;margin:0">
-        <div class="text">Buscar</div>
-        <i class="dropdown icon"></i>
-
-        <div class="menu" style="z-index: 1022">
-            <div class="item" href="#">Todos</div>
-            <div class="item">Código de institución</div>
-            <div class="item">Nombre de institución</div>
-            <div class="item">Dirección</div>
-            <div class="item">Distrito</div>
-            <div class="item">Barrio</div>
+            <div class="menu" style="z-index: 1010">
+                <div class="item" href="#">Todos</div>
+                <div class="item">Código de institución</div>
+                <div class="item">Nombre de institución</div>
+                <div class="item">Dirección</div>
+                <div class="item">Distrito</div>
+                <div class="item">Barrio</div>
+            </div>
         </div>
-    </div>
-    <div class="ui icon input" >
+        <input class="prompt" type="text" placeholder="Institución">
 
-        <input class="prompt" style="width: 100%" type="text" placeholder="Institución">
-        <i class="search icon"></i>
-    </div>
 
-    <div class="results ui styled accordion" style="z-index: 1022"></div>
+    </div>
+    <div class="results ui styled accordion" style="z-index: 1022; width: 100% "></div>
 </div>
+{#<div class="ui category labeled search fluid" style="font-size:14px">#}
+{##}
+{#    <div class="ui floating dropdown button teal busqueda" style="padding-left: 10px;padding-right: 10px;margin:0">#}
+{#        <div class="text">Buscar</div>#}
+{#        <i class="dropdown icon"></i>#}
+{##}
+{#        <div class="menu" style="z-index: 1022">#}
+{#            <div class="item" href="#">Todos</div>#}
+{#            <div class="item">Código de institución</div>#}
+{#            <div class="item">Nombre de institución</div>#}
+{#            <div class="item">Dirección</div>#}
+{#            <div class="item">Distrito</div>#}
+{#            <div class="item">Barrio</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="ui icon input" >#}
+{##}
+{#        <input class="prompt" style="width: 100%" type="text" placeholder="Institución">#}
+{#        <i class="search icon"></i>#}
+{#    </div>#}
+{##}
+{#    <div class="results ui styled accordion" style="z-index: 1022"></div>#}
+{#</div>#}
 
 <script>
     $('body').keyup(function(event){
@@ -67,6 +90,9 @@
                     standard: function (response) {
                         var query = response.query.toUpperCase();
                         var tipo = response.tipo;
+                        if(tipo == 'null' || tipo == null || tipo == undefined){
+                            tipo = '';
+                        }
                         var total_resultdos = 0;
                         var query_replace = '<span class="highlight">'+query+'</span>';
                         var html = '',

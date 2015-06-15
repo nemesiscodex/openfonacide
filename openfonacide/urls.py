@@ -51,7 +51,8 @@ partial_patterns = patterns('',
     url(r'^acercade\.html$', PartialGroupView.as_view(template_name='acercade.html'), name='acercade.html'),
     url(r'^datasets\.html$', PartialGroupView.as_view(template_name='datasets.html'), name='datasets.html'),
     url(r'^legal\.html$', PartialGroupView.as_view(template_name='legal.html'), name='legal.html'),
-   
+    url(r'^404\.html$', PartialGroupView.as_view(template_name='404.html'), name='404.html'),
+
     # ... more partials ...,
 )
 
@@ -73,7 +74,6 @@ urlpatterns = patterns('',
     url(r'^api/', include('rest_framework_swagger.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'index-nuevo.html'}),
     url(r'^accounts/recuperar/$', Recuperar.as_view(), name='recuperar_pass'),
-    url(r'^(map|fonacide|graficos|resumen|informacion|microplanificacion|microplanificacion-proceso|results|acercade|datasets|legal|match|linkbreak)?/?$', Index.as_view(), name='index'),
     # (.*)/? es para poder llamar desde cualquier lugar
     url(r'^((?!admin).)*/?partials/', include(partial_patterns, namespace='partials')),
     url(r'^((?!admin).)*/?prioridades/(?P<codigo_establecimiento>\w*)/?', PrioridadController.as_view(), name='prioridad'),
@@ -92,7 +92,8 @@ urlpatterns = patterns('',
     url(r'', include(private_api, namespace="private_api")),
     url(r'^estado_de_obra/?$', estado_de_obra, name='estado_de_obra'),
     url(r'^reportar/?$', reportar, name='reportar'),
-    url(r'^agregar_adjudicacion/?$', agregar_adjudicacion, name='agregar_adjudicacion')
+    url(r'^agregar_adjudicacion/?$', agregar_adjudicacion, name='agregar_adjudicacion'),
+    url(r'', Index.as_view(), name='index')
 )
 
 #urlpatterns += [

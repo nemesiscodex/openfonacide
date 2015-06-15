@@ -113,6 +113,7 @@
                 $scope.ubicacionSeleccionada = {};
                 $scope.otrosSeleccionados = {};
                 $scope.prioridadesSeleccionadas = {
+                    check: true,
                     sanitarios: true,
                     aulas: true,
                     mobiliarios: true,
@@ -236,9 +237,7 @@
                         if (window.mapData && !needReload) {
                             $scope.mapData = window.mapData;
                             if (window.markers == undefined)
-                                $scope.actualizar(function (array) {
-                                    return array.filter(originalFilterFunction)
-                                });
+                                $scope.filtro();
 
                         } else {
                             backEnd.establecimiento_short.query({}, function (data) {
@@ -252,7 +251,9 @@
                                 $scope.actualizar(function (array) {
                                     return array.filter(originalFilterFunction)
                                 });
+
                             });
+                            $scope.filtro();
                         }
 
                     });

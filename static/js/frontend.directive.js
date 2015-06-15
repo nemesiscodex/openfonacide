@@ -21,13 +21,16 @@
             inputClass: '@'
         },
         link: function (scope, element, attrs) {
-            var size = (scope.inputClass === 'massive')? '140px' : '100px';
-            var $input = $(element).find('.icon.input');
-            var $dropdown = $(element).find('.dropdown.busqueda');
-            $dropdown.addClass(scope.inputClass);
-            $input.addClass(scope.inputClass);
-            console.log($dropdown.css('height'));
-            $input.css('width', 'calc(100% - ' + size + ')');
+            var iconSize = (scope.inputClass === 'massive')? '3em' : 'inherit';
+            var textSize = (scope.inputClass === 'massive')? 'inherit' : 'small';
+            var $icon = $(element).find('.icon.search');
+            var $input = $(element).find('.labeled.input');
+            //var $dropdown = $(element).find('.dropdown.busqueda');
+            //$dropdown.addClass(scope.inputClass);
+            console.log($input.find('input')[0], textSize);
+            $input.addClass(scope.inputClass).find('input').css('font-size', textSize);
+            //console.log($dropdown.css('height'));
+            $icon.css('font-size', iconSize);
         }
     });
     nuevaDirectiva('resultElement', 'result-element.html', {

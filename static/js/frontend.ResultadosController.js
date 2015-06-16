@@ -49,7 +49,7 @@
             $loader  = $segment.find('.inline.loader');
             for(index in tipoResults){
               $scope.count++;
-              $element = $('<result-element numero="numero" result="result"></result-element>');
+              $element = $('<div result-element numero="numero" result="result"></div>');
               scope = $rootScope.$new();
               scope.numero = $scope.count;
               scope.result = tipoResults[index];

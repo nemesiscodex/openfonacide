@@ -83,6 +83,8 @@
 					.when('/results', {
 						controller: 'ResultadosController',
 						templateUrl: 'partials/results.html'
+					}).otherwise({
+						templateUrl: 'partials/404.html'
 					});
 
 				$locationProvider.html5Mode(true);

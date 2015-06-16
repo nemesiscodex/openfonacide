@@ -4,14 +4,22 @@
         <div class="ui stackable inverted divided relaxed grid" style="margin-right: 0">
             <div class="eight wide column">
 
-               
 
-                <div class="ui grid" style="padding-top:15px;" >
-                            
-                          <img src="{% static 'img/logo-innovando.png' %}" alt="" class="five wide column ui  image" style="margin-top:20px;"/>
-                         <img src="{% static 'img/mec.png' %}" alt="" class="five wide column ui  image " /> 
-                 <img src="{% static 'img/logo-gobierno.png' %}" alt="" class="five wide column ui  image"/> 
-                 
+                <div class="ui stackable three cards" style="padding-top:15px;">
+                    <div class="ui card" style="background: transparent; box-shadow: none">
+                        <img src="{% static 'img/logo-innovando.png' %}" alt="" class="ui image"
+                             style="margin-top:13%;margin-bottom:13%; background: transparent"/>
+                    </div>
+
+                    <div class="ui card" style="background: transparent; box-shadow: none">
+                        <img src="{% static 'img/mec.png' %}" alt="" class=" ui image "
+                                style=" background: transparent" />
+                    </div>
+
+                    <div class="ui card" style="background: transparent; box-shadow: none">
+                        <img src="{% static 'img/logo-gobierno.png' %}" alt="" class="ui image"
+                                 style=" background: transparent" />
+                    </div>
 
                 </div>
 
@@ -34,8 +42,15 @@
                     <a  href="acercade" style="color:white;">Acerca de</a> -
                     <a  href="legal"  style="color:white;" >Legal</a> -
                     <a href="datasets"  style="color:white;" >Datasets</a> -
-                    <a  href="api"  style="color:white;">API</a> - 
-                     <a  href=""  style="color:white;">Iniciar Sesión</a>
+                    {% if user.is_staff %}
+                    <a  href="admin/" target="_self" style="color:white;">Admin</a> -
+                    {% endif %}
+                    <a  href="api/" target="_self"  style="color:white;">API</a> -
+                    {% if user.is_authenticated %}
+                    <a  href="" onclick="_logout()" style="color:white;">Cerrar Sesión</a>
+                    {% else %}
+                    <a  href="" onclick="$('.login.modal').modal('show')" style="color:white;">Iniciar Sesión</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="eight wide column">

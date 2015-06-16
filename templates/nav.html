@@ -10,10 +10,10 @@
             <a href="resumen" class="item" ng-class="{active: $location.path().match('/?resumen.*') != null}"><i class="table icon"></i> Resumen</a>
 			{% if user.is_authenticated %}
 			<div class="ui simple dropdown item">
-				<i class="wizard icon"></i>Match
+				<i class="wizard icon"></i>Vincular
 				<div class="menu" style="z-index: 5000;">
-                	<a href="match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Match de Instituciones</a>
-                	<a href="linkbreak" class="item" ng-class="{active: $location.path().match('/?linkbreak.*') != null}"><i class="wizard icon"></i>UnMatch de Instituciones</a>
+                	<a href="match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Vincular de Instituciones</a>
+                	<a href="linkbreak" class="item" ng-class="{active: $location.path().match('/?linkbreak.*') != null}"><i class="wizard icon"></i>Desvincular de Instituciones</a>
 				</div>
 			</div>
 			{% endif %}
@@ -29,7 +29,7 @@
             {% endif %}
             </div>
 
-        <search style="float: right;width: 350px" input-class="large"></search>
+        <div search class="item" style="float: right;width: 350px;padding: 0" input-class="large"></div>
 
 
         </div>
@@ -37,8 +37,8 @@
     </div>
     <div class="mobile only row" style="padding: 0;">
         <div class="ui inverted teal large menu navbar " style="z-index: 100">
-            <search input-class="large"></search>
-            <a href="{% url 'index' %}" class="brand item">Contralor de Fonacide<i class="unhide icon"></i></a>
+            <div search  class="item" style="padding: 0; width: 100%" input-class="large"></div>
+            <a href="{% url 'index' %}" class="brand item"><i class="unhide icon"></i></a>
 
             <div class="right menu open" onclick="$('.vmenu').toggle()">
                 {% if user.is_authenticated %}

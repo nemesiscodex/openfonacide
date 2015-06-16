@@ -17,7 +17,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import View, TemplateView
 from rest_framework.decorators import detail_route
 from rest_framework import filters
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, get_object_or_404
 from django.http import Http404, JsonResponse
 from rest_framework import viewsets
 from rest_framework import pagination
@@ -36,6 +36,25 @@ from openfonacide import jsonh as JSONH
 """
 ViewSets for API
 """
+
+
+class MultipleFieldLookupMixin(object):
+    """
+    Apply this mixin to any view or viewset to get multiple field filtering
+    based on a `lookup_fields` attribute, instead of the default single field filtering.
+    """
+
+    def get_object(self):
+        queryset = self.get_queryset()  # Get the base queryset
+        queryset = self.filter_queryset(queryset)  # Apply any filter backends
+        filter = {}
+        for field in self.lookup_fields:
+            if field in self.kwargs:
+                filter[field] = self.kwargs[field]
+            else:
+                if field == 'periodo' or field == 'anio':
+                    filter[field] = u'2014'
+        return get_object_or_404(queryset, **filter)  # Lookup the object
 
 
 class PaginadorEstandard(pagination.LimitOffsetPagination):
@@ -62,6 +81,7 @@ class EstablecimientoViewSet(OpenFonacideViewSet):
     queryset = Establecimiento.objects.all()
     filter_fields = ('codigo_establecimiento', 'anio', 'uri', 'nombre_departamento', 'nombre_distrito')
     lookup_field = 'codigo_establecimiento'
+    lookup_fields = ('codigo_establecimiento', 'anio',)
 
     @detail_route(methods=['get'], url_path='prioridad')
     def prioridad(self, request, codigo_establecimiento=None):
@@ -144,7 +164,7 @@ class UnlinkAPIView(ListAPIView):
         return JsonResponse({"mensaje": "Creado existosamente", 'resultado': respuesta_list}, status=200)
 
 
-class InstitucionViewSet(OpenFonacideViewSet):
+class InstitucionViewSet(MultipleFieldLookupMixin, OpenFonacideViewSet):
     serializer_class = InstitucionSerializer
     queryset = Institucion.objects.all()
     filter_fields = (
@@ -152,6 +172,7 @@ class InstitucionViewSet(OpenFonacideViewSet):
         'nombre_distrito'
     )
     lookup_field = 'codigo_institucion'
+    lookup_fields = ('codigo_institucion', 'periodo')
 
 
 class EspacioViewSet(OpenFonacideViewSet):
@@ -162,6 +183,7 @@ class EspacioViewSet(OpenFonacideViewSet):
         'tipo_requerimiento_infraestructura'
     )
     lookup_field = 'codigo_establecimiento'
+    lookup_fields = ('codigo_establecimiento', 'periodo',)
 
 
 class SanitarioViewSet(OpenFonacideViewSet):
@@ -169,6 +191,7 @@ class SanitarioViewSet(OpenFonacideViewSet):
     queryset = Sanitario.objects.all()
     filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion', 'tipo_requerimiento_infraestructura')
     lookup_field = 'codigo_establecimiento'
+    lookup_fields = ('codigo_establecimiento', 'periodo',)
 
 
 class MobiliarioViewSet(OpenFonacideViewSet):
@@ -176,6 +199,7 @@ class MobiliarioViewSet(OpenFonacideViewSet):
     queryset = Mobiliario.objects.all()
     filter_fields = ('periodo', 'codigo_establecimiento', 'codigo_institucion')
     lookup_field = 'codigo_establecimiento'
+    lookup_fields = ('codigo_establecimiento', 'periodo',)
 
 
 class ServicioBasicoViewSet(OpenFonacideViewSet):
@@ -183,6 +207,7 @@ class ServicioBasicoViewSet(OpenFonacideViewSet):
     queryset = ServicioBasico.objects.all()
     filter_fields = ('periodo', 'codigo_establecimiento')
     lookup_field = 'codigo_establecimiento'
+    lookup_fields = ('codigo_establecimiento', 'periodo',)
 
 
 class DummyPrioridad(object):

@@ -64,7 +64,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '333/minute',
+        'user': '500/minute'
+    }
 
 }
 
@@ -182,7 +190,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-
 if ON_MEC:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
@@ -206,5 +213,5 @@ MEDIA_URL = '/media/'
 
 # Ajustes especiales para el caso de un servidor detrás de un ReverseProxy
 if ON_MEC:
-    STATIC_URL ='/contralorfonacide/static/'
-    MEDIA_URL='media/'
+    STATIC_URL = '/contralorfonacide/static/'
+    MEDIA_URL = 'media/'

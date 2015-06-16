@@ -43,7 +43,7 @@ class PaginadorEstandard(pagination.LimitOffsetPagination):
 
 
 class OpenFonacideViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = PaginadorEstandard
     filter_backends = (filters.DjangoFilterBackend,)
 
@@ -603,6 +603,7 @@ def estado_de_obra(request):
 
     return JsonResponse('Exito!', safe=False, status=200)
 
+
 def reportar(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Método inválido.'}, status=405)
@@ -619,7 +620,8 @@ def reportar(request):
         if emails is not None and len(emails) > 0:
 
             institucion = Institucion.objects.filter(codigo_institucion=reporte.codigo_institucion)[:1].get()
-            establecimiento = Establecimiento.objects.filter(codigo_establecimiento=institucion.codigo_establecimiento)[:1].get()
+            establecimiento = Establecimiento.objects.filter(codigo_establecimiento=institucion.codigo_establecimiento)[
+                              :1].get()
 
             if reporte.tipo == 'aulas' or reporte.tipo == 'otros':
                 prioridad = Espacio.objects.get(id=reporte.id_prioridad)
@@ -643,15 +645,17 @@ def reportar(request):
             }
             mensaje = get_template('registration/mail.nuevoreporte.html').render(Context(ctx))
             to = emails
-            mail = EmailMultiAlternatives(settings.EMAIL_SUBJECT_PREFIX + 'Reporte institucion: ' + reporte.codigo_institucion,
-                                mensaje,
-                                bcc=to,
-                                from_email=settings.EMAIL_HOST_USER)
+            mail = EmailMultiAlternatives(
+                settings.EMAIL_SUBJECT_PREFIX + 'Reporte institucion: ' + reporte.codigo_institucion,
+                mensaje,
+                bcc=to,
+                from_email=settings.EMAIL_HOST_USER)
             mail.attach_alternative(mensaje, "text/html")
             mail.send()
 
         return JsonResponse({'mensaje': 'Exito.'}, status=200)
     return JsonResponse({'error': 'Datos inválidos'}, status=400)
+
 
 @login_required()
 @transaction.atomic

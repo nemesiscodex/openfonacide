@@ -217,7 +217,7 @@
                     $scope.planificaciones_actual = undefined;
                     $scope.adjudicaciones_actual = undefined;
                     //
-                    $scope.periodo = 2015;
+                    $scope.periodo = '2015';
                     backEnd.establecimiento_short.get({md5: true}, function (data) {
                         var md5hashnew = data.hash;
                         var md5hashold = '';
@@ -478,7 +478,7 @@
                     $scope.planificaciones_actual = undefined;
                     $scope.adjudicaciones_actual = undefined;
                     //
-                    $scope.periodo = 2015;
+                    $scope.periodo = '2015';
                     var establecimiento_nuevo = {};
                     var instituciones_nuevas = [];
 

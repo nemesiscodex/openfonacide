@@ -85,12 +85,12 @@
     </div>
 
 
-    <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px">
-        <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo=2012"
+    <div class="ui bottom attached active tab segment stackable grid" style="padding-left:30px" ng-init="search = {}">
+        <div class="ui black basic button" ng-class="{active:periodo == 2012}" ng-click="periodo='2012'"
              style="margin-left: 10px; margin-top:15px">2012
         </div>
 
-        <div class="ui black basic button" ng-class="{active:periodo == 2015}" ng-click="periodo=2015"
+        <div class="ui black basic button" ng-class="{active:periodo == 2015}" ng-click="periodo='2015'"
              style=" margin-top:15px">2015
         </div>
         <!--
@@ -206,8 +206,9 @@
                 <div class="ui tertiary inverted teal segment" style="margin: 0">
                     <div class="ui top left attached teal label"><i class="student large icon">
                         Aulas</i></div>
+
                     <div class="ui teal segment"
-                         ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:{nombre_espacio:null})"
+                         ng-repeat="item in prioridades_aulas = (prioridades.aulas | filter:{'periodo': periodo, 'codigo_institucion': institucion_actual}:true | filter:{nombre_espacio:null})"
                          ng-if="item.codigo_institucion==institucion_actual" style="margin:0">
                         <div class="ui item">
                             <div class="ui stackable grid">
@@ -334,7 +335,7 @@
                             class="male large icon">
                         Sanitarios</i></div>
                     <div class="ui teal segment"
-                         ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{'$': periodo, '$':institucion_actual}:true)"
+                         ng-repeat="item in prioridades_sanitarios = (prioridades.sanitarios | filter:{'periodo': periodo, 'codigo_institucion':institucion_actual}:true)"
                          ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                         <div class="ui item">
                             <div class="ui stackable grid">
@@ -457,7 +458,7 @@
                     <div class="ui top left attached teal label"><i class="columns large icon">
                         Mobiliario</i></div>
                     <div class="ui teal segment"
-                         ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{'$': periodo, '$':institucion_actual}:true)"
+                         ng-repeat="item in prioridades_mobiliarios = (prioridades.mobiliarios | filter:{'periodo': periodo, 'codigo_institucion':institucion_actual}:true)"
                          ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                         <div class="ui item">
                             <div class="ui stackable grid">
@@ -575,7 +576,7 @@
                     <div class="ui top left attached teal label"><i class="lab large icon">
                         Otros Espacios</i></div>
                     <div class="ui teal segment"
-                         ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{'$': periodo, '$': institucion_actual}:true | filter:es_otros)"
+                         ng-repeat="item in prioridades_otros = (prioridades.aulas | filter:{'periodo': periodo, 'codigo_institucion': institucion_actual}:true | filter:es_otros)"
                          ng-if="item.codigo_institucion==institucion_actual" style=" margin:0">
                         <div class="ui item">
                             <div class="ui stackable grid">

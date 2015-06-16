@@ -10,10 +10,10 @@
             <a href="resumen" class="item" ng-class="{active: $location.path().match('/?resumen.*') != null}"><i class="table icon"></i> Resumen</a>
 			{% if user.is_authenticated %}
 			<div class="ui simple dropdown item">
-				<i class="wizard icon"></i>Match
+				<i class="wizard icon"></i>Vincular
 				<div class="menu" style="z-index: 5000;">
-                	<a href="match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Match de Instituciones</a>
-                	<a href="linkbreak" class="item" ng-class="{active: $location.path().match('/?linkbreak.*') != null}"><i class="wizard icon"></i>UnMatch de Instituciones</a>
+                	<a href="match" class="item" ng-class="{active: $location.path().match('/?match.*') != null}"><i class="wizard icon"></i>Vincular de Instituciones</a>
+                	<a href="linkbreak" class="item" ng-class="{active: $location.path().match('/?linkbreak.*') != null}"><i class="wizard icon"></i>Desvincular de Instituciones</a>
 				</div>
 			</div>
 			{% endif %}

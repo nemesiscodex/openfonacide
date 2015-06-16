@@ -1,5 +1,6 @@
 # encoding: utf-8
 import csv
+import django
 from django.db import transaction
 
 import urllib2
@@ -86,3 +87,9 @@ class Command(BaseCommand):
                         temporal_manager=Temporal.objects
                         )
             m.do_match()
+
+
+if __name__ == "__main__":
+    django.setup()
+    c = Command()
+    c.handle()

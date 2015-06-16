@@ -1,5 +1,4 @@
 # coding=utf-8
-from psycopg2._psycopg import AsIs
 from psycopg2.extensions import adapt
 
 
@@ -14,13 +13,13 @@ def conversion(dms):
     decimal = decimal.split()
     decimal_dir = decimal.pop()
     decimal.extend([0, 0, 0])
-    if decimal_dir not in ['N','S','E','W']:
+    if decimal_dir not in ['N', 'S', 'E', 'W']:
         return 0
     return (float(decimal[0]) + float(decimal[1]) / 60.0 + float(decimal[2]) / 3600.0) * direction[decimal_dir]
 
 
 def dictfetch(cursor, N, offset=None):
-    "Returns all rows from a cursor as a dict"
+    """Returns all rows from a cursor as a dict"""
     desc = cursor.description
     rows = []
 
@@ -43,9 +42,9 @@ def dictfetch(cursor, N, offset=None):
     return [
         dict(zip([col[0] for col in desc], row))
         for row in rows
-    ]
+        ]
 
 
 def escapelike(query):
     result = adapt(query).__str__()
-    return result[1:len(result)-1]
+    return result[1:len(result) - 1]

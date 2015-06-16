@@ -1,4 +1,6 @@
 # encoding: utf-8
+from django.db import transaction
+
 __author__ = 'synchro'
 
 """
@@ -137,13 +139,13 @@ class Matcher(object):
         normalizada = re.sub('\s+PARA ', ' ', normalizada)
         normalizada = re.sub('\s+Y ', ' ', normalizada)
 
-
         # Eliminar espacios repetidos
         normalizada = re.sub('\s+', ' ', normalizada)
         normalizada = normalizada.strip()
 
         return normalizada
 
+    @transaction.atomic
     def do_match(self):
         inst = self.institucion_manager.all()
         planes = self.planificacion_manager.filter(etiquetas__icontains="fonacide")
@@ -168,7 +170,9 @@ class Matcher(object):
                     existente = self.temporal_manager.filter(anio=i.periodo, codigo_institucion=i.codigo_institucion,
                                                              id_llamado=j['id_llamado'])
 
-                    if len(existente) == 0 and i.periodo == j['anio']:
+                    if len(existente) == 0 and i.periodo == j['anio'] and not confirmado(institucion=i,
+                                                                                         id_llamado=j['id_llamado']):
+
                         self.temporal_manager.create(periodo=i.periodo, nombre_departamento=i.nombre_departamento,
                                                      nombre_distrito=i.nombre_distrito,
                                                      codigo_institucion=i.codigo_institucion,
@@ -307,23 +311,23 @@ def heuristicas(cadena1, cadena2):
     # if not mismo_nivel_educativo(cadena1, cadena2):
     #    return False
 
-    #print("2 - Tipo institucion")
+    # print("2 - Tipo institucion")
     # Verificar si las instituciones son Públicas o Privadas
-    #if not same_tipo_institucion(cadena1, cadena2):
+    # if not same_tipo_institucion(cadena1, cadena2):
     #    return False
 
-    #print("3 - Heuristica de los santos")
+    # print("3 - Heuristica de los santos")
     pos_nombre = tiene_nombre_santo(cadena1, cadena2)
     if pos_nombre > 0:
         if match_nombre_santo(cadena1, cadena2, pos_nombre):
             # Validadas cadenas con nombres de santos
             return True
-            #else:
+            # else:
             #    return False
     elif pos_nombre < -1:
         return False
 
-    #print("4 - Fuzzy Logic")
+    # print("4 - Fuzzy Logic")
     # t_value = fuzz.partial_ratio(cadena1, cadena2)
     # t_value = fuzz.partial_token_set_ratio(cadena1, cadena2)
     t_value = fuzz.token_set_ratio(cadena1, cadena2)
@@ -342,3 +346,11 @@ def heuristicas(cadena1, cadena2):
         # # Match
         # print(cadena1 + ' is OK')
         # return True
+
+
+def confirmado(institucion=None, id_llamado=None):
+    for p in institucion.planificaciones:
+        if id_llamado in p.id_llamado:
+            return True
+
+    return False

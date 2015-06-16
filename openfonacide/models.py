@@ -8,6 +8,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from time import time
 
+
 def get_upload_file_name(instance, filename):
     return "%s_%s" % (str(time()).replace('.', '_'), filename)
 
@@ -46,7 +47,7 @@ class Establecimiento(models.Model):
 
 # Planificacion de Fonacide
 class Planificacion(models.Model):
-    id = models.CharField(max_length=200, primary_key=True)
+    id = models.CharField(max_length=1024, primary_key=True)
     anio = models.CharField(max_length=50, null=True)
     id_llamado = models.CharField(max_length=200, null=True)
     nombre_licitacion = models.CharField(max_length=1024, null=True)
@@ -70,6 +71,7 @@ class Planificacion(models.Model):
 
     class Meta:
         verbose_name_plural = "planificaciones"
+        unique_together = (("id_llamado", "anio"),)
 
 
 class Adjudicacion(models.Model):
@@ -331,22 +333,44 @@ class Notificaciones(models.Model):
     class Meta:
         abstract = True
 
-class NotificacionesReportes(Notificaciones):
 
+class NotificacionesReportes(Notificaciones):
     class Meta:
         verbose_name = 'Notificacion de Reporte'
         verbose_name_plural = 'Notificaciones de Reporte'
 
 
 class NotificacionesCambioDeEstado(Notificaciones):
-
     class Meta:
         verbose_name = 'Notificacion de Cambio de estado'
         verbose_name_plural = 'Notificaciones de Cambio de estado'
 
 
 class NotificacionesVerificacion(Notificaciones):
-
     class Meta:
         verbose_name = 'Notificacion de Verificación'
         verbose_name_plural = 'Notificaciones de Verificación'
+
+
+class Importacion(models.Model):
+    url = models.CharField(max_length=1024, null=False)
+    md5_url = models.CharField(max_length=1024, null=False)
+    activo = models.BooleanField(default=False)
+    tipo = models.CharField(max_length=254,
+                            choices=((u'adjudicacion', u"adjudicacion"), (u'planificacion', u"planificacion"),),
+                            null=False)
+
+    class Meta:
+        verbose_name = "Importación"
+        verbose_name_plural = "importaciones"
+
+
+class RegistroImportacion(models.Model):
+    ultimo = models.BooleanField(default=False)
+    ultimo_md5 = models.CharField(max_length=1024, null=True)
+    fecha = models.DateTimeField()
+    importacion = models.ForeignKey(Importacion)
+
+    class Meta:
+        verbose_name_plural = "Registros de importación"
+        verbose_name = "Registro de importación"

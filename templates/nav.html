@@ -1,7 +1,8 @@
 {% load staticfiles %}
+
 <div class="ui grid" style="margin:0">
     <div class="computer tablet only row" style="padding: 0">
-        <div class="ui inverted teal large menu navbar ">
+        <div class="ui inverted teal large menu navbar fixed top sticky " style="z-index: 99999">
             <a href="{% url 'index' %}" class="brand item">Contralor de Fonacide <i class="unhide icon"></i></a>
             <a href="{% url 'index' %}" class="item"><i class="home icon"></i>Inicio</a>
             <a href="map" class="item" ng-class="{active: $location.path().match('/?map.*') != null}"><i class="marker icon"></i> Mapa</a>
@@ -35,8 +36,8 @@
         </div>
 
     </div>
-    <div class="mobile only row" style="padding: 0;">
-        <div class="ui inverted teal large menu navbar " style="z-index: 100">
+    <div class="mobile only row" style="padding: 15px;">
+        <div class="ui inverted teal large menu navbar fixed top sticky" style="z-index: 99999">
             <div search  class="item" style="padding: 0; width: 100%" input-class="large"></div>
             <a href="{% url 'index' %}" class="brand item"><i class="unhide icon"></i></a>
 

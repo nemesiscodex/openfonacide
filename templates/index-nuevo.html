@@ -4,6 +4,22 @@
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Contralor Fonacide - MEC</title>
+        <meta name="description" content="Con esta herramienta podrás encontrar toda la información referente a los requerimientos de infraestructura de las instituciones priorizadas por la MicroPlanificación del MEC." />
+        <meta name="keywords" content="" />     
+        <meta name="author" content="MEC" />
+
+
+
+        <meta property="og:title" content="Contralor Fonacide" />
+        <meta property="og:site_name" content="Contralor Fonacide"/>       
+        <meta property="og:url" content="http://mec.gov.py/contralorfonacide/" />
+        <meta property="og:image" content="http://mec.gov.py{% static 'img/fonacide.png' %}" />
+        <meta property="article:author" content="https://www.facebook.com/MECDigital" />
+        <meta property="article:publisher" content="https://www.facebook.com/MECDigital" />
+
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/ui.jqgrid.css' %}" />
         <base href="{% url 'index' %}">
         <link href="{% static 'semantic.min.css' %}" rel="stylesheet">
@@ -20,6 +36,35 @@
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %} "/>
 
     </head>
+<style type="text/css">
+
+
+
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+   /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+    -webkit-border-radius: 3px;
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: rgba(200,200,200,0.8); 
+  /*  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255,0,0,0.4); 
+}
+
+</style>
 
     <body id="ng-app" ng-app="frontEnd"  ng-controller="PageController">
         <!--[if IE]>
@@ -33,7 +78,7 @@
         <span ng-init="errors = true"></span>
         {% endif %}
 
-        <div id="ng-view" ng-view ></div>
+        <div id="ng-view" ng-view style="margin-top:40px;" ></div>
         <div archivos-contraloria></div>
         <div agregar-adjudicacion></div>
         <div login-modal></div>

@@ -828,7 +828,7 @@
 
     </div>
 
-      <div filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada"
+      <div style="position:relative; z-index:1200" filtro-ubicacion callback="activar_filtro" seleccionado="ubicacionSeleccionada"
                       multiple="false"></div>
 
     <div class="ui segment labels teal"> <!--Agrupamos por tipo -->
@@ -907,7 +907,7 @@
                     on: 'hover'
                 })
         ;
-{#        $('.ui.dropdown').dropdown();#}
+        $('.filtros .upward.ui.dropdown').dropdown();
         angular.element(".filter.launch").click(function () {
             angular.element('.left.sidebar')
                     .sidebar({

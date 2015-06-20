@@ -349,7 +349,7 @@ def heuristicas(cadena1, cadena2):
 
 
 def confirmado(institucion=None, id_llamado=None):
-    for p in institucion.planificaciones:
+    for p in institucion.planificaciones.all():
         if id_llamado in p.id_llamado:
             return True
 

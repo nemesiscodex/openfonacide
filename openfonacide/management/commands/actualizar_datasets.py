@@ -1,5 +1,6 @@
 # encoding: utf-8
 import csv
+from urllib2 import HTTPError
 import django
 from django.db import transaction
 
@@ -22,7 +23,7 @@ def registrar_ultima_importacion(importacion=None, md5_sum=None):
 def do_import(lines_list=None, tipo=None):
     header_flag = True
     header = list()
-    reader = csv.reader(lines_list)
+    reader = csv.reader(lines_list.splitlines())
     for row in reader:
         if header_flag:
             for column in row:
@@ -37,14 +38,14 @@ def do_import(lines_list=None, tipo=None):
             if tipo is None:
                 return
 
-            if tipo is "planificacion":
+            if tipo == u"planificacion":
                 # Planificación logic
                 try:
                     Planificacion.objects.update_or_create(id=args['id'], anio=args['anio'], defaults=args)
                 except Exception as e:
                     continue
 
-            if tipo is "adjudicación":
+            if tipo == u"adjudicación":
                 # adjudicación logic
                 try:
                     Adjudicacion.objects.update_or_create(id=args['id'], defaults=args)
@@ -53,17 +54,26 @@ def do_import(lines_list=None, tipo=None):
 
 
 def read_url_file(url=None):
-    _file = urllib2.urlopen(url)
-    data = _file.read()
-    _file.close()
+    try:
+        _file = urllib2.urlopen(url)
+        data = _file.read()
+        _file.close()
 
-    return data
+        return data
+    except HTTPError as e:
+        # apply log
+        print e.message
+    except:
+        print "We don't know exactly what happened"
+
+    return ""
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         tareas = Importacion.objects.filter(activo=True)
         worked = False
+        need_match = False
 
         for t in tareas:
             md5 = read_url_file(t.md5_url)
@@ -81,14 +91,16 @@ class Command(BaseCommand):
                 registrar_ultima_importacion(importacion=t, md5_sum=md5)
 
             worked = True
+            if t.tipo == u'planificacion':
+                need_match = True
 
-        if worked:
+        if worked and need_match:
             m = Matcher(institucion_manager=Institucion.objects, planificacion_manager=Planificacion.objects,
                         temporal_manager=Temporal.objects
                         )
             m.do_match()
 
-
+# This Section is used just for debugging
 if __name__ == "__main__":
     django.setup()
     c = Command()

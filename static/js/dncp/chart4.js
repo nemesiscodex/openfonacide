@@ -28,7 +28,7 @@
     // configure for module loader
         require.config({
             paths: {
-                echarts:  'static/echarts'
+                echarts: url + 'static/echarts'
             }
         });
 

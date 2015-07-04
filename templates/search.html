@@ -17,7 +17,7 @@
             </div>
         </div>
         <input class="prompt" type="text" placeholder="Institución">
-
+        <a class="ui teal label close-results" style="border-radius: 0 3px 3px 0" onclick="ocular_resultados()">&#x2716;</a>
 
     </div>
     <div class="results ui styled accordion" style="z-index: 1022; width: 100% "></div>
@@ -47,11 +47,16 @@
 {#</div>#}
 
 <script>
+    function ocular_resultados(){
+        var $results = $('.results');
+        $results.removeClass('visible');
+        $('.results').addClass('hidden');
+        $('.close-results').hide();
+    }
     $('body').keyup(function(event){
       //ESC
       if(event.keyCode == 27){
-        $('.results').removeClass('visible');
-        $('.results').addClass('hidden');
+        ocular_resultados();
       }
     });
 
@@ -78,6 +83,7 @@
                         }
                         return html;
                     };
+        $('.close-results').hide();
         $('.ui.category.search')
             .search({
                 apiSettings: {
@@ -85,6 +91,12 @@
                 },
                 minCharacters: minCharacters,
                 cache: false,
+                onResultsOpen: function(){
+                    $('.close-results').show();
+                },
+                onResultsClose: function(){
+                    $('.close-results').hide();
+                },
                 templates: {
                     message: message,
                     standard: function (response) {
@@ -116,7 +128,7 @@
                                     open = false;
                                     // each item inside category
                                     $.each(category.results, function (index, result) {
-                                        html += '<a class="item"  href="' + response.base_url + 'map?establecimiento=' + result.codigo_establecimiento + '&institucion=' + result.codigo_institucion + '">';
+                                        html += '<a class="item" onclick="ocular_resultados()"  href="' + response.base_url + 'map?establecimiento=' + result.codigo_establecimiento + '&institucion=' + result.codigo_institucion + '">';
 
                                         html += '<div class="content">';
 
@@ -154,7 +166,7 @@
                             };
                             if (response.action) {
                                 html += ''
-                                + '<a href="' + response.action.url + '" class="action">'
+                                + '<a href="' + response.action.url + '" onclick="ocular_resultados()" class="action">'
                                 + response.action.text
                                 + '</a>';
                             }
